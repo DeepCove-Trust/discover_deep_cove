@@ -25,6 +25,11 @@ dependencies:
   path_provider: ^1.1.0       # BSD
   permission_handler: ^3.0.1  # MIT
 
+  # Database related packages
+  sqflite: ^1.1.5               # MIT
+  jaguar_orm: ^2.2.6            # BSD
+  jaguar_query_sqflite: ^2.2.9  # BSD
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -32,6 +37,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  build_runner: ^1.1.0      #BSD    -   1.4.0 available but not supported by Jaguar at this time
+  jaguar_orm_gen: ^2.2.27   #BSD
 
 
 # For information on the generic Dart part of this file, see the
