@@ -20,8 +20,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-  path_provider: ^1.1.0  # BSD
-  permission_handler: ^3.0.1 # MIT
+  http: ^0.12.0+2             # BSD
+  archive: ^2.0.8             # Apache 2.0
+  path_provider: ^1.1.0       # BSD
+  permission_handler: ^3.0.1  # MIT
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
