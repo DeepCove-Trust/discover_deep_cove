@@ -3,7 +3,9 @@ import 'package:meta/meta.dart';
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 
+import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/data/models/fact_file_category.dart';
+import 'package:discover_deep_cove/data/models/entry_media_pivot.dart';
 
 part 'fact_file_entry.jorm.dart';
 
@@ -29,12 +31,31 @@ class FactFileEntry {
 
   @Column()
   String content;
+
+  @BelongsTo(MediaFileBean)
+  int mainImageId;
+
+  @BelongsTo(MediaFileBean)
+  int pronunciationAudioId;
+
+  @BelongsTo(MediaFileBean)
+  int birdCallAudioId;
+
+  /// List of all media files used in this entries gallery
+  @ManyToMany(EntryToMediaPivotBean, MediaFileBean)
+  List<MediaFile> galleryImages;
 }
 
 /// Bean class for database manipulation - generated mixin code
 @GenBean()
 class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
-  FactFileEntryBean(Adapter adapter) : super(adapter);
+  FactFileEntryBean(Adapter adapter)
+      : mediaFileBean = MediaFileBean(adapter),
+        entryToMediaPivotBean = EntryToMediaPivotBean(adapter),
+        super(adapter);
+
+  final MediaFileBean mediaFileBean;
+  final EntryToMediaPivotBean entryToMediaPivotBean;
 
   FactFileCategoryBean _factFileCategoryBean;
   FactFileCategoryBean get factFileCategoryBean =>
