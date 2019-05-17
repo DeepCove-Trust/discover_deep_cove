@@ -1,6 +1,5 @@
 import 'package:permission_handler/permission_handler.dart';
 
-// Exporting so that classes using permissions.dart can access PermissionGroup
 export 'package:permission_handler/permission_handler.dart'
     show PermissionGroup, PermissionStatus;
 
@@ -12,7 +11,7 @@ class Permissions {
   /// Returns the new [PermissionStatus].
   static Future<PermissionStatus> checkPermission(PermissionGroup p) async {
     PermissionStatus status =
-    await PermissionHandler().checkPermissionStatus(p);
+        await PermissionHandler().checkPermissionStatus(p);
     return status;
   }
 

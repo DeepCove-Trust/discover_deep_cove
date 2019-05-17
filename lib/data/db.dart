@@ -1,11 +1,8 @@
-import 'package:path/path.dart';
-
-import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
-
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/permissions.dart';
+import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
+import 'package:path/path.dart';
 
-// Export Jaguar file so other dart files can use the SqfliteAdapter class
 export 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart'
     show SqfliteAdapter;
 

@@ -10,9 +10,6 @@ import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:http/http.dart' as http;
 
-
-
-
 /// Facilitates communication between this application, and the CMS server.
 ///
 /// Disclaimer: Most likely a complete misuse of the term 'Provider'.

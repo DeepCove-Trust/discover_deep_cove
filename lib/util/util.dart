@@ -1,9 +1,9 @@
 import 'dart:io' show File, Directory;
 
+import 'package:archive/archive.dart' show ZipDecoder, Archive, ArchiveFile;
+import 'package:http/http.dart' show Response;
 import 'package:meta/meta.dart' show required;
 import 'package:path/path.dart' show join;
-import 'package:http/http.dart' show Response;
-import 'package:archive/archive.dart' show ZipDecoder, Archive, ArchiveFile;
 
 /// Container class for general helper functions.
 class Util {
@@ -13,8 +13,8 @@ class Util {
   /// Will create directories that do not exist.
   static Future<File> httpResponseToFile(
       {@required Response response,
-        @required String absPath,
-        @required String fileName}) async {
+      @required String absPath,
+      @required String fileName}) async {
     // TODO: Check for write permission here?
 
     File file = File(join(absPath, fileName));
