@@ -4,6 +4,12 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Env {
+  //----------------------- APP CONFIGURATION ----------------------------------
+  // Here you can configure basic information about the app.
+
+  /// Name of the app
+  static const String appName = 'Discover Deep Cove';
+
   //----------------------- API CONFIGURATION ----------------------------------
   // Here you are able to configure the various API routes that will be used
   // when communicating with the CMS server.
