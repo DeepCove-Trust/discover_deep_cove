@@ -4,9 +4,12 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:discover_deep_cove/data/db.dart';
+import 'package:discover_deep_cove/data/models/entry_media_pivot.dart';
 import 'package:discover_deep_cove/data/models/fact_file_category.dart';
 import 'package:discover_deep_cove/data/models/fact_file_entry.dart';
+import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/permissions.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:http/http.dart' as http;
 
@@ -158,7 +161,7 @@ class SyncProvider {
     }
   }
 
-  /// Removes the existing database files
+  /// Removes the existing database files and builds new database.
   static Future<bool> _rebuildDatabase(Map<String, dynamic> data) async {
     // Establish the path to the database file
     File dbFile = File(await Env.dbPath);
@@ -180,10 +183,20 @@ class SyncProvider {
 
     FactFileCategoryBean factFileCategoryBean = FactFileCategoryBean(adapter);
     FactFileEntryBean factFileEntryBean = FactFileEntryBean(adapter);
+    MediaFileBean mediaFileBean = MediaFileBean(adapter);
+    EntryToMediaPivotBean entryToMediaPivotBean =
+        EntryToMediaPivotBean(adapter);
 
     // Create database tables
+    mediaFileBean.createTable();
     factFileCategoryBean.createTable();
     factFileEntryBean.createTable();
+    entryToMediaPivotBean.createTable();
+
+    // Insert all media files from JSON
+    for (Map<String, dynamic> map in data['media_files']) {
+      mediaFileBean.insert(mediaFileBean.fromMap(map));
+    }
 
     // Insert all categories from JSON
     for (Map<String, dynamic> map in data['categories']) {
@@ -195,6 +208,13 @@ class SyncProvider {
       factFileEntryBean.insert(factFileEntryBean.fromMap(map));
     }
 
+    // Insert all entry_images from JSON
+    for(Map<String, dynamic> map in data['entry_images']){
+      entryToMediaPivotBean.insert(entryToMediaPivotBean.fromMap(map));
+    }
+
+    return true;
+
     // TODO: Gotta be a better way of doing this without so much repeated code
   }
 
@@ -205,6 +225,11 @@ class SyncProvider {
   /// (activity inputs, answers, scores, etc).
   static Future<bool> syncResources() async {
     print('Syncing application resources with CMS server...');
+
+    if (!await Permissions.ensurePermission(PermissionGroup.storage)) {
+      print('Permission to write to storage not granted');
+      return false;
+    }
 
     // Download and check data
     Map<String, dynamic> data = await _downloadData();
