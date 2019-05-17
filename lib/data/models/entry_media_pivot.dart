@@ -14,7 +14,7 @@ class EntryToMediaPivot {
   int factFileEntryId;
 
   @BelongsTo(MediaFileBean)
-  int mediaFileID;
+  int mediaFileId;
 }
 
 /// Bean class for database manipulation.

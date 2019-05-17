@@ -8,16 +8,16 @@ part of 'entry_media_pivot.dart';
 
 abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
   final factFileEntryId = IntField('fact_file_entry_id');
-  final mediaFileID = IntField('media_file_i_d');
+  final mediaFileId = IntField('media_file_id');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         factFileEntryId.name: factFileEntryId,
-        mediaFileID.name: mediaFileID,
+        mediaFileId.name: mediaFileId,
       };
   EntryToMediaPivot fromMap(Map map) {
     EntryToMediaPivot model = EntryToMediaPivot();
     model.factFileEntryId = adapter.parseValue(map['fact_file_entry_id']);
-    model.mediaFileID = adapter.parseValue(map['media_file_i_d']);
+    model.mediaFileId = adapter.parseValue(map['media_file_id']);
 
     return model;
   }
@@ -28,18 +28,18 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
 
     if (only == null && !onlyNonNull) {
       ret.add(factFileEntryId.set(model.factFileEntryId));
-      ret.add(mediaFileID.set(model.mediaFileID));
+      ret.add(mediaFileId.set(model.mediaFileId));
     } else if (only != null) {
       if (only.contains(factFileEntryId.name))
         ret.add(factFileEntryId.set(model.factFileEntryId));
-      if (only.contains(mediaFileID.name))
-        ret.add(mediaFileID.set(model.mediaFileID));
+      if (only.contains(mediaFileId.name))
+        ret.add(mediaFileId.set(model.mediaFileId));
     } else /* if (onlyNonNull) */ {
       if (model.factFileEntryId != null) {
         ret.add(factFileEntryId.set(model.factFileEntryId));
       }
-      if (model.mediaFileID != null) {
-        ret.add(mediaFileID.set(model.mediaFileID));
+      if (model.mediaFileId != null) {
+        ret.add(mediaFileId.set(model.mediaFileId));
       }
     }
 
@@ -52,7 +52,7 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
         foreignTable: factFileEntryBean.tableName,
         foreignCol: 'id',
         isNullable: false);
-    st.addInt(mediaFileID.name,
+    st.addInt(mediaFileId.name,
         foreignTable: mediaFileBean.tableName,
         foreignCol: 'id',
         isNullable: false);
@@ -150,7 +150,7 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
       await removeByFactFileEntry(model.id);
       final exp = Or();
       for (final t in dels) {
-        exp.or(mediaFileBean.id.eq(t.mediaFileID));
+        exp.or(mediaFileBean.id.eq(t.mediaFileId));
       }
       return await mediaFileBean.removeWhere(exp);
     }
@@ -163,14 +163,14 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
     if (pivots.isEmpty) return [];
     final exp = Or();
     for (final t in pivots) {
-      exp.or(mediaFileBean.id.eq(t.mediaFileID));
+      exp.or(mediaFileBean.id.eq(t.mediaFileId));
     }
     return await mediaFileBean.findWhere(exp);
   }
 
-  Future<List<EntryToMediaPivot>> findByMediaFile(int mediaFileID,
+  Future<List<EntryToMediaPivot>> findByMediaFile(int mediaFileId,
       {bool preload = false, bool cascade = false}) async {
-    final Find find = finder.where(this.mediaFileID.eq(mediaFileID));
+    final Find find = finder.where(this.mediaFileId.eq(mediaFileId));
     return findMany(find);
   }
 
@@ -180,18 +180,18 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (MediaFile model in models) {
-      find.or(this.mediaFileID.eq(model.id));
+      find.or(this.mediaFileId.eq(model.id));
     }
     return findMany(find);
   }
 
-  Future<int> removeByMediaFile(int mediaFileID) async {
-    final Remove rm = remover.where(this.mediaFileID.eq(mediaFileID));
+  Future<int> removeByMediaFile(int mediaFileId) async {
+    final Remove rm = remover.where(this.mediaFileId.eq(mediaFileId));
     return await adapter.remove(rm);
   }
 
   void associateMediaFile(EntryToMediaPivot child, MediaFile parent) {
-    child.mediaFileID = parent.id;
+    child.mediaFileId = parent.id;
   }
 
   Future<int> detachMediaFile(MediaFile model) async {
@@ -221,7 +221,7 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
   Future<dynamic> attach(MediaFile one, FactFileEntry two,
       {bool upsert = false}) async {
     final ret = EntryToMediaPivot();
-    ret.mediaFileID = one.id;
+    ret.mediaFileId = one.id;
     ret.factFileEntryId = two.id;
     if (!upsert) {
       return insert(ret);
