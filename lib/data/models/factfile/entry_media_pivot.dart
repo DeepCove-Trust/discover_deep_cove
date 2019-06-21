@@ -10,6 +10,7 @@ part 'entry_media_pivot.jorm.dart';
 class EntryToMediaPivot {
   EntryToMediaPivot();
 
+  // Todo: Confirm whether these two should be BelongsTo.many
   @BelongsTo(FactFileEntryBean)
   int factFileEntryId;
 
