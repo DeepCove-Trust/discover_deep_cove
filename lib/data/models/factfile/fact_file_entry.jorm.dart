@@ -147,6 +147,14 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
           await factFileEntryImageBean.attach(child, newModel);
         }
       }
+      if (model.nuggets != null) {
+        newModel ??= await find(model.id);
+        model.nuggets.forEach(
+            (x) => factFileNuggetBean.associateFactFileEntry(x, newModel));
+        for (final child in model.nuggets) {
+          await factFileNuggetBean.insert(child, cascade: cascade);
+        }
+      }
     }
     return retId;
   }
@@ -187,6 +195,14 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         for (final child in model.galleryImages) {
           await mediaFileBean.upsert(child, cascade: cascade);
           await factFileEntryImageBean.attach(child, newModel, upsert: true);
+        }
+      }
+      if (model.nuggets != null) {
+        newModel ??= await find(model.id);
+        model.nuggets.forEach(
+            (x) => factFileNuggetBean.associateFactFileEntry(x, newModel));
+        for (final child in model.nuggets) {
+          await factFileNuggetBean.upsert(child, cascade: cascade);
         }
       }
     }
@@ -231,6 +247,17 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
       if (model.galleryImages != null) {
         for (final child in model.galleryImages) {
           await mediaFileBean.update(child,
+              cascade: cascade, associate: associate);
+        }
+      }
+      if (model.nuggets != null) {
+        if (associate) {
+          newModel ??= await find(model.id);
+          model.nuggets.forEach(
+              (x) => factFileNuggetBean.associateFactFileEntry(x, newModel));
+        }
+        for (final child in model.nuggets) {
+          await factFileNuggetBean.update(child,
               cascade: cascade, associate: associate);
         }
       }
@@ -279,6 +306,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
       final FactFileEntry newModel = await find(id);
       if (newModel != null) {
         await factFileEntryImageBean.detachFactFileEntry(newModel);
+        await factFileNuggetBean.removeByFactFileEntry(newModel.id);
       }
     }
     final Remove remove = remover.where(this.id.eq(id));
@@ -381,6 +409,8 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
       {bool cascade = false}) async {
     model.galleryImages =
         await factFileEntryImageBean.fetchByFactFileEntry(model);
+    model.nuggets = await factFileNuggetBean.findByFactFileEntry(model.id,
+        preload: cascade, cascade: cascade);
     return model;
   }
 
@@ -395,11 +425,21 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         model.galleryImages.addAll(temp);
       }
     }
+    models.forEach((FactFileEntry model) => model.nuggets ??= []);
+    await OneToXHelper.preloadAll<FactFileEntry, FactFileNugget>(
+        models,
+        (FactFileEntry model) => [model.id],
+        factFileNuggetBean.findByFactFileEntryList,
+        (FactFileNugget model) => [model.factFileEntryId],
+        (FactFileEntry model, FactFileNugget child) =>
+            model.nuggets = List.from(model.nuggets)..add(child),
+        cascade: cascade);
     return models;
   }
 
   FactFileEntryImageBean get factFileEntryImageBean;
 
   MediaFileBean get mediaFileBean;
+  FactFileNuggetBean get factFileNuggetBean;
   FactFileCategoryBean get factFileCategoryBean;
 }

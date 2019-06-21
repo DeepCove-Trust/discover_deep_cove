@@ -1,5 +1,6 @@
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
@@ -50,6 +51,11 @@ class FactFileEntry {
   @ManyToMany(FactFileEntryImageBean, MediaFileBean)
   List<MediaFile> galleryImages;
 
+  /// List of the fact file nuggets that will be displayed on this fact file
+  /// entry page.
+  @HasMany(FactFileNuggetBean)
+  List<FactFileNugget> nuggets;
+
   @IgnoreColumn()
   MediaFile mainImage;
 
@@ -69,10 +75,12 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
   FactFileEntryBean(Adapter adapter)
       : mediaFileBean = MediaFileBean(adapter),
         factFileEntryImageBean = FactFileEntryImageBean(adapter),
+        factFileNuggetBean = FactFileNuggetBean(adapter),
         super(adapter);
 
   final MediaFileBean mediaFileBean;
   final FactFileEntryImageBean factFileEntryImageBean;
+  final FactFileNuggetBean factFileNuggetBean;
 
   FactFileCategoryBean _factFileCategoryBean;
   FactFileCategoryBean get factFileCategoryBean =>

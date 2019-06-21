@@ -1,5 +1,6 @@
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 import 'package:meta/meta.dart';
@@ -56,15 +57,22 @@ class MediaFile {
   /// List of the entries that use this media file in their image gallery.
   @ManyToMany(FactFileEntryImageBean, FactFileEntryBean)
   List<FactFileEntry> galleryImageEntries;
+
+  /// List of the fact file nuggets that use this media file as their image.
+  @HasMany(FactFileNuggetBean)
+  List<FactFileNugget> nuggets;
 }
 
 /// Bean class used for database manipulation - auto generated mixin code
 @GenBean()
 class MediaFileBean extends Bean<MediaFile> with _MediaFileBean {
-  MediaFileBean(Adapter adapter) : super(adapter);
+  MediaFileBean(Adapter adapter)
+      : factFileNuggetBean = FactFileNuggetBean(adapter),
+        super(adapter);
 
   FactFileEntryImageBean _factFileEntryImageBean;
   FactFileEntryBean _factFileEntryBean;
+  final FactFileNuggetBean factFileNuggetBean;
 
   FactFileEntryImageBean get factFileEntryImageBean =>
       _factFileEntryImageBean ??= FactFileEntryImageBean(adapter);
