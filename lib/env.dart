@@ -2,43 +2,39 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+/// This class provides easy access to the applications environment variables,
+/// and other variables derived from these.
 class Env {
-  //----------------------- APP CONFIGURATION ----------------------------------
-  // Here you can configure basic information about the app.
+  // The following variables are configured in the .env file.
+  // There inclusion here means that we can use intellisense when
+  // referring to them in code, via the [Env] class.
 
-  /// Name of the app
-  static const String appName = 'Discover Deep Cove';
-
-  //----------------------- API CONFIGURATION ----------------------------------
-  // Here you are able to configure the various API routes that will be used
-  // when communicating with the CMS server.
+  static String get appName => DotEnv().env['appName'];
 
   /// API access token
-  static const String _accessToken = '8WU6AMYEcWvdvJXYiWLS6MMaUtpO96E8';
+  static String get _accessToken => DotEnv().env['accessToken'];
 
   /// Root URL of the content management system
-  static const String _cmsUrl = 'https://mylittleblue.xyz';
+  static String get _cmsUrl => DotEnv().env['remoteUrl'];
 
   /// API URL for retrieving database data in JSON format
-  static const String _dataSyncUrl = '/api/sync-data';
+  static String get _dataSyncUrl => DotEnv().env['dataSyncUrl'];
 
   /// API URL for retrieving the SHA256 hash of the JSON payload delivered
   /// by the [_dataSyncUrl] request.
-  static const String _dataHashUrl = '/api/sync-data-hash';
+  static String get _dataHashUrl => DotEnv().env['dataHashUrl'];
 
   /// API URL for retrieving zipped application files (images/audio)
-  static const String _filesSyncUrl = '/api/sync-files';
+  static String get _filesSyncUrl => DotEnv().env['filesSyncUrl'];
 
   /// API URL for retrieving the SHA256 hash of the zipped file retrieved by
   /// the [_filesSyncUrl] request.
-  static const String _filesHashUrl = '/api/sync-files-hash';
+  static String get _filesHashUrl => DotEnv().env['filesHashUrl'];
 
-  //------------------------- PATH CONFIGURATION -------------------------------
-  // Here you are able to configure the paths that will be used to store
-  // application files. Paths are relative to the internal storage directory
-  // provided by the PATH_PROVIDER package.
-  //
+  //-------------------------------- PATHS  ------------------------------------
+
   // If `debugStorageMode` is true, then the application will store its files
   // in the external storage directory provided by the PATH_PROVIDER package.
   // ***NOTE: This mode will break the app for iOS, and should be set to false
@@ -47,17 +43,17 @@ class Env {
   /// If true, application storage paths will be relative to the external
   /// storage directory, otherwise the internal storage directory will be
   /// used. ** Setting to true will break app for iOS. Turn off for release.
-  static const bool debugStorageMode = true;
+  static bool get debugStorageMode =>
+      DotEnv().env['debugStorageMode'].toLowerCase() == 'true';
 
   /// Relative path of the database file, from the applications root
   /// storage directory.
-  static const String _dbPath = 'data/deep_cove.db';
+  static String get _dbPath => DotEnv().env['databasePath'];
 
   /// Relative path to which the zip file from the server will be extracted.
-  static const String _resourcesPath = 'resources';
+  static String get _resourcesPath => DotEnv().env['resourcesPath'];
 
   //-------------------------- HELPER METHODS ----------------------------------
-  //---------------------------(do not edit)------------------------------------
   // These perform basic processing on configured variables, in order to return
   // more useful information to the application code.
 
