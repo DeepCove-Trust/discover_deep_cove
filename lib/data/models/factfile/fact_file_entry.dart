@@ -15,8 +15,9 @@ class FactFileEntry {
   FactFileEntry.make(
       {@required this.id,
       @required this.categoryId,
-      @required this.title,
-      @required this.content});
+      @required this.primaryName,
+      @required this.cardText,
+      @required this.bodyText});
 
   @PrimaryKey()
   int id;
@@ -25,16 +26,22 @@ class FactFileEntry {
   int categoryId;
 
   @Column()
-  String title;
+  String primaryName;
 
   @Column()
-  String content;
+  String altName;
+
+  @Column()
+  String cardText;
+
+  @Column()
+  String bodyText;
 
   @BelongsTo(MediaFileBean)
   int mainImageId;
 
   @BelongsTo(MediaFileBean)
-  int pronunciationAudioId;
+  int pronounceAudioId;
 
   @BelongsTo(MediaFileBean)
   int listenAudioId;
@@ -47,7 +54,7 @@ class FactFileEntry {
   MediaFile mainImage;
 
   @IgnoreColumn()
-  MediaFile pronunciationAudio;
+  MediaFile pronounceAudio;
 
   @IgnoreColumn()
   MediaFile listenAudio;
@@ -97,8 +104,7 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
   Future<FactFileEntry> preloadExtras(FactFileEntry entry) async {
     entry.category = await factFileCategoryBean.find(entry.categoryId);
     entry.mainImage = await mediaFileBean.find(entry.mainImageId);
-    entry.pronunciationAudio =
-        await mediaFileBean.find(entry.pronunciationAudioId);
+    entry.pronounceAudio = await mediaFileBean.find(entry.pronounceAudioId);
     entry.listenAudio = await mediaFileBean.find(entry.listenAudioId);
 
     return entry;

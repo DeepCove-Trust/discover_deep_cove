@@ -343,11 +343,8 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         models,
         (MediaFile model) => [model.id, model.id, model.id],
         factFileEntryBean.findByMediaFileList,
-        (FactFileEntry model) => [
-              model.mainImageId,
-              model.pronunciationAudioId,
-              model.listenAudioId
-            ],
+        (FactFileEntry model) =>
+            [model.mainImageId, model.pronounceAudioId, model.listenAudioId],
         (MediaFile model, FactFileEntry child) => model.mainImageEntries =
             List.from(model.mainImageEntries)..add(child),
         cascade: cascade);
@@ -356,11 +353,8 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         models,
         (MediaFile model) => [model.id, model.id, model.id],
         factFileEntryBean.findByMediaFileList,
-        (FactFileEntry model) => [
-              model.mainImageId,
-              model.pronunciationAudioId,
-              model.listenAudioId
-            ],
+        (FactFileEntry model) =>
+            [model.mainImageId, model.pronounceAudioId, model.listenAudioId],
         (MediaFile model, FactFileEntry child) =>
             model.listenEntries = List.from(model.listenEntries)..add(child),
         cascade: cascade);
@@ -369,11 +363,8 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         models,
         (MediaFile model) => [model.id, model.id, model.id],
         factFileEntryBean.findByMediaFileList,
-        (FactFileEntry model) => [
-              model.mainImageId,
-              model.pronunciationAudioId,
-              model.listenAudioId
-            ],
+        (FactFileEntry model) =>
+            [model.mainImageId, model.pronounceAudioId, model.listenAudioId],
         (MediaFile model, FactFileEntry child) => model.pronunciationEntries =
             List.from(model.pronunciationEntries)..add(child),
         cascade: cascade);
