@@ -25,11 +25,10 @@ class FactFileEntryImageBean extends Bean<FactFileEntryImage>
   FactFileEntryImageBean(Adapter adapter) : super(adapter);
 
   FactFileEntryBean _factFileEntryBean;
-  MediaFileBean _mediaFileBean;
-
   FactFileEntryBean get factFileEntryBean =>
       _factFileEntryBean ??= FactFileEntryBean(adapter);
 
+  MediaFileBean _mediaFileBean;
   MediaFileBean get mediaFileBean => _mediaFileBean ??= MediaFileBean(adapter);
 
   final String tableName = 'entry_images';

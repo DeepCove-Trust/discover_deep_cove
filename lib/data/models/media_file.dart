@@ -68,16 +68,13 @@ class MediaFile {
 class MediaFileBean extends Bean<MediaFile> with _MediaFileBean {
   MediaFileBean(Adapter adapter)
       : factFileNuggetBean = FactFileNuggetBean(adapter),
+        factFileEntryBean = FactFileEntryBean(adapter),
+        factFileEntryImageBean = FactFileEntryImageBean(adapter),
         super(adapter);
 
-  FactFileEntryImageBean _factFileEntryImageBean;
-  FactFileEntryBean _factFileEntryBean;
   final FactFileNuggetBean factFileNuggetBean;
-
-  FactFileEntryImageBean get factFileEntryImageBean =>
-      _factFileEntryImageBean ??= FactFileEntryImageBean(adapter);
-  FactFileEntryBean get factFileEntryBean =>
-      _factFileEntryBean ??= FactFileEntryBean(adapter);
+  final FactFileEntryBean factFileEntryBean;
+  final FactFileEntryImageBean factFileEntryImageBean;
 
   final String tableName = 'media_files';
 }

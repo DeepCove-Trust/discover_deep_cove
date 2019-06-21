@@ -73,14 +73,15 @@ class FactFileEntry {
 @GenBean()
 class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
   FactFileEntryBean(Adapter adapter)
-      : mediaFileBean = MediaFileBean(adapter),
-        factFileEntryImageBean = FactFileEntryImageBean(adapter),
+      : factFileEntryImageBean = FactFileEntryImageBean(adapter),
         factFileNuggetBean = FactFileNuggetBean(adapter),
         super(adapter);
 
-  final MediaFileBean mediaFileBean;
   final FactFileEntryImageBean factFileEntryImageBean;
   final FactFileNuggetBean factFileNuggetBean;
+
+  MediaFileBean _mediaFileBean;
+  MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
 
   FactFileCategoryBean _factFileCategoryBean;
   FactFileCategoryBean get factFileCategoryBean =>

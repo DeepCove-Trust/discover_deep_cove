@@ -46,13 +46,14 @@ class FactFileNugget {
 
 @GenBean()
 class FactFileNuggetBean extends Bean<FactFileNugget> with _FactFileNuggetBean {
-  FactFileNuggetBean(Adapter adapter)
-      : factFileEntryBean = FactFileEntryBean(adapter),
-        mediaFileBean = MediaFileBean(adapter),
-        super(adapter);
+  FactFileNuggetBean(Adapter adapter) : super(adapter);
 
-  final FactFileEntryBean factFileEntryBean;
-  final MediaFileBean mediaFileBean;
+  FactFileEntryBean _factFileEntryBean;
+  FactFileEntryBean get factFileEntryBean =>
+      _factFileEntryBean ?? FactFileEntryBean(adapter);
+
+  MediaFileBean _mediaFileBean;
+  MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
 
   final String tableName = 'fact_file_nuggets';
 }
