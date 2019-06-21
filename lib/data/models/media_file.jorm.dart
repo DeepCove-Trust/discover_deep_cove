@@ -9,20 +9,20 @@ part of 'media_file.dart';
 abstract class _MediaFileBean implements Bean<MediaFile> {
   final id = IntField('id');
   final type = StrField('type');
-  final description = StrField('description');
+  final name = StrField('name');
   final path = StrField('path');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
         type.name: type,
-        description.name: description,
+        name.name: name,
         path.name: path,
       };
   MediaFile fromMap(Map map) {
     MediaFile model = MediaFile();
     model.id = adapter.parseValue(map['id']);
     model.type = adapter.parseValue(map['type']);
-    model.description = adapter.parseValue(map['description']);
+    model.name = adapter.parseValue(map['name']);
     model.path = adapter.parseValue(map['path']);
 
     return model;
@@ -35,13 +35,12 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
       ret.add(type.set(model.type));
-      ret.add(description.set(model.description));
+      ret.add(name.set(model.name));
       ret.add(path.set(model.path));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(type.name)) ret.add(type.set(model.type));
-      if (only.contains(description.name))
-        ret.add(description.set(model.description));
+      if (only.contains(name.name)) ret.add(name.set(model.name));
       if (only.contains(path.name)) ret.add(path.set(model.path));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
@@ -50,8 +49,8 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       if (model.type != null) {
         ret.add(type.set(model.type));
       }
-      if (model.description != null) {
-        ret.add(description.set(model.description));
+      if (model.name != null) {
+        ret.add(name.set(model.name));
       }
       if (model.path != null) {
         ret.add(path.set(model.path));
@@ -65,7 +64,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
     st.addStr(type.name, isNullable: false);
-    st.addStr(description.name, isNullable: false);
+    st.addStr(name.name, isNullable: false);
     st.addStr(path.name, isNullable: false);
     return adapter.createTable(st);
   }
@@ -116,6 +115,21 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
             .forEach((x) => factFileNuggetBean.associateMediaFile(x, newModel));
         for (final child in model.nuggets) {
           await factFileNuggetBean.insert(child, cascade: cascade);
+        }
+      }
+      if (model.activities != null) {
+        newModel ??= await find(model.id);
+        model.activities
+            .forEach((x) => activityBean.associateMediaFile(x, newModel));
+        for (final child in model.activities) {
+          await activityBean.insert(child, cascade: cascade);
+        }
+      }
+      if (model.multiSelectActivities != null) {
+        newModel ??= await find(model.id);
+        for (final child in model.multiSelectActivities) {
+          await activityBean.insert(child, cascade: cascade);
+          await activityImageBean.attach(newModel, child);
         }
       }
     }
@@ -190,6 +204,21 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
             .forEach((x) => factFileNuggetBean.associateMediaFile(x, newModel));
         for (final child in model.nuggets) {
           await factFileNuggetBean.upsert(child, cascade: cascade);
+        }
+      }
+      if (model.activities != null) {
+        newModel ??= await find(model.id);
+        model.activities
+            .forEach((x) => activityBean.associateMediaFile(x, newModel));
+        for (final child in model.activities) {
+          await activityBean.upsert(child, cascade: cascade);
+        }
+      }
+      if (model.multiSelectActivities != null) {
+        newModel ??= await find(model.id);
+        for (final child in model.multiSelectActivities) {
+          await activityBean.upsert(child, cascade: cascade);
+          await activityImageBean.attach(newModel, child, upsert: true);
         }
       }
     }
@@ -281,6 +310,23 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
               cascade: cascade, associate: associate);
         }
       }
+      if (model.activities != null) {
+        if (associate) {
+          newModel ??= await find(model.id);
+          model.activities
+              .forEach((x) => activityBean.associateMediaFile(x, newModel));
+        }
+        for (final child in model.activities) {
+          await activityBean.update(child,
+              cascade: cascade, associate: associate);
+        }
+      }
+      if (model.multiSelectActivities != null) {
+        for (final child in model.multiSelectActivities) {
+          await activityBean.update(child,
+              cascade: cascade, associate: associate);
+        }
+      }
     }
     return ret;
   }
@@ -333,6 +379,9 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
             newModel.id, newModel.id, newModel.id);
         await factFileEntryImageBean.detachMediaFile(newModel);
         await factFileNuggetBean.removeByMediaFile(newModel.id);
+        await activityBean.removeByMediaFile(
+            newModel.id, newModel.id, newModel.id);
+        await activityImageBean.detachMediaFile(newModel);
       }
     }
     final Remove remove = remover.where(this.id.eq(id));
@@ -363,6 +412,11 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         await factFileEntryImageBean.fetchByMediaFile(model);
     model.nuggets = await factFileNuggetBean.findByMediaFile(model.id,
         preload: cascade, cascade: cascade);
+    model.activities = await activityBean.findByMediaFile(
+        model.id, model.id, model.id,
+        preload: cascade, cascade: cascade);
+    model.multiSelectActivities =
+        await activityImageBean.fetchByMediaFile(model);
     return model;
   }
 
@@ -416,10 +470,31 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         (MediaFile model, FactFileNugget child) =>
             model.nuggets = List.from(model.nuggets)..add(child),
         cascade: cascade);
+    models.forEach((MediaFile model) => model.activities ??= []);
+    await OneToXHelper.preloadAll<MediaFile, Activity>(
+        models,
+        (MediaFile model) => [model.id, model.id, model.id],
+        activityBean.findByMediaFileList,
+        (Activity model) =>
+            [model.imageId, model.userPhotoId, model.selectedPictureId],
+        (MediaFile model, Activity child) =>
+            model.activities = List.from(model.activities)..add(child),
+        cascade: cascade);
+    for (MediaFile model in models) {
+      var temp = await activityImageBean.fetchByMediaFile(model);
+      if (model.multiSelectActivities == null)
+        model.multiSelectActivities = temp;
+      else {
+        model.multiSelectActivities.clear();
+        model.multiSelectActivities.addAll(temp);
+      }
+    }
     return models;
   }
 
   FactFileEntryBean get factFileEntryBean;
   FactFileEntryImageBean get factFileEntryImageBean;
   FactFileNuggetBean get factFileNuggetBean;
+  ActivityBean get activityBean;
+  ActivityImageBean get activityImageBean;
 }

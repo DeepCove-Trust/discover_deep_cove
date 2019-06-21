@@ -1,3 +1,5 @@
+import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/activity/activity_images.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
@@ -23,7 +25,7 @@ class MediaFile {
       {@required this.id,
       @required this.type,
       @required this.path,
-      this.description});
+      this.name});
 
   @PrimaryKey()
   int id;
@@ -35,7 +37,7 @@ class MediaFile {
 
   /// Description of the media file's contents.
   @Column()
-  String description;
+  String name;
 
   /// Path to the file, relative to the apps root storage directory.
   @Column()
@@ -61,6 +63,12 @@ class MediaFile {
   /// List of the fact file nuggets that use this media file as their image.
   @HasMany(FactFileNuggetBean)
   List<FactFileNugget> nuggets;
+
+  @HasMany(ActivityBean)
+  List<Activity> activities;
+
+  @ManyToMany(ActivityImageBean, ActivityBean)
+  List<Activity> multiSelectActivities;
 }
 
 /// Bean class used for database manipulation - auto generated mixin code
@@ -70,11 +78,15 @@ class MediaFileBean extends Bean<MediaFile> with _MediaFileBean {
       : factFileNuggetBean = FactFileNuggetBean(adapter),
         factFileEntryBean = FactFileEntryBean(adapter),
         factFileEntryImageBean = FactFileEntryImageBean(adapter),
+        activityBean = ActivityBean(adapter),
+        activityImageBean = ActivityImageBean(adapter),
         super(adapter);
 
   final FactFileNuggetBean factFileNuggetBean;
   final FactFileEntryBean factFileEntryBean;
   final FactFileEntryImageBean factFileEntryImageBean;
+  final ActivityBean activityBean;
+  final ActivityImageBean activityImageBean;
 
   final String tableName = 'media_files';
 }
