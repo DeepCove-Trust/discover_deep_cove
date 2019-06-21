@@ -101,4 +101,11 @@ class Env {
   /// Returns the path to the resources directory.
   static Future<String> get resourcesPath async =>
       join(await rootStorageDirPath, _resourcesPath);
+
+  /// Returns the absolute path to a resource file, given the relative
+  /// path from the applications root storage directory.
+  static Future<String> getResource(String relativePath) async {
+    String rootPath = await resourcesPath;
+    return join(rootPath, relativePath);
+  }
 }
