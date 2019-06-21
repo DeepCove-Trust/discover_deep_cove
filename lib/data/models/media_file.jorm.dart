@@ -87,11 +87,11 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
           await factFileEntryBean.insert(child, cascade: cascade);
         }
       }
-      if (model.birdCallEntries != null) {
+      if (model.listenEntries != null) {
         newModel ??= await find(model.id);
-        model.birdCallEntries
+        model.listenEntries
             .forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
-        for (final child in model.birdCallEntries) {
+        for (final child in model.listenEntries) {
           await factFileEntryBean.insert(child, cascade: cascade);
         }
       }
@@ -107,7 +107,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         newModel ??= await find(model.id);
         for (final child in model.galleryImageEntries) {
           await factFileEntryBean.insert(child, cascade: cascade);
-          await entryToMediaPivotBean.attach(newModel, child);
+          await factFileEntryImageBean.attach(newModel, child);
         }
       }
     }
@@ -153,11 +153,11 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
           await factFileEntryBean.upsert(child, cascade: cascade);
         }
       }
-      if (model.birdCallEntries != null) {
+      if (model.listenEntries != null) {
         newModel ??= await find(model.id);
-        model.birdCallEntries
+        model.listenEntries
             .forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
-        for (final child in model.birdCallEntries) {
+        for (final child in model.listenEntries) {
           await factFileEntryBean.upsert(child, cascade: cascade);
         }
       }
@@ -173,7 +173,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         newModel ??= await find(model.id);
         for (final child in model.galleryImageEntries) {
           await factFileEntryBean.upsert(child, cascade: cascade);
-          await entryToMediaPivotBean.attach(newModel, child, upsert: true);
+          await factFileEntryImageBean.attach(newModel, child, upsert: true);
         }
       }
     }
@@ -226,13 +226,13 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
               cascade: cascade, associate: associate);
         }
       }
-      if (model.birdCallEntries != null) {
+      if (model.listenEntries != null) {
         if (associate) {
           newModel ??= await find(model.id);
-          model.birdCallEntries.forEach(
+          model.listenEntries.forEach(
               (x) => factFileEntryBean.associateMediaFile(x, newModel));
         }
-        for (final child in model.birdCallEntries) {
+        for (final child in model.listenEntries) {
           await factFileEntryBean.update(child,
               cascade: cascade, associate: associate);
         }
@@ -304,7 +304,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
             newModel.id, newModel.id, newModel.id);
         await factFileEntryBean.removeByMediaFile(
             newModel.id, newModel.id, newModel.id);
-        await entryToMediaPivotBean.detachMediaFile(newModel);
+        await factFileEntryImageBean.detachMediaFile(newModel);
       }
     }
     final Remove remove = remover.where(this.id.eq(id));
@@ -325,14 +325,14 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
     model.mainImageEntries = await factFileEntryBean.findByMediaFile(
         model.id, model.id, model.id,
         preload: cascade, cascade: cascade);
-    model.birdCallEntries = await factFileEntryBean.findByMediaFile(
+    model.listenEntries = await factFileEntryBean.findByMediaFile(
         model.id, model.id, model.id,
         preload: cascade, cascade: cascade);
     model.pronunciationEntries = await factFileEntryBean.findByMediaFile(
         model.id, model.id, model.id,
         preload: cascade, cascade: cascade);
     model.galleryImageEntries =
-        await entryToMediaPivotBean.fetchByMediaFile(model);
+        await factFileEntryImageBean.fetchByMediaFile(model);
     return model;
   }
 
@@ -351,7 +351,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         (MediaFile model, FactFileEntry child) => model.mainImageEntries =
             List.from(model.mainImageEntries)..add(child),
         cascade: cascade);
-    models.forEach((MediaFile model) => model.birdCallEntries ??= []);
+    models.forEach((MediaFile model) => model.listenEntries ??= []);
     await OneToXHelper.preloadAll<MediaFile, FactFileEntry>(
         models,
         (MediaFile model) => [model.id, model.id, model.id],
@@ -361,8 +361,8 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
               model.pronunciationAudioId,
               model.listenAudioId
             ],
-        (MediaFile model, FactFileEntry child) => model.birdCallEntries =
-            List.from(model.birdCallEntries)..add(child),
+        (MediaFile model, FactFileEntry child) =>
+            model.listenEntries = List.from(model.listenEntries)..add(child),
         cascade: cascade);
     models.forEach((MediaFile model) => model.pronunciationEntries ??= []);
     await OneToXHelper.preloadAll<MediaFile, FactFileEntry>(
@@ -378,7 +378,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
             List.from(model.pronunciationEntries)..add(child),
         cascade: cascade);
     for (MediaFile model in models) {
-      var temp = await entryToMediaPivotBean.fetchByMediaFile(model);
+      var temp = await factFileEntryImageBean.fetchByMediaFile(model);
       if (model.galleryImageEntries == null)
         model.galleryImageEntries = temp;
       else {
@@ -390,5 +390,5 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   }
 
   FactFileEntryBean get factFileEntryBean;
-  EntryToMediaPivotBean get entryToMediaPivotBean;
+  FactFileEntryImageBean get factFileEntryImageBean;
 }

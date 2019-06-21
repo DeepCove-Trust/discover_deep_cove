@@ -13,7 +13,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
   final content = StrField('content');
   final mainImageId = IntField('main_image_id');
   final pronunciationAudioId = IntField('pronunciation_audio_id');
-  final birdCallAudioId = IntField('bird_call_audio_id');
+  final listenAudioId = IntField('listen_audio_id');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
@@ -22,7 +22,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         content.name: content,
         mainImageId.name: mainImageId,
         pronunciationAudioId.name: pronunciationAudioId,
-        birdCallAudioId.name: birdCallAudioId,
+        listenAudioId.name: listenAudioId,
       };
   FactFileEntry fromMap(Map map) {
     FactFileEntry model = FactFileEntry();
@@ -33,7 +33,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     model.mainImageId = adapter.parseValue(map['main_image_id']);
     model.pronunciationAudioId =
         adapter.parseValue(map['pronunciation_audio_id']);
-    model.listenAudioId = adapter.parseValue(map['bird_call_audio_id']);
+    model.listenAudioId = adapter.parseValue(map['listen_audio_id']);
 
     return model;
   }
@@ -49,7 +49,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
       ret.add(content.set(model.content));
       ret.add(mainImageId.set(model.mainImageId));
       ret.add(pronunciationAudioId.set(model.pronunciationAudioId));
-      ret.add(birdCallAudioId.set(model.listenAudioId));
+      ret.add(listenAudioId.set(model.listenAudioId));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(categoryId.name))
@@ -60,8 +60,8 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         ret.add(mainImageId.set(model.mainImageId));
       if (only.contains(pronunciationAudioId.name))
         ret.add(pronunciationAudioId.set(model.pronunciationAudioId));
-      if (only.contains(birdCallAudioId.name))
-        ret.add(birdCallAudioId.set(model.listenAudioId));
+      if (only.contains(listenAudioId.name))
+        ret.add(listenAudioId.set(model.listenAudioId));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
@@ -82,7 +82,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         ret.add(pronunciationAudioId.set(model.pronunciationAudioId));
       }
       if (model.listenAudioId != null) {
-        ret.add(birdCallAudioId.set(model.listenAudioId));
+        ret.add(listenAudioId.set(model.listenAudioId));
       }
     }
 
@@ -106,7 +106,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         foreignTable: mediaFileBean.tableName,
         foreignCol: 'id',
         isNullable: false);
-    st.addInt(birdCallAudioId.name,
+    st.addInt(listenAudioId.name,
         foreignTable: mediaFileBean.tableName,
         foreignCol: 'id',
         isNullable: false);
@@ -126,7 +126,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         newModel ??= await find(model.id);
         for (final child in model.galleryImages) {
           await mediaFileBean.insert(child, cascade: cascade);
-          await entryToMediaPivotBean.attach(child, newModel);
+          await factFileEntryImageBean.attach(child, newModel);
         }
       }
     }
@@ -168,7 +168,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         newModel ??= await find(model.id);
         for (final child in model.galleryImages) {
           await mediaFileBean.upsert(child, cascade: cascade);
-          await entryToMediaPivotBean.attach(child, newModel, upsert: true);
+          await factFileEntryImageBean.attach(child, newModel, upsert: true);
         }
       }
     }
@@ -260,7 +260,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     if (cascade) {
       final FactFileEntry newModel = await find(id);
       if (newModel != null) {
-        await entryToMediaPivotBean.detachFactFileEntry(newModel);
+        await factFileEntryImageBean.detachFactFileEntry(newModel);
       }
     }
     final Remove remove = remover.where(this.id.eq(id));
@@ -314,12 +314,12 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
   }
 
   Future<List<FactFileEntry>> findByMediaFile(
-      int mainImageId, int pronunciationAudioId, int birdCallAudioId,
+      int mainImageId, int pronunciationAudioId, int listenAudioId,
       {bool preload = false, bool cascade = false}) async {
     final Find find = finder
         .where(this.mainImageId.eq(mainImageId))
         .where(this.pronunciationAudioId.eq(pronunciationAudioId))
-        .where(this.birdCallAudioId.eq(birdCallAudioId));
+        .where(this.listenAudioId.eq(listenAudioId));
     final List<FactFileEntry> models = await findMany(find);
     if (preload) {
       await this.preloadAll(models, cascade: cascade);
@@ -335,7 +335,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     for (MediaFile model in models) {
       find.or(this.mainImageId.eq(model.id) &
           this.pronunciationAudioId.eq(model.id) &
-          this.birdCallAudioId.eq(model.id));
+          this.listenAudioId.eq(model.id));
     }
     final List<FactFileEntry> retModels = await findMany(find);
     if (preload) {
@@ -345,11 +345,11 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
   }
 
   Future<int> removeByMediaFile(
-      int mainImageId, int pronunciationAudioId, int birdCallAudioId) async {
+      int mainImageId, int pronunciationAudioId, int listenAudioId) async {
     final Remove rm = remover
         .where(this.mainImageId.eq(mainImageId))
         .where(this.pronunciationAudioId.eq(pronunciationAudioId))
-        .where(this.birdCallAudioId.eq(birdCallAudioId));
+        .where(this.listenAudioId.eq(listenAudioId));
     return await adapter.remove(rm);
   }
 
@@ -362,14 +362,14 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
   Future<FactFileEntry> preload(FactFileEntry model,
       {bool cascade = false}) async {
     model.galleryImages =
-        await entryToMediaPivotBean.fetchByFactFileEntry(model);
+        await factFileEntryImageBean.fetchByFactFileEntry(model);
     return model;
   }
 
   Future<List<FactFileEntry>> preloadAll(List<FactFileEntry> models,
       {bool cascade = false}) async {
     for (FactFileEntry model in models) {
-      var temp = await entryToMediaPivotBean.fetchByFactFileEntry(model);
+      var temp = await factFileEntryImageBean.fetchByFactFileEntry(model);
       if (model.galleryImages == null)
         model.galleryImages = temp;
       else {
@@ -380,7 +380,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     return models;
   }
 
-  EntryToMediaPivotBean get entryToMediaPivotBean;
+  FactFileEntryImageBean get factFileEntryImageBean;
 
   MediaFileBean get mediaFileBean;
   FactFileCategoryBean get factFileCategoryBean;

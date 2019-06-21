@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'entry_media_pivot.dart';
+part of 'fact_file_entry_images.dart';
 
 // **************************************************************************
 // BeanGenerator
 // **************************************************************************
 
-abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
+abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
   final factFileEntryId = IntField('fact_file_entry_id');
   final mediaFileId = IntField('media_file_id');
   Map<String, Field> _fields;
@@ -14,15 +14,15 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
         factFileEntryId.name: factFileEntryId,
         mediaFileId.name: mediaFileId,
       };
-  EntryToMediaPivot fromMap(Map map) {
-    EntryToMediaPivot model = EntryToMediaPivot();
+  FactFileEntryImage fromMap(Map map) {
+    FactFileEntryImage model = FactFileEntryImage();
     model.factFileEntryId = adapter.parseValue(map['fact_file_entry_id']);
     model.mediaFileId = adapter.parseValue(map['media_file_id']);
 
     return model;
   }
 
-  List<SetColumn> toSetColumns(EntryToMediaPivot model,
+  List<SetColumn> toSetColumns(FactFileEntryImage model,
       {bool update = false, Set<String> only, bool onlyNonNull = false}) {
     List<SetColumn> ret = [];
 
@@ -59,7 +59,7 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
     return adapter.createTable(st);
   }
 
-  Future<dynamic> insert(EntryToMediaPivot model,
+  Future<dynamic> insert(FactFileEntryImage model,
       {bool cascade = false,
       bool onlyNonNull = false,
       Set<String> only}) async {
@@ -68,7 +68,7 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
     return adapter.insert(insert);
   }
 
-  Future<void> insertMany(List<EntryToMediaPivot> models,
+  Future<void> insertMany(List<FactFileEntryImage> models,
       {bool onlyNonNull = false, Set<String> only}) async {
     final List<List<SetColumn>> data = models
         .map((model) =>
@@ -79,7 +79,7 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
     return;
   }
 
-  Future<dynamic> upsert(EntryToMediaPivot model,
+  Future<dynamic> upsert(FactFileEntryImage model,
       {bool cascade = false,
       Set<String> only,
       bool onlyNonNull = false}) async {
@@ -88,7 +88,7 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
     return adapter.upsert(upsert);
   }
 
-  Future<void> upsertMany(List<EntryToMediaPivot> models,
+  Future<void> upsertMany(List<FactFileEntryImage> models,
       {bool onlyNonNull = false, Set<String> only}) async {
     final List<List<SetColumn>> data = [];
     for (var i = 0; i < models.length; ++i) {
@@ -101,7 +101,7 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
     return;
   }
 
-  Future<void> updateMany(List<EntryToMediaPivot> models,
+  Future<void> updateMany(List<FactFileEntryImage> models,
       {bool onlyNonNull = false, Set<String> only}) async {
     final List<List<SetColumn>> data = [];
     final List<Expression> where = [];
@@ -116,13 +116,13 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
     return;
   }
 
-  Future<List<EntryToMediaPivot>> findByFactFileEntry(int factFileEntryId,
+  Future<List<FactFileEntryImage>> findByFactFileEntry(int factFileEntryId,
       {bool preload = false, bool cascade = false}) async {
     final Find find = finder.where(this.factFileEntryId.eq(factFileEntryId));
     return findMany(find);
   }
 
-  Future<List<EntryToMediaPivot>> findByFactFileEntryList(
+  Future<List<FactFileEntryImage>> findByFactFileEntryList(
       List<FactFileEntry> models,
       {bool preload = false,
       bool cascade = false}) async {
@@ -140,7 +140,7 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
     return await adapter.remove(rm);
   }
 
-  void associateFactFileEntry(EntryToMediaPivot child, FactFileEntry parent) {
+  void associateFactFileEntry(FactFileEntryImage child, FactFileEntry parent) {
     child.factFileEntryId = parent.id;
   }
 
@@ -168,13 +168,13 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
     return await mediaFileBean.findWhere(exp);
   }
 
-  Future<List<EntryToMediaPivot>> findByMediaFile(int mediaFileId,
+  Future<List<FactFileEntryImage>> findByMediaFile(int mediaFileId,
       {bool preload = false, bool cascade = false}) async {
     final Find find = finder.where(this.mediaFileId.eq(mediaFileId));
     return findMany(find);
   }
 
-  Future<List<EntryToMediaPivot>> findByMediaFileList(List<MediaFile> models,
+  Future<List<FactFileEntryImage>> findByMediaFileList(List<MediaFile> models,
       {bool preload = false, bool cascade = false}) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
@@ -190,7 +190,7 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
     return await adapter.remove(rm);
   }
 
-  void associateMediaFile(EntryToMediaPivot child, MediaFile parent) {
+  void associateMediaFile(FactFileEntryImage child, MediaFile parent) {
     child.mediaFileId = parent.id;
   }
 
@@ -220,7 +220,7 @@ abstract class _EntryToMediaPivotBean implements Bean<EntryToMediaPivot> {
 
   Future<dynamic> attach(MediaFile one, FactFileEntry two,
       {bool upsert = false}) async {
-    final ret = EntryToMediaPivot();
+    final ret = FactFileEntryImage();
     ret.mediaFileId = one.id;
     ret.factFileEntryId = two.id;
     if (!upsert) {

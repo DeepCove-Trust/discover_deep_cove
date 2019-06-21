@@ -1,4 +1,4 @@
-import 'package:discover_deep_cove/data/models/factfile/entry_media_pivot.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
@@ -47,14 +47,14 @@ class MediaFile {
 
   /// List of the entries that use this media file for their bird call.
   @HasMany(FactFileEntryBean)
-  List<FactFileEntry> birdCallEntries;
+  List<FactFileEntry> listenEntries;
 
   /// List of the entries that use this media file for their pronunciation.
   @HasMany(FactFileEntryBean)
   List<FactFileEntry> pronunciationEntries;
 
   /// List of the entries that use this media file in their image gallery.
-  @ManyToMany(EntryToMediaPivotBean, FactFileEntryBean)
+  @ManyToMany(FactFileEntryImageBean, FactFileEntryBean)
   List<FactFileEntry> galleryImageEntries;
 }
 
@@ -63,11 +63,11 @@ class MediaFile {
 class MediaFileBean extends Bean<MediaFile> with _MediaFileBean {
   MediaFileBean(Adapter adapter) : super(adapter);
 
-  EntryToMediaPivotBean _entryToMediaPivotBean;
+  FactFileEntryImageBean _factFileEntryImageBean;
   FactFileEntryBean _factFileEntryBean;
 
-  EntryToMediaPivotBean get entryToMediaPivotBean =>
-      _entryToMediaPivotBean ??= EntryToMediaPivotBean(adapter);
+  FactFileEntryImageBean get factFileEntryImageBean =>
+      _factFileEntryImageBean ??= FactFileEntryImageBean(adapter);
   FactFileEntryBean get factFileEntryBean =>
       _factFileEntryBean ??= FactFileEntryBean(adapter);
 

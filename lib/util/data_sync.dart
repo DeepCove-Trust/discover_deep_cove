@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:discover_deep_cove/data/db.dart';
-import 'package:discover_deep_cove/data/models/factfile/entry_media_pivot.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
@@ -184,8 +184,8 @@ class SyncProvider {
     FactFileCategoryBean factFileCategoryBean = FactFileCategoryBean(adapter);
     FactFileEntryBean factFileEntryBean = FactFileEntryBean(adapter);
     MediaFileBean mediaFileBean = MediaFileBean(adapter);
-    EntryToMediaPivotBean entryToMediaPivotBean =
-        EntryToMediaPivotBean(adapter);
+    FactFileEntryImageBean entryToMediaPivotBean =
+        FactFileEntryImageBean(adapter);
 
     // Create database tables
     mediaFileBean.createTable();

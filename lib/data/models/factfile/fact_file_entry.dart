@@ -1,4 +1,4 @@
-import 'package:discover_deep_cove/data/models/factfile/entry_media_pivot.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:jaguar_orm/jaguar_orm.dart';
@@ -40,7 +40,7 @@ class FactFileEntry {
   int listenAudioId;
 
   /// List of all media files used in this entries gallery
-  @ManyToMany(EntryToMediaPivotBean, MediaFileBean)
+  @ManyToMany(FactFileEntryImageBean, MediaFileBean)
   List<MediaFile> galleryImages;
 
   @IgnoreColumn()
@@ -61,11 +61,11 @@ class FactFileEntry {
 class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
   FactFileEntryBean(Adapter adapter)
       : mediaFileBean = MediaFileBean(adapter),
-        entryToMediaPivotBean = EntryToMediaPivotBean(adapter),
+        factFileEntryImageBean = FactFileEntryImageBean(adapter),
         super(adapter);
 
   final MediaFileBean mediaFileBean;
-  final EntryToMediaPivotBean entryToMediaPivotBean;
+  final FactFileEntryImageBean factFileEntryImageBean;
 
   FactFileCategoryBean _factFileCategoryBean;
   FactFileCategoryBean get factFileCategoryBean =>

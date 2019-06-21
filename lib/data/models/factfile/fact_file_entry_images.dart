@@ -3,12 +3,12 @@ import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 
-part 'entry_media_pivot.jorm.dart';
+part 'fact_file_entry_images.jorm.dart';
 
 /// Pivot table between fact file entries and the media files that belong to
 /// their galleries.
-class EntryToMediaPivot {
-  EntryToMediaPivot();
+class FactFileEntryImage {
+  FactFileEntryImage();
 
   // Todo: Confirm whether these two should be BelongsTo.many
   @BelongsTo(FactFileEntryBean)
@@ -20,9 +20,9 @@ class EntryToMediaPivot {
 
 /// Bean class for database manipulation.
 @GenBean()
-class EntryToMediaPivotBean extends Bean<EntryToMediaPivot>
-    with _EntryToMediaPivotBean {
-  EntryToMediaPivotBean(Adapter adapter) : super(adapter);
+class FactFileEntryImageBean extends Bean<FactFileEntryImage>
+    with _FactFileEntryImageBean {
+  FactFileEntryImageBean(Adapter adapter) : super(adapter);
 
   FactFileEntryBean _factFileEntryBean;
   MediaFileBean _mediaFileBean;
