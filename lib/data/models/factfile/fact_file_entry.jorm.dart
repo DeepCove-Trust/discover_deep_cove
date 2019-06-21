@@ -33,7 +33,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     model.mainImageId = adapter.parseValue(map['main_image_id']);
     model.pronunciationAudioId =
         adapter.parseValue(map['pronunciation_audio_id']);
-    model.birdCallAudioId = adapter.parseValue(map['bird_call_audio_id']);
+    model.listenAudioId = adapter.parseValue(map['bird_call_audio_id']);
 
     return model;
   }
@@ -49,7 +49,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
       ret.add(content.set(model.content));
       ret.add(mainImageId.set(model.mainImageId));
       ret.add(pronunciationAudioId.set(model.pronunciationAudioId));
-      ret.add(birdCallAudioId.set(model.birdCallAudioId));
+      ret.add(birdCallAudioId.set(model.listenAudioId));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(categoryId.name))
@@ -61,7 +61,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
       if (only.contains(pronunciationAudioId.name))
         ret.add(pronunciationAudioId.set(model.pronunciationAudioId));
       if (only.contains(birdCallAudioId.name))
-        ret.add(birdCallAudioId.set(model.birdCallAudioId));
+        ret.add(birdCallAudioId.set(model.listenAudioId));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
@@ -81,8 +81,8 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
       if (model.pronunciationAudioId != null) {
         ret.add(pronunciationAudioId.set(model.pronunciationAudioId));
       }
-      if (model.birdCallAudioId != null) {
-        ret.add(birdCallAudioId.set(model.birdCallAudioId));
+      if (model.listenAudioId != null) {
+        ret.add(birdCallAudioId.set(model.listenAudioId));
       }
     }
 
@@ -356,7 +356,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
   void associateMediaFile(FactFileEntry child, MediaFile parent) {
     child.mainImageId = parent.id;
     child.pronunciationAudioId = parent.id;
-    child.birdCallAudioId = parent.id;
+    child.listenAudioId = parent.id;
   }
 
   Future<FactFileEntry> preload(FactFileEntry model,

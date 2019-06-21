@@ -36,4 +36,18 @@ class FactFileCategoryBean extends Bean<FactFileCategory>
   final FactFileEntryBean factFileEntryBean;
 
   final String tableName = 'fact_file_categories';
+
+  // Pre-loads all categories with their entries, and in turn preloads all
+  // entries with their media files.
+  Future<List<FactFileCategory>> getAllWithPreloadedEntries() async {
+
+    List<FactFileCategory> categories = await getAll();
+    categories = await preloadAll(categories);
+
+    for(FactFileCategory category in categories){
+      await factFileEntryBean.preloadAll(category.entries);
+    }
+
+    return categories;
+  }
 }

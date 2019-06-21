@@ -346,7 +346,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         (FactFileEntry model) => [
               model.mainImageId,
               model.pronunciationAudioId,
-              model.birdCallAudioId
+              model.listenAudioId
             ],
         (MediaFile model, FactFileEntry child) => model.mainImageEntries =
             List.from(model.mainImageEntries)..add(child),
@@ -359,7 +359,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         (FactFileEntry model) => [
               model.mainImageId,
               model.pronunciationAudioId,
-              model.birdCallAudioId
+              model.listenAudioId
             ],
         (MediaFile model, FactFileEntry child) => model.birdCallEntries =
             List.from(model.birdCallEntries)..add(child),
@@ -372,7 +372,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         (FactFileEntry model) => [
               model.mainImageId,
               model.pronunciationAudioId,
-              model.birdCallAudioId
+              model.listenAudioId
             ],
         (MediaFile model, FactFileEntry child) => model.pronunciationEntries =
             List.from(model.pronunciationEntries)..add(child),

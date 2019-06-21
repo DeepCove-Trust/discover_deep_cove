@@ -37,11 +37,23 @@ class FactFileEntry {
   int pronunciationAudioId;
 
   @BelongsTo(MediaFileBean)
-  int birdCallAudioId;
+  int listenAudioId;
 
   /// List of all media files used in this entries gallery
   @ManyToMany(EntryToMediaPivotBean, MediaFileBean)
   List<MediaFile> galleryImages;
+
+  @IgnoreColumn()
+  MediaFile mainImage;
+
+  @IgnoreColumn()
+  MediaFile pronunciationAudio;
+
+  @IgnoreColumn()
+  MediaFile listenAudio;
+
+  @IgnoreColumn()
+  FactFileCategory category;
 }
 
 /// Bean class for database manipulation - generated mixin code
@@ -60,4 +72,35 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
       _factFileCategoryBean ??= FactFileCategoryBean(adapter);
 
   final String tableName = 'fact_file_entries';
+
+  /// Find the [FactFileEntry] that belongs to the supplied [id], and returns
+  /// it preloaded with all media file relationships.
+  Future<FactFileEntry> findAndPreload(int id) async {
+    FactFileEntry entry = await find(id, preload: true);
+    entry = await preloadExtras(entry);
+
+    return entry;
+  }
+
+  /// Returns all [FactFileEntry] objects in the database, preloading all
+  /// relationships.
+  Future<List<FactFileEntry>> getAllAndPreload() async {
+    List<FactFileEntry> entries = await preloadAll(await getAll());
+
+    for (FactFileEntry entry in entries) {
+      entry = await preloadExtras(entry);
+    }
+
+    return entries;
+  }
+
+  Future<FactFileEntry> preloadExtras(FactFileEntry entry) async {
+    entry.category = await factFileCategoryBean.find(entry.categoryId);
+    entry.mainImage = await mediaFileBean.find(entry.mainImageId);
+    entry.pronunciationAudio =
+        await mediaFileBean.find(entry.pronunciationAudioId);
+    entry.listenAudio = await mediaFileBean.find(entry.listenAudioId);
+
+    return entry;
+  }
 }
