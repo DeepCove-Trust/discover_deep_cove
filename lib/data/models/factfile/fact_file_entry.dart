@@ -1,5 +1,5 @@
-import 'package:discover_deep_cove/data/models/entry_media_pivot.dart';
-import 'package:discover_deep_cove/data/models/fact_file_category.dart';
+import 'package:discover_deep_cove/data/models/factfile/entry_media_pivot.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
