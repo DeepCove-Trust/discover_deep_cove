@@ -18,6 +18,7 @@ enum MediaFileType {
   jpg,
   png,
   mp3,
+  wav,
 }
 
 /// A media file that is stored on the device.
