@@ -8,7 +8,7 @@ part of 'media_file.dart';
 
 abstract class _MediaFileBean implements Bean<MediaFile> {
   final id = IntField('id');
-  final type = StrField('type');
+  final type = IntField('type');
   final name = StrField('name');
   final path = StrField('path');
   Map<String, Field> _fields;
@@ -63,7 +63,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
-    st.addStr(type.name, isNullable: false);
+    st.addInt(type.name, isNullable: false);
     st.addStr(name.name, isNullable: false);
     st.addStr(path.name, isNullable: false);
     return adapter.createTable(st);

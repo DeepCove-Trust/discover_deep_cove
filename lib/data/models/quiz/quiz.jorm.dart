@@ -8,7 +8,7 @@ part of 'quiz.dart';
 
 abstract class _QuizBean implements Bean<Quiz> {
   final id = IntField('id');
-  final _unlocked = BoolField('_unlocked');
+  final _unlocked = BoolField('unlocked');
   final unlockCode = StrField('unlock_code');
   final title = StrField('title');
   final attempts = IntField('attempts');
@@ -27,7 +27,7 @@ abstract class _QuizBean implements Bean<Quiz> {
   Quiz fromMap(Map map) {
     Quiz model = Quiz();
     model.id = adapter.parseValue(map['id']);
-    model._unlocked = adapter.parseValue(map['_unlocked']);
+    model._unlocked = adapter.parseValue(map['unlocked']);
     model.unlockCode = adapter.parseValue(map['unlock_code']);
     model.title = adapter.parseValue(map['title']);
     model.attempts = adapter.parseValue(map['attempts']);

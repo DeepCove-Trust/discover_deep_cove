@@ -10,7 +10,7 @@ class Quiz {
   @PrimaryKey()
   int id;
 
-  @Column()
+  @Column(name: 'unlocked')
   bool _unlocked;
 
   /// Returns true if the quiz is unlocked. This also takes into consideration
