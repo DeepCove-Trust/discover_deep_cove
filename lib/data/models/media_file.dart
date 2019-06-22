@@ -3,6 +3,9 @@ import 'package:discover_deep_cove/data/models/activity/activity_images.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 import 'package:meta/meta.dart';
@@ -22,10 +25,7 @@ class MediaFile {
   MediaFile();
 
   MediaFile.make(
-      {@required this.id,
-      @required this.type,
-      @required this.path,
-      this.name});
+      {@required this.id, @required this.type, @required this.path, this.name});
 
   @PrimaryKey()
   int id;
@@ -69,6 +69,15 @@ class MediaFile {
 
   @ManyToMany(ActivityImageBean, ActivityBean)
   List<Activity> multiSelectActivities;
+
+  @HasMany(QuizBean)
+  List<Quiz> quizzes;
+
+  @HasMany(QuizQuestionBean)
+  List<QuizQuestion> quizQuestions;
+
+  @HasMany(QuizAnswerBean)
+  List<QuizAnswer> quizAnswers;
 }
 
 /// Bean class used for database manipulation - auto generated mixin code
@@ -80,6 +89,9 @@ class MediaFileBean extends Bean<MediaFile> with _MediaFileBean {
         factFileEntryImageBean = FactFileEntryImageBean(adapter),
         activityBean = ActivityBean(adapter),
         activityImageBean = ActivityImageBean(adapter),
+        quizBean = QuizBean(adapter),
+        quizQuestionBean = QuizQuestionBean(adapter),
+        quizAnswerBean = QuizAnswerBean(adapter),
         super(adapter);
 
   final FactFileNuggetBean factFileNuggetBean;
@@ -87,6 +99,9 @@ class MediaFileBean extends Bean<MediaFile> with _MediaFileBean {
   final FactFileEntryImageBean factFileEntryImageBean;
   final ActivityBean activityBean;
   final ActivityImageBean activityImageBean;
+  final QuizBean quizBean;
+  final QuizQuestionBean quizQuestionBean;
+  final QuizAnswerBean quizAnswerBean;
 
   final String tableName = 'media_files';
 }

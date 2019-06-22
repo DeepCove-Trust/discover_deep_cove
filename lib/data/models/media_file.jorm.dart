@@ -132,6 +132,29 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
           await activityImageBean.attach(newModel, child);
         }
       }
+      if (model.quizzes != null) {
+        newModel ??= await find(model.id);
+        model.quizzes.forEach((x) => quizBean.associateMediaFile(x, newModel));
+        for (final child in model.quizzes) {
+          await quizBean.insert(child, cascade: cascade);
+        }
+      }
+      if (model.quizQuestions != null) {
+        newModel ??= await find(model.id);
+        model.quizQuestions
+            .forEach((x) => quizQuestionBean.associateMediaFile(x, newModel));
+        for (final child in model.quizQuestions) {
+          await quizQuestionBean.insert(child, cascade: cascade);
+        }
+      }
+      if (model.quizAnswers != null) {
+        newModel ??= await find(model.id);
+        model.quizAnswers
+            .forEach((x) => quizAnswerBean.associateMediaFile(x, newModel));
+        for (final child in model.quizAnswers) {
+          await quizAnswerBean.insert(child, cascade: cascade);
+        }
+      }
     }
     return retId;
   }
@@ -219,6 +242,29 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         for (final child in model.multiSelectActivities) {
           await activityBean.upsert(child, cascade: cascade);
           await activityImageBean.attach(newModel, child, upsert: true);
+        }
+      }
+      if (model.quizzes != null) {
+        newModel ??= await find(model.id);
+        model.quizzes.forEach((x) => quizBean.associateMediaFile(x, newModel));
+        for (final child in model.quizzes) {
+          await quizBean.upsert(child, cascade: cascade);
+        }
+      }
+      if (model.quizQuestions != null) {
+        newModel ??= await find(model.id);
+        model.quizQuestions
+            .forEach((x) => quizQuestionBean.associateMediaFile(x, newModel));
+        for (final child in model.quizQuestions) {
+          await quizQuestionBean.upsert(child, cascade: cascade);
+        }
+      }
+      if (model.quizAnswers != null) {
+        newModel ??= await find(model.id);
+        model.quizAnswers
+            .forEach((x) => quizAnswerBean.associateMediaFile(x, newModel));
+        for (final child in model.quizAnswers) {
+          await quizAnswerBean.upsert(child, cascade: cascade);
         }
       }
     }
@@ -327,6 +373,38 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
               cascade: cascade, associate: associate);
         }
       }
+      if (model.quizzes != null) {
+        if (associate) {
+          newModel ??= await find(model.id);
+          model.quizzes
+              .forEach((x) => quizBean.associateMediaFile(x, newModel));
+        }
+        for (final child in model.quizzes) {
+          await quizBean.update(child, cascade: cascade, associate: associate);
+        }
+      }
+      if (model.quizQuestions != null) {
+        if (associate) {
+          newModel ??= await find(model.id);
+          model.quizQuestions
+              .forEach((x) => quizQuestionBean.associateMediaFile(x, newModel));
+        }
+        for (final child in model.quizQuestions) {
+          await quizQuestionBean.update(child,
+              cascade: cascade, associate: associate);
+        }
+      }
+      if (model.quizAnswers != null) {
+        if (associate) {
+          newModel ??= await find(model.id);
+          model.quizAnswers
+              .forEach((x) => quizAnswerBean.associateMediaFile(x, newModel));
+        }
+        for (final child in model.quizAnswers) {
+          await quizAnswerBean.update(child,
+              cascade: cascade, associate: associate);
+        }
+      }
     }
     return ret;
   }
@@ -382,6 +460,9 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         await activityBean.removeByMediaFile(
             newModel.id, newModel.id, newModel.id);
         await activityImageBean.detachMediaFile(newModel);
+        await quizBean.removeByMediaFile(newModel.id);
+        await quizQuestionBean.removeByMediaFile(newModel.id, newModel.id);
+        await quizAnswerBean.removeByMediaFile(newModel.id);
       }
     }
     final Remove remove = remover.where(this.id.eq(id));
@@ -417,6 +498,13 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         preload: cascade, cascade: cascade);
     model.multiSelectActivities =
         await activityImageBean.fetchByMediaFile(model);
+    model.quizzes = await quizBean.findByMediaFile(model.id,
+        preload: cascade, cascade: cascade);
+    model.quizQuestions = await quizQuestionBean.findByMediaFile(
+        model.id, model.id,
+        preload: cascade, cascade: cascade);
+    model.quizAnswers = await quizAnswerBean.findByMediaFile(model.id,
+        preload: cascade, cascade: cascade);
     return model;
   }
 
@@ -489,6 +577,33 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         model.multiSelectActivities.addAll(temp);
       }
     }
+    models.forEach((MediaFile model) => model.quizzes ??= []);
+    await OneToXHelper.preloadAll<MediaFile, Quiz>(
+        models,
+        (MediaFile model) => [model.id],
+        quizBean.findByMediaFileList,
+        (Quiz model) => [model.imageId],
+        (MediaFile model, Quiz child) =>
+            model.quizzes = List.from(model.quizzes)..add(child),
+        cascade: cascade);
+    models.forEach((MediaFile model) => model.quizQuestions ??= []);
+    await OneToXHelper.preloadAll<MediaFile, QuizQuestion>(
+        models,
+        (MediaFile model) => [model.id, model.id],
+        quizQuestionBean.findByMediaFileList,
+        (QuizQuestion model) => [model.imageId, model.audioId],
+        (MediaFile model, QuizQuestion child) =>
+            model.quizQuestions = List.from(model.quizQuestions)..add(child),
+        cascade: cascade);
+    models.forEach((MediaFile model) => model.quizAnswers ??= []);
+    await OneToXHelper.preloadAll<MediaFile, QuizAnswer>(
+        models,
+        (MediaFile model) => [model.id],
+        quizAnswerBean.findByMediaFileList,
+        (QuizAnswer model) => [model.imageId],
+        (MediaFile model, QuizAnswer child) =>
+            model.quizAnswers = List.from(model.quizAnswers)..add(child),
+        cascade: cascade);
     return models;
   }
 
@@ -497,4 +612,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   FactFileNuggetBean get factFileNuggetBean;
   ActivityBean get activityBean;
   ActivityImageBean get activityImageBean;
+  QuizBean get quizBean;
+  QuizQuestionBean get quizQuestionBean;
+  QuizAnswerBean get quizAnswerBean;
 }
