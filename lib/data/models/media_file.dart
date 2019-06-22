@@ -33,7 +33,7 @@ class MediaFile {
   /// TODO: Persist as a [MediaFileType] enum when Jaguar supports it.
   /// The file type.
   @Column()
-  String type;
+  int type;
 
   /// Description of the media file's contents.
   @Column()
