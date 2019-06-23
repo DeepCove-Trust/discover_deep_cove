@@ -237,31 +237,31 @@ class SyncProvider {
       await factFileEntryBean.insert(factFileEntryBean.fromMap(map));
     }
     for(Map<String, dynamic> map in data['factFileEntryImages']){
-      factFileEntryImageBean.insert(factFileEntryImageBean.fromMap(map));
+      await factFileEntryImageBean.insert(factFileEntryImageBean.fromMap(map));
     }
     for(Map<String, dynamic> map in data['factFileNuggets']){
-      factFileNuggetBean.insert(factFileNuggetBean.fromMap(map));
+      await factFileNuggetBean.insert(factFileNuggetBean.fromMap(map));
     }
     for(Map<String, dynamic> map in data['tracks']){
-      trackBean.insert(trackBean.fromMap(map));
+      await trackBean.insert(trackBean.fromMap(map));
     }
     for(Map<String, dynamic> map in data['activities']){
-      activityBean.insert(activityBean.fromMap(map));
+      await activityBean.insert(activityBean.fromMap(map));
     }
     for(Map<String, dynamic> map in data['activityImages']){
-      activityImageBean.insert(activityImageBean.fromMap(map));
+      await activityImageBean.insert(activityImageBean.fromMap(map));
     }
     for(Map<String, dynamic> map in data['quizzes']){
-      quizBean.insert(quizBean.fromMap(map));
+      await quizBean.insert(quizBean.fromMap(map));
     }
     for(Map<String, dynamic> map in data['quizQuestions']){
-      quizQuestionBean.insert(quizQuestionBean.fromMap(map));
+      await quizQuestionBean.insert(quizQuestionBean.fromMap(map));
     }
     for(Map<String, dynamic> map in data['quizAnswers']){
-      quizAnswerBean.insert(quizAnswerBean.fromMap(map));
+      await quizAnswerBean.insert(quizAnswerBean.fromMap(map));
     }
     for(Map<String, dynamic> map in data['config']){
-      configBean.insert(configBean.fromMap(map));
+      await configBean.insert(configBean.fromMap(map));
     }
 
     return true;
