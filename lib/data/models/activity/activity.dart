@@ -5,6 +5,14 @@ import 'package:jaguar_orm/jaguar_orm.dart';
 
 part 'activity.jorm.dart';
 
+enum ActivityType{
+  countActivity,
+  photographActivity,
+  pictureSelectActivity,
+  pictureTapActivity,
+  textAnswerActivity
+}
+
 class Activity {
   @PrimaryKey()
   int id;
@@ -13,7 +21,7 @@ class Activity {
   int trackId;
 
   @Column()
-  String discriminator;
+  int activityType;
 
   @Column()
   String qrCode;
@@ -62,24 +70,24 @@ class Activity {
 
   bool isCompleted(){
 
-    switch(discriminator){
-      case 'pictureSelect': {
+    switch(ActivityType.values[activityType]){
+      case ActivityType.pictureSelectActivity: {
         return selectedPictureId != null;
       }
       break;
-      case 'pictureTap': {
+      case ActivityType.pictureTapActivity: {
         return userXCoord != null && userYCoord != null;
       }
       break;
-      case 'count': {
+      case ActivityType.countActivity: {
         return userCount != null;
       }
       break;
-      case 'textAnswer': {
+      case ActivityType.textAnswerActivity: {
         return userText != null;
       }
       break;
-      case 'photograph': {
+      case ActivityType.photographActivity: {
         return userPhotoId != null;
       }
       break;

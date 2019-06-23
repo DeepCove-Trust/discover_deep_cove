@@ -9,7 +9,7 @@ part of 'activity.dart';
 abstract class _ActivityBean implements Bean<Activity> {
   final id = IntField('id');
   final trackId = IntField('track_id');
-  final discriminator = StrField('discriminator');
+  final activityType = IntField('activity_type');
   final qrCode = StrField('qr_code');
   final xCoord = DoubleField('x_coord');
   final yCoord = DoubleField('y_coord');
@@ -27,7 +27,7 @@ abstract class _ActivityBean implements Bean<Activity> {
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
         trackId.name: trackId,
-        discriminator.name: discriminator,
+        activityType.name: activityType,
         qrCode.name: qrCode,
         xCoord.name: xCoord,
         yCoord.name: yCoord,
@@ -46,7 +46,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     Activity model = Activity();
     model.id = adapter.parseValue(map['id']);
     model.trackId = adapter.parseValue(map['track_id']);
-    model.discriminator = adapter.parseValue(map['discriminator']);
+    model.activityType = adapter.parseValue(map['activity_type']);
     model.qrCode = adapter.parseValue(map['qr_code']);
     model.xCoord = adapter.parseValue(map['x_coord']);
     model.yCoord = adapter.parseValue(map['y_coord']);
@@ -71,7 +71,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
       ret.add(trackId.set(model.trackId));
-      ret.add(discriminator.set(model.discriminator));
+      ret.add(activityType.set(model.activityType));
       ret.add(qrCode.set(model.qrCode));
       ret.add(xCoord.set(model.xCoord));
       ret.add(yCoord.set(model.yCoord));
@@ -88,8 +88,8 @@ abstract class _ActivityBean implements Bean<Activity> {
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(trackId.name)) ret.add(trackId.set(model.trackId));
-      if (only.contains(discriminator.name))
-        ret.add(discriminator.set(model.discriminator));
+      if (only.contains(activityType.name))
+        ret.add(activityType.set(model.activityType));
       if (only.contains(qrCode.name)) ret.add(qrCode.set(model.qrCode));
       if (only.contains(xCoord.name)) ret.add(xCoord.set(model.xCoord));
       if (only.contains(yCoord.name)) ret.add(yCoord.set(model.yCoord));
@@ -116,8 +116,8 @@ abstract class _ActivityBean implements Bean<Activity> {
       if (model.trackId != null) {
         ret.add(trackId.set(model.trackId));
       }
-      if (model.discriminator != null) {
-        ret.add(discriminator.set(model.discriminator));
+      if (model.activityType != null) {
+        ret.add(activityType.set(model.activityType));
       }
       if (model.qrCode != null) {
         ret.add(qrCode.set(model.qrCode));
@@ -168,7 +168,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     st.addInt(id.name, primary: true, isNullable: false);
     st.addInt(trackId.name,
         foreignTable: trackBean.tableName, foreignCol: 'id', isNullable: false);
-    st.addStr(discriminator.name, isNullable: false);
+    st.addInt(activityType.name, isNullable: false);
     st.addStr(qrCode.name, isNullable: false);
     st.addDouble(xCoord.name, isNullable: false);
     st.addDouble(yCoord.name, isNullable: false);
