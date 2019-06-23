@@ -4,14 +4,23 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:discover_deep_cove/data/db.dart';
+import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/activity/activity_images.dart';
+import 'package:discover_deep_cove/data/models/activity/track.dart';
+import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/permissions.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:http/http.dart' as http;
+import 'package:jaguar_orm/jaguar_orm.dart';
 
 /// Facilitates communication between this application, and the CMS server.
 ///
@@ -42,7 +51,6 @@ class SyncProvider {
   }
 
   /// Makes the API get request for the zipped resources on the remote server.
-  ///
   /// Returns the [http.Response] of the request.
   static Future<http.Response> _requestFile() async {
     http.Response response = await http.get(Env.filesSyncUrl);
@@ -74,10 +82,15 @@ class SyncProvider {
     print('JSON data received...');
 
     // Calculate checksum of downloaded data.
-    Digest dataDigest = sha256.convert(Utf8Encoder().convert(jsonString));
+    String downloadHash =
+        sha256.convert(Utf8Encoder().convert(jsonString)).toString();
+    String expectedHash = await _getJsonChecksum();
+
+    print('Calculated hash: $downloadHash');
+    print('Expected hash: $expectedHash');
 
     // Compare with expected checksum from server.
-    if (dataDigest.toString() != await _getJsonChecksum()) {
+    if (downloadHash.toString() != expectedHash) {
       // Retrieved data is corrupted.
       print('JSON data failed integrity check...');
       // TODO: Handle this better?
@@ -114,10 +127,15 @@ class SyncProvider {
     print('Zip file saved to \'${rootDir.path}\'.');
 
     // integrity check
-    Digest fileDigest = sha256.convert(await resourcesZip.readAsBytes());
+    String downloadHash =
+        sha256.convert(await resourcesZip.readAsBytes()).toString();
+    String expectedHash = await _getFileChecksum();
+
+    print('Calculated checksum: $downloadHash');
+    print('Expected checksum: $expectedHash');
 
     // integrity check
-    if (fileDigest.toString() != await _getFileChecksum()) {
+    if (downloadHash != expectedHash) {
       // retrieved file is corrupted
       print('Zip file failed integrity check.');
       //await payload.delete();
@@ -184,33 +202,66 @@ class SyncProvider {
     FactFileCategoryBean factFileCategoryBean = FactFileCategoryBean(adapter);
     FactFileEntryBean factFileEntryBean = FactFileEntryBean(adapter);
     MediaFileBean mediaFileBean = MediaFileBean(adapter);
-    FactFileEntryImageBean entryToMediaPivotBean =
-        FactFileEntryImageBean(adapter);
+    FactFileEntryImageBean factFileEntryImageBean =
+    FactFileEntryImageBean(adapter);
+    FactFileNuggetBean factFileNuggetBean = FactFileNuggetBean(adapter);
+    TrackBean trackBean = TrackBean(adapter);
+    ActivityBean activityBean = ActivityBean(adapter);
+    ActivityImageBean activityImageBean = ActivityImageBean(adapter);
+    QuizBean quizBean = QuizBean(adapter);
+    QuizQuestionBean quizQuestionBean = QuizQuestionBean(adapter);
+    QuizAnswerBean quizAnswerBean = QuizAnswerBean(adapter);
+    ConfigBean configBean = ConfigBean(adapter);
 
     // Create database tables
-    mediaFileBean.createTable();
-    factFileCategoryBean.createTable();
-    factFileEntryBean.createTable();
-    entryToMediaPivotBean.createTable();
+    await mediaFileBean.createTable();
+    await factFileCategoryBean.createTable();
+    await factFileEntryBean.createTable();
+    await factFileEntryImageBean.createTable();
+    await factFileNuggetBean.createTable();
+    await trackBean.createTable();
+    await activityBean.createTable();
+    await activityImageBean.createTable();
+    await quizBean.createTable();
+    await quizQuestionBean.createTable();
+    await quizAnswerBean.createTable();
+    await configBean.createTable();
 
-    // Insert all media files from JSON
-    for (Map<String, dynamic> map in data['media_files']) {
+    for (Map<String, dynamic> map in data['mediaFiles']) {
       mediaFileBean.insert(mediaFileBean.fromMap(map));
     }
-
-    // Insert all categories from JSON
-    for (Map<String, dynamic> map in data['categories']) {
-      factFileCategoryBean.insert(factFileCategoryBean.fromMap(map));
+    for (Map<String, dynamic> map in data['factFileCategories']) {
+      await factFileCategoryBean.insert(factFileCategoryBean.fromMap(map));
     }
-
-    // Insert all entries from JSON
-    for (Map<String, dynamic> map in data['entries']) {
-      factFileEntryBean.insert(factFileEntryBean.fromMap(map));
+    for (Map<String, dynamic> map in data['factFileEntries']) {
+      await factFileEntryBean.insert(factFileEntryBean.fromMap(map));
     }
-
-    // Insert all entry_images from JSON
-    for(Map<String, dynamic> map in data['entry_images']){
-      entryToMediaPivotBean.insert(entryToMediaPivotBean.fromMap(map));
+    for(Map<String, dynamic> map in data['factFileEntryImages']){
+      factFileEntryImageBean.insert(factFileEntryImageBean.fromMap(map));
+    }
+    for(Map<String, dynamic> map in data['factFileNuggets']){
+      factFileNuggetBean.insert(factFileNuggetBean.fromMap(map));
+    }
+    for(Map<String, dynamic> map in data['tracks']){
+      trackBean.insert(trackBean.fromMap(map));
+    }
+    for(Map<String, dynamic> map in data['activities']){
+      activityBean.insert(activityBean.fromMap(map));
+    }
+    for(Map<String, dynamic> map in data['activityImages']){
+      activityImageBean.insert(activityImageBean.fromMap(map));
+    }
+    for(Map<String, dynamic> map in data['quizzes']){
+      quizBean.insert(quizBean.fromMap(map));
+    }
+    for(Map<String, dynamic> map in data['quizQuestions']){
+      quizQuestionBean.insert(quizQuestionBean.fromMap(map));
+    }
+    for(Map<String, dynamic> map in data['quizAnswers']){
+      quizAnswerBean.insert(quizAnswerBean.fromMap(map));
+    }
+    for(Map<String, dynamic> map in data['config']){
+      configBean.insert(configBean.fromMap(map));
     }
 
     return true;
