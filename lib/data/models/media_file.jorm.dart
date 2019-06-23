@@ -8,20 +8,20 @@ part of 'media_file.dart';
 
 abstract class _MediaFileBean implements Bean<MediaFile> {
   final id = IntField('id');
-  final type = IntField('type');
+  final fileType = IntField('file_type');
   final name = StrField('name');
   final path = StrField('path');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
-        type.name: type,
+        fileType.name: fileType,
         name.name: name,
         path.name: path,
       };
   MediaFile fromMap(Map map) {
     MediaFile model = MediaFile();
     model.id = adapter.parseValue(map['id']);
-    model.type = adapter.parseValue(map['type']);
+    model.fileType = adapter.parseValue(map['file_type']);
     model.name = adapter.parseValue(map['name']);
     model.path = adapter.parseValue(map['path']);
 
@@ -34,20 +34,20 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
 
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
-      ret.add(type.set(model.type));
+      ret.add(fileType.set(model.fileType));
       ret.add(name.set(model.name));
       ret.add(path.set(model.path));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
-      if (only.contains(type.name)) ret.add(type.set(model.type));
+      if (only.contains(fileType.name)) ret.add(fileType.set(model.fileType));
       if (only.contains(name.name)) ret.add(name.set(model.name));
       if (only.contains(path.name)) ret.add(path.set(model.path));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
       }
-      if (model.type != null) {
-        ret.add(type.set(model.type));
+      if (model.fileType != null) {
+        ret.add(fileType.set(model.fileType));
       }
       if (model.name != null) {
         ret.add(name.set(model.name));
@@ -63,7 +63,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
-    st.addInt(type.name, isNullable: false);
+    st.addInt(fileType.name, isNullable: false);
     st.addStr(name.name, isNullable: false);
     st.addStr(path.name, isNullable: false);
     return adapter.createTable(st);

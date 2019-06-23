@@ -26,7 +26,7 @@ class MediaFile {
   MediaFile();
 
   MediaFile.make(
-      {@required this.id, @required this.type, @required this.path, this.name});
+      {@required this.id, @required this.fileType, @required this.path, this.name});
 
   @PrimaryKey()
   int id;
@@ -34,7 +34,7 @@ class MediaFile {
   /// TODO: Persist as a [MediaFileType] enum when Jaguar supports it.
   /// The file type.
   @Column()
-  int type;
+  int fileType;
 
   /// Description of the media file's contents.
   @Column()
