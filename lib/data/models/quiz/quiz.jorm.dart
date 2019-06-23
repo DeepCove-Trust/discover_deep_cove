@@ -90,7 +90,7 @@ abstract class _QuizBean implements Bean<Quiz> {
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
-    st.addBool(_unlocked.name, isNullable: false);
+    st.addBool(_unlocked.name, isNullable: true);
     st.addStr(unlockCode.name, isNullable: false);
     st.addStr(title.name, isNullable: false);
     st.addInt(attempts.name, isNullable: true);

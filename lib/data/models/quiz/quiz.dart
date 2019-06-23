@@ -10,14 +10,15 @@ class Quiz {
   @PrimaryKey()
   int id;
 
-  @Column(name: 'unlocked')
+  // todo: wait for jaguar to support default values
+  @Column(name: 'unlocked', isNullable: true)
   bool _unlocked;
 
   /// Returns true if the quiz is unlocked. This also takes into consideration
   /// whether there is an unlock code set (quiz is unlocked by default if no
   /// unlock code is set).
   @IgnoreColumn()
-  bool get unlocked => unlockCode == null ? true : _unlocked;
+  bool get unlocked => unlockCode == null ? true : (_unlocked ?? false);
 
   @Column()
   String unlockCode;
