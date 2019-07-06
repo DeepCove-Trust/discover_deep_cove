@@ -17,6 +17,9 @@ class Activity {
   @PrimaryKey()
   int id;
 
+  @Column()
+  DateTime lastModified;
+
   @BelongsTo(TrackBean)
   int trackId;
 

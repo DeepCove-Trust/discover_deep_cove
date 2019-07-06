@@ -10,6 +10,9 @@ class Quiz {
   @PrimaryKey()
   int id;
 
+  @Column()
+  DateTime lastModified;
+
   // todo: wait for jaguar to support default values
   @Column(name: 'unlocked', isNullable: true)
   bool _unlocked;
