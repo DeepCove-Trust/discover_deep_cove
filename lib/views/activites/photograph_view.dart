@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/data/sample_data_activities.dart';
 import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
 import 'package:discover_deep_cove/util/body1_text.dart';
 import 'package:discover_deep_cove/util/heading_text.dart';
 import 'package:discover_deep_cove/widgets/back_nav_bottom.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:toast/toast.dart';
 
@@ -243,16 +245,12 @@ class _PhotographViewState extends State<PhotographView> {
           ? Container()
           : Padding(
               padding: const EdgeInsets.all(8.0),
-              child: FloatingActionButton.extended(
+              child: CustomFAB(
+                icon: FontAwesomeIcons.camera,
+                text: "I see it!",
                 onPressed: () {
                   _onImageButtonPressed(ImageSource.camera);
                 },
-                heroTag: 'image1',
-                tooltip: 'Take a Photo',
-                icon: const Icon(Icons.camera_alt),
-                label: Body1Text(
-                  text: "I see it!",
-                ),
               ),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
