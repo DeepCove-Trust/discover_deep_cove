@@ -394,7 +394,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 child: Icon(FontAwesomeIcons.book),
               ),
               title: Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text("Learn"),
               ),
             ),
@@ -404,7 +404,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 child: Icon(FontAwesomeIcons.qrcode),
               ),
               title: Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text("Scan"),
               ),
             ),
@@ -414,7 +414,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 child: Icon(FontAwesomeIcons.map),
               ),
               title: Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text("Map"),
               ),
             ),
@@ -424,7 +424,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 child: Icon(FontAwesomeIcons.question),
               ),
               title: Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text("Quiz"),
               ),
             ),
@@ -434,7 +434,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 child: Icon(FontAwesomeIcons.ellipsisV),
               ),
               title: Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text("More"),
               ),
             ),
