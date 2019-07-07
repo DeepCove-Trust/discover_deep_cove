@@ -1,15 +1,8 @@
 import 'dart:async';
 
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:discover_deep_cove/data/sample_data_activities.dart';
-import 'package:discover_deep_cove/util/body1_text.dart';
 import 'package:discover_deep_cove/util/heading_text.dart';
-import 'package:discover_deep_cove/views/settings/settings.dart';
 import 'package:discover_deep_cove/views/activites/count_view.dart';
 import 'package:discover_deep_cove/views/activites/photograph_view.dart';
 import 'package:discover_deep_cove/views/activites/picture_select_view.dart';
@@ -17,6 +10,13 @@ import 'package:discover_deep_cove/views/activites/picture_tap_view.dart';
 import 'package:discover_deep_cove/views/activites/text_answer_view.dart';
 import 'package:discover_deep_cove/views/fact_file/fact_file_index.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_index.dart';
+import 'package:discover_deep_cove/views/settings/settings.dart';
+import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong/latlong.dart';
 import 'package:toast/toast.dart';
 
@@ -442,19 +442,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ),
       ),
       floatingActionButton: currentPage == three
-          ? FloatingActionButton.extended(
-              icon: Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 0, 4.0, 0),
-                child: Icon(FontAwesomeIcons.qrcode),
-              ),
-              label: Padding(
-                padding: const EdgeInsets.fromLTRB(4.0, 2.0, 8.0, 2.0),
-                child: Body1Text(
-                  text: "Scan",
-                ),
-              ),
+          ? CustomFAB(
+              icon: FontAwesomeIcons.qrcode,
+              text: "Scan",
               onPressed: scan,
-              backgroundColor: Theme.of(context).accentColor,
             )
           : Container(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
