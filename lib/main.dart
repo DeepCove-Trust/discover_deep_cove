@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hci_v2/util/hex_color.dart';
-import 'package:hci_v2/util/route_generator.dart';
+import 'package:discover_deep_cove/util/hex_color.dart';
+import 'package:discover_deep_cove/util/route_generator.dart';
 
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])

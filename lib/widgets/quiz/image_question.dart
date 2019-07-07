@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hci_v2/data/sample_data_quiz.dart';
-import 'package:hci_v2/widgets/quiz/quiz_image_button.dart';
+import 'package:discover_deep_cove/data/sample_data_quiz.dart';
+import 'package:discover_deep_cove/widgets/quiz/quiz_image_button.dart';
 import 'package:audioplayers/audio_cache.dart';
 
 class ImageQuestion extends StatefulWidget {

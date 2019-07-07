@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hci_v2/util/heading_text.dart';
+import 'package:discover_deep_cove/util/heading_text.dart';
 
 class SettingsButton extends StatelessWidget {
   final IconData icon;

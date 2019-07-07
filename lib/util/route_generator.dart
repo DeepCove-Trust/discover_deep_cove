@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hci_v2/data/sample_data_quiz.dart';
-import 'package:hci_v2/views/activites/count_view.dart';
-import 'package:hci_v2/views/activites/photograph_view.dart';
-import 'package:hci_v2/views/activites/picture_select_view.dart';
-import 'package:hci_v2/views/activites/picture_tap_view.dart';
-import 'package:hci_v2/views/activites/text_answer_view.dart';
-import 'package:hci_v2/views/fact_file/fact_file_details.dart';
-import 'package:hci_v2/views/home.dart';
-import 'package:hci_v2/views/quiz/quiz_questions.dart';
-import 'package:hci_v2/views/quiz/quiz_unlock.dart';
+import 'package:discover_deep_cove/data/sample_data_quiz.dart';
+import 'package:discover_deep_cove/views/activites/count_view.dart';
+import 'package:discover_deep_cove/views/activites/photograph_view.dart';
+import 'package:discover_deep_cove/views/activites/picture_select_view.dart';
+import 'package:discover_deep_cove/views/activites/picture_tap_view.dart';
+import 'package:discover_deep_cove/views/activites/text_answer_view.dart';
+import 'package:discover_deep_cove/views/fact_file/fact_file_details.dart';
+import 'package:discover_deep_cove/views/home.dart';
+import 'package:discover_deep_cove/views/quiz/quiz_questions.dart';
+import 'package:discover_deep_cove/views/quiz/quiz_unlock.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

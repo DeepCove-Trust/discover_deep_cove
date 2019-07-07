@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hci_v2/util/body1_text.dart';
-import 'package:hci_v2/widgets/back_nav_bottom.dart';
+import 'package:discover_deep_cove/util/body1_text.dart';
+import 'package:discover_deep_cove/widgets/back_nav_bottom.dart';
 
 class QuizResult extends StatelessWidget {
   final String name;

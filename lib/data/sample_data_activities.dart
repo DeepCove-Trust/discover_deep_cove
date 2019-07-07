@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:hci_v2/data/sample_data_fact_file.dart';
+import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
 
 /// represents a [track] and all the [activities] that belong to it
 class Track {

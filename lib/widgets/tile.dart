@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hci_v2/data/sample_data_fact_file.dart';
-import 'package:hci_v2/data/sample_data_quiz.dart';
+import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
+import 'package:discover_deep_cove/data/sample_data_quiz.dart';
 
 class Tile extends StatelessWidget {
   final FactFileEntry entry;

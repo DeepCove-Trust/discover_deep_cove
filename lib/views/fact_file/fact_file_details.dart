@@ -2,9 +2,9 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hci_v2/data/sample_data_fact_file.dart';
-import 'package:hci_v2/util/body1_text.dart';
-import 'package:hci_v2/util/heading_text.dart';
+import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
+import 'package:discover_deep_cove/util/body1_text.dart';
+import 'package:discover_deep_cove/util/heading_text.dart';
 
 class FactFilesDetails extends StatefulWidget {
   final FactFileEntry entry;

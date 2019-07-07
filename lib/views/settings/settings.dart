@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hci_v2/util/body1_text.dart';
-import 'package:hci_v2/views/settings/about_tab.dart';
-import 'package:hci_v2/views/settings/settings_tab.dart';
+import 'package:discover_deep_cove/util/body1_text.dart';
+import 'package:discover_deep_cove/views/settings/about_tab.dart';
+import 'package:discover_deep_cove/views/settings/settings_tab.dart';
 
 class Settings extends StatefulWidget {
   @override

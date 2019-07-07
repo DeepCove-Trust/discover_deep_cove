@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hci_v2/data/sample_data_quiz.dart';
-import 'package:hci_v2/util/heading_text.dart';
-import 'package:hci_v2/views/quiz/quiz_result.dart';
-import 'package:hci_v2/widgets/quiz/text_question.dart';
-import 'package:hci_v2/widgets/quiz/image_question.dart';
-import 'package:hci_v2/widgets/quiz/correct_wrong_overlay.dart';
+import 'package:discover_deep_cove/data/sample_data_quiz.dart';
+import 'package:discover_deep_cove/util/heading_text.dart';
+import 'package:discover_deep_cove/views/quiz/quiz_result.dart';
+import 'package:discover_deep_cove/widgets/quiz/text_question.dart';
+import 'package:discover_deep_cove/widgets/quiz/image_question.dart';
+import 'package:discover_deep_cove/widgets/quiz/correct_wrong_overlay.dart';
 
 class QuizQuestions extends StatefulWidget {
   final Quiz quiz;
