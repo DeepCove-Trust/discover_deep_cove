@@ -31,7 +31,7 @@ class _CardOverlayState extends State<CardOverlay> {
               children: <Widget>[
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 400,
+                  height: MediaQuery.of(context).size.width,
                   child: Stack(
                     children: <Widget>[
                       Container(
@@ -46,7 +46,7 @@ class _CardOverlayState extends State<CardOverlay> {
                         children: <Widget>[
                           Container(
                             color: Color.fromARGB(190, 0, 0, 0),
-                            height: 400,
+                            height: MediaQuery.of(context).size.width,
                             width: MediaQuery.of(context).size.width,
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
