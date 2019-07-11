@@ -54,7 +54,7 @@ class _PhotographViewState extends State<PhotographView> {
       );
     } else {
       return const Text(
-        'You have not yet picked an image.',
+        'You have not taken a photo yet.',
         textAlign: TextAlign.center,
       );
     }
