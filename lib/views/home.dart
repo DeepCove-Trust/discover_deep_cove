@@ -75,8 +75,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             builder: (ctx) => Container(
                   child: GestureDetector(
                     onTap: () {
-                      if (activity.activated)
+                      if (activity.activated) {
                         navigateToActivity(activity, true);
+                      } else {
+                        Toast.show(
+                          "Activity is locked, please scan qr-code",
+                          context,
+                          duration: Toast.LENGTH_SHORT,
+                          gravity: Toast.BOTTOM,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          textColor: Colors.black,
+                        );
+                      }
                     },
                     child: Icon(
                       activity.activated
