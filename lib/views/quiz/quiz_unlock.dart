@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/data/sample_data_quiz.dart';
 import 'package:discover_deep_cove/util/body1_text.dart';
 import 'package:discover_deep_cove/util/heading_text.dart';
-import 'package:discover_deep_cove/widgets/back_nav_bottom.dart';
+import 'package:discover_deep_cove/widgets/misc/back_nav_bottom.dart';
 import 'package:toast/toast.dart';
 
 class QuizUnlock extends StatefulWidget {

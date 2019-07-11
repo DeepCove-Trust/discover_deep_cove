@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
 import 'package:discover_deep_cove/util/body1_text.dart';
-import 'package:discover_deep_cove/widgets/tab_page.dart' as tab;
+import 'package:discover_deep_cove/widgets/misc/tab_page.dart' as tab;
 
 class FactFileIndex extends StatefulWidget {
   @override

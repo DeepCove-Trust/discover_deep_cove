@@ -7,7 +7,7 @@ import 'package:discover_deep_cove/data/sample_data_activities.dart';
 import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
 import 'package:discover_deep_cove/util/body1_text.dart';
 import 'package:discover_deep_cove/util/heading_text.dart';
-import 'package:discover_deep_cove/widgets/back_nav_bottom.dart';
+import 'package:discover_deep_cove/widgets/misc/back_nav_bottom.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:toast/toast.dart';
