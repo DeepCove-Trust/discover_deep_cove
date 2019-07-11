@@ -21,7 +21,7 @@ class _TextQuestionState extends State<TextQuestion> {
     return Column(
       children: <Widget>[
         Container(
-          height: 400,
+          height: MediaQuery.of(context).size.width,
           child: Stack(
             children: <Widget>[
               Container(
