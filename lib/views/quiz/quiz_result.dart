@@ -70,6 +70,7 @@ class QuizResult extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Body1Text(
                           text: setMessage(),
+                          align: TextAlign.center,
                         ),
                       ),
                     ],
