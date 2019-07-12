@@ -9,31 +9,36 @@ part of 'fact_file_entry.dart';
 abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
   final id = IntField('id');
   final categoryId = IntField('category_id');
-  final title = StrField('title');
-  final content = StrField('content');
+  final primaryName = StrField('primary_name');
+  final altName = StrField('alt_name');
+  final cardText = StrField('card_text');
+  final bodyText = StrField('body_text');
   final mainImageId = IntField('main_image_id');
-  final pronunciationAudioId = IntField('pronunciation_audio_id');
-  final birdCallAudioId = IntField('bird_call_audio_id');
+  final pronounceAudioId = IntField('pronounce_audio_id');
+  final listenAudioId = IntField('listen_audio_id');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
         categoryId.name: categoryId,
-        title.name: title,
-        content.name: content,
+        primaryName.name: primaryName,
+        altName.name: altName,
+        cardText.name: cardText,
+        bodyText.name: bodyText,
         mainImageId.name: mainImageId,
-        pronunciationAudioId.name: pronunciationAudioId,
-        birdCallAudioId.name: birdCallAudioId,
+        pronounceAudioId.name: pronounceAudioId,
+        listenAudioId.name: listenAudioId,
       };
   FactFileEntry fromMap(Map map) {
     FactFileEntry model = FactFileEntry();
     model.id = adapter.parseValue(map['id']);
     model.categoryId = adapter.parseValue(map['category_id']);
-    model.title = adapter.parseValue(map['title']);
-    model.content = adapter.parseValue(map['content']);
+    model.primaryName = adapter.parseValue(map['primary_name']);
+    model.altName = adapter.parseValue(map['alt_name']);
+    model.cardText = adapter.parseValue(map['card_text']);
+    model.bodyText = adapter.parseValue(map['body_text']);
     model.mainImageId = adapter.parseValue(map['main_image_id']);
-    model.pronunciationAudioId =
-        adapter.parseValue(map['pronunciation_audio_id']);
-    model.birdCallAudioId = adapter.parseValue(map['bird_call_audio_id']);
+    model.pronounceAudioId = adapter.parseValue(map['pronounce_audio_id']);
+    model.listenAudioId = adapter.parseValue(map['listen_audio_id']);
 
     return model;
   }
@@ -45,23 +50,28 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
       ret.add(categoryId.set(model.categoryId));
-      ret.add(title.set(model.title));
-      ret.add(content.set(model.content));
+      ret.add(primaryName.set(model.primaryName));
+      ret.add(altName.set(model.altName));
+      ret.add(cardText.set(model.cardText));
+      ret.add(bodyText.set(model.bodyText));
       ret.add(mainImageId.set(model.mainImageId));
-      ret.add(pronunciationAudioId.set(model.pronunciationAudioId));
-      ret.add(birdCallAudioId.set(model.birdCallAudioId));
+      ret.add(pronounceAudioId.set(model.pronounceAudioId));
+      ret.add(listenAudioId.set(model.listenAudioId));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(categoryId.name))
         ret.add(categoryId.set(model.categoryId));
-      if (only.contains(title.name)) ret.add(title.set(model.title));
-      if (only.contains(content.name)) ret.add(content.set(model.content));
+      if (only.contains(primaryName.name))
+        ret.add(primaryName.set(model.primaryName));
+      if (only.contains(altName.name)) ret.add(altName.set(model.altName));
+      if (only.contains(cardText.name)) ret.add(cardText.set(model.cardText));
+      if (only.contains(bodyText.name)) ret.add(bodyText.set(model.bodyText));
       if (only.contains(mainImageId.name))
         ret.add(mainImageId.set(model.mainImageId));
-      if (only.contains(pronunciationAudioId.name))
-        ret.add(pronunciationAudioId.set(model.pronunciationAudioId));
-      if (only.contains(birdCallAudioId.name))
-        ret.add(birdCallAudioId.set(model.birdCallAudioId));
+      if (only.contains(pronounceAudioId.name))
+        ret.add(pronounceAudioId.set(model.pronounceAudioId));
+      if (only.contains(listenAudioId.name))
+        ret.add(listenAudioId.set(model.listenAudioId));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
@@ -69,20 +79,26 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
       if (model.categoryId != null) {
         ret.add(categoryId.set(model.categoryId));
       }
-      if (model.title != null) {
-        ret.add(title.set(model.title));
+      if (model.primaryName != null) {
+        ret.add(primaryName.set(model.primaryName));
       }
-      if (model.content != null) {
-        ret.add(content.set(model.content));
+      if (model.altName != null) {
+        ret.add(altName.set(model.altName));
+      }
+      if (model.cardText != null) {
+        ret.add(cardText.set(model.cardText));
+      }
+      if (model.bodyText != null) {
+        ret.add(bodyText.set(model.bodyText));
       }
       if (model.mainImageId != null) {
         ret.add(mainImageId.set(model.mainImageId));
       }
-      if (model.pronunciationAudioId != null) {
-        ret.add(pronunciationAudioId.set(model.pronunciationAudioId));
+      if (model.pronounceAudioId != null) {
+        ret.add(pronounceAudioId.set(model.pronounceAudioId));
       }
-      if (model.birdCallAudioId != null) {
-        ret.add(birdCallAudioId.set(model.birdCallAudioId));
+      if (model.listenAudioId != null) {
+        ret.add(listenAudioId.set(model.listenAudioId));
       }
     }
 
@@ -96,17 +112,19 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         foreignTable: factFileCategoryBean.tableName,
         foreignCol: 'id',
         isNullable: false);
-    st.addStr(title.name, isNullable: false);
-    st.addStr(content.name, isNullable: false);
+    st.addStr(primaryName.name, isNullable: false);
+    st.addStr(altName.name, isNullable: false);
+    st.addStr(cardText.name, isNullable: false);
+    st.addStr(bodyText.name, isNullable: false);
     st.addInt(mainImageId.name,
         foreignTable: mediaFileBean.tableName,
         foreignCol: 'id',
         isNullable: false);
-    st.addInt(pronunciationAudioId.name,
+    st.addInt(pronounceAudioId.name,
         foreignTable: mediaFileBean.tableName,
         foreignCol: 'id',
         isNullable: false);
-    st.addInt(birdCallAudioId.name,
+    st.addInt(listenAudioId.name,
         foreignTable: mediaFileBean.tableName,
         foreignCol: 'id',
         isNullable: false);
@@ -126,7 +144,15 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         newModel ??= await find(model.id);
         for (final child in model.galleryImages) {
           await mediaFileBean.insert(child, cascade: cascade);
-          await entryToMediaPivotBean.attach(child, newModel);
+          await factFileEntryImageBean.attach(child, newModel);
+        }
+      }
+      if (model.nuggets != null) {
+        newModel ??= await find(model.id);
+        model.nuggets.forEach(
+            (x) => factFileNuggetBean.associateFactFileEntry(x, newModel));
+        for (final child in model.nuggets) {
+          await factFileNuggetBean.insert(child, cascade: cascade);
         }
       }
     }
@@ -168,7 +194,15 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         newModel ??= await find(model.id);
         for (final child in model.galleryImages) {
           await mediaFileBean.upsert(child, cascade: cascade);
-          await entryToMediaPivotBean.attach(child, newModel, upsert: true);
+          await factFileEntryImageBean.attach(child, newModel, upsert: true);
+        }
+      }
+      if (model.nuggets != null) {
+        newModel ??= await find(model.id);
+        model.nuggets.forEach(
+            (x) => factFileNuggetBean.associateFactFileEntry(x, newModel));
+        for (final child in model.nuggets) {
+          await factFileNuggetBean.upsert(child, cascade: cascade);
         }
       }
     }
@@ -216,6 +250,17 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
               cascade: cascade, associate: associate);
         }
       }
+      if (model.nuggets != null) {
+        if (associate) {
+          newModel ??= await find(model.id);
+          model.nuggets.forEach(
+              (x) => factFileNuggetBean.associateFactFileEntry(x, newModel));
+        }
+        for (final child in model.nuggets) {
+          await factFileNuggetBean.update(child,
+              cascade: cascade, associate: associate);
+        }
+      }
     }
     return ret;
   }
@@ -260,7 +305,8 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     if (cascade) {
       final FactFileEntry newModel = await find(id);
       if (newModel != null) {
-        await entryToMediaPivotBean.detachFactFileEntry(newModel);
+        await factFileEntryImageBean.detachFactFileEntry(newModel);
+        await factFileNuggetBean.removeByFactFileEntry(newModel.id);
       }
     }
     final Remove remove = remover.where(this.id.eq(id));
@@ -314,12 +360,12 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
   }
 
   Future<List<FactFileEntry>> findByMediaFile(
-      int mainImageId, int pronunciationAudioId, int birdCallAudioId,
+      int mainImageId, int pronounceAudioId, int listenAudioId,
       {bool preload = false, bool cascade = false}) async {
     final Find find = finder
         .where(this.mainImageId.eq(mainImageId))
-        .where(this.pronunciationAudioId.eq(pronunciationAudioId))
-        .where(this.birdCallAudioId.eq(birdCallAudioId));
+        .where(this.pronounceAudioId.eq(pronounceAudioId))
+        .where(this.listenAudioId.eq(listenAudioId));
     final List<FactFileEntry> models = await findMany(find);
     if (preload) {
       await this.preloadAll(models, cascade: cascade);
@@ -334,8 +380,8 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     final Find find = finder;
     for (MediaFile model in models) {
       find.or(this.mainImageId.eq(model.id) &
-          this.pronunciationAudioId.eq(model.id) &
-          this.birdCallAudioId.eq(model.id));
+          this.pronounceAudioId.eq(model.id) &
+          this.listenAudioId.eq(model.id));
     }
     final List<FactFileEntry> retModels = await findMany(find);
     if (preload) {
@@ -345,31 +391,33 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
   }
 
   Future<int> removeByMediaFile(
-      int mainImageId, int pronunciationAudioId, int birdCallAudioId) async {
+      int mainImageId, int pronounceAudioId, int listenAudioId) async {
     final Remove rm = remover
         .where(this.mainImageId.eq(mainImageId))
-        .where(this.pronunciationAudioId.eq(pronunciationAudioId))
-        .where(this.birdCallAudioId.eq(birdCallAudioId));
+        .where(this.pronounceAudioId.eq(pronounceAudioId))
+        .where(this.listenAudioId.eq(listenAudioId));
     return await adapter.remove(rm);
   }
 
   void associateMediaFile(FactFileEntry child, MediaFile parent) {
     child.mainImageId = parent.id;
-    child.pronunciationAudioId = parent.id;
-    child.birdCallAudioId = parent.id;
+    child.pronounceAudioId = parent.id;
+    child.listenAudioId = parent.id;
   }
 
   Future<FactFileEntry> preload(FactFileEntry model,
       {bool cascade = false}) async {
     model.galleryImages =
-        await entryToMediaPivotBean.fetchByFactFileEntry(model);
+        await factFileEntryImageBean.fetchByFactFileEntry(model);
+    model.nuggets = await factFileNuggetBean.findByFactFileEntry(model.id,
+        preload: cascade, cascade: cascade);
     return model;
   }
 
   Future<List<FactFileEntry>> preloadAll(List<FactFileEntry> models,
       {bool cascade = false}) async {
     for (FactFileEntry model in models) {
-      var temp = await entryToMediaPivotBean.fetchByFactFileEntry(model);
+      var temp = await factFileEntryImageBean.fetchByFactFileEntry(model);
       if (model.galleryImages == null)
         model.galleryImages = temp;
       else {
@@ -377,11 +425,21 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         model.galleryImages.addAll(temp);
       }
     }
+    models.forEach((FactFileEntry model) => model.nuggets ??= []);
+    await OneToXHelper.preloadAll<FactFileEntry, FactFileNugget>(
+        models,
+        (FactFileEntry model) => [model.id],
+        factFileNuggetBean.findByFactFileEntryList,
+        (FactFileNugget model) => [model.factFileEntryId],
+        (FactFileEntry model, FactFileNugget child) =>
+            model.nuggets = List.from(model.nuggets)..add(child),
+        cascade: cascade);
     return models;
   }
 
-  EntryToMediaPivotBean get entryToMediaPivotBean;
+  FactFileEntryImageBean get factFileEntryImageBean;
 
   MediaFileBean get mediaFileBean;
+  FactFileNuggetBean get factFileNuggetBean;
   FactFileCategoryBean get factFileCategoryBean;
 }

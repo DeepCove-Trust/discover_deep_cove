@@ -4,14 +4,23 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:discover_deep_cove/data/db.dart';
-import 'package:discover_deep_cove/data/models/factfile/entry_media_pivot.dart';
+import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/activity/activity_images.dart';
+import 'package:discover_deep_cove/data/models/activity/track.dart';
+import 'package:discover_deep_cove/data/models/config.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/permissions.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:http/http.dart' as http;
+import 'package:jaguar_orm/jaguar_orm.dart';
 
 /// Facilitates communication between this application, and the CMS server.
 ///
@@ -42,7 +51,6 @@ class SyncProvider {
   }
 
   /// Makes the API get request for the zipped resources on the remote server.
-  ///
   /// Returns the [http.Response] of the request.
   static Future<http.Response> _requestFile() async {
     http.Response response = await http.get(Env.filesSyncUrl);
@@ -74,10 +82,15 @@ class SyncProvider {
     print('JSON data received...');
 
     // Calculate checksum of downloaded data.
-    Digest dataDigest = sha256.convert(Utf8Encoder().convert(jsonString));
+    String downloadHash =
+        sha256.convert(Utf8Encoder().convert(jsonString)).toString();
+    String expectedHash = await _getJsonChecksum();
+
+    print('Calculated hash: $downloadHash');
+    print('Expected hash: $expectedHash');
 
     // Compare with expected checksum from server.
-    if (dataDigest.toString() != await _getJsonChecksum()) {
+    if (downloadHash.toString() != expectedHash) {
       // Retrieved data is corrupted.
       print('JSON data failed integrity check...');
       // TODO: Handle this better?
@@ -114,10 +127,15 @@ class SyncProvider {
     print('Zip file saved to \'${rootDir.path}\'.');
 
     // integrity check
-    Digest fileDigest = sha256.convert(await resourcesZip.readAsBytes());
+    String downloadHash =
+        sha256.convert(await resourcesZip.readAsBytes()).toString();
+    String expectedHash = await _getFileChecksum();
+
+    print('Calculated checksum: $downloadHash');
+    print('Expected checksum: $expectedHash');
 
     // integrity check
-    if (fileDigest.toString() != await _getFileChecksum()) {
+    if (downloadHash != expectedHash) {
       // retrieved file is corrupted
       print('Zip file failed integrity check.');
       //await payload.delete();
@@ -162,55 +180,142 @@ class SyncProvider {
   }
 
   /// Removes the existing database files and builds new database.
+  ///
+  /// Quizzes and activities will only be replaced if the models from the CMS
+  /// have more recent 'lastModified' timestamps. This means that user inputs
+  /// and scores will be retained for unmodified quizzes/activities.
   static Future<bool> _rebuildDatabase(Map<String, dynamic> data) async {
-    // Establish the path to the database file
-    File dbFile = File(await Env.dbPath);
 
-    // Remove database file if it exists
-    if (dbFile.existsSync()) {
-      // Disconnect the database adaptor before deleting database.
-      await DB.instance.adapter
-        ..close();
-      // Reset the adaptor so that database will be recreated upon next
-      // retrieval of [DBProvider.db.adapter].
-      DB.instance.resetAdapter();
-      print('Removing existing database file...');
-      dbFile.deleteSync();
-    }
-
-    // Below code causes new database file to be created.
+    // Below code causes new database file to be created if it doesn't exist.
     SqfliteAdapter adapter = await DB.instance.adapter;
 
-    FactFileCategoryBean factFileCategoryBean = FactFileCategoryBean(adapter);
-    FactFileEntryBean factFileEntryBean = FactFileEntryBean(adapter);
+
     MediaFileBean mediaFileBean = MediaFileBean(adapter);
-    EntryToMediaPivotBean entryToMediaPivotBean =
-        EntryToMediaPivotBean(adapter);
-
-    // Create database tables
-    mediaFileBean.createTable();
-    factFileCategoryBean.createTable();
-    factFileEntryBean.createTable();
-    entryToMediaPivotBean.createTable();
-
-    // Insert all media files from JSON
-    for (Map<String, dynamic> map in data['media_files']) {
+    await mediaFileBean.drop();
+    await mediaFileBean.createTable();
+    for (Map<String, dynamic> map in data['mediaFiles']) {
       mediaFileBean.insert(mediaFileBean.fromMap(map));
     }
 
-    // Insert all categories from JSON
-    for (Map<String, dynamic> map in data['categories']) {
-      factFileCategoryBean.insert(factFileCategoryBean.fromMap(map));
+    FactFileCategoryBean factFileCategoryBean = FactFileCategoryBean(adapter);
+    await factFileCategoryBean.drop();
+    await factFileCategoryBean.createTable();
+    for (Map<String, dynamic> map in data['factFileCategories']) {
+      await factFileCategoryBean.insert(factFileCategoryBean.fromMap(map));
     }
 
-    // Insert all entries from JSON
-    for (Map<String, dynamic> map in data['entries']) {
-      factFileEntryBean.insert(factFileEntryBean.fromMap(map));
+    FactFileEntryBean factFileEntryBean = FactFileEntryBean(adapter);
+    await factFileEntryBean.drop();
+    await factFileEntryBean.createTable();
+    for (Map<String, dynamic> map in data['factFileEntries']) {
+      await factFileEntryBean.insert(factFileEntryBean.fromMap(map));
     }
 
-    // Insert all entry_images from JSON
-    for(Map<String, dynamic> map in data['entry_images']){
-      entryToMediaPivotBean.insert(entryToMediaPivotBean.fromMap(map));
+    FactFileEntryImageBean factFileEntryImageBean = FactFileEntryImageBean(adapter);
+    await factFileEntryImageBean.drop();
+    await factFileEntryImageBean.createTable();
+    for(Map<String, dynamic> map in data['factFileEntryImages']){
+      await factFileEntryImageBean.insert(factFileEntryImageBean.fromMap(map));
+    }
+
+    FactFileNuggetBean factFileNuggetBean = FactFileNuggetBean(adapter);
+    await factFileNuggetBean.drop();
+    await factFileNuggetBean.createTable();
+    for(Map<String, dynamic> map in data['factFileNuggets']){
+      await factFileNuggetBean.insert(factFileNuggetBean.fromMap(map));
+    }
+
+    TrackBean trackBean = TrackBean(adapter);
+    await trackBean.drop();
+    await trackBean.createTable();
+    for(Map<String, dynamic> map in data['tracks']){
+      await trackBean.insert(trackBean.fromMap(map));
+    }
+
+    // Only replace activity if it has been modified.
+    // This means user inputs will be retained where appropriate.
+    ActivityBean activityBean = ActivityBean(adapter);
+    await activityBean.createTable(ifNotExists: true);
+    for(Map<String, dynamic> map in data['activities']){
+
+      // The activity retrieved from the CMS.
+      Activity newActivity = activityBean.fromMap(map);
+
+      // The activity already in the database.
+      Activity oldActivity = await activityBean.find(newActivity.id);
+
+      // If the new activity doesn't exist, create it.
+      if(oldActivity == null){
+        await activityBean.insert(newActivity);
+        print("Activity created");
+        continue;
+      }
+
+      // If the activity has been modified, replace it with the newer
+      // version.
+      if(oldActivity.lastModified.isBefore(newActivity.lastModified)){
+        await activityBean.remove(newActivity.id);
+        await activityBean.insert(newActivity);
+        print("Activity updated");
+        continue;
+      }
+
+      print("Activity unmodified");
+    }
+
+    ActivityImageBean activityImageBean = ActivityImageBean(adapter);
+    await activityImageBean.drop();
+    await activityImageBean.createTable();
+    for(Map<String, dynamic> map in data['activityImages']){
+      await activityImageBean.insert(activityImageBean.fromMap(map));
+    }
+
+    QuizBean quizBean = QuizBean(adapter);
+    await quizBean.createTable(ifNotExists: true);
+    for(Map<String, dynamic> map in data['quizzes']){
+
+      Quiz newQuiz = quizBean.fromMap(map);
+      Quiz oldQuiz = await quizBean.find(newQuiz.id);
+
+      // Insert new quiz if it doesn't already exist in database.
+      if(oldQuiz == null){
+        quizBean.insert(newQuiz);
+        print("Quiz inserted");
+        continue;
+      }
+
+      // Replace quiz if the CMS provided a newer version.
+      // This will remove user scores for this quiz.
+      if(oldQuiz.lastModified.isBefore(newQuiz.lastModified)){
+        await quizBean.remove(newQuiz.id);
+        await quizBean.insert(newQuiz);
+        print("Quiz updated.");
+        continue;
+      }
+
+      print("Quiz unmodified");
+
+    }
+
+    QuizQuestionBean quizQuestionBean = QuizQuestionBean(adapter);
+    await quizQuestionBean.drop();
+    await quizQuestionBean.createTable();
+    for(Map<String, dynamic> map in data['quizQuestions']){
+      await quizQuestionBean.insert(quizQuestionBean.fromMap(map));
+    }
+
+    QuizAnswerBean quizAnswerBean = QuizAnswerBean(adapter);
+    await quizAnswerBean.drop();
+    await quizAnswerBean.createTable();
+    for(Map<String, dynamic> map in data['quizAnswers']){
+      await quizAnswerBean.insert(quizAnswerBean.fromMap(map));
+    }
+
+    ConfigBean configBean = ConfigBean(adapter);
+    await configBean.drop();
+    await configBean.createTable();
+    for(Map<String, dynamic> map in data['config']){
+      await configBean.insert(configBean.fromMap(map));
     }
 
     return true;
