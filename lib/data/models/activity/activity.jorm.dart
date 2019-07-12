@@ -8,6 +8,7 @@ part of 'activity.dart';
 
 abstract class _ActivityBean implements Bean<Activity> {
   final id = IntField('id');
+  final lastModified = DateTimeField('last_modified');
   final trackId = IntField('track_id');
   final activityType = IntField('activity_type');
   final qrCode = StrField('qr_code');
@@ -26,6 +27,7 @@ abstract class _ActivityBean implements Bean<Activity> {
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
+        lastModified.name: lastModified,
         trackId.name: trackId,
         activityType.name: activityType,
         qrCode.name: qrCode,
@@ -45,6 +47,7 @@ abstract class _ActivityBean implements Bean<Activity> {
   Activity fromMap(Map map) {
     Activity model = Activity();
     model.id = adapter.parseValue(map['id']);
+    model.lastModified = adapter.parseValue(map['last_modified']);
     model.trackId = adapter.parseValue(map['track_id']);
     model.activityType = adapter.parseValue(map['activity_type']);
     model.qrCode = adapter.parseValue(map['qr_code']);
@@ -70,6 +73,7 @@ abstract class _ActivityBean implements Bean<Activity> {
 
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
+      ret.add(lastModified.set(model.lastModified));
       ret.add(trackId.set(model.trackId));
       ret.add(activityType.set(model.activityType));
       ret.add(qrCode.set(model.qrCode));
@@ -87,6 +91,8 @@ abstract class _ActivityBean implements Bean<Activity> {
       ret.add(userText.set(model.userText));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
+      if (only.contains(lastModified.name))
+        ret.add(lastModified.set(model.lastModified));
       if (only.contains(trackId.name)) ret.add(trackId.set(model.trackId));
       if (only.contains(activityType.name))
         ret.add(activityType.set(model.activityType));
@@ -112,6 +118,9 @@ abstract class _ActivityBean implements Bean<Activity> {
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
+      }
+      if (model.lastModified != null) {
+        ret.add(lastModified.set(model.lastModified));
       }
       if (model.trackId != null) {
         ret.add(trackId.set(model.trackId));
@@ -166,6 +175,7 @@ abstract class _ActivityBean implements Bean<Activity> {
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
+    st.addDateTime(lastModified.name, isNullable: false);
     st.addInt(trackId.name,
         foreignTable: trackBean.tableName, foreignCol: 'id', isNullable: false);
     st.addInt(activityType.name, isNullable: false);
