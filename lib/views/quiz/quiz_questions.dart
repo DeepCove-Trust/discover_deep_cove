@@ -106,7 +106,6 @@ class _QuizQuestionsState extends State<QuizQuestions> {
     //if (widget.quiz.questions[index].answers != null) widget.quiz.questions[index].answers.shuffle();
 
     if (index == widget.quiz.questions.length) {
-      setState(() =>  appbarVisible = false);
       bool newHighscore = score > widget.quiz.highScore;
 
       if (score > widget.quiz.highScore) widget.quiz.highScore = score;
@@ -118,6 +117,8 @@ class _QuizQuestionsState extends State<QuizQuestions> {
         highscore: newHighscore,
       );
     } else if (widget.quiz.questions[index].image != null) {
+      if(widget.quiz.questions.length - index == 1) setState(() =>  appbarVisible = false);
+
       return TextQuestion(
         question: widget.quiz.questions[index],
         onTaps: [
@@ -128,6 +129,8 @@ class _QuizQuestionsState extends State<QuizQuestions> {
         ],
       );
     } else {
+      if(widget.quiz.questions.length - index == 1) setState(() =>  appbarVisible = false);
+
       return ImageQuestion(
         question: widget.quiz.questions[index],
         onTaps: [
