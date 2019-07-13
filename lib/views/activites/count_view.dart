@@ -127,21 +127,22 @@ class _CountViewState extends State<CountView> {
                     ],
                   ),
                 ),
-          widget.fromMap
-              ? Padding(
-                  padding:
-                      const EdgeInsets.only(left:20.0, right: 20.0, top: 40.0),
-                  child: Text(
-                    "To edit your answer, re-scan the QR code.",
-                    style: Theme.of(context).textTheme.body1.copyWith(
-                          color: Color(0xFF777777),
-                        ),
-                  ),
-                )
-              : Container(),
           Expanded(child: Container()),
           widget.fromMap
-              ? BackNavBottom()
+              ? Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        "To edit your answer, re-scan the QR code.",
+                        style: Theme.of(context).textTheme.body1.copyWith(
+                              color: Color(0xFF777777),
+                            ),
+                      ),
+                    ),
+                    BackNavBottom(),
+                  ],
+                )
               : Container(
                   width: MediaQuery.of(context).size.width,
                   color: Theme.of(context).primaryColorDark,

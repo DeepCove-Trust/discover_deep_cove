@@ -30,7 +30,6 @@ class _PhotographViewState extends State<PhotographView> {
   dynamic _pickImageError;
   String _retrieveDataError;
 
-  
   void _onImageButtonPressed(ImageSource source) async {
     try {
       _imageFile = await ImagePicker.pickImage(source: source);
@@ -73,8 +72,6 @@ class _PhotographViewState extends State<PhotographView> {
       _retrieveDataError = response.exception.code;
     }
   }
-
-  
 
   Text _getRetrieveErrorWidget() {
     if (_retrieveDataError != null) {
@@ -169,19 +166,20 @@ class _PhotographViewState extends State<PhotographView> {
                 ),
           Expanded(child: Container()),
           widget.fromMap
-              ? Padding(
-                  padding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 0.0),
-                  child: Text(
-                    "To edit your answer, re-scan the QR code.",
-                    style: Theme.of(context).textTheme.body1.copyWith(
-                          color: Color(0xFF777777),
-                        ),
-                  ),
+              ? Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        "To edit your answer, re-scan the QR code.",
+                        style: Theme.of(context).textTheme.body1.copyWith(
+                              color: Color(0xFF777777),
+                            ),
+                      ),
+                    ),
+                    BackNavBottom(),
+                  ],
                 )
-              : Container(),
-          Expanded(child: Container()),
-          widget.fromMap
-              ? BackNavBottom()
               : Container(
                   width: MediaQuery.of(context).size.width,
                   color: Theme.of(context).primaryColorDark,

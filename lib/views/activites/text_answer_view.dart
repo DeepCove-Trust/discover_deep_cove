@@ -96,22 +96,24 @@ class _TextAnswerViewState extends State<TextAnswerView> {
                           ),
                         ),
                       ),
-                widget.fromMap
-                    ? Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text(
-                          "To edit your answer, re-scan the QR code.",
-                          style: Theme.of(context).textTheme.body1.copyWith(
-                                color: Color(0xFF777777),
-                              ),
-                        ),
-                      )
-                    : Container(),
               ],
             ),
           ),
           widget.fromMap
-              ? BackNavBottom()
+              ? Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        "To edit your answer, re-scan the QR code.",
+                        style: Theme.of(context).textTheme.body1.copyWith(
+                              color: Color(0xFF777777),
+                            ),
+                      ),
+                    ),
+                    BackNavBottom(),
+                  ],
+                )
               : Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[

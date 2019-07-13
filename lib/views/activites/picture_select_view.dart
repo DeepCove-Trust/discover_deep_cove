@@ -133,58 +133,64 @@ class _PictureSelectViewState extends State<PictureSelectView> {
                     ),
                   ),
                 ),
-          widget.fromMap ?  Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text(
-              "To edit your answer, re-scan the QR code.",
-              style: Theme.of(context).textTheme.body1.copyWith(
-                    color: Color(0xFF777777),
-                  ),
-            ),
-          ) : Container(),
           Expanded(child: Container()),
-          widget.fromMap ?  BackNavBottom() : Container(
-            width: MediaQuery.of(context).size.width,
-            color: Theme.of(context).primaryColorDark,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: OutlineButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    borderSide: BorderSide(color: Color(0xFF777777)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
+          widget.fromMap
+              ? Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        "To edit your answer, re-scan the QR code.",
+                        style: Theme.of(context).textTheme.body1.copyWith(
+                              color: Color(0xFF777777),
+                            ),
+                      ),
                     ),
-                    child: Body1Text(
-                      text: "Pass",
-                    ),
+                    BackNavBottom(),
+                  ],
+                )
+              : Container(
+                  width: MediaQuery.of(context).size.width,
+                  color: Theme.of(context).primaryColorDark,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: OutlineButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          borderSide: BorderSide(color: Color(0xFF777777)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: Body1Text(
+                            text: "Pass",
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: OutlineButton(
+                          onPressed: () {
+                            widget.activity.selectedPicture =
+                                widget.activity.pictureOptions[photoIndex];
+                            widget.activity.activated = true;
+                            Navigator.of(context).pop();
+                          },
+                          borderSide: BorderSide(color: Color(0xFF777777)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: Body1Text(
+                            text: "Save",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: OutlineButton(
-                    onPressed: () {
-                      widget.activity.selectedPicture =
-                          widget.activity.pictureOptions[photoIndex];
-                          widget.activity.activated = true;
-                      Navigator.of(context).pop();
-                    },
-                    borderSide: BorderSide(color: Color(0xFF777777)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: Body1Text(
-                      text: "Save",
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
       backgroundColor: Theme.of(context).backgroundColor,
