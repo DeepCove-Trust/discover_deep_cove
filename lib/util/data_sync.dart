@@ -275,6 +275,7 @@ class SyncProvider {
     for(Map<String, dynamic> map in data['quizzes']){
 
       Quiz newQuiz = quizBean.fromMap(map);
+      newQuiz.unlocked = map['unlock_code'] == null;
       Quiz oldQuiz = await quizBean.find(newQuiz.id);
 
       // Insert new quiz if it doesn't already exist in database.

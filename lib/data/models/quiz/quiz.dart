@@ -15,15 +15,15 @@ class Quiz {
 
   // todo: wait for jaguar to support default values
   @Column(name: 'unlocked', isNullable: true)
-  bool _unlocked;
+  bool unlocked;
 
   /// Returns true if the quiz is unlocked. This also takes into consideration
   /// whether there is an unlock code set (quiz is unlocked by default if no
   /// unlock code is set).
-  @IgnoreColumn()
-  bool get unlocked => unlockCode == null ? true : (_unlocked ?? false);
+//  @IgnoreColumn()
+//  bool get unlocked => unlockCode == null ? true : (_unlocked ?? false);
 
-  @Column()
+  @Column(isNullable: true)
   String unlockCode;
 
   @Column()
@@ -40,6 +40,9 @@ class Quiz {
 
   @BelongsTo(MediaFileBean, isNullable: true)
   int imageId;
+
+  @IgnoreColumn()
+  MediaFile image; // TODO: Add method to preload this.
 }
 
 @GenBean()
@@ -54,4 +57,19 @@ class QuizBean extends Bean<Quiz> with _QuizBean {
   MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
 
   final String tableName = 'quizzes';
+
+  Future<List<Quiz>> findWhereAndPreload(
+      /* Expression | ExpressionMaker<ModelType> */ where) async {
+    if (where is ExpressionMaker<Quiz>) where = where(this);
+    List<Quiz> quizzes = await findWhere(where);
+
+    for(Quiz quiz in quizzes){
+      quiz.image = await _mediaFileBean.find(quiz.imageId);
+    }
+
+    return quizzes;
+
+  }
+
+
 }
