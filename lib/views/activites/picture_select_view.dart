@@ -86,11 +86,10 @@ class _PictureSelectViewState extends State<PictureSelectView> {
                       onPressed: previousImage,
                       color: Colors.white,
                     ),
-                    //TODO consider using page view
                     Column(
                       children: <Widget>[
                         Container(
-                          height: (MediaQuery.of(context).size.width / 4) * 3,
+                          height: (MediaQuery.of(context).size.height / 100) * 38.68,
                           width: (MediaQuery.of(context).size.width / 4) * 3,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
@@ -123,7 +122,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
                   ],
                 )
               : Container(
-                  height: (MediaQuery.of(context).size.width / 4) * 3,
+                 height: (MediaQuery.of(context).size.height / 100) * 38.68,
                   width: (MediaQuery.of(context).size.width / 4) * 3,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),

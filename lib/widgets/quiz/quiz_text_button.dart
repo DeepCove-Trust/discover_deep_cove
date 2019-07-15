@@ -13,7 +13,7 @@ class QuizTextButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: MediaQuery.of(context).size.width / 2.5,
-        height: (MediaQuery.of(context).size.width / 2.5) / 1.5,
+        height: (MediaQuery.of(context).size.height / 100) * 13.5,
         child: Center(
           child: HeadingText(
             text: text,

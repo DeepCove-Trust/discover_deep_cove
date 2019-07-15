@@ -12,7 +12,7 @@ class FactFilesDetails extends StatefulWidget {
   static final AudioCache callPlayer = new AudioCache();
   static final AudioCache pronunciationsPlayer = new AudioCache();
 
-  ///Takes in a [FactFileEntry] and a [String]and returns the view 
+  ///Takes in a [FactFileEntry] and a [String]and returns the view
   FactFilesDetails({this.entry, this.heroTag});
 
   @override
@@ -34,7 +34,7 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
             Column(
               children: <Widget>[
                 SizedBox(
-                  height: MediaQuery.of(context).size.width,
+                  height: (MediaQuery.of(context).size.height / 100) * 51.58,
                   width: MediaQuery.of(context).size.width,
                   child: Carousel(
                     boxFit: BoxFit.fill,
@@ -75,52 +75,58 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            widget.entry.pronunciationAudio != null ? OutlineButton.icon(
-                              onPressed: () {
-                                FactFilesDetails.pronunciationsPlayer.play(
-                                  widget.entry.pronunciationAudio.path
-                                      .substring(
-                                    widget.entry.pronunciationAudio.path
-                                            .indexOf('/') +
-                                        1,
-                                  ),
-                                );
-                              },
-                              label: Text(
-                                "Pronounce",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              borderSide:
-                                  BorderSide(color: Colors.white, width: 0.5),
-                              icon: Icon(
-                                FontAwesomeIcons.volumeUp,
-                                color: Colors.white,
-                              ),
-                            ) : Container(),
-                            widget.entry.birdCallAudio != null ? OutlineButton.icon(
-                              onPressed: () {
-                                FactFilesDetails.callPlayer.play(
-                                  widget.entry.birdCallAudio.path.substring(
-                                      widget.entry.birdCallAudio.path
-                                              .indexOf('/') +
-                                          1),
-                                );
-                              },
-                              label: Text(
-                                "Listen",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              borderSide:
-                                  BorderSide(color: Colors.white, width: 0.5),
-                              icon: Icon(
-                                FontAwesomeIcons.music,
-                                color: Colors.white,
-                              ),
-                            ) : Container(),
+                            widget.entry.pronunciationAudio != null
+                                ? OutlineButton.icon(
+                                    onPressed: () {
+                                      FactFilesDetails.pronunciationsPlayer
+                                          .play(
+                                        widget.entry.pronunciationAudio.path
+                                            .substring(
+                                          widget.entry.pronunciationAudio.path
+                                                  .indexOf('/') +
+                                              1,
+                                        ),
+                                      );
+                                    },
+                                    label: Text(
+                                      "Pronounce",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    borderSide: BorderSide(
+                                        color: Colors.white, width: 0.5),
+                                    icon: Icon(
+                                      FontAwesomeIcons.volumeUp,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : Container(),
+                            widget.entry.birdCallAudio != null
+                                ? OutlineButton.icon(
+                                    onPressed: () {
+                                      FactFilesDetails.callPlayer.play(
+                                        widget.entry.birdCallAudio.path
+                                            .substring(widget
+                                                    .entry.birdCallAudio.path
+                                                    .indexOf('/') +
+                                                1),
+                                      );
+                                    },
+                                    label: Text(
+                                      "Listen",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    borderSide: BorderSide(
+                                        color: Colors.white, width: 0.5),
+                                    icon: Icon(
+                                      FontAwesomeIcons.music,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : Container(),
                           ],
                         ),
                       ),
@@ -137,7 +143,7 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
                     text: widget.entry.description,
                   ),
                   SizedBox(
-                    height: (MediaQuery.of(context).size.width / 10) * 1,
+                    height: (MediaQuery.of(context).size.height / 100) * 2.5,
                   ),
                   Body1Text(
                     text: widget.entry.content,

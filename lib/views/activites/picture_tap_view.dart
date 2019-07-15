@@ -74,7 +74,8 @@ class _PictureTapViewState extends State<PictureTapView> {
                   fit: StackFit.loose,
                   children: <Widget>[
                     Container(
-                      height: MediaQuery.of(context).size.width,
+                      height:
+                          (MediaQuery.of(context).size.height / 100) * 51.58,
                       child: Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -89,7 +90,8 @@ class _PictureTapViewState extends State<PictureTapView> {
                       children: <Widget>[
                         Container(
                           color: Color.fromARGB(190, 0, 0, 0),
-                          height: (MediaQuery.of(context).size.width / 10) * 1,
+                          height:
+                              (MediaQuery.of(context).size.height / 100) * 5,
                           width: MediaQuery.of(context).size.width,
                           child: Center(
                             child: Padding(
@@ -137,7 +139,8 @@ class _PictureTapViewState extends State<PictureTapView> {
                       onTapDown: _handleTap,
                       child: Container(
                         key: _keyImage,
-                        height: MediaQuery.of(context).size.width,
+                        height:
+                            (MediaQuery.of(context).size.height / 100) * 51.58,
                         child: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(

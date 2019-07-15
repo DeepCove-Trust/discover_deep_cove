@@ -23,7 +23,7 @@ class _QuizIndexState extends State<QuizIndex> {
     return false;
   }
 
-  ///Builds the Quiz [tiles] if the quiz is unlocked or allows the user to unlock quizzes if 
+  ///Builds the Quiz [tiles] if the quiz is unlocked or allows the user to unlock quizzes if
   ///there is none
   List<Tile> _buildGridCards(int count, BuildContext context) {
     List<Tile> cards = List();
@@ -42,7 +42,7 @@ class _QuizIndexState extends State<QuizIndex> {
             },
             quiz: quiz,
             hero: uuid.v4(),
-            height: (MediaQuery.of(context).size.width / 10) * 2,
+            height: (MediaQuery.of(context).size.height / 100) * 10,
           ),
         );
       }
@@ -78,7 +78,7 @@ class _QuizIndexState extends State<QuizIndex> {
                     ),
                   ),
                   SizedBox(
-                    height: (MediaQuery.of(context).size.width / 10) * 3.5,
+                    height: (MediaQuery.of(context).size.height / 100) * 20,
                   ),
                   Transform.scale(
                     scale: 1.5,

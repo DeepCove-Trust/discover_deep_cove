@@ -58,12 +58,13 @@ class _TextAnswerViewState extends State<TextAnswerView> {
                         )
                       : SizedBox(
                           height:
-                              (MediaQuery.of(context).size.width / 10) * 0.5),
+                              (MediaQuery.of(context).size.height / 100) * 2.5,
+                        ),
                 ),
                 widget.fromMap
                     ? Container(
                         width: (MediaQuery.of(context).size.width / 4) * 3.5,
-                        height: (MediaQuery.of(context).size.width / 4) * 2.5,
+                        height: (MediaQuery.of(context).size.height / 100) * 38,
                         decoration: BoxDecoration(
                           border: Border.all(
                             width: 1.0,
@@ -83,7 +84,7 @@ class _TextAnswerViewState extends State<TextAnswerView> {
                         borderRadius: BorderRadius.circular(10.0),
                         child: Container(
                           width: (MediaQuery.of(context).size.width / 4) * 3.5,
-                          height: (MediaQuery.of(context).size.width / 4) * 2.5,
+                          height: (MediaQuery.of(context).size.height / 100) * 38,
                           color: Colors.white,
                           child: TextField(
                             keyboardType: TextInputType.multiline,
