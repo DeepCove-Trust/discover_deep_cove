@@ -4,7 +4,7 @@ import 'package:discover_deep_cove/views/fact_file/fact_file_details.dart';
 import 'package:discover_deep_cove/widgets/fact_file/card_overlay.dart';
 import 'package:uuid/uuid.dart';
 
-import 'tile.dart';
+import 'package:discover_deep_cove/widgets/misc/tile.dart';
 
 class TabPage extends StatefulWidget {
   final List<FactFileEntry> entries;

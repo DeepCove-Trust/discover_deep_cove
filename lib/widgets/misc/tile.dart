@@ -1,6 +1,8 @@
+import 'dart:io';
+
+import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
-import 'package:discover_deep_cove/data/sample_data_quiz.dart';
 
 class Tile extends StatelessWidget {
   final FactFileEntry entry;
@@ -34,9 +36,9 @@ class Tile extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(quiz == null
+                        image: FileImage(File(quiz == null
                             ? entry.mainImage.path
-                            : quiz.image.path),
+                            : quiz.image.path)),
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -65,7 +67,8 @@ class Tile extends StatelessWidget {
                                   children: <Widget>[
                                     Text(
                                       quiz.title,
-                                      style: Theme.of(context).textTheme.headline,
+                                      style:
+                                          Theme.of(context).textTheme.headline,
                                       softWrap: false,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
