@@ -1,7 +1,6 @@
 import 'package:discover_deep_cove/data/db.dart';
 import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/data_sync.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/route_generator.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,8 @@ void main() async {
   // Initialize the env singleton
   await DotEnv().load('.env');
 
-//  await SyncProvider.syncResources();
+  // Preload directories for env
+  await Env.load();
 
   // Force portrait orientation
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

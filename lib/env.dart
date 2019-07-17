@@ -11,6 +11,14 @@ class Env {
   // There inclusion here means that we can use intellisense when
   // referring to them in code, via the [Env] class.
 
+  static Future<void> load() async {
+    Directory dir = debugStorageMode
+        ? await getExternalStorageDirectory()
+        : await getApplicationDocumentsDirectory();
+
+    _rootStorageDirPath = join(dir.path, 'discover_deep_cove');
+  }
+
   static String get appName => DotEnv().env['appName'];
 
   /// API access token
@@ -45,6 +53,8 @@ class Env {
   /// used. ** Setting to true will break app for iOS. Turn off for release.
   static bool get debugStorageMode =>
       DotEnv().env['debugStorageMode'].toLowerCase() == 'true';
+
+  static String _rootStorageDirPath;
 
   /// Relative path of the database file, from the applications root
   /// storage directory.
@@ -81,27 +91,20 @@ class Env {
     return _cmsUrl + _filesHashUrl + '?token=' + _accessToken;
   }
 
-  /// Returns the root storage directory for application files.
-  static Future<String> get rootStorageDirPath async {
-    Directory dir = debugStorageMode
-        ? await getExternalStorageDirectory()
-        : getApplicationDocumentsDirectory();
-
-    return join(dir.path, 'discover_deep_cove');
-  }
+  static String get rootStorageDirPath => _rootStorageDirPath;
 
   /// Returns the path to the database file.
-  static Future<String> get dbPath async =>
-      join(await rootStorageDirPath, _dbPath);
+  static String get dbPath  =>
+      join(_rootStorageDirPath, _dbPath);
 
   /// Returns the path to the resources directory.
-  static Future<String> get resourcesPath async =>
-      join(await rootStorageDirPath, _resourcesPath);
+  static String get resourcesPath =>
+      join(_rootStorageDirPath, _resourcesPath);
 
   /// Returns the absolute path to a resource file, given the relative
   /// path from the applications root storage directory.
-  static Future<String> getResource(String relativePath) async {
-    String rootPath = await resourcesPath;
+  static String getResource(String relativePath) {
+    String rootPath = resourcesPath;
     return join(rootPath, relativePath);
   }
 }

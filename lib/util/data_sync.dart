@@ -70,6 +70,7 @@ class SyncProvider {
       throw Exception('API error. Response status ${response.statusCode}');
       // TODO: make this better
     }
+    print(response.body);
     return response.body;
   }
 
@@ -114,7 +115,7 @@ class SyncProvider {
   /// file passes the integrity check.
   static Future<File> _downloadZipFile() async {
     // get the resources directory
-    Directory rootDir = Directory(await Env.rootStorageDirPath);
+    Directory rootDir = Directory(Env.rootStorageDirPath);
 
     print('Requesting zip file from server.');
 
