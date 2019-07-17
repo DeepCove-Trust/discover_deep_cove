@@ -1,3 +1,4 @@
+import 'package:discover_deep_cove/util/data_sync.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class _SettingsTabState extends State<SettingsTab> {
         SettingsButton(
           icon: FontAwesomeIcons.sync,
           text: "Check for updates",
-          onTap: () {},
+          onTap: handleSync,
         ),
         Divider(color: Color(0xFF777777)),
         SettingsButton(
@@ -39,7 +40,12 @@ class _SettingsTabState extends State<SettingsTab> {
     );
   }
 
+  handleSync() async {
+    await SyncProvider.syncResources();
+  }
+
   handleTap() {
+    // TODO: This code should be moved elsewhere
     confirmReset(context).then((bool result) {
       if (result) {
         ///Sets all [quizzes] to locked and sets [highscore] and [attempts] to 0
