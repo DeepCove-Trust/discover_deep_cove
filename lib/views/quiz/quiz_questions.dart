@@ -57,22 +57,24 @@ class _QuizQuestionsState extends State<QuizQuestions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appbarVisible ? AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: HeadingText(
-          text:widget.quiz.title,
-        ),
-        centerTitle: true,
-        leading: Container(),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: HeadingText(
-              text:"${index + 1}/${widget.quiz.questions.length}",
-            ),
-          ),
-        ],
-      ) : null,
+      appBar: appbarVisible
+          ? AppBar(
+              backgroundColor: Theme.of(context).primaryColor,
+              title: HeadingText(
+                text: widget.quiz.title,
+              ),
+              centerTitle: true,
+              leading: Container(),
+              actions: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: HeadingText(
+                    text: "${index + 1}/${widget.quiz.questions.length}",
+                  ),
+                ),
+              ],
+            )
+          : null,
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -106,7 +108,6 @@ class _QuizQuestionsState extends State<QuizQuestions> {
     //if (widget.quiz.questions[index].answers != null) widget.quiz.questions[index].answers.shuffle();
 
     if (index == widget.quiz.questions.length) {
-      setState(() =>  appbarVisible = false);
       bool newHighscore = score > widget.quiz.highScore;
 
       if (score > widget.quiz.highScore) widget.quiz.highScore = score;
@@ -118,6 +119,10 @@ class _QuizQuestionsState extends State<QuizQuestions> {
         highscore: newHighscore,
       );
     } else if (widget.quiz.questions[index].image != null) {
+      //TODO: Verify that the appbar is hiding correctly
+      if (widget.quiz.questions.length - index == 1)
+        setState(() => appbarVisible = false);
+
       return TextQuestion(
         question: widget.quiz.questions[index],
         onTaps: [
@@ -128,6 +133,9 @@ class _QuizQuestionsState extends State<QuizQuestions> {
         ],
       );
     } else {
+      if (widget.quiz.questions.length - index == 1)
+        setState(() => appbarVisible = false);
+
       return ImageQuestion(
         question: widget.quiz.questions[index],
         onTaps: [
