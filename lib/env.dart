@@ -34,12 +34,19 @@ class Env {
   /// by the [_dataSyncUrl] request.
   static String get _dataHashUrl => DotEnv().env['dataHashUrl'];
 
+  /// API URL for getting the remote database version, before downloading.
+  static String get _dataVersionUrl => DotEnv().env['dataVersionUrl'];
+
   /// API URL for retrieving zipped application files (images/audio)
   static String get _filesSyncUrl => DotEnv().env['filesSyncUrl'];
 
   /// API URL for retrieving the SHA256 hash of the zipped file retrieved by
   /// the [_filesSyncUrl] request.
   static String get _filesHashUrl => DotEnv().env['filesHashUrl'];
+
+  /// API URL for getting the remote files version before committing to
+  /// download.
+  static String get _versionsUrl => DotEnv().env['versionsUrl'];
 
   //-------------------------------- PATHS  ------------------------------------
 
@@ -89,6 +96,13 @@ class Env {
   /// file downloaded by the [filesSyncUrl] request.
   static String get filesHashUrl {
     return _cmsUrl + _filesHashUrl + '?token=' + _accessToken;
+  }
+
+  /// Returns the full URL for retrieving the remote data/files versions.
+  /// This means the application can avoid downloading data/files that it
+  /// already has.
+  static String get versionsUrl {
+    return _cmsUrl + _versionsUrl + '?token=' + _accessToken;
   }
 
   static String get rootStorageDirPath => _rootStorageDirPath;

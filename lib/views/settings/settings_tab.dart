@@ -41,7 +41,7 @@ class _SettingsTabState extends State<SettingsTab> {
   }
 
   handleSync() async {
-    await SyncProvider.syncResources();
+    //await SyncProvider.syncResources();
   }
 
   handleTap() {

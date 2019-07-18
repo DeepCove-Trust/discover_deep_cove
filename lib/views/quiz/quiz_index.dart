@@ -6,7 +6,6 @@ import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/widgets/misc/tile.dart';
 import 'package:flutter/material.dart';
-import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 
 
 class QuizIndex extends StatefulWidget {
@@ -17,7 +16,6 @@ class QuizIndex extends StatefulWidget {
 class _QuizIndexState extends State<QuizIndex> {
   @override
   Widget build(BuildContext context) {
-    QuizBean quizBean = QuizBean(DatabaseAdapter.of(context));
     MediaFileBean mediaFileBean = MediaFileBean(DatabaseAdapter.of(context));
 
     return FutureBuilder(
