@@ -1,6 +1,6 @@
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_deep_cove/widgets/misc/back_nav_bottom.dart';
 
 class QuizResult extends StatelessWidget {
   final String name;
@@ -79,7 +79,7 @@ class QuizResult extends StatelessWidget {
               ),
             ],
           ),
-          BackNavBottom(),
+          BottomBackButton(),
         ],
       ),
       backgroundColor: Theme.of(context).backgroundColor,

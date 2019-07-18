@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/data/sample_data_activities.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
-import 'package:discover_deep_cove/widgets/misc/back_nav_bottom.dart';
 import 'package:toast/toast.dart';
 
 class PictureTapView extends StatefulWidget {
@@ -175,7 +175,7 @@ class _PictureTapViewState extends State<PictureTapView> {
                 ),
           Expanded(child: Container()),
           widget.fromMap
-              ? BackNavBottom()
+              ? BottomBackButton()
               : Container(
                   width: MediaQuery.of(context).size.width,
                   color: Theme.of(context).primaryColorDark,

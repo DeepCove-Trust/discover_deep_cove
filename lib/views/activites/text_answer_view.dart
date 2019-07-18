@@ -1,8 +1,8 @@
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/data/sample_data_activities.dart';
-import 'package:discover_deep_cove/widgets/misc/back_nav_bottom.dart';
 import 'package:toast/toast.dart';
 
 class TextAnswerView extends StatefulWidget {
@@ -111,7 +111,7 @@ class _TextAnswerViewState extends State<TextAnswerView> {
             ),
           ),
           widget.fromMap
-              ? BackNavBottom()
+              ? BottomBackButton()
               : Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[

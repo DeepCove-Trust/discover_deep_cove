@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
 import 'package:flutter/material.dart';
 
@@ -70,6 +71,9 @@ class About extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: BottomBackButton(),
       ),
     );
   }

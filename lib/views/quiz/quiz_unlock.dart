@@ -1,8 +1,8 @@
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/data/sample_data_quiz.dart';
-import 'package:discover_deep_cove/widgets/misc/back_nav_bottom.dart';
 import 'package:toast/toast.dart';
 
 class QuizUnlock extends StatefulWidget {
@@ -57,7 +57,8 @@ class _QuizUnlockState extends State<QuizUnlock> {
                               ),
                             ),
                             SizedBox(
-                              height: (MediaQuery.of(context).size.width / 10) * .3,
+                              height:
+                                  (MediaQuery.of(context).size.width / 10) * .3,
                             ),
                             Padding(
                               padding:
@@ -184,10 +185,11 @@ class _QuizUnlockState extends State<QuizUnlock> {
               ],
             ),
           ),
-          BackNavBottom(),
+//          BackNavBottom(),
         ],
       ),
       backgroundColor: Theme.of(context).backgroundColor,
+      bottomNavigationBar: BottomBackButton(),
     );
   }
 }

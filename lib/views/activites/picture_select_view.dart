@@ -1,9 +1,9 @@
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:discover_deep_cove/data/sample_data_activities.dart';
-import 'package:discover_deep_cove/widgets/misc/back_nav_bottom.dart';
 import 'package:discover_deep_cove/widgets/activities/selected_photo.dart';
 
 class PictureSelectView extends StatefulWidget {
@@ -143,7 +143,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
             ),
           ) : Container(),
           Expanded(child: Container()),
-          widget.fromMap ?  BackNavBottom() : Container(
+          widget.fromMap ?  BottomBackButton() : Container(
             width: MediaQuery.of(context).size.width,
             color: Theme.of(context).primaryColorDark,
             child: Row(

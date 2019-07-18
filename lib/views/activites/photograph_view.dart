@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
 import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/data/sample_data_activities.dart';
 import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
-import 'package:discover_deep_cove/widgets/misc/back_nav_bottom.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:toast/toast.dart';
@@ -181,7 +181,7 @@ class _PhotographViewState extends State<PhotographView> {
               : Container(),
           Expanded(child: Container()),
           widget.fromMap
-              ? BackNavBottom()
+              ? BottomBackButton()
               : Container(
                   width: MediaQuery.of(context).size.width,
                   color: Theme.of(context).primaryColorDark,
