@@ -15,7 +15,7 @@ class QuizQuestion {
   int quizId;
 
   @Column(isNullable: true)
-  bool trueFalseQuestion;
+  bool trueFalseAnswer;
 
   @Column()
   String text;
@@ -31,6 +31,15 @@ class QuizQuestion {
 
   @BelongsTo(QuizAnswerBean, isNullable: true)
   int correctAnswerId;
+
+  @IgnoreColumn()
+  MediaFile image; // TODO: Preload these fields
+
+  @IgnoreColumn()
+  MediaFile audio;
+
+  @IgnoreColumn()
+  QuizAnswer correctAnswer;
 }
 
 @GenBean()

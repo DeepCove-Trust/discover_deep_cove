@@ -21,6 +21,9 @@ class QuizAnswer {
 
   @HasOne(QuizQuestionBean)
   QuizQuestion correctForQuestion;
+
+  @IgnoreColumn()
+  MediaFile image; // TODO: Preload this field
 }
 
 @GenBean()
