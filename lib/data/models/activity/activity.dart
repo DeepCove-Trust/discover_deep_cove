@@ -71,6 +71,17 @@ class Activity {
   @ManyToMany(ActivityImageBean, MediaFileBean)
   List<MediaFile> imageOptions;
 
+  @IgnoreColumn()
+  MediaFile image; // Todo: preload this
+
+  @IgnoreColumn()
+  MediaFile selectedPicture; // Todo: preload this
+
+  @IgnoreColumn()
+  MediaFile userPhoto; // Todo: preload this
+
+  ActivityType getType() => ActivityType.values[activityType];
+
   bool isCompleted(){
 
     switch(ActivityType.values[activityType]){
