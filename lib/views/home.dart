@@ -34,7 +34,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   String trackTitle;
   int currentTrackId;
   MapController mapController;
-  LatLng track;
+  LatLng trackStartCoords; // Todo: why store this? It's not used in build()
 
   Color mapColor; // Todo: Is this needed?
 
@@ -179,39 +179,25 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   ///Changes the trackTitle which is displayed on the AppBar
   ///and pans the map to the first marker within that set
-  /// TODO: Code this concisely using Ken's % function
-  void changeTrack(String dir) {
-    int newTrackNum = currentTrackId;
+  void changeTrack({bool increase}) {
+    int trackId = currentTrackId;
 
-    switch (dir) {
-      case "-":
-        if (newTrackNum == 0) {
-          newTrackNum = tracks.length - 1;
-        } else {
-          newTrackNum--;
-        }
-        break;
-
-      case "+":
-        if (newTrackNum == tracks.length - 1) {
-          newTrackNum = 0;
-        } else {
-          newTrackNum++;
-        }
-    }
+    trackId = increase
+        ? (trackId + 1) % tracks.length
+        : (trackId + tracks.length - 1) % tracks.length;
 
     setState(() {
-      currentTrackId = newTrackNum;
+      currentTrackId = trackId;
       trackTitle = tracks[currentTrackId].name;
 
-      track = LatLng(tracks[currentTrackId].activities[0].location.x,
+      trackStartCoords = LatLng(tracks[currentTrackId].activities[0].location.x,
           tracks[currentTrackId].activities[0].location.y);
     });
 
     print(tracks[currentTrackId].activities[0].location.x);
     print(tracks[currentTrackId].activities[0].location.y);
 
-    _animatedMapMove(track, 16.0);
+    _animatedMapMove(trackStartCoords, 16.0);
   }
 
 //End Map section
@@ -319,13 +305,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       return AppBar(
         leading: IconButton(
           icon: Icon(FontAwesomeIcons.arrowLeft),
-          onPressed: () => changeTrack("-"),
+          onPressed: () => changeTrack(increase: false),
           color: Colors.white,
         ),
         actions: <Widget>[
           IconButton(
             icon: Icon(FontAwesomeIcons.arrowRight),
-            onPressed: () => changeTrack("+"),
+            onPressed: () => changeTrack(increase: true),
             color: Colors.white,
           ),
         ],
@@ -438,7 +424,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   /// Returns the index value of the given page
-  int pageIndex(Widget page){
+  int pageIndex(Widget page) {
     return pages.indexOf(page);
   }
 }
