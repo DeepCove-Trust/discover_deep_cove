@@ -1,18 +1,19 @@
 import 'package:discover_deep_cove/util/data_sync.dart';
-import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/settings/settings_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Settings extends StatefulWidget {
+  final void Function({bool isLoading, String loadingMessage, Icon icon})
+      onProgressUpdate;
+
+  Settings({@required this.onProgressUpdate});
+
   @override
   _SettingsState createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
-  bool _syncInProgress = false;
-  String _progressMessage;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,62 +66,53 @@ class _SettingsState extends State<Settings> {
 
     widgets.add(content);
 
-    if (_syncInProgress) {
-      Stack modal = Stack(
-        children: <Widget>[
-          Opacity(
-            opacity: 0.9,
-            child: const ModalBarrier(
-              dismissible: false,
-              color: Colors.black,
-            ),
-          ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CircularProgressIndicator(),
-                SizedBox(height: 50),
-                BodyText(
-                  text: _progressMessage,
-                  align: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-      widgets.add(modal);
-    }
-
     return widgets;
   }
 
   void syncResources() async {
+    bool wasSuccess = false;
 
-    setState(() {
-      _syncInProgress = true;
-      _progressMessage = 'Checking for updates.\nPlease wait...';
-    });
+    widget.onProgressUpdate(
+        isLoading: true,
+        loadingMessage: 'Checking for updates.\n\nPlease wait...');
 
-    var updates = await SyncProvider.updatedDataAvailable();
+    Map<String, bool> updates;
 
-    if(updates['data'] == true || updates['files'] == true){
-      setState(() {
-        _progressMessage = "Downloading updates.\nPlease wait...";
-      });
+    try {
+      updates = await SyncProvider.updatedDataAvailable();
+
+      if (updates['data'] == true || updates['files'] == true) {
+        widget.onProgressUpdate(
+            isLoading: true,
+            loadingMessage: 'Downloading updates.\n\nPlease wait...');
+      }
+
+      wasSuccess = await SyncProvider.syncResources(updates);
+    } catch (ex) {
+      print(ex.toString());
+      await displayError();
     }
 
-    await SyncProvider.syncResources(updates);
+    if (wasSuccess) {
+      widget.onProgressUpdate(
+        isLoading: true,
+        loadingMessage: 'Application up to date!',
+        icon: Icon(Icons.check, color: Colors.green, size: 60),
+      );
+      await Future.delayed(Duration(seconds: 2));
+    } else {
+      await displayError();
+    }
 
-    setState((){
-      _progressMessage = "Application up to date!";
-    });
+    widget.onProgressUpdate(isLoading: false);
+  }
 
-    await Future.delayed(Duration(seconds: 1));
-
-    setState(() {
-      _syncInProgress = false;
-    });
+  Future<void> displayError() async {
+    widget.onProgressUpdate(
+      isLoading: true,
+      loadingMessage: 'Oops! An error occured.\n\nPlease try again later.',
+      icon: Icon(Icons.error_outline, color: Colors.red, size: 60),
+    );
+    await Future.delayed(Duration(seconds: 2));
   }
 }

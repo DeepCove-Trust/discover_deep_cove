@@ -13,6 +13,7 @@ import 'package:discover_deep_cove/views/quiz/quiz_index.dart';
 import 'package:discover_deep_cove/views/settings/settings.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/loadingModalOverlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -29,10 +30,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
+  bool _isLoading = false;
+  String _loadingMessage;
+  Icon _loadingIcon;
+
   Widget currentPage;
   List<Widget> pages = List<Widget>();
 
-  List<Track> tracks = List<Track>();
+  List<Track> tracks = List<Track>(); // Todo: Load from database
 
   String trackTitle;
   int currentTrackId;
@@ -50,7 +55,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     pages.add(Container()); // placeholder
     pages.add(Container()); // placeholder
     pages.add(QuizIndex());
-    pages.add(Settings());
+    pages.add(Settings(onProgressUpdate: setLoadingModal,));
     currentPage = pages[Page.Map.index];
 
     //The track the user starts at
@@ -110,7 +115,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     return FlutterMap(
       mapController: mapController,
       options: MapOptions(
-        center: LatLng(-45.463983, 167.155695), // Todo: remember location state
+        center: LatLng(-45.463983, 167.155695),
+        // Todo: remember location state
         minZoom: 14.0,
         maxZoom: 18.0,
         zoom: 16.0,
@@ -362,9 +368,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Stack(
+      children: _buildPage()
+    );
+  }
+
+  List<Widget> _buildPage() {
+    List<Widget> contents = List<Widget>();
+
+    contents.add(Scaffold(
       appBar: setAppBar(currentPage),
-      body: pageIs(Page.Map) ? getMap() : currentPage,
+      body:  pageIs(Page.Map) ? getMap() : currentPage,
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           // sets the background color of the `BottomNavigationBar`
@@ -372,8 +386,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           // sets the active color of the `BottomNavigationBar` if `Brightness` is light
           primaryColor: Color(0xFFFF5026),
           textTheme: Theme.of(context).textTheme.copyWith(
-                caption: TextStyle(color: Colors.white),
-              ),
+            caption: TextStyle(color: Colors.white),
+          ),
         ), // sets the inactive color of the `BottomNavigationBar`
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -381,8 +395,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             index == 1
                 ? scan()
                 : setState(() {
-                    currentPage = pages[index];
-                  });
+              currentPage = pages[index];
+            });
           },
           currentIndex: pageIndex(currentPage),
           items: [
@@ -396,14 +410,23 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       ),
       floatingActionButton: pageIs(Page.Map)
           ? CustomFAB(
-              icon: FontAwesomeIcons.qrcode,
-              text: "Scan",
-              onPressed: scan,
-            )
+        icon: FontAwesomeIcons.qrcode,
+        text: "Scan",
+        onPressed: scan,
+      )
           : Container(),
       // Todo: Why a container?
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
+    ));
+
+    if (_isLoading) {
+      contents.add(LoadingModalOverlay(
+        loadingMessage: _loadingMessage,
+        icon: _loadingIcon,
+      ));
+    }
+
+    return contents;
   }
 
   BottomNavigationBarItem _buildNavItem({String title, IconData icon}) {
@@ -428,5 +451,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   /// Returns the index value of the given page
   int pageIndex(Widget page) {
     return pages.indexOf(page);
+  }
+
+  /// This method is passed to the settings widget, so that it can use
+  /// a loading modal that will block out the entire screen.
+  void setLoadingModal({bool isLoading, String loadingMessage, Icon icon}){
+    setState(() {
+      _isLoading = isLoading;
+      _loadingMessage = loadingMessage;
+      _loadingIcon = icon;
+    });
   }
 }
