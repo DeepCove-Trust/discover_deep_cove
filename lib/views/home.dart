@@ -38,7 +38,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   MapController mapController;
   LatLng track;
 
-  Color mapColor;
+  Color mapColor; // Todo: Is this needed?
 
   List<dynamic> pages;
   Widget currentPage;
@@ -184,6 +184,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   ///Changes the trackTitle which is displayed on the AppBar
   ///and pans the map to the first marker within that set
+  /// TODO: Code this concisely using Ken's % function
   void changeTrack(String dir) {
     int newTrackNum = trackNum;
 
@@ -233,8 +234,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     } on FormatException {} catch (e) {}
   }
 
+  // TODO: Give fromMap a better name
   navigateToActivity(Activity activity, bool fromMap) {
-    switch (activity.toString()) {
+    switch (activity.toString()) { // TODO: This will break if we override toString()
       case "PictureSelect":
         Navigator.pushNamed(
           context,
@@ -401,56 +403,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           },
           currentIndex: currentTab,
           items: [
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(FontAwesomeIcons.book),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text("Learn"),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(FontAwesomeIcons.qrcode),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text("Scan"),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(FontAwesomeIcons.map),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text("Map"),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(FontAwesomeIcons.question),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text("Quiz"),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(FontAwesomeIcons.ellipsisV),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text("More"),
-              ),
-            ),
+            _buildNavItem(title: 'Learn', icon: FontAwesomeIcons.book),
+            _buildNavItem(title: 'Scan', icon: FontAwesomeIcons.qrcode),
+            _buildNavItem(title: 'Map', icon: FontAwesomeIcons.map),
+            _buildNavItem(title: 'Quiz', icon: FontAwesomeIcons.question),
+            _buildNavItem(title: 'More', icon: FontAwesomeIcons.ellipsisV),
           ],
         ),
       ),
@@ -460,8 +417,22 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               text: "Scan",
               onPressed: scan,
             )
-          : Container(),
+          : Container(), // Todo: Why a container?
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  BottomNavigationBarItem _buildNavItem({String title, IconData icon}){
+
+    return BottomNavigationBarItem(
+      icon: Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Icon(icon),
+      ),
+      title: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Text(title),
+      ),
     );
   }
 }
