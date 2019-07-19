@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:discover_deep_cove/data/sample_data_activities.dart';
+import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/views/activites/count_view.dart';
 import 'package:discover_deep_cove/views/activites/photograph_view.dart';
 import 'package:discover_deep_cove/views/activites/picture_select_view.dart';
@@ -30,6 +31,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget currentPage;
   List<Widget> pages = List<Widget>();
+
+  List<Track> tracks;
 
   String trackTitle;
   int currentTrackId;
@@ -68,11 +71,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           Marker(
             width: 45.0,
             height: 45.0,
-            point: LatLng(activity.location.x, activity.location.y),
+            point: LatLng(activity.xCoord, activity.yCoord),
             builder: (ctx) => Container(
               child: GestureDetector(
                 onTap: () {
-                  if (activity.activated) {
+                  if (activity.isCompleted()) {
                     navigateToActivity(activity, true);
                   } else {
                     Toast.show(
@@ -86,7 +89,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   }
                 },
                 child: Icon(
-                  activity.activated
+                  activity.isCompleted()
                       ? FontAwesomeIcons.lockOpen
                       : FontAwesomeIcons.lock,
                   size: 45,
@@ -190,12 +193,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       currentTrackId = trackId;
       trackTitle = tracks[currentTrackId].name;
 
-      trackStartCoords = LatLng(tracks[currentTrackId].activities[0].location.x,
-          tracks[currentTrackId].activities[0].location.y);
+      trackStartCoords = LatLng(tracks[currentTrackId].activities[0].xCoord,
+          tracks[currentTrackId].activities[0].yCoord);
     });
 
-    print(tracks[currentTrackId].activities[0].location.x);
-    print(tracks[currentTrackId].activities[0].location.y);
+    print(tracks[currentTrackId].activities[0].xCoord);
+    print(tracks[currentTrackId].activities[0].yCoord);
 
     _animatedMapMove(trackStartCoords, 16.0);
   }

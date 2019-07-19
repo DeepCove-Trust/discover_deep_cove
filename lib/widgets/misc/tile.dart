@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
 
 class Tile extends StatelessWidget {
   final FactFileEntry entry;
@@ -56,7 +56,7 @@ class Tile extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: quiz == null
                               ? Text(
-                                  entry.title,
+                                  entry.primaryName,
                                   style: Theme.of(context).textTheme.body1,
                                   softWrap: false,
                                   maxLines: 1,

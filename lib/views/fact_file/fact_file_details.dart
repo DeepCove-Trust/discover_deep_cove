@@ -1,8 +1,8 @@
 import 'package:audioplayers/audio_cache.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 
@@ -24,7 +24,7 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.entry.title),
+        title: Text(widget.entry.primaryName),
         centerTitle: true,
       ),
       backgroundColor: Theme.of(context).backgroundColor,
@@ -40,9 +40,7 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
                     boxFit: BoxFit.fill,
                     autoplay: false,
                     images: [
-                      AssetImage(widget.entry.mainImage.path),
-                      AssetImage(widget.entry.secondaryImage.path),
-                      AssetImage(widget.entry.tertiaryImage.path),
+                      // Todo: load image paths from database
                     ],
                     animationCurve: Curves.fastOutSlowIn,
                     animationDuration: Duration(milliseconds: 2000),
@@ -54,7 +52,7 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
                   child: Column(
                     children: <Widget>[
                       Heading(
-                        text: widget.entry.title,
+                        text: widget.entry.primaryName,
                       ),
                       //TODO: add a maori name into db and put here
                       Padding(
@@ -75,12 +73,12 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            widget.entry.pronunciationAudio != null ? OutlineButton.icon(
+                            widget.entry.pronounceAudio != null ? OutlineButton.icon(
                               onPressed: () {
                                 FactFilesDetails.pronunciationsPlayer.play(
-                                  widget.entry.pronunciationAudio.path
+                                  widget.entry.pronounceAudio.path
                                       .substring(
-                                    widget.entry.pronunciationAudio.path
+                                    widget.entry.pronounceAudio.path
                                             .indexOf('/') +
                                         1,
                                   ),
@@ -99,11 +97,11 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
                                 color: Colors.white,
                               ),
                             ) : Container(),
-                            widget.entry.birdCallAudio != null ? OutlineButton.icon(
+                            widget.entry.listenAudio != null ? OutlineButton.icon(
                               onPressed: () {
                                 FactFilesDetails.callPlayer.play(
-                                  widget.entry.birdCallAudio.path.substring(
-                                      widget.entry.birdCallAudio.path
+                                  widget.entry.listenAudio.path.substring(
+                                      widget.entry.listenAudio.path
                                               .indexOf('/') +
                                           1),
                                 );
@@ -134,13 +132,13 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
               child: Column(
                 children: <Widget>[
                   BodyText(
-                    text: widget.entry.description,
+                    text: widget.entry.primaryName,
                   ),
                   SizedBox(
                     height: (MediaQuery.of(context).size.width / 10) * 1,
                   ),
                   BodyText(
-                    text: widget.entry.content,
+                    text: widget.entry.bodyText,
                   ),
                 ],
               ),

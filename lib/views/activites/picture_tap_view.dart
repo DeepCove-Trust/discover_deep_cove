@@ -1,15 +1,16 @@
+import 'dart:io';
 import 'dart:math';
 
+import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_deep_cove/data/sample_data_activities.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:toast/toast.dart';
 
 class PictureTapView extends StatefulWidget {
-  final PictureTapActivity activity;
+  final Activity activity;
   final bool fromMap;
 
   ///Takes in a [PictureTapActivity] and a [bool] and displays the view based
@@ -78,7 +79,7 @@ class _PictureTapViewState extends State<PictureTapView> {
                       child: Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage(widget.activity.image.path),
+                            image: FileImage(File(widget.activity.image.path)),
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -108,8 +109,8 @@ class _PictureTapViewState extends State<PictureTapView> {
                       ],
                     ),
                     Positioned(
-                      top: widget.activity.userPoint.y,
-                      left: widget.activity.userPoint.x,
+                      top: widget.activity.userYCoord,
+                      left: widget.activity.userXCoord,
                       child: Center(
                         child: Container(
                           width: 100.0,
@@ -202,8 +203,8 @@ class _PictureTapViewState extends State<PictureTapView> {
                         child: OutlineButton(
                           onPressed: () {
                             if (firstTap) {
-                              widget.activity.activated = true;
-                              widget.activity.userPoint = Point(posX, posY);
+                              widget.activity.userXCoord = posX;
+                              widget.activity.userYCoord = posY;
                               Navigator.of(context).pop();
                             } else {
                               Toast.show(

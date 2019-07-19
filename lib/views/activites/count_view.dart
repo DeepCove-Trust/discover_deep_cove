@@ -1,12 +1,12 @@
+import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:discover_deep_cove/data/sample_data_activities.dart';
 
 class CountView extends StatefulWidget {
-  final CountActivity activity;
+  final Activity activity;
   final bool fromMap;
 
   ///Takes in a [CountActivity] and a [bool] and displays the view based
@@ -167,7 +167,6 @@ class _CountViewState extends State<CountView> {
                         padding: const EdgeInsets.all(8.0),
                         child: OutlineButton(
                           onPressed: () {
-                            widget.activity.activated = true;
                             widget.activity.userCount = count;
                             Navigator.of(context).pop();
                           },

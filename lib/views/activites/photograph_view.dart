@@ -1,19 +1,18 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_deep_cove/data/sample_data_activities.dart';
-import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:toast/toast.dart';
 
 class PhotographView extends StatefulWidget {
-  final PhotographActivity activity;
+  final Activity activity;
   final bool fromMap;
 
   ///Takes in a [PhotographActivity] and a [bool] and displays the view based
@@ -30,7 +29,6 @@ class _PhotographViewState extends State<PhotographView> {
   dynamic _pickImageError;
   String _retrieveDataError;
 
-  
   void _onImageButtonPressed(ImageSource source) async {
     try {
       _imageFile = await ImagePicker.pickImage(source: source);
@@ -73,8 +71,6 @@ class _PhotographViewState extends State<PhotographView> {
       _retrieveDataError = response.exception.code;
     }
   }
-
-  
 
   Text _getRetrieveErrorWidget() {
     if (_retrieveDataError != null) {
@@ -124,7 +120,9 @@ class _PhotographViewState extends State<PhotographView> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           image: DecorationImage(
-                            image: AssetImage(widget.activity.userPhoto.path),
+                            image: FileImage(
+                              File(widget.activity.userPhoto.path),
+                            ),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -208,12 +206,7 @@ class _PhotographViewState extends State<PhotographView> {
                         child: OutlineButton(
                           onPressed: () {
                             if (_imageFile != null) {
-                              widget.activity.activated = true;
-                              widget.activity.userPhoto = MediaFile(
-                                  1,
-                                  MediaFileType.jpg,
-                                  "UserPhoto",
-                                  _imageFile.path);
+                              // Todo: Make saving photos work.
                               Navigator.of(context).pop();
                             } else {
                               Toast.show(
