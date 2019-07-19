@@ -272,6 +272,8 @@ class SyncProvider {
     await quizBean.createTable(ifNotExists: true);
     for (Map<String, dynamic> map in data['quizzes']) {
       Quiz newQuiz = quizBean.fromMap(map);
+      newQuiz.highScore = 0;
+      newQuiz.attempts = 0;
       newQuiz.unlocked = map['unlock_code'] == null;
       Quiz oldQuiz = await quizBean.find(newQuiz.id);
 

@@ -76,4 +76,15 @@ class QuizBean extends Bean<Quiz> with _QuizBean {
 
     return quizzes;
   }
+
+  Future<List<Quiz>> getAllAndPreload() async {
+    List<Quiz> quizzes = await getAll();
+    quizzes = await preloadAll(quizzes);
+
+    for (Quiz quiz in quizzes) {
+      quiz.image = await mediaFileBean.find(quiz.imageId);
+    }
+
+    return quizzes;
+  }
 }

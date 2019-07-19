@@ -117,7 +117,7 @@ class Env {
 
   /// Returns the absolute path to a resource file, given the relative
   /// path from the applications root storage directory.
-  static String getResource(String relativePath) {
+  static String getResourcePath(String relativePath) {
     String rootPath = resourcesPath;
     return join(rootPath, relativePath);
   }

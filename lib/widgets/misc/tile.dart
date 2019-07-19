@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:flutter/material.dart';
 
 class Tile extends StatelessWidget {
@@ -34,14 +35,15 @@ class Tile extends StatelessWidget {
                 Hero(
                   tag: hero,
                   child: Container(
-                    decoration: BoxDecoration(
+                    height: MediaQuery.of(context).size.width,
+                    decoration: quiz.image != null ? BoxDecoration(
                       image: DecorationImage(
                         image: FileImage(File(quiz == null
-                            ? entry.mainImage.path
-                            : quiz.image.path)),
+                            ? Env.getResourcePath(entry.mainImage.path)
+                            : Env.getResourcePath(quiz.image.path))),
                         fit: BoxFit.fill,
                       ),
-                    ),
+                    ) : null,
                   ),
                 ),
                 Column(
@@ -76,8 +78,8 @@ class Tile extends StatelessWidget {
                                     SizedBox(
                                       height: 5,
                                     ),
-                                    Text(
-                                      "High Score: ${quiz.highScore}/${quiz.questions.length} | Attempts: ${quiz.attempts}",
+                                    Text(quiz.attempts > 0 ?
+                                      "High Score: ${quiz.highScore}/${quiz.questions.length} | Attempts: ${quiz.attempts}" : "Not yet attempted",
                                       textAlign: TextAlign.center,
                                       style: Theme.of(context)
                                           .textTheme
