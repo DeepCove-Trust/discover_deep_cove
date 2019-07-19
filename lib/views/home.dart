@@ -32,7 +32,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   List<Widget> pages = List<Widget>();
 
   String trackTitle;
-  int trackNum;
+  int currentTrackId;
   MapController mapController;
   LatLng track;
 
@@ -51,8 +51,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     currentPage = pages[Page.Map.index];
 
     //The track the user starts at
-    trackNum = 0;
-    trackTitle = tracks[trackNum].name;
+    currentTrackId = 0;
+    trackTitle = tracks[currentTrackId].name;
 
     mapController = MapController();
   }
@@ -181,7 +181,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   ///and pans the map to the first marker within that set
   /// TODO: Code this concisely using Ken's % function
   void changeTrack(String dir) {
-    int newTrackNum = trackNum;
+    int newTrackNum = currentTrackId;
 
     switch (dir) {
       case "-":
@@ -201,15 +201,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     }
 
     setState(() {
-      trackNum = newTrackNum;
-      trackTitle = tracks[trackNum].name;
+      currentTrackId = newTrackNum;
+      trackTitle = tracks[currentTrackId].name;
 
-      track = LatLng(tracks[trackNum].activities[0].location.x,
-          tracks[trackNum].activities[0].location.y);
+      track = LatLng(tracks[currentTrackId].activities[0].location.x,
+          tracks[currentTrackId].activities[0].location.y);
     });
 
-    print(tracks[trackNum].activities[0].location.x);
-    print(tracks[trackNum].activities[0].location.y);
+    print(tracks[currentTrackId].activities[0].location.x);
+    print(tracks[currentTrackId].activities[0].location.y);
 
     _animatedMapMove(track, 16.0);
   }
