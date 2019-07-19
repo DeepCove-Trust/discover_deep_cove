@@ -1,5 +1,7 @@
+import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
+import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 
 part 'quiz.jorm.dart';
@@ -51,9 +53,14 @@ class QuizBean extends Bean<Quiz> with _QuizBean {
       : quizQuestionBean = QuizQuestionBean(adapter),
         super(adapter);
 
+  QuizBean.of(BuildContext context)
+      : quizQuestionBean = QuizQuestionBean(DatabaseAdapter.of(context)),
+        super(DatabaseAdapter.of(context));
+
   final QuizQuestionBean quizQuestionBean;
 
   MediaFileBean _mediaFileBean;
+
   MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
 
   final String tableName = 'quizzes';
@@ -63,13 +70,10 @@ class QuizBean extends Bean<Quiz> with _QuizBean {
     if (where is ExpressionMaker<Quiz>) where = where(this);
     List<Quiz> quizzes = await findWhere(where);
 
-    for(Quiz quiz in quizzes){
+    for (Quiz quiz in quizzes) {
       quiz.image = await _mediaFileBean.find(quiz.imageId);
     }
 
     return quizzes;
-
   }
-
-
 }

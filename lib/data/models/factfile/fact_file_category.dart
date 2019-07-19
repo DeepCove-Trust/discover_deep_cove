@@ -1,4 +1,6 @@
+import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
+import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 import 'package:meta/meta.dart';
@@ -32,6 +34,10 @@ class FactFileCategoryBean extends Bean<FactFileCategory>
   FactFileCategoryBean(Adapter adapter)
       : factFileEntryBean = FactFileEntryBean(adapter),
         super(adapter);
+
+  FactFileCategoryBean.of(BuildContext context)
+      : factFileEntryBean = FactFileEntryBean(DatabaseAdapter.of(context)),
+        super(DatabaseAdapter.of(context));
 
   final FactFileEntryBean factFileEntryBean;
 

@@ -1,7 +1,9 @@
+import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 import 'package:meta/meta.dart';
@@ -77,13 +79,21 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
         factFileNuggetBean = FactFileNuggetBean(adapter),
         super(adapter);
 
+  FactFileEntryBean.of(BuildContext context)
+      : factFileEntryImageBean =
+            FactFileEntryImageBean(DatabaseAdapter.of(context)),
+        factFileNuggetBean = FactFileNuggetBean(DatabaseAdapter.of(context)),
+        super(DatabaseAdapter.of(context));
+
   final FactFileEntryImageBean factFileEntryImageBean;
   final FactFileNuggetBean factFileNuggetBean;
 
   MediaFileBean _mediaFileBean;
+
   MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
 
   FactFileCategoryBean _factFileCategoryBean;
+
   FactFileCategoryBean get factFileCategoryBean =>
       _factFileCategoryBean ??= FactFileCategoryBean(adapter);
 

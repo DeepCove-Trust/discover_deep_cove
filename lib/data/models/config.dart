@@ -1,3 +1,5 @@
+import 'package:discover_deep_cove/data/database_adapter.dart';
+import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:meta/meta.dart';
 
@@ -29,6 +31,8 @@ class Config {
 @GenBean()
 class ConfigBean extends Bean<Config> with _ConfigBean {
   ConfigBean(Adapter adapter) : super(adapter);
+
+  ConfigBean.of(BuildContext context) : super(DatabaseAdapter.of(context));
 
   final String tableName = 'config';
 }
