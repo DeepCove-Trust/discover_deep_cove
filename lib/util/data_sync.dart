@@ -324,7 +324,8 @@ class SyncProvider {
   /// existing content and rebuilding.
   ///
   /// Current implementation will result in the loss of any user data
-  /// (activity inputs, answers, scores, etc).
+  /// (activity inputs, answers, scores, etc) if a newer version of the
+  /// activity/quiz is available.
   static Future<bool> syncResources(Map<String, bool> updatesAvailable) async {
     print('Syncing application resources with CMS server...');
 
@@ -364,22 +365,22 @@ class SyncProvider {
   /// Returns true is updated resources are available on the remote server.
   static Future<Map<String, bool>> updatedDataAvailable() async {
     Config local;
-    Map<String, bool> results;
-    ConfigBean cfgBean = await ConfigBean(await DB.instance.adapter);
+    ConfigBean cfgBean = ConfigBean(await DB.instance.adapter);
 
     try {
       local = await cfgBean.find(1);
-    }
-    catch(ex){
-      if(ex is DatabaseException){
-      // Tables probably not initialized yet, set both updates to true;
-      return {'data': true, 'files': true};
+    } catch (ex) {
+      if (ex is DatabaseException) {
+        // Probably first-time sync, tables don't exist yet.
+        return {'data': true, 'files': true};
       }
+      throw ex; // otherwise, throw the exception
     }
 
     http.Response response = await http.get(Env.versionsUrl);
     if (response.statusCode != 200) {
-      throw Exception('API error:' + response.statusCode.toString()); // TODO: make this better
+      throw Exception('API responded with error - Error code: ' +
+          response.statusCode.toString());
     }
 
     var remote = json.decode(response.body);
@@ -387,8 +388,8 @@ class SyncProvider {
 // Compare remote versions to local versions, setting to 'true' if a
 // newer version is available on the server.
     return {
-      'data': (remote[0]['data'] as int) > local.dataVersion,
-      'files': (remote[0]['files'] as int) > local.filesVersion,
+      'data': (remote['data'] as int) > local.dataVersion,
+      'files': (remote['files'] as int) > local.filesVersion,
     };
   }
 }
