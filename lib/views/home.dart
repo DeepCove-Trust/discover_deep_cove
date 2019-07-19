@@ -349,7 +349,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               Navigator.pushNamed(context, '/quizUnlock');
             },
             color: Colors.transparent,
-            padding: EdgeInsets.only(top: 8.0),
+            padding: EdgeInsets.only(top: 7.0),
             child: Column(
               children: <Widget>[
                 Icon(
