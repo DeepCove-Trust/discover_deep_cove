@@ -20,19 +20,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong/latlong.dart';
 import 'package:toast/toast.dart';
 
+enum Page { FactFile, Scan, Map, Quiz, Settings }
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
-  int currentTab = 2;
-  FactFileIndex one;
+  Widget currentPage;
+  List<Widget> pages = List<Widget>();
 
-  //Two is scanner
-  Widget three;
-  QuizIndex four;
-  Settings five;
   String trackTitle;
   int trackNum;
   MapController mapController;
@@ -40,20 +38,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   Color mapColor; // Todo: Is this needed?
 
-  List<dynamic> pages;
-  Widget currentPage;
-
   @override
   void initState() {
     super.initState();
 
-    //Sets up the pages state
-    one = FactFileIndex();
-    //Two is scanner
-    four = QuizIndex();
-    five = Settings();
-    pages = [one, null, three, four, five];
-    currentPage = three;
+    // Initialize the list of page widgets.
+    pages.add(FactFileIndex());
+    pages.add(Container()); // placeholder
+    pages.add(Container()); // placeholder
+    pages.add(QuizIndex());
+    pages.add(Settings());
+    currentPage = pages[Page.Map.index];
 
     //The track the user starts at
     trackNum = 0;
@@ -62,7 +57,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     mapController = MapController();
   }
 
-  //Map Section
+//Map Section
   ///Generates the markers that get placed on the map
   List<Marker> getMarkers() {
     List<Marker> markers = List<Marker>();
@@ -108,11 +103,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   ///returns the map
-  FlutterMap map() {
+  FlutterMap getMap() {
     return FlutterMap(
       mapController: mapController,
       options: MapOptions(
-        center: LatLng(-45.463983, 167.155695),
+        center: LatLng(-45.463983, 167.155695), // Todo: remember location state
         minZoom: 14.0,
         maxZoom: 18.0,
         zoom: 16.0,
@@ -219,9 +214,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _animatedMapMove(track, 16.0);
   }
 
-  //End Map section
+//End Map section
 
-  //Qr reader section
+//Qr reader section
   ///Uses the camera to scan a qr code
   Future scan() async {
     try {
@@ -234,9 +229,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     } on FormatException {} catch (e) {}
   }
 
-  // TODO: Give fromMap a better name
+// TODO: Give fromMap a better name
   navigateToActivity(Activity activity, bool fromMap) {
-    switch (activity.toString()) { // TODO: This will break if we override toString()
+    switch (activity.toString()) {
+      // TODO: This will break if we override toString()
       case "PictureSelect":
         Navigator.pushNamed(
           context,
@@ -315,11 +311,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     navigateToActivity(selectedActivity, false);
   }
 
-  //End qr reader section
+//End qr reader section
 
   ///provides the [AppBar] for a specific pages
   AppBar setAppBar(Widget pageNum) {
-    if (currentPage == three) {
+    if (pageIs(Page.Map)) {
       return AppBar(
         leading: IconButton(
           icon: Icon(FontAwesomeIcons.arrowLeft),
@@ -339,7 +335,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColorDark,
       );
-    } else if (currentPage == four) {
+    } else if (pageIs(Page.Quiz)) {
       return AppBar(
         title: Heading(
           text: "Deep Cove Trivia",
@@ -380,7 +376,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: setAppBar(currentPage),
-      body: currentPage == three ? map() : currentPage,
+      body: pageIs(Page.Map) ? getMap() : currentPage,
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           // sets the background color of the `BottomNavigationBar`
@@ -397,11 +393,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             index == 1
                 ? scan()
                 : setState(() {
-                    currentTab = index;
                     currentPage = pages[index];
                   });
           },
-          currentIndex: currentTab,
+          currentIndex: pageIndex(currentPage),
           items: [
             _buildNavItem(title: 'Learn', icon: FontAwesomeIcons.book),
             _buildNavItem(title: 'Scan', icon: FontAwesomeIcons.qrcode),
@@ -411,19 +406,19 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ],
         ),
       ),
-      floatingActionButton: currentPage == three
+      floatingActionButton: pageIs(Page.Map)
           ? CustomFAB(
               icon: FontAwesomeIcons.qrcode,
               text: "Scan",
               onPressed: scan,
             )
-          : Container(), // Todo: Why a container?
+          : Container(),
+      // Todo: Why a container?
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
-  BottomNavigationBarItem _buildNavItem({String title, IconData icon}){
-
+  BottomNavigationBarItem _buildNavItem({String title, IconData icon}) {
     return BottomNavigationBarItem(
       icon: Padding(
         padding: const EdgeInsets.only(top: 8.0),
@@ -434,5 +429,16 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         child: Text(title),
       ),
     );
+  }
+
+  /// Pass this method a [Page] enum, and method will return true if it is
+  /// the current page.
+  bool pageIs(Page page) {
+    return pageIndex(currentPage) == page.index;
+  }
+
+  /// Returns the index value of the given page
+  int pageIndex(Widget page){
+    return pages.indexOf(page);
   }
 }
