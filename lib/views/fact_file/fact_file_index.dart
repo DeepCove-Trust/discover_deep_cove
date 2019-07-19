@@ -8,12 +8,13 @@ class FactFileIndex extends StatefulWidget {
   _FactFileIndexState createState() => _FactFileIndexState();
 }
 
- ///Displays the tabs and a [tile] representing each [FactFileEntry]
+///Displays the tabs and a [tile] representing each [FactFileEntry]
 class _FactFileIndexState extends State<FactFileIndex>
     with SingleTickerProviderStateMixin {
   TabController controller;
 
-  List<FactFileCategory> categories; // Todo: load from database
+  List<FactFileCategory>  categories =
+      List<FactFileCategory>(); // Todo: load from database
 
   @override
   void initState() {

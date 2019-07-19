@@ -32,7 +32,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget currentPage;
   List<Widget> pages = List<Widget>();
 
-  List<Track> tracks;
+  List<Track> tracks = List<Track>();
 
   String trackTitle;
   int currentTrackId;
@@ -55,7 +55,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
     //The track the user starts at
     currentTrackId = 0;
-    trackTitle = tracks[currentTrackId].name;
+    trackTitle = 'WIP'; //tracks[currentTrackId].name; // Todo: temp disabled
 
     mapController = MapController();
   }
@@ -221,7 +221,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 // TODO: Give fromMap a better name
   navigateToActivity(Activity activity, bool fromMap) {
     switch (activity.toString()) {
-      // TODO: This will break if we override toString()
       case "PictureSelect":
         Navigator.pushNamed(
           context,
