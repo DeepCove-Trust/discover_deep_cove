@@ -1,6 +1,6 @@
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 
 class About extends StatelessWidget {
@@ -16,7 +16,7 @@ class About extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: HeadingText(
+                  child: Heading(
                     text: "About the trust",
                   ),
                 ),
@@ -33,7 +33,7 @@ class About extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: HeadingText(
+                  child: Heading(
                     text: "Special thanks",
                   ),
                 ),
@@ -56,7 +56,7 @@ class About extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: HeadingText(
+                  child: Heading(
                     text: "Developers",
                   ),
                 ),

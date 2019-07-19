@@ -1,6 +1,6 @@
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:discover_deep_cove/data/sample_data_activities.dart';
@@ -38,7 +38,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
     return Scaffold(
       appBar: AppBar(
         leading: Container(),
-        title: HeadingText(
+        title: Heading(
           text: widget.activity.title,
         ),
         centerTitle: true,
@@ -67,7 +67,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
                         text: "You Answered:",
                       )
                     : Container(),
-                HeadingText(
+                Heading(
                     text: !widget.fromMap
                         ? widget.activity.pictureOptions[photoIndex].description
                         : widget.activity.selectedPicture.description),

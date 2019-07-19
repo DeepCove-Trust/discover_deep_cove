@@ -11,7 +11,7 @@ import 'package:discover_deep_cove/views/fact_file/fact_file_index.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_index.dart';
 import 'package:discover_deep_cove/views/settings/settings.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -333,7 +333,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             color: Colors.white,
           ),
         ],
-        title: HeadingText(
+        title: Heading(
           text: trackTitle,
         ),
         centerTitle: true,
@@ -341,7 +341,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       );
     } else if (currentPage == four) {
       return AppBar(
-        title: HeadingText(
+        title: Heading(
           text: "Deep Cove Trivia",
         ),
         centerTitle: true,

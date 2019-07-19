@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/data/sample_data_activities.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
@@ -45,7 +45,7 @@ class _PictureTapViewState extends State<PictureTapView> {
     return Scaffold(
       appBar: AppBar(
         leading: Container(),
-        title: HeadingText(
+        title: Heading(
           text: widget.activity.title,
         ),
         centerTitle: true,

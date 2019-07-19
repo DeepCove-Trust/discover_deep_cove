@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-class HeadingText  extends StatelessWidget {
+class Heading  extends StatelessWidget {
   final String text;
   final TextAlign align;
 
   ///Returns a custom [Text] widget for accessing headline theme
   ///and has an optional alignment property.
-  HeadingText({this.text, this.align});
+  Heading({this.text, this.align});
 
   @override
   Widget build(BuildContext context) {

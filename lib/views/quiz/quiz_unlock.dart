@@ -1,6 +1,6 @@
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/data/sample_data_quiz.dart';
 import 'package:toast/toast.dart';
@@ -89,7 +89,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 20.0),
-                              child: HeadingText(
+                              child: Heading(
                                 text: "Enter unlock code:",
                               ),
                             ),
@@ -115,7 +115,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                               child: OutlineButton(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: HeadingText(
+                                  child: Heading(
                                     text: "Unlock",
                                   ),
                                 ),

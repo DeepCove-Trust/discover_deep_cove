@@ -1,5 +1,5 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_result.dart';
 import 'package:discover_deep_cove/widgets/quiz/text_question.dart';
@@ -59,7 +59,7 @@ class _QuizQuestionsState extends State<QuizQuestions> {
     return Scaffold(
       appBar: appbarVisible ? AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: HeadingText(
+        title: Heading(
           text:widget.quiz.title,
         ),
         centerTitle: true,
@@ -67,7 +67,7 @@ class _QuizQuestionsState extends State<QuizQuestions> {
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.all(12.0),
-            child: HeadingText(
+            child: Heading(
               text:"${index + 1}/${widget.quiz.questions.length}",
             ),
           ),

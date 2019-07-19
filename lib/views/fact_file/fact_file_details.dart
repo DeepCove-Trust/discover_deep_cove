@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 
 class FactFilesDetails extends StatefulWidget {
   final FactFileEntry entry;
@@ -53,7 +53,7 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
                   padding: const EdgeInsets.fromLTRB(50, 20, 50, 20),
                   child: Column(
                     children: <Widget>[
-                      HeadingText(
+                      Heading(
                         text: widget.entry.title,
                       ),
                       //TODO: add a maori name into db and put here
