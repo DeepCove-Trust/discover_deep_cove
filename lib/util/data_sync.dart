@@ -28,10 +28,10 @@ import 'package:sqflite/sqflite.dart';
 class SyncProvider {
   SyncProvider._();
 
-  /// Retrieve the checksum for the zipped resources file that will be
-  /// sent by the CMS server. This can be compared with the checksum of
+  /// Retrieve the hash for the zipped resources file that will be
+  /// sent by the CMS server. This can be compared with the hash of
   /// the actual file that has been downloaded from the server.
-  static Future<String> _getFileChecksum() async {
+  static Future<String> _getFilesHash() async {
     http.Response response = await http.get(Env.filesHashUrl);
     if (response.statusCode != 200) {
       throw Exception('API error'); // TODO: make this better
@@ -39,10 +39,10 @@ class SyncProvider {
     return response.body;
   }
 
-  /// Retrieve the checksum for the JSON data that will be sent by the
-  /// CMS server. This can be compared with the checksum of the actual
+  /// Retrieve the hash for the JSON data that will be sent by the
+  /// CMS server. This can be compared with the hash of the actual
   /// JSON data that was downloaded from the server.
-  static Future<String> _getJsonChecksum() async {
+  static Future<String> _getJsonHash() async {
     http.Response response = await http.get(Env.dataHashUrl);
     if (response.statusCode != 200) {
       throw Exception('API error'); // TODO: make this better
@@ -81,15 +81,15 @@ class SyncProvider {
     String jsonString = await _requestData();
     print('JSON data received...');
 
-    // Calculate checksum of downloaded data.
+    // Calculate hash of downloaded data.
     String downloadHash =
         sha256.convert(Utf8Encoder().convert(jsonString)).toString();
-    String expectedHash = await _getJsonChecksum();
+    String expectedHash = await _getJsonHash();
 
 //    print('Calculated hash: $downloadHash');
 //    print('Expected hash: $expectedHash');
 
-    // Compare with expected checksum from server.
+    // Compare with expected hash from server.
     if (downloadHash.toString() != expectedHash) {
       // Retrieved data is corrupted.
       print('JSON data failed integrity check...');
@@ -129,7 +129,7 @@ class SyncProvider {
     // integrity check
     String downloadHash =
         sha256.convert(await resourcesZip.readAsBytes()).toString();
-    String expectedHash = await _getFileChecksum();
+    String expectedHash = await _getFilesHash();
 
 //    print('Calculated checksum: $downloadHash');
 //    print('Expected checksum: $expectedHash');
@@ -175,7 +175,7 @@ class SyncProvider {
     } else {
       // something went wrong with extraction
       throw Exception('Something went wrong with file extraction.');
-      // TODO: Improve the handling of this.
+      // TODO: Improve the handling of this. This will break the application.
     }
   }
 
