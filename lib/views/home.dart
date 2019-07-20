@@ -38,8 +38,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   MapController mapController;
   LatLng track;
 
-  Color mapColor;
-
   List<dynamic> pages;
   Widget currentPage;
 
