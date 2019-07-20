@@ -8,7 +8,6 @@ import 'package:discover_deep_cove/widgets/misc/tile.dart';
 import 'package:flutter/material.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 
-
 class QuizIndex extends StatefulWidget {
   @override
   State createState() => _QuizIndexState();
@@ -60,7 +59,7 @@ class _QuizIndexState extends State<QuizIndex> {
 //                            quiz: quiz,
 //                            hero: quiz.id.toString(),
 //                            height:
-//                                (MediaQuery.of(context).size.width / 10) * 2);
+//                               (MediaQuery.of(context).size.height / 100) * 10;
 //                      })
 //                  : Center(
 //                      child: Text(
@@ -83,17 +82,18 @@ class _QuizIndexState extends State<QuizIndex> {
   List<Tile> buildCards(BuildContext context, List<Quiz> quizzes) {
     return quizzes.map((quiz) {
       return Tile(
-          onTap: () {
-            quiz.attempts++;
-            Navigator.pushNamed(
-              context,
-              '/quizQuestions',
-              arguments: quiz,
-            );
-          },
-          quiz: quiz,
-          hero: quiz.id.toString(),
-          height: (MediaQuery.of(context).size.width / 10) * 2);
+        onTap: () {
+          quiz.attempts++;
+          Navigator.pushNamed(
+            context,
+            '/quizQuestions',
+            arguments: quiz,
+          );
+        },
+        quiz: quiz,
+        hero: quiz.id.toString(),
+        height: (MediaQuery.of(context).size.height / 100) * 10,
+      );
     });
   }
 }

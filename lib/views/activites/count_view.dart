@@ -38,7 +38,9 @@ class _CountViewState extends State<CountView> {
             padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
             child: Text(widget.activity.description),
           ),
-          SizedBox(height: (MediaQuery.of(context).size.width / 10) * 1.5),
+          SizedBox(
+            height: (MediaQuery.of(context).size.height / 100) * 10,
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
             child: Text(widget.activity.task),
@@ -54,16 +56,17 @@ class _CountViewState extends State<CountView> {
                     text: "You Counted:",
                   )
                 : SizedBox(
-                    height: (MediaQuery.of(context).size.width / 10) * 0.5),
+                    height: (MediaQuery.of(context).size.height / 100) * 5,
+                  ),
           ),
           SizedBox(
-            height: (MediaQuery.of(context).size.width / 10) * 3.5,
+            height: (MediaQuery.of(context).size.height / 100) * 20,
           ),
           widget.fromMap
               ? Container(
                   width: MediaQuery.of(context).size.width,
+                  height: (MediaQuery.of(context).size.height / 100) * 10,
                   color: Theme.of(context).primaryColor,
-                  height: (MediaQuery.of(context).size.width / 4) * 1,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -79,8 +82,8 @@ class _CountViewState extends State<CountView> {
                 )
               : Container(
                   width: MediaQuery.of(context).size.width,
+                  height: (MediaQuery.of(context).size.height / 100) * 10,
                   color: Theme.of(context).primaryColor,
-                  height: (MediaQuery.of(context).size.width / 4) * 1,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -130,7 +133,7 @@ class _CountViewState extends State<CountView> {
           widget.fromMap
               ? Padding(
                   padding:
-                      const EdgeInsets.only(left:20.0, right: 20.0, top: 40.0),
+                      const EdgeInsets.only(left: 20.0, right: 20.0, top: 40.0),
                   child: Text(
                     "To edit your answer, re-scan the QR code.",
                     style: Theme.of(context).textTheme.body1.copyWith(

@@ -28,7 +28,7 @@ class _TabPageState extends State<TabPage> {
         onTap: () => handleTap(widget.entries[index]),
         entry: widget.entries[index],
         hero: heroTag,
-        height: (MediaQuery.of(context).size.width / 10) * 1,
+        height: (MediaQuery.of(context).size.height / 100) * 5,
       );
     });
     return cards;

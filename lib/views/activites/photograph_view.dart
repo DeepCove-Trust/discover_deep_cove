@@ -119,7 +119,7 @@ class _PhotographViewState extends State<PhotographView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Container(
-                        height: (MediaQuery.of(context).size.width / 4) * 3.5,
+                        height: (MediaQuery.of(context).size.height / 100) * 45.2,
                         width: (MediaQuery.of(context).size.width / 4) * 3.5,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),

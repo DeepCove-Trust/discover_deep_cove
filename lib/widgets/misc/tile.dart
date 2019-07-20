@@ -74,7 +74,9 @@ class Tile extends StatelessWidget {
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     SizedBox(
-                                      height: 5,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              100,
                                     ),
                                     Text(
                                       "High Score: ${quiz.highScore}/${quiz.questions.length} | Attempts: ${quiz.attempts}",
