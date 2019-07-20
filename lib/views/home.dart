@@ -458,7 +458,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               text: "Scan",
               onPressed: scan,
             )
-          : Container(),
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

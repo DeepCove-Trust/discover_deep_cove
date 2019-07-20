@@ -66,7 +66,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
                     ? BodyText(
                         text: "You Answered:",
                       )
-                    : Container(),
+                    : null,
                 HeadingText(
                     text: !widget.fromMap
                         ? widget.activity.pictureOptions[photoIndex].description
@@ -143,7 +143,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
                         ),
                   ),
                 )
-              : Container(),
+              : null,
           Expanded(child: Container()),
           widget.fromMap
               ? BackNavBottom()

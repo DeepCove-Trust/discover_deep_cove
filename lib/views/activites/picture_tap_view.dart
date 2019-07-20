@@ -67,7 +67,7 @@ class _PictureTapViewState extends State<PictureTapView> {
                 ? BodyText(
                     text: "Your Answer:",
                   )
-                : Container(),
+                : null,
           ),
           widget.fromMap
               ? Stack(
@@ -173,7 +173,7 @@ class _PictureTapViewState extends State<PictureTapView> {
                               ),
                             ),
                           )
-                        : Container(),
+                        : null,
                   ],
                 ),
           Expanded(child: Container()),

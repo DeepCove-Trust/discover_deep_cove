@@ -66,7 +66,7 @@ class _ImageQuestionState extends State<ImageQuestion> {
                                   color: Colors.white,
                                 ),
                               )
-                            : Container(),
+                            : null,
                       ),
                     ],
                   ),

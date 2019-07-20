@@ -178,7 +178,7 @@ class _PhotographViewState extends State<PhotographView> {
                         ),
                   ),
                 )
-              : Container(),
+              : null,
           Expanded(child: Container()),
           widget.fromMap
               ? BackNavBottom()

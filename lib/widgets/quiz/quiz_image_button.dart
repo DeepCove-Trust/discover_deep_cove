@@ -59,7 +59,7 @@ class QuizImageButton extends StatelessWidget {
                           ),
                         ],
                       )
-                    : Container(),
+                    : null,
               ],
             ),
           ),

@@ -108,7 +108,7 @@ class _TextAnswerViewState extends State<TextAnswerView> {
                               ),
                         ),
                       )
-                    : Container(),
+                    : null,
               ],
             ),
           ),

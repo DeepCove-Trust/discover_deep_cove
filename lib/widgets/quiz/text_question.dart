@@ -72,7 +72,7 @@ class _TextQuestionState extends State<TextQuestion> {
                                   color: Colors.white,
                                 ),
                               )
-                            : Container(),
+                            : null,
                       ],
                     ),
                   ),

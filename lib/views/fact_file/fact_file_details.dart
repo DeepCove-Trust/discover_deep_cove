@@ -101,7 +101,7 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
                                       color: Colors.white,
                                     ),
                                   )
-                                : Container(),
+                                : null,
                             widget.entry.birdCallAudio != null
                                 ? OutlineButton.icon(
                                     onPressed: () {
@@ -126,7 +126,7 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
                                       color: Colors.white,
                                     ),
                                   )
-                                : Container(),
+                                : null,
                           ],
                         ),
                       ),

@@ -141,7 +141,7 @@ class _CountViewState extends State<CountView> {
                         ),
                   ),
                 )
-              : Container(),
+              : null,
           Expanded(child: Container()),
           widget.fromMap
               ? BackNavBottom()
