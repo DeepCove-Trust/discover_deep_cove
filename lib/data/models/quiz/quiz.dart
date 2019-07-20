@@ -64,27 +64,24 @@ class QuizBean extends Bean<Quiz> with _QuizBean {
   MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
 
   final String tableName = 'quizzes';
+  
+  Future<List<Quiz>> preloadExtras(List<Quiz> quizzes) async {
+    for (Quiz quiz in quizzes) {
+      quiz.image = await mediaFileBean.find(quiz.imageId);
+    }    
+    return quizzes;
+  }
 
-  Future<List<Quiz>> findWhereAndPreload(
-      /* Expression | ExpressionMaker<ModelType> */ where) async {
+  Future<List<Quiz>> findWhereAndPreload(where) async {
     if (where is ExpressionMaker<Quiz>) where = where(this);
     List<Quiz> quizzes = await findWhere(where);
-
-    for (Quiz quiz in quizzes) {
-      quiz.image = await _mediaFileBean.find(quiz.imageId);
-    }
-
-    return quizzes;
+    quizzes = await preloadAll(quizzes);
+    return await preloadExtras(quizzes);
   }
 
   Future<List<Quiz>> getAllAndPreload() async {
     List<Quiz> quizzes = await getAll();
     quizzes = await preloadAll(quizzes);
-
-    for (Quiz quiz in quizzes) {
-      quiz.image = await mediaFileBean.find(quiz.imageId);
-    }
-
-    return quizzes;
+    return await preloadExtras(quizzes);
   }
 }

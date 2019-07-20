@@ -1,9 +1,4 @@
-import 'dart:io';
-
-import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/widgets/misc/tile.dart';
 import 'package:flutter/material.dart';
 
@@ -14,27 +9,27 @@ class QuizIndex extends StatefulWidget {
 
 class _QuizIndexState extends State<QuizIndex> {
   QuizBean quizBean;
-  List<Quiz> quizzes;
+  List<Quiz> quizzes = List<Quiz>();
 
   @override
   void initState() {
     quizBean = QuizBean.of(context);
+    refreshData();
+  }
+
+  Future<void> refreshData() async {
+    List<Quiz> data = await quizBean.getAllAndPreload();
+    setState(() => quizzes = data);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: RefreshIndicator(
-          onRefresh: refreshQuizzes,
-          child: ListView(
-              children: [Column(children: quizzes != null ? buildCards(context, quizzes) : [Text('Pull down to refresh...')])])),
+      body: quizzes.length > 0
+          ? ListView(children: buildCards(context, quizzes))
+          : Center(child: CircularProgressIndicator()),
     );
-  }
-
-  Future<void> refreshQuizzes() async {
-    quizzes = await quizBean.getAllAndPreload();
-    setState(() {});
   }
 
   List<Tile> buildCards(BuildContext context, List<Quiz> quizzes) {
@@ -49,8 +44,7 @@ class _QuizIndexState extends State<QuizIndex> {
             );
           },
           quiz: quiz,
-          hero: quiz.id.toString(),
-          height: (MediaQuery.of(context).size.height / 100) * 10);
+          hero: quiz.id.toString());
     }).toList(growable: false);
   }
 }
