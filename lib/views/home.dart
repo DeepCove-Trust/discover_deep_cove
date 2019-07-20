@@ -42,9 +42,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   String trackTitle;
   int currentTrackId;
   MapController mapController;
-  LatLng trackStartCoords; // Todo: why store this? It's not used in build()
-
-  Color mapColor; // Todo: Is this needed?
 
   @override
   void initState() {
