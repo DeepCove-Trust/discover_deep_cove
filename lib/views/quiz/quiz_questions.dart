@@ -97,16 +97,14 @@ class _QuizQuestionsState extends State<QuizQuestions> {
     );
   }
 
-  //TODO figure out a better way to diff between text answer and image answer
-  //figure out a better way to handle answers when shuffled
   //TODO figure out a way to get the correct answer and the guess when answers is shuffled
+  //figure out a better way to handle answers when shuffled
 
   ///Returns the appropriate view to display depending on whether the [quiz] has ended or has more questions.
   Widget getQuestion() {
     //if (widget.quiz.questions[index].answers != null) widget.quiz.questions[index].answers.shuffle();
 
     if (index == widget.quiz.questions.length) {
-      setState(() =>  appbarVisible = false);
       bool newHighscore = score > widget.quiz.highScore;
 
       if (score > widget.quiz.highScore) widget.quiz.highScore = score;
@@ -118,6 +116,9 @@ class _QuizQuestionsState extends State<QuizQuestions> {
         highscore: newHighscore,
       );
     } else if (widget.quiz.questions[index].image != null) {
+      if (widget.quiz.questions.length - index == 1)
+        setState(() => appbarVisible = false);
+
       return TextQuestion(
         question: widget.quiz.questions[index],
         onTaps: [
@@ -128,6 +129,9 @@ class _QuizQuestionsState extends State<QuizQuestions> {
         ],
       );
     } else {
+      if (widget.quiz.questions.length - index == 1)
+        setState(() => appbarVisible = false);
+
       return ImageQuestion(
         question: widget.quiz.questions[index],
         onTaps: [

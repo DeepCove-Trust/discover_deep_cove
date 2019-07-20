@@ -6,7 +6,7 @@ class QuizResult extends StatelessWidget {
   final String name;
   final int score;
   final int outOf;
-  final bool highscore;  
+  final bool highscore;
 
   ///takes in a [string], two [ints] and a bool and
   ///returns the view displaying the correct information.
@@ -38,12 +38,12 @@ class QuizResult extends StatelessWidget {
                 align: TextAlign.center,
               ),
               SizedBox(
-                height: (MediaQuery.of(context).size.width / 10) * 1,
+                height: (MediaQuery.of(context).size.height / 100) * 5,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Container(
-                  height: (MediaQuery.of(context).size.width / 10) * 7,
+                  height: (MediaQuery.of(context).size.height / 100) * 37,
                   width: MediaQuery.of(context).size.width,
                   color: Theme.of(context).primaryColor,
                   child: Column(
@@ -87,13 +87,13 @@ class QuizResult extends StatelessWidget {
   }
 
   setMessage() {
-    if(score == outOf){
+    if (score == outOf) {
       return "Congratulations you got every question correct!";
-    }else if(((score / outOf) * 100) >= 50){
+    } else if (((score / outOf) * 100) >= 50) {
       return "Almost there keep up the good work!";
-    }else if (((score / outOf) * 100) >= 0 && ((score / outOf) * 100) <= 49){
+    } else if (((score / outOf) * 100) >= 0 && ((score / outOf) * 100) <= 49) {
       return "You are improving keep up the good work";
-    }else{
+    } else {
       return "You can do better, keep trying!";
     }
   }

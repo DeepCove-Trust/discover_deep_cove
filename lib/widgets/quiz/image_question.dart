@@ -29,7 +29,7 @@ class _ImageQuestionState extends State<ImageQuestion> {
                 padding: const EdgeInsets.only(top: 80.0, bottom: 25),
                 child: Container(
                   color: Color.fromARGB(190, 0, 0, 0),
-                  height: (MediaQuery.of(context).size.width / 10) * 3.5,
+                  height: (MediaQuery.of(context).size.height / 100) * 20,
                   width: MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

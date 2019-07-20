@@ -12,7 +12,7 @@ class FactFilesDetails extends StatefulWidget {
   static final AudioCache callPlayer = new AudioCache();
   static final AudioCache pronunciationsPlayer = new AudioCache();
 
-  ///Takes in a [FactFileEntry] and a [String]and returns the view 
+  ///Takes in a [FactFileEntry] and a [String]and returns the view
   FactFilesDetails({this.entry, this.heroTag});
 
   @override
@@ -34,7 +34,7 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
             Column(
               children: <Widget>[
                 SizedBox(
-                  height: MediaQuery.of(context).size.width,
+                  height: (MediaQuery.of(context).size.height / 100) * 51.58,
                   width: MediaQuery.of(context).size.width,
                   child: Carousel(
                     boxFit: BoxFit.fill,
@@ -135,7 +135,7 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
                     text: widget.entry.primaryName,
                   ),
                   SizedBox(
-                    height: (MediaQuery.of(context).size.width / 10) * 1,
+                    height: (MediaQuery.of(context).size.height / 100) * 2.5,
                   ),
                   BodyText(
                     text: widget.entry.bodyText,

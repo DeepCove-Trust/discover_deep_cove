@@ -50,7 +50,7 @@ class _QuizIndexState extends State<QuizIndex> {
           },
           quiz: quiz,
           hero: quiz.id.toString(),
-          height: (MediaQuery.of(context).size.width / 10) * 2);
+          height: (MediaQuery.of(context).size.height / 100) * 10);
     }).toList(growable: false);
   }
 }
