@@ -83,7 +83,6 @@ flutter:
     - assets/icon/icon.png
     - assets/peaks.png
     - assets/map.mbtiles
-    - assets/logo.png
 
     ##FactFile
     # primary
