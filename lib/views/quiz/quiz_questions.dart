@@ -1,6 +1,6 @@
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_deep_cove/data/sample_data_quiz.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_result.dart';
 import 'package:discover_deep_cove/widgets/quiz/text_question.dart';
 import 'package:discover_deep_cove/widgets/quiz/image_question.dart';
@@ -43,13 +43,13 @@ class _QuizQuestionsState extends State<QuizQuestions> {
             .answers[widget.quiz.questions[index].correctAnswerId].text;
       } else {
         guess =
-            widget.quiz.questions[index].answers[answerId].image.description;
+            widget.quiz.questions[index].answers[answerId].image.name;
         answer = widget
             .quiz
             .questions[index]
             .answers[widget.quiz.questions[index].correctAnswerId]
             .image
-            .description;
+            .name;
       }
     });
   }
@@ -57,24 +57,22 @@ class _QuizQuestionsState extends State<QuizQuestions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appbarVisible
-          ? AppBar(
-              backgroundColor: Theme.of(context).primaryColor,
-              title: HeadingText(
-                text: widget.quiz.title,
-              ),
-              centerTitle: true,
-              leading: Container(),
-              actions: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: HeadingText(
-                    text: "${index + 1}/${widget.quiz.questions.length}",
-                  ),
-                ),
-              ],
-            )
-          : null,
+      appBar: appbarVisible ? AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Heading(
+          text:widget.quiz.title,
+        ),
+        centerTitle: true,
+        leading: Container(),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Heading(
+              text:"${index + 1}/${widget.quiz.questions.length}",
+            ),
+          ),
+        ],
+      ) : null,
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[

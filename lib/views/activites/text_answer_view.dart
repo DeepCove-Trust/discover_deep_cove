@@ -1,12 +1,12 @@
+import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_deep_cove/data/sample_data_activities.dart';
-import 'package:discover_deep_cove/widgets/misc/back_nav_bottom.dart';
 import 'package:toast/toast.dart';
 
 class TextAnswerView extends StatefulWidget {
-  final TextAnswerActivity activity;
+  final Activity activity;
   final bool fromMap;
 
   ///Takes in a [TextAnswerActivity] and a [bool] and displays the view based
@@ -26,7 +26,7 @@ class _TextAnswerViewState extends State<TextAnswerView> {
     return Scaffold(
       appBar: AppBar(
         leading: Container(),
-        title: HeadingText(
+        title: Heading(
           text: widget.activity.title,
         ),
         centerTitle: true,
@@ -113,7 +113,7 @@ class _TextAnswerViewState extends State<TextAnswerView> {
             ),
           ),
           widget.fromMap
-              ? BackNavBottom()
+              ? BottomBackButton()
               : Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
@@ -145,7 +145,6 @@ class _TextAnswerViewState extends State<TextAnswerView> {
                                 if (controller.text.isNotEmpty) {
                                   widget.activity.userText =
                                       controller.text.toString();
-                                  widget.activity.activated = true;
                                   Navigator.of(context).pop();
                                 } else {
                                   Toast.show(

@@ -1,6 +1,8 @@
+import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/models/activity/activity_images.dart';
 import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 
 part 'activity.jorm.dart';
@@ -71,6 +73,17 @@ class Activity {
   @ManyToMany(ActivityImageBean, MediaFileBean)
   List<MediaFile> imageOptions;
 
+  @IgnoreColumn()
+  MediaFile image; // Todo: preload this
+
+  @IgnoreColumn()
+  MediaFile selectedPicture; // Todo: preload this
+
+  @IgnoreColumn()
+  MediaFile userPhoto; // Todo: preload this
+
+  ActivityType getType() => ActivityType.values[activityType];
+
   bool isCompleted(){
 
     switch(ActivityType.values[activityType]){
@@ -107,6 +120,10 @@ class ActivityBean extends Bean<Activity> with _ActivityBean {
   ActivityBean(Adapter adapter)
       : activityImageBean = ActivityImageBean(adapter),
         super(adapter);
+
+  ActivityBean.of(BuildContext context)
+      : activityImageBean = ActivityImageBean(DatabaseAdapter.of(context)),
+        super(DatabaseAdapter.of(context));
 
   final ActivityImageBean activityImageBean;
 

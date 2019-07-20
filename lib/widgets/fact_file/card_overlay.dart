@@ -1,7 +1,7 @@
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
 
 class CardOverlay extends StatefulWidget {
   final FactFileEntry entry;
@@ -37,7 +37,7 @@ class _CardOverlayState extends State<CardOverlay> {
                       Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage(widget.entry.secondaryImage.path),
+                            image: AssetImage(widget.entry.mainImage.path),
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -69,7 +69,7 @@ class _CardOverlayState extends State<CardOverlay> {
                                                         4) *
                                                     2.5,
                                                 child: Text(
-                                                  widget.entry.title,
+                                                  widget.entry.primaryName,
                                                   textAlign: TextAlign.left,
                                                   style: Theme.of(context)
                                                       .textTheme
@@ -116,7 +116,7 @@ class _CardOverlayState extends State<CardOverlay> {
                                             10,
                                   ),
                                   BodyText(
-                                    text: widget.entry.description,
+                                    text: widget.entry.bodyText,
                                     align: TextAlign.center,
                                   ),
                                 ],

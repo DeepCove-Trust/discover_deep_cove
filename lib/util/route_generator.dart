@@ -1,4 +1,14 @@
+import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/views/activites/count_view.dart';
+import 'package:discover_deep_cove/views/activites/photograph_view.dart';
+import 'package:discover_deep_cove/views/activites/picture_select_view.dart';
+import 'package:discover_deep_cove/views/activites/picture_tap_view.dart';
+import 'package:discover_deep_cove/views/activites/text_answer_view.dart';
+import 'package:discover_deep_cove/views/fact_file/fact_file_details.dart';
 import 'package:discover_deep_cove/views/home.dart';
+import 'package:discover_deep_cove/views/quiz/quiz_questions.dart';
+import 'package:discover_deep_cove/views/quiz/quiz_unlock.dart';
+import 'package:discover_deep_cove/views/settings/about.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -10,7 +20,12 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => Home(),
         );
-/* temp commented until these views are implemented
+
+      case '/about':
+        return MaterialPageRoute(
+          builder: (_) => About()
+        );
+
     //Fact file routes
       case '/factFileDetails':
         if (args is FactFilesDetails) {
@@ -108,7 +123,6 @@ class RouteGenerator {
 
         return _errorRoute();
 
-*/
       default:
         return _errorRoute();
     }

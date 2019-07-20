@@ -1,5 +1,5 @@
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -70,7 +70,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: HeadingText(
+              child: Heading(
                 text: widget.isCorrect == true
                     ? "Correct! ${widget.answer} is the right answer"
                     : "Wrong! You selected ${widget.guess} the correct answer is ${widget.answer}",

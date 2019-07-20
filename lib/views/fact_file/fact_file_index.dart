@@ -1,6 +1,6 @@
+import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
 import 'package:discover_deep_cove/widgets/misc/tab_page.dart' as tab;
 
 class FactFileIndex extends StatefulWidget {
@@ -8,10 +8,13 @@ class FactFileIndex extends StatefulWidget {
   _FactFileIndexState createState() => _FactFileIndexState();
 }
 
- ///Displays the tabs and a [tile] representing each [FactFileEntry]
+///Displays the tabs and a [tile] representing each [FactFileEntry]
 class _FactFileIndexState extends State<FactFileIndex>
     with SingleTickerProviderStateMixin {
   TabController controller;
+
+  List<FactFileCategory>  categories =
+      List<FactFileCategory>(); // Todo: load from database
 
   @override
   void initState() {

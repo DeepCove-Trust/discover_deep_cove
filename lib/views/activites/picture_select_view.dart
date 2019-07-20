@@ -1,13 +1,13 @@
+import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:discover_deep_cove/data/sample_data_activities.dart';
-import 'package:discover_deep_cove/widgets/misc/back_nav_bottom.dart';
 import 'package:discover_deep_cove/widgets/activities/selected_photo.dart';
 
 class PictureSelectView extends StatefulWidget {
-  final PictureSelectActivity activity;
+  final Activity activity;
   final bool fromMap;
 
   ///Takes in a [PictureSelectActivity] and a [bool] and displays the view based
@@ -28,7 +28,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
 
   nextImage() {
     setState(() => photoIndex = photoIndex =
-        photoIndex < widget.activity.pictureOptions.length - 1
+        photoIndex < widget.activity.imageOptions.length - 1
             ? photoIndex + 1
             : photoIndex);
   }
@@ -38,7 +38,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
     return Scaffold(
       appBar: AppBar(
         leading: Container(),
-        title: HeadingText(
+        title: Heading(
           text: widget.activity.title,
         ),
         centerTitle: true,
@@ -67,10 +67,10 @@ class _PictureSelectViewState extends State<PictureSelectView> {
                         text: "You Answered:",
                       )
                     : null,
-                HeadingText(
+                Heading(
                     text: !widget.fromMap
-                        ? widget.activity.pictureOptions[photoIndex].description
-                        : widget.activity.selectedPicture.description),
+                        ? widget.activity.imageOptions[photoIndex].name
+                        : widget.activity.selectedPicture.name),
               ],
             ),
           ),
@@ -96,7 +96,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
                             borderRadius: BorderRadius.circular(5),
                             image: DecorationImage(
                               image: AssetImage(widget
-                                  .activity.pictureOptions[photoIndex].path),
+                                  .activity.imageOptions[photoIndex].path),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -105,8 +105,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
                           padding: const EdgeInsets.only(top: 20),
                           child: Container(
                             child: SelectedPhoto(
-                              numberOfDots:
-                                  widget.activity.pictureOptions.length,
+                              numberOfDots: widget.activity.imageOptions.length,
                               photoIndex: photoIndex,
                             ),
                           ),
@@ -146,7 +145,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
               : null,
           Expanded(child: Container()),
           widget.fromMap
-              ? BackNavBottom()
+              ? BottomBackButton()
               : Container(
                   width: MediaQuery.of(context).size.width,
                   color: Theme.of(context).primaryColorDark,
@@ -173,8 +172,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
                         child: OutlineButton(
                           onPressed: () {
                             widget.activity.selectedPicture =
-                                widget.activity.pictureOptions[photoIndex];
-                            widget.activity.activated = true;
+                                widget.activity.imageOptions[photoIndex];
                             Navigator.of(context).pop();
                           },
                           borderSide: BorderSide(color: Color(0xFF777777)),

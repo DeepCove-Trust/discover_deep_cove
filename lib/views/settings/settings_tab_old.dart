@@ -1,12 +1,8 @@
-import 'package:discover_deep_cove/util/data_sync.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:discover_deep_cove/data/sample_data_activities.dart';
-import 'package:discover_deep_cove/data/sample_data_quiz.dart';
 import 'package:discover_deep_cove/widgets/settings/settings_button.dart';
-import 'package:toast/toast.dart';
 
 class SettingsTab extends StatefulWidget {
   @override
@@ -21,7 +17,7 @@ class _SettingsTabState extends State<SettingsTab> {
         SettingsButton(
           icon: FontAwesomeIcons.undo,
           text: "Reset Progress",
-          onTap: () => handleTap(),
+          onTap: () => null, // Todo
         ),
         Divider(color: Color(0xFF777777)),
         SettingsButton(
@@ -41,10 +37,10 @@ class _SettingsTabState extends State<SettingsTab> {
   }
 
   handleSync() async {
-    await SyncProvider.syncResources();
+    //await SyncProvider.syncResources();
   }
 
-  handleTap() {
+  /* handleTap() {
     // TODO: This code should be moved elsewhere
     confirmReset(context).then((bool result) {
       if (result) {
@@ -92,46 +88,46 @@ class _SettingsTabState extends State<SettingsTab> {
         );
       }
     });
-  }
-}
+  }*/
 
-Future<bool> confirmReset(BuildContext context) {
-  return showDialog<bool>(
-    context: context,
-    barrierDismissible: false, // user must tap button!
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: HeadingText(
-          text: "Are you sure...",
-        ),
-        content: SingleChildScrollView(
-          child: BodyText(
-            text: "All tracks and quizzes will be locked and "
-                "all information will be deleted!",
+  Future<bool> confirmReset(BuildContext context) {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Heading(
+            text: "Are you sure...",
           ),
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: const Text('YES'),
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
+          content: SingleChildScrollView(
+            child: BodyText(
+              text: "All tracks and quizzes will be locked and "
+                  "all information will be deleted!",
+            ),
           ),
-          FlatButton(
-            child: const Text('NO'),
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('YES'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+            FlatButton(
+              child: const Text('NO'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+          ],
+          backgroundColor: Theme.of(context).primaryColorDark,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
+            ),
+            side: BorderSide(color: Theme.of(context).primaryColor, width: 0.5),
           ),
-        ],
-        backgroundColor: Theme.of(context).primaryColorDark,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-          side: BorderSide(color: Theme.of(context).primaryColor, width: 0.5),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
+  }
 }

@@ -1,4 +1,4 @@
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 
 class QuizTextButton extends StatelessWidget {
@@ -15,7 +15,7 @@ class QuizTextButton extends StatelessWidget {
         width: MediaQuery.of(context).size.width / 2.5,
         height: (MediaQuery.of(context).size.height / 100) * 13.5,
         child: Center(
-          child: HeadingText(
+          child: Heading(
             text: text,
           ),
         ),

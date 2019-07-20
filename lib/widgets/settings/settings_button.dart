@@ -1,4 +1,4 @@
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
 import 'package:flutter/material.dart';
 
 class SettingsButton extends StatelessWidget {
@@ -30,8 +30,8 @@ class SettingsButton extends StatelessWidget {
               ),
             ),
             Container(
-              width: (MediaQuery.of(context).size.width / 4) * 2.5,
-              child: HeadingText(
+              width: (MediaQuery.of(context).size.width * 0.75),
+              child: SubHeading(
                 text: text,
                 align: TextAlign.center,
               ),

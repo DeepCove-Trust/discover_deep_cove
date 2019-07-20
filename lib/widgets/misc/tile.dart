@@ -1,8 +1,9 @@
 import 'dart:io';
 
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_deep_cove/data/sample_data_fact_file.dart';
 
 class Tile extends StatelessWidget {
   final FactFileEntry entry;
@@ -34,14 +35,15 @@ class Tile extends StatelessWidget {
                 Hero(
                   tag: hero,
                   child: Container(
-                    decoration: BoxDecoration(
+                    height: MediaQuery.of(context).size.width,
+                    decoration: quiz.image != null ? BoxDecoration(
                       image: DecorationImage(
                         image: FileImage(File(quiz == null
-                            ? entry.mainImage.path
-                            : quiz.image.path)),
+                            ? Env.getResourcePath(entry.mainImage.path)
+                            : Env.getResourcePath(quiz.image.path))),
                         fit: BoxFit.fill,
                       ),
-                    ),
+                    ) : null,
                   ),
                 ),
                 Column(
@@ -56,7 +58,7 @@ class Tile extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: quiz == null
                               ? Text(
-                                  entry.title,
+                                  entry.primaryName,
                                   style: Theme.of(context).textTheme.body1,
                                   softWrap: false,
                                   maxLines: 1,
@@ -78,8 +80,8 @@ class Tile extends StatelessWidget {
                                           MediaQuery.of(context).size.height /
                                               100,
                                     ),
-                                    Text(
-                                      "High Score: ${quiz.highScore}/${quiz.questions.length} | Attempts: ${quiz.attempts}",
+                                    Text(quiz.attempts > 0 ?
+                                      "High Score: ${quiz.highScore}/${quiz.questions.length} | Attempts: ${quiz.attempts}" : "Not yet attempted",
                                       textAlign: TextAlign.center,
                                       style: Theme.of(context)
                                           .textTheme

@@ -1,6 +1,6 @@
+import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:discover_deep_cove/data/sample_data_quiz.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_image_button.dart';
 import 'package:audioplayers/audio_cache.dart';
 

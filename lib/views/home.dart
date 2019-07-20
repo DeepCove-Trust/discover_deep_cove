@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:discover_deep_cove/data/sample_data_activities.dart';
+import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/views/activites/count_view.dart';
 import 'package:discover_deep_cove/views/activites/photograph_view.dart';
 import 'package:discover_deep_cove/views/activites/picture_select_view.dart';
@@ -11,7 +12,8 @@ import 'package:discover_deep_cove/views/fact_file/fact_file_index.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_index.dart';
 import 'package:discover_deep_cove/views/settings/settings.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
-import 'package:discover_deep_cove/widgets/misc/heading_text.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/loadingModalOverlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -20,47 +22,47 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong/latlong.dart';
 import 'package:toast/toast.dart';
 
+enum Page { FactFile, Scan, Map, Quiz, Settings }
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
-  int currentTab = 2;
-  FactFileIndex one;
+  bool _isLoading = false;
+  String _loadingMessage;
+  Icon _loadingIcon;
 
-  //Two is scanner
-  Widget three;
-  QuizIndex four;
-  Settings five;
-  String trackTitle;
-  int trackNum;
-  MapController mapController;
-  LatLng track;
-
-  List<dynamic> pages;
   Widget currentPage;
+  List<Widget> pages = List<Widget>();
+
+  List<Track> tracks = List<Track>(); // Todo: Load from database
+
+  String trackTitle;
+  int currentTrackNum;
+  MapController mapController;
 
   @override
   void initState() {
     super.initState();
 
-    //Sets up the pages state
-    one = FactFileIndex();
-    //Two is scanner
-    four = QuizIndex();
-    five = Settings();
-    pages = [one, null, three, four, five];
-    currentPage = three;
+    // Initialize the list of page widgets.
+    pages.add(FactFileIndex());
+    pages.add(Container()); // placeholder
+    pages.add(Container()); // placeholder
+    pages.add(QuizIndex());
+    pages.add(Settings(onProgressUpdate: setLoadingModal,));
+    currentPage = pages[Page.Map.index];
 
     //The track the user starts at
-    trackNum = 0;
-    trackTitle = tracks[trackNum].name;
+    currentTrackNum = 0;
+    trackTitle = 'WIP'; //tracks[currentTrackId].name; // Todo: temp disabled
 
     mapController = MapController();
   }
 
-  //Map Section
+//Map Section
   ///Generates the markers that get placed on the map
   List<Marker> getMarkers() {
     List<Marker> markers = List<Marker>();
@@ -71,11 +73,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           Marker(
             width: 45.0,
             height: 45.0,
-            point: LatLng(activity.location.x, activity.location.y),
+            point: LatLng(activity.xCoord, activity.yCoord),
             builder: (ctx) => Container(
               child: GestureDetector(
                 onTap: () {
-                  if (activity.activated) {
+                  if (activity.isCompleted()) {
                     navigateToActivity(activity, true);
                   } else {
                     Toast.show(
@@ -89,7 +91,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   }
                 },
                 child: Icon(
-                  activity.activated
+                  activity.isCompleted()
                       ? FontAwesomeIcons.lockOpen
                       : FontAwesomeIcons.lock,
                   size: 45,
@@ -106,11 +108,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   ///returns the map
-  FlutterMap map() {
+  FlutterMap getMap() {
     return FlutterMap(
       mapController: mapController,
       options: MapOptions(
         center: LatLng(-45.463983, 167.155695),
+        // Todo: remember location state
         minZoom: 14.0,
         maxZoom: 18.0,
         zoom: 16.0,
@@ -182,43 +185,31 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   ///Changes the trackTitle which is displayed on the AppBar
   ///and pans the map to the first marker within that set
-  void changeTrack(String dir) {
-    int newTrackNum = trackNum;
+  void changeTrack({bool increase}) {
+    int trackId = currentTrackNum;
+    LatLng trackStartCoords;
 
-    switch (dir) {
-      case "-":
-        if (newTrackNum == 0) {
-          newTrackNum = tracks.length - 1;
-        } else {
-          newTrackNum--;
-        }
-        break;
-
-      case "+":
-        if (newTrackNum == tracks.length - 1) {
-          newTrackNum = 0;
-        } else {
-          newTrackNum++;
-        }
-    }
+    trackId = increase
+        ? (trackId + 1) % tracks.length
+        : (trackId + tracks.length - 1) % tracks.length;
 
     setState(() {
-      trackNum = newTrackNum;
-      trackTitle = tracks[trackNum].name;
+      currentTrackNum = trackId;
+      trackTitle = tracks[currentTrackNum].name;
 
-      track = LatLng(tracks[trackNum].activities[0].location.x,
-          tracks[trackNum].activities[0].location.y);
+      trackStartCoords = LatLng(tracks[currentTrackNum].activities[0].xCoord,
+          tracks[currentTrackNum].activities[0].yCoord);
     });
 
-    print(tracks[trackNum].activities[0].location.x);
-    print(tracks[trackNum].activities[0].location.y);
+    print(tracks[currentTrackNum].activities[0].xCoord);
+    print(tracks[currentTrackNum].activities[0].yCoord);
 
-    _animatedMapMove(track, 16.0);
+    _animatedMapMove(trackStartCoords, 16.0);
   }
 
-  //End Map section
+//End Map section
 
-  //Qr reader section
+//Qr reader section
   ///Uses the camera to scan a qr code
   Future scan() async {
     try {
@@ -231,6 +222,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     } on FormatException {} catch (e) {}
   }
 
+// TODO: Give fromMap a better name
   navigateToActivity(Activity activity, bool fromMap) {
     switch (activity.toString()) {
       case "PictureSelect":
@@ -311,33 +303,33 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     navigateToActivity(selectedActivity, false);
   }
 
-  //End qr reader section
+//End qr reader section
 
   ///provides the [AppBar] for a specific pages
   AppBar setAppBar(Widget pageNum) {
-    if (currentPage == three) {
+    if (pageIs(Page.Map)) {
       return AppBar(
         leading: IconButton(
           icon: Icon(FontAwesomeIcons.arrowLeft),
-          onPressed: () => changeTrack("-"),
+          onPressed: () => changeTrack(increase: false),
           color: Colors.white,
         ),
         actions: <Widget>[
           IconButton(
             icon: Icon(FontAwesomeIcons.arrowRight),
-            onPressed: () => changeTrack("+"),
+            onPressed: () => changeTrack(increase: true),
             color: Colors.white,
           ),
         ],
-        title: HeadingText(
+        title: Heading(
           text: trackTitle,
         ),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColorDark,
       );
-    } else if (currentPage == four) {
+    } else if (pageIs(Page.Quiz)) {
       return AppBar(
-        title: HeadingText(
+        title: Heading(
           text: "Deep Cove Trivia",
         ),
         centerTitle: true,
@@ -374,9 +366,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Stack(
+      children: _buildPage()
+    );
+  }
+
+  List<Widget> _buildPage() {
+    List<Widget> contents = List<Widget>();
+
+    contents.add(Scaffold(
       appBar: setAppBar(currentPage),
-      body: currentPage == three ? map() : currentPage,
+      body:  pageIs(Page.Map) ? getMap() : currentPage,
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           // sets the background color of the `BottomNavigationBar`
@@ -384,8 +384,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           // sets the active color of the `BottomNavigationBar` if `Brightness` is light
           primaryColor: Color(0xFFFF5026),
           textTheme: Theme.of(context).textTheme.copyWith(
-                caption: TextStyle(color: Colors.white),
-              ),
+            caption: TextStyle(color: Colors.white),
+          ),
         ), // sets the inactive color of the `BottomNavigationBar`
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -393,66 +393,20 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             index == 1
                 ? scan()
                 : setState(() {
-                    currentTab = index;
-                    currentPage = pages[index];
-                  });
+              currentPage = pages[index];
+            });
           },
-          currentIndex: currentTab,
+          currentIndex: pageIndex(currentPage),
           items: [
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(FontAwesomeIcons.book),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text("Learn"),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(FontAwesomeIcons.qrcode),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text("Scan"),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(FontAwesomeIcons.map),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text("Map"),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(FontAwesomeIcons.question),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text("Quiz"),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(FontAwesomeIcons.ellipsisV),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text("More"),
-              ),
-            ),
+            _buildNavItem(title: 'Learn', icon: FontAwesomeIcons.book),
+            _buildNavItem(title: 'Scan', icon: FontAwesomeIcons.qrcode),
+            _buildNavItem(title: 'Map', icon: FontAwesomeIcons.map),
+            _buildNavItem(title: 'Quiz', icon: FontAwesomeIcons.question),
+            _buildNavItem(title: 'More', icon: FontAwesomeIcons.ellipsisV),
           ],
         ),
       ),
-      floatingActionButton: currentPage == three
+      floatingActionButton: pageIs(Page.Map)
           ? CustomFAB(
               icon: FontAwesomeIcons.qrcode,
               text: "Scan",
@@ -460,6 +414,49 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    ));
+
+    if (_isLoading) {
+      contents.add(LoadingModalOverlay(
+        loadingMessage: _loadingMessage,
+        icon: _loadingIcon,
+      ));
+    }
+
+    return contents;
+  }
+
+  BottomNavigationBarItem _buildNavItem({String title, IconData icon}) {
+    return BottomNavigationBarItem(
+      icon: Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Icon(icon),
+      ),
+      title: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Text(title),
+      ),
     );
+  }
+
+  /// Pass this method a [Page] enum, and method will return true if it is
+  /// the current page.
+  bool pageIs(Page page) {
+    return pageIndex(currentPage) == page.index;
+  }
+
+  /// Returns the index value of the given page
+  int pageIndex(Widget page) {
+    return pages.indexOf(page);
+  }
+
+  /// This method is passed to the settings widget, so that it can use
+  /// a loading modal that will block out the entire screen.
+  void setLoadingModal({bool isLoading, String loadingMessage, Icon icon}){
+    setState(() {
+      _isLoading = isLoading;
+      _loadingMessage = loadingMessage;
+      _loadingIcon = icon;
+    });
   }
 }
