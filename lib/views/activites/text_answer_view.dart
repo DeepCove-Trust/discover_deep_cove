@@ -93,8 +93,9 @@ class _TextAnswerViewState extends State<TextAnswerView> {
                             maxLength: 255,
                             controller: controller,
                             decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.all(8.0)),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.all(8.0),
+                            ),
                           ),
                         ),
                       ),
