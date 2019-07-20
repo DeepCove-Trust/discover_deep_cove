@@ -3,7 +3,7 @@ import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CardOverlay extends StatefulWidget {
+class CardOverlay extends StatefulWidget { // Todo: Why is this stateful??
   final FactFileEntry entry;
   final VoidCallback onTap;
   final VoidCallback onButtonTap;

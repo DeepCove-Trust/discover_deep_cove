@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/widgets/misc/tile.dart';
 import 'package:flutter/material.dart';
 
@@ -32,19 +33,20 @@ class _QuizIndexState extends State<QuizIndex> {
     );
   }
 
-  List<Tile> buildCards(BuildContext context, List<Quiz> quizzes) {
+  List<TileOld> buildCards(BuildContext context, List<Quiz> quizzes) {
     return quizzes.map((quiz) {
-      return Tile(
-          onTap: () {
-            quiz.attempts++;
-            Navigator.pushNamed(
-              context,
-              '/quizQuestions',
-              arguments: quiz,
-            );
-          },
-          quiz: quiz,
-          hero: quiz.id.toString());
-    }).toList(growable: false);
+      return TileOld(
+        onTap: () {
+          quiz.attempts++;
+          Navigator.of(context).pushNamed('/quizQuestions', arguments: quiz);
+        },
+        title: quiz.title,
+        subheading: quiz.attempts > 0
+            ? 'High Score: ${quiz.highScore}/${quiz.questions.length} | Attempts: ${quiz.attempts}'
+            : 'Not yet attempted',
+        imagePath:
+            quiz.image != null ? Env.getResourcePath(quiz.image.path) : null,
+      );
+    }).toList();
   }
 }

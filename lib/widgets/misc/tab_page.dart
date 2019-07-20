@@ -4,7 +4,7 @@ import 'package:discover_deep_cove/views/fact_file/fact_file_details.dart';
 import 'package:discover_deep_cove/widgets/fact_file/card_overlay.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:discover_deep_cove/widgets/misc/tile.dart';
+import 'package:discover_deep_cove/widgets/misc/tile_old.dart';
 
 class TabPage extends StatefulWidget {
   final List<FactFileEntry> entries;
@@ -28,7 +28,6 @@ class _TabPageState extends State<TabPage> {
         onTap: () => handleTap(widget.entries[index]),
         entry: widget.entries[index],
         hero: heroTag,
-        height: (MediaQuery.of(context).size.height / 100) * 5,
       );
     });
     return cards;

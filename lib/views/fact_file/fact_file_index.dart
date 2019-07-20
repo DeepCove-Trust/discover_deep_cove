@@ -47,7 +47,7 @@ class _FactFileIndexState extends State<FactFileIndex>
     return headings;
   }
 
-  ///Returns a list of [TabPage] widgets that are passed the list of category enteries
+  ///Returns a list of [TabPage] widgets that are passed the list of category entries
   List<TabPage> getTabs() {
     List<TabPage> tabs = List<TabPage>();
     for (int i = 0; i < categories.length; i++) {
