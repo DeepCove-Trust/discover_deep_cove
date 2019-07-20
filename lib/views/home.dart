@@ -40,7 +40,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   List<Track> tracks = List<Track>(); // Todo: Load from database
 
   String trackTitle;
-  int currentTrackId;
+  int currentTrackNum;
   MapController mapController;
 
   @override
@@ -56,7 +56,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     currentPage = pages[Page.Map.index];
 
     //The track the user starts at
-    currentTrackId = 0;
+    currentTrackNum = 0;
     trackTitle = 'WIP'; //tracks[currentTrackId].name; // Todo: temp disabled
 
     mapController = MapController();
@@ -186,22 +186,23 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   ///Changes the trackTitle which is displayed on the AppBar
   ///and pans the map to the first marker within that set
   void changeTrack({bool increase}) {
-    int trackId = currentTrackId;
+    int trackId = currentTrackNum;
+    LatLng trackStartCoords;
 
     trackId = increase
         ? (trackId + 1) % tracks.length
         : (trackId + tracks.length - 1) % tracks.length;
 
     setState(() {
-      currentTrackId = trackId;
-      trackTitle = tracks[currentTrackId].name;
+      currentTrackNum = trackId;
+      trackTitle = tracks[currentTrackNum].name;
 
-      trackStartCoords = LatLng(tracks[currentTrackId].activities[0].xCoord,
-          tracks[currentTrackId].activities[0].yCoord);
+      trackStartCoords = LatLng(tracks[currentTrackNum].activities[0].xCoord,
+          tracks[currentTrackNum].activities[0].yCoord);
     });
 
-    print(tracks[currentTrackId].activities[0].xCoord);
-    print(tracks[currentTrackId].activities[0].yCoord);
+    print(tracks[currentTrackNum].activities[0].xCoord);
+    print(tracks[currentTrackNum].activities[0].yCoord);
 
     _animatedMapMove(trackStartCoords, 16.0);
   }
