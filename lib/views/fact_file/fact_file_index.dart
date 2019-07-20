@@ -1,5 +1,6 @@
 import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/tab_page.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/widgets/misc/tab_page.dart' as tab;
 
@@ -46,11 +47,11 @@ class _FactFileIndexState extends State<FactFileIndex>
     return headings;
   }
 
-  ///Returns a list of [tab.TabPage] widgets that are passed the list of category enteries
-  List<tab.TabPage> getTabs() {
-    List<tab.TabPage> tabs = List<tab.TabPage>();
+  ///Returns a list of [TabPage] widgets that are passed the list of category enteries
+  List<TabPage> getTabs() {
+    List<TabPage> tabs = List<TabPage>();
     for (int i = 0; i < categories.length; i++) {
-      tabs.add(tab.TabPage(categories[i].entries));
+      tabs.add(TabPage(categories[i].entries));
     }
 
     return tabs;
