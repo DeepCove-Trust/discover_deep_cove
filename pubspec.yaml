@@ -79,55 +79,9 @@ flutter:
   #  - images/a_dot_ham.jpeg
   assets:
     - .env
-    # util
     - assets/icon/icon.png
     - assets/peaks.png
     - assets/map.mbtiles
-
-    ##FactFile
-    # primary
-    - assets/images/primary/kea.jpg
-    - assets/images/primary/rifleman.jpg
-    - assets/images/primary/tomtit.jpg
-    - assets/images/primary/mountainBeech.jpg
-    - assets/images/primary/rimu.jpg
-    - assets/images/primary/pekinDuck.jpg
-    - assets/images/primary/powerStation.jpg
-    # secondary
-    - assets/images/secondary/kea.jpg
-    - assets/images/secondary/rifleman.jpg
-    - assets/images/secondary/tomtit.jpg
-    - assets/images/secondary/mountainBeech.jpg
-    - assets/images/secondary/rimu.jpg
-    - assets/images/secondary/pekinDuck.png
-    - assets/images/secondary/powerStation.jpg
-    #tertiary
-    - assets/images/tertiary/kea.jpg
-    - assets/images/tertiary/rifleman.jpg
-    - assets/images/tertiary/tomtit.jpg
-    - assets/images/tertiary/mountainBeech.jpg
-    - assets/images/tertiary/rimu.jpg
-    - assets/images/tertiary/pekinDuck.png
-    - assets/images/tertiary/powerStation.jpg
-
-    ##Activities
-    #count
-    - assets/images/activities/count/lancewood.jpg
-    #pictureSelect
-    - assets/images/activities/pictureSelect/mountainBeech.jpg
-    - assets/images/activities/pictureSelect/rimu.jpg
-    - assets/images/activities/pictureSelect/totara.jpg
-    #pictureTap
-    - assets/images/activities/pictureTap/powerStation.jpg
-    #textAnswer
-    - assets/images/activities/textAnswer/stump.jpg
-
-
-    # Pronunciations
-    - assets/audio/pronunciations/kea.mp3
-
-    # Calls
-    - assets/audio/calls/kea.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
