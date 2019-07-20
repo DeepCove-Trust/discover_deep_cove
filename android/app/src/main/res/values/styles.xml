@@ -6,5 +6,5 @@
         <item name="android:windowBackground">@drawable/launch_background</item>
     </style>
 
-    <color name="limeGreen">#8BC34A</color>
+    <color name="charcoal">#262626</color>
 </resources>
