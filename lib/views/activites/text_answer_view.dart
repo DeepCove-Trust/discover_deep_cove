@@ -90,7 +90,6 @@ class _TextAnswerViewState extends State<TextAnswerView> {
                           child: TextField(
                             keyboardType: TextInputType.multiline,
                             maxLines: 10,
-                            maxLength: 255,
                             controller: controller,
                             decoration: InputDecoration(
                               border: InputBorder.none,

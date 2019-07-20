@@ -102,7 +102,6 @@ class _QuizUnlockState extends State<QuizUnlock> {
                                 color: Colors.white,
                                 child: TextField(
                                   controller: controller,
-                                  maxLength: 12,
                                   decoration: InputDecoration(
                                       hintText: 'Enter code...',
                                       border: InputBorder.none,
