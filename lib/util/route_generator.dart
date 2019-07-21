@@ -1,10 +1,13 @@
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/util/transparent_page_route.dart';
 import 'package:discover_deep_cove/views/activites/count_view.dart';
 import 'package:discover_deep_cove/views/activites/photograph_view.dart';
 import 'package:discover_deep_cove/views/activites/picture_select_view.dart';
 import 'package:discover_deep_cove/views/activites/picture_tap_view.dart';
 import 'package:discover_deep_cove/views/activites/text_answer_view.dart';
 import 'package:discover_deep_cove/views/fact_file/fact_file_details.dart';
+import 'package:discover_deep_cove/views/fact_file/fact_file_overlay.dart';
 import 'package:discover_deep_cove/views/home.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_questions.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_unlock.dart';
@@ -22,16 +25,14 @@ class RouteGenerator {
         );
 
       case '/about':
-        return MaterialPageRoute(
-          builder: (_) => About()
-        );
+        return MaterialPageRoute(builder: (_) => About());
 
-    //Fact file routes
+      //Fact file routes
       case '/factFileDetails':
-        if (args is FactFilesDetails) {
-          final FactFilesDetails args = settings.arguments;
+        if (args is FactFileDetails) {
+          final FactFileDetails args = settings.arguments;
           return MaterialPageRoute(
-            builder: (_) => FactFilesDetails(
+            builder: (_) => FactFileDetails(
               entry: args.entry,
               heroTag: args.heroTag,
             ),
@@ -40,7 +41,19 @@ class RouteGenerator {
 
         return _errorRoute();
 
-    //Quiz routes
+      case '/factFileOverlay':
+        if (args is FactFileEntry) {
+          final FactFileEntry args = settings.arguments;
+          return TransparentPageRoute(
+            builder: (_) => FactFileOverlay(
+              entry: args
+            ),
+          );
+        }else {
+          return _errorRoute();
+        }
+        break;
+      //Quiz routes
       case '/quizUnlock':
         return MaterialPageRoute(
           builder: (_) => QuizUnlock(),
@@ -57,7 +70,7 @@ class RouteGenerator {
 
         return _errorRoute();
 
-    //Activity routes
+      //Activity routes
       case '/countView':
         if (args is CountView) {
           final CountView args = settings.arguments;
