@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
 import 'package:flutter/material.dart';
@@ -31,15 +32,15 @@ class Tile extends StatelessWidget {
             SizedBox(
               width: double.infinity, // expands the child to limits
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 8),
+                padding: EdgeInsets.symmetric(vertical: 12),
                 color: Color.fromRGBO(0, 0, 0, 0.75),
                 child: Column(
                   children: [
                     Heading(text: title),
                     if (subheading != null)
-                      SizedBox(height: 15), //
+                      SizedBox(height: 10), //
                     if (subheading != null)
-                      SubHeading(text: subheading),
+                      BodyText(text: subheading),
                   ],
                 ),
               ),
