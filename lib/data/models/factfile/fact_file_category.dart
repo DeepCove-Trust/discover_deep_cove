@@ -52,8 +52,8 @@ class FactFileCategoryBean extends Bean<FactFileCategory>
 
     for(FactFileCategory category in categories){
       await factFileEntryBean.preloadAll(category.entries);
+      await factFileEntryBean.preloadExtras(category.entries);
     }
-
     return categories;
   }
 }
