@@ -31,7 +31,7 @@ class FactFileEntry {
   @Column()
   String primaryName;
 
-  @Column()
+  @Column(isNullable: true)
   String altName;
 
   @Column()
@@ -43,10 +43,10 @@ class FactFileEntry {
   @BelongsTo(MediaFileBean)
   int mainImageId;
 
-  @BelongsTo(MediaFileBean)
+  @BelongsTo(MediaFileBean, isNullable: true)
   int pronounceAudioId;
 
-  @BelongsTo(MediaFileBean)
+  @BelongsTo(MediaFileBean, isNullable: true)
   int listenAudioId;
 
   /// List of all media files used in this entries gallery
@@ -103,7 +103,7 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
   /// it preloaded with all media file relationships.
   Future<FactFileEntry> findAndPreload(int id) async {
     FactFileEntry entry = await find(id, preload: true);
-    entry = await preloadExtras(entry);
+    entry = await _preloadExtras(entry);
 
     return entry;
   }
@@ -114,18 +114,25 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
     List<FactFileEntry> entries = await preloadAll(await getAll());
 
     for (FactFileEntry entry in entries) {
-      entry = await preloadExtras(entry);
+      entry = await _preloadExtras(entry);
     }
-
     return entries;
   }
 
-  Future<FactFileEntry> preloadExtras(FactFileEntry entry) async {
+  Future<List<FactFileEntry>> preloadExtras(List<FactFileEntry> entries) async {
+    for (FactFileEntry entry in entries) {
+      entry = await _preloadExtras(entry);
+    }
+    return entries;
+  }
+
+  Future<FactFileEntry> _preloadExtras(FactFileEntry entry) async {
     entry.category = await factFileCategoryBean.find(entry.categoryId);
     entry.mainImage = await mediaFileBean.find(entry.mainImageId);
-    entry.pronounceAudio = await mediaFileBean.find(entry.pronounceAudioId);
-    entry.listenAudio = await mediaFileBean.find(entry.listenAudioId);
-
+    if (entry.pronounceAudioId != null)
+      entry.pronounceAudio = await mediaFileBean.find(entry.pronounceAudioId);
+    if (entry.listenAudioId != null)
+      entry.listenAudio = await mediaFileBean.find(entry.listenAudioId);
     return entry;
   }
 }
