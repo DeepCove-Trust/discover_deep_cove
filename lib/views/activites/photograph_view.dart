@@ -238,7 +238,7 @@ class _PhotographViewState extends State<PhotographView> {
           ? Container()
           : Padding(
               padding: const EdgeInsets.all(8.0),
-              child: CustomFAB(
+              child: CustomFab(
                 icon: FontAwesomeIcons.camera,
                 text: "I see it!",
                 onPressed: () {

@@ -7,16 +7,16 @@ import 'package:discover_deep_cove/widgets/fact_file/card_overlay.dart';
 import 'package:discover_deep_cove/widgets/misc/small_tile.dart';
 
 
-class TabPage extends StatefulWidget {
+class FactFileTab extends StatefulWidget {
   final List<FactFileEntry> entries;
 
-  TabPage(this.entries);
+  FactFileTab(this.entries);
 
   @override
-  _TabPageState createState() => _TabPageState();
+  _FactFileTabState createState() => _FactFileTabState();
 }
 
-class _TabPageState extends State<TabPage> {
+class _FactFileTabState extends State<FactFileTab> {
   bool overlayVisible = false;
   FactFileEntry tappedEntry;
 

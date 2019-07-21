@@ -13,7 +13,7 @@ import 'package:discover_deep_cove/views/quiz/quiz_index.dart';
 import 'package:discover_deep_cove/views/settings/settings.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
-import 'package:discover_deep_cove/widgets/misc/loadingModalOverlay.dart';
+import 'package:discover_deep_cove/widgets/misc/loading_modal_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -407,7 +407,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ),
       ),
       floatingActionButton: pageIs(Page.Map)
-          ? CustomFAB(
+          ? CustomFab(
               icon: FontAwesomeIcons.qrcode,
               text: "Scan",
               onPressed: scan,

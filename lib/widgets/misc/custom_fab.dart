@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 
-class CustomFAB extends StatelessWidget {
+class CustomFab extends StatelessWidget {
   final IconData icon;
   final String text;
   final VoidCallback onPressed;
 
   ///Returns an extended [FloatingActionButton] with the params
   ///icon, text and onPressed passed in
-  const CustomFAB({this.icon, this.text, this.onPressed});
+  const CustomFab({this.icon, this.text, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
