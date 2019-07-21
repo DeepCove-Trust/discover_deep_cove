@@ -32,34 +32,31 @@ class _SettingsState extends State<Settings> {
         SizedBox(
           height: 20,
         ),
-        Divider(
-          color: Color(0xFF777777),
-        ),
         SettingsButton(
-          icon: FontAwesomeIcons.undo,
+          iconData: FontAwesomeIcons.undo,
           text: "Reset Progress",
           onTap: null,
         ),
         Divider(
-          color: Color(0xFF777777),
+          color: Color(0xFF777777), height: 1
         ),
         SettingsButton(
-          icon: FontAwesomeIcons.sync,
+          iconData: FontAwesomeIcons.sync,
           text: "Check for updates",
           onTap: syncResources,
         ),
         Divider(
-          color: Color(0xFF777777),
+          color: Color(0xFF777777), height: 1
         ),
         SettingsButton(
-          icon: FontAwesomeIcons.infoCircle,
+          iconData: FontAwesomeIcons.infoCircle,
           text: "About this app",
           onTap: () {
             Navigator.of(context).pushNamed('/about');
           },
         ),
         Divider(
-          color: Color(0xFF777777),
+          color: Color(0xFF777777), height: 1
         ),
       ],
     );
