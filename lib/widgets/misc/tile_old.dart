@@ -5,13 +5,13 @@ import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:flutter/material.dart';
 
-class Tile extends StatelessWidget {
+class TileOld extends StatelessWidget {
   final FactFileEntry entry;
   final Quiz quiz;
   final VoidCallback onTap;
   final String hero;
 
-  Tile({this.onTap, this.entry, this.quiz, this.hero});
+  TileOld({this.onTap, this.entry, this.quiz, this.hero});
 
   @override
   Widget build(BuildContext context) {

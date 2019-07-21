@@ -33,9 +33,9 @@ class _QuizIndexState extends State<QuizIndex> {
     );
   }
 
-  List<TileOld> buildCards(BuildContext context, List<Quiz> quizzes) {
+  List<Tile> buildCards(BuildContext context, List<Quiz> quizzes) {
     return quizzes.map((quiz) {
-      return TileOld(
+      return Tile(
         onTap: () {
           quiz.attempts++;
           Navigator.of(context).pushNamed('/quizQuestions', arguments: quiz);

@@ -1,10 +1,11 @@
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
+import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/widgets/misc/tile.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/views/fact_file/fact_file_details.dart';
 import 'package:discover_deep_cove/widgets/fact_file/card_overlay.dart';
-import 'package:uuid/uuid.dart';
+import 'package:discover_deep_cove/widgets/misc/small_tile.dart';
 
-import 'package:discover_deep_cove/widgets/misc/tile_old.dart';
 
 class TabPage extends StatefulWidget {
   final List<FactFileEntry> entries;
@@ -16,21 +17,18 @@ class TabPage extends StatefulWidget {
 }
 
 class _TabPageState extends State<TabPage> {
-  final Uuid uuid = Uuid();
   bool overlayVisible = false;
   FactFileEntry tappedEntry;
 
   /// This takes a [count] and builds each [Tile] for this tab page
-  List<Tile> _buildGridCards(int count, BuildContext context) {
-    List<Tile> cards = List.generate(count, (int index) {
-      String heroTag = uuid.v4();
-      return Tile(
-        onTap: () => handleTap(widget.entries[index]),
-        entry: widget.entries[index],
-        hero: heroTag,
+  List<SmallTile> _buildGridCards(int count, BuildContext context) {
+    return widget.entries.map((entry){
+      return SmallTile(
+        title: entry.primaryName,
+        imagePath: Env.getResourcePath(entry.mainImage.path),
+        onTap: handleTap(entry),
       );
-    });
-    return cards;
+    }).toList();
   }
 
   @override
@@ -66,7 +64,7 @@ class _TabPageState extends State<TabPage> {
                   );
                 },
               )
-            : null,
+            : Container(),
       ],
     );
   }
