@@ -44,7 +44,7 @@ class _FactFileIndexState extends State<FactFileIndex>
 
     for (FactFileCategory category in categories) {
       for (FactFileEntry entry in category.entries)
-        await precacheImage(
+        precacheImage(
           FileImage(File(Env.getResourcePath(entry.mainImage.path))),
           context,
         );

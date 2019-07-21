@@ -6,20 +6,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 
-class FactFilesDetails extends StatefulWidget {
+class FactFileDetails extends StatefulWidget {
   final FactFileEntry entry;
   final String heroTag;
   static final AudioCache callPlayer = new AudioCache();
   static final AudioCache pronunciationsPlayer = new AudioCache();
 
   ///Takes in a [FactFileEntry] and a [String]and returns the view
-  FactFilesDetails({this.entry, this.heroTag});
+  FactFileDetails({this.entry, this.heroTag});
 
   @override
-  _FactFilesDetailsState createState() => _FactFilesDetailsState();
+  _FactFileDetailsState createState() => _FactFileDetailsState();
 }
 
-class _FactFilesDetailsState extends State<FactFilesDetails> {
+class _FactFileDetailsState extends State<FactFileDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +75,7 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
                           children: <Widget>[
                             widget.entry.pronounceAudio != null ? OutlineButton.icon(
                               onPressed: () {
-                                FactFilesDetails.pronunciationsPlayer.play(
+                                FactFileDetails.pronunciationsPlayer.play(
                                   widget.entry.pronounceAudio.path
                                       .substring(
                                     widget.entry.pronounceAudio.path
@@ -99,7 +99,7 @@ class _FactFilesDetailsState extends State<FactFilesDetails> {
                             ) : Container(),
                             widget.entry.listenAudio != null ? OutlineButton.icon(
                               onPressed: () {
-                                FactFilesDetails.callPlayer.play(
+                                FactFileDetails.callPlayer.play(
                                   widget.entry.listenAudio.path.substring(
                                       widget.entry.listenAudio.path
                                               .indexOf('/') +
