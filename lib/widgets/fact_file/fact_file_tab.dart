@@ -2,7 +2,6 @@ import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/widgets/misc/tile.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_deep_cove/widgets/fact_file/card_overlay_new.dart';
 import 'package:discover_deep_cove/widgets/misc/small_tile.dart';
 
 class FactFileTab extends StatefulWidget {
@@ -42,12 +41,6 @@ class _FactFileTabState extends State<FactFileTab> {
             children: _buildGridCards(widget.entries.length, context),
           ),
         ),
-        overlayVisible
-            ? CardOverlay(
-                entry: tappedEntry,
-                onTap: () => setState(() => overlayVisible = false),
-              )
-            : Container(),
       ],
     );
   }
