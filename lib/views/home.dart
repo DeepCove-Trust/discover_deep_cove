@@ -200,10 +200,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       trackStartCoords = LatLng(tracks[currentTrackNum].activities[0].xCoord,
           tracks[currentTrackNum].activities[0].yCoord);
     });
-
-    print(tracks[currentTrackNum].activities[0].xCoord);
-    print(tracks[currentTrackNum].activities[0].yCoord);
-
+    
     _animatedMapMove(trackStartCoords, 16.0);
   }
 
