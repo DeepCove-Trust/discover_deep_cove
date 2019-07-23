@@ -52,7 +52,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     pages.add(Container()); // placeholder
     pages.add(Container()); // placeholder
     pages.add(QuizIndex());
-    pages.add(Settings(onProgressUpdate: setLoadingModal,));
+    pages.add(Settings(
+      onProgressUpdate: setLoadingModal,
+    ));
     currentPage = pages[Page.Map.index];
 
     //The track the user starts at
@@ -194,13 +196,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         : (trackId + tracks.length - 1) % tracks.length;
 
     setState(() {
-      currentTrackNum = trackId;
-      trackTitle = tracks[currentTrackNum].name;
-
       trackStartCoords = LatLng(tracks[currentTrackNum].activities[0].xCoord,
           tracks[currentTrackNum].activities[0].yCoord);
+
+      currentTrackNum = trackId;
+      trackTitle = tracks[currentTrackNum].name;
     });
-    
+
     _animatedMapMove(trackStartCoords, 16.0);
   }
 
@@ -363,9 +365,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: _buildPage()
-    );
+    return Stack(children: _buildPage());
   }
 
   List<Widget> _buildPage() {
@@ -373,7 +373,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
     contents.add(Scaffold(
       appBar: setAppBar(currentPage),
-      body:  pageIs(Page.Map) ? getMap() : currentPage,
+      body: pageIs(Page.Map) ? getMap() : currentPage,
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           // sets the background color of the `BottomNavigationBar`
@@ -381,8 +381,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           // sets the active color of the `BottomNavigationBar` if `Brightness` is light
           primaryColor: Color(0xFFFF5026),
           textTheme: Theme.of(context).textTheme.copyWith(
-            caption: TextStyle(color: Colors.white),
-          ),
+                caption: TextStyle(color: Colors.white),
+              ),
         ), // sets the inactive color of the `BottomNavigationBar`
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -390,8 +390,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             index == 1
                 ? scan()
                 : setState(() {
-              currentPage = pages[index];
-            });
+                    currentPage = pages[index];
+                  });
           },
           currentIndex: pageIndex(currentPage),
           items: [
@@ -449,7 +449,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   /// This method is passed to the settings widget, so that it can use
   /// a loading modal that will block out the entire screen.
-  void setLoadingModal({bool isLoading, String loadingMessage, Icon icon}){
+  void setLoadingModal({bool isLoading, String loadingMessage, Icon icon}) {
     setState(() {
       _isLoading = isLoading;
       _loadingMessage = loadingMessage;
