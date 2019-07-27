@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
@@ -20,6 +21,7 @@ class FactFileOverlay extends StatefulWidget {
 }
 
 class _FactFileOverlayState extends State<FactFileOverlay> {
+  AudioPlayer player = AudioPlayer();
   bool _visible = false;
   int _duration = 300;
 
@@ -139,19 +141,44 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (widget.entry.listenAudio != null)
-                OutlineButton(
-                  // Todo: Customize active effects and play audio
-                  child: BodyText(text: 'Listen'),
-                  onPressed: () => print('Pressed "Listen"'),
-                  borderSide: BorderSide(color: Colors.white),
-                ),
               if (widget.entry.pronounceAudio != null)
-                OutlineButton(
-                  child: BodyText(text: 'Pronounce'),
-                  onPressed: () => print('Pressed "Pronounce"'),
-                  borderSide: BorderSide(color: Colors.white),
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width - 90) / 2,
+                  child: OutlineButton(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Icon(FontAwesomeIcons.music, color: Colors.white),
+                        SizedBox(height: 10),
+                        BodyText(text: 'Pronounce'),
+                      ],
+                    ),
+                    onPressed: () => player.play(
+                        Env.getResourcePath(widget.entry.pronounceAudio.path),
+                        isLocal: true),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
                 ),
+              if (widget.entry.listenAudio != null)
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width - 90) / 2,
+                  child: OutlineButton(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Icon(FontAwesomeIcons.volumeUp, color: Colors.white),
+                        SizedBox(height: 10),
+                        BodyText(text: 'Listen'),
+                      ],
+                    ),
+                    onPressed: () => player.play(
+                        Env.getResourcePath(widget.entry.listenAudio.path),
+                        isLocal: true),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                )
             ],
           ),
         ],
@@ -163,7 +190,6 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
   buildInfoButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
-
         Navigator.of(context).pushReplacementNamed(
           '/factFileDetails',
           arguments: widget.entry,
