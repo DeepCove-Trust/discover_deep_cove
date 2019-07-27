@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:audioplayers/audio_cache.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
@@ -8,12 +11,11 @@ import 'package:discover_deep_cove/widgets/misc/heading.dart';
 
 class FactFileDetails extends StatefulWidget {
   final FactFileEntry entry;
-  final String heroTag;
   static final AudioCache callPlayer = new AudioCache();
   static final AudioCache pronunciationsPlayer = new AudioCache();
 
   ///Takes in a [FactFileEntry] and a [String]and returns the view
-  FactFileDetails({this.entry, this.heroTag});
+  FactFileDetails({this.entry});
 
   @override
   _FactFileDetailsState createState() => _FactFileDetailsState();
@@ -39,9 +41,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                   child: Carousel(
                     boxFit: BoxFit.fill,
                     autoplay: false,
-                    images: [
-                      // Todo: load image paths from database
-                    ],
+                    images: getCarouselImages(),
                     animationCurve: Curves.fastOutSlowIn,
                     animationDuration: Duration(milliseconds: 2000),
                     overlayShadow: false,
@@ -147,5 +147,11 @@ class _FactFileDetailsState extends State<FactFileDetails> {
         ),
       ),
     );
+  }
+
+  List<Image> getCarouselImages() {
+    return widget.entry.galleryImages.map((mediaFile){
+      return Image(image: FileImage(File(Env.getResourcePath(mediaFile.path))));
+    }).toList();
   }
 }

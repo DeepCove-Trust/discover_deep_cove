@@ -26,6 +26,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
   @override
   void initState() {
     setVisible();
+    super.initState();
   }
 
   Future<void> setVisible() async {
@@ -161,21 +162,19 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
 
   buildInfoButton(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed(
-        '/factFileDetails',
-        arguments: widget.entry,
-      ),
-      child: Container( // Todo: This will not be responsive...
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Color.fromRGBO(0, 0, 0, 0.25)),
-        child: Column(
-          children: [
-            Icon(FontAwesomeIcons.infoCircle,
-                color: Colors.white, size: 30),
-            SizedBox(height: 10),
-            BodyText(text: 'More Info'),
-          ],
-        ),
+      onTap: () {
+
+        Navigator.of(context).pushReplacementNamed(
+          '/factFileDetails',
+          arguments: widget.entry,
+        );
+      },
+      child: Column(
+        children: [
+          Icon(FontAwesomeIcons.infoCircle, color: Colors.white, size: 30),
+          SizedBox(height: 10),
+          BodyText(text: 'More Info'),
+        ],
       ),
     );
   }

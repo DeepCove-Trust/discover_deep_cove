@@ -6,7 +6,7 @@ import 'package:discover_deep_cove/views/activites/photograph_view.dart';
 import 'package:discover_deep_cove/views/activites/picture_select_view.dart';
 import 'package:discover_deep_cove/views/activites/picture_tap_view.dart';
 import 'package:discover_deep_cove/views/activites/text_answer_view.dart';
-import 'package:discover_deep_cove/views/fact_file/fact_file_details.dart';
+import 'package:discover_deep_cove/views/fact_file/fact_file_details_new.dart';
 import 'package:discover_deep_cove/views/fact_file/fact_file_overlay.dart';
 import 'package:discover_deep_cove/views/home.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_questions.dart';
@@ -29,12 +29,11 @@ class RouteGenerator {
 
       //Fact file routes
       case '/factFileDetails':
-        if (args is FactFileDetails) {
-          final FactFileDetails args = settings.arguments;
+        if (args is FactFileEntry) {
+          final FactFileEntry args = settings.arguments;
           return MaterialPageRoute(
             builder: (_) => FactFileDetails(
-              entry: args.entry,
-              heroTag: args.heroTag,
+              entry: args,
             ),
           );
         }
@@ -45,11 +44,9 @@ class RouteGenerator {
         if (args is FactFileEntry) {
           final FactFileEntry args = settings.arguments;
           return TransparentPageRoute(
-            builder: (_) => FactFileOverlay(
-              entry: args
-            ),
+            builder: (_) => FactFileOverlay(entry: args),
           );
-        }else {
+        } else {
           return _errorRoute();
         }
         break;
