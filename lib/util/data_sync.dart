@@ -55,7 +55,7 @@ class SyncProvider {
   static Future<http.Response> _requestFile() async {
     http.Response response = await http.get(Env.filesSyncUrl);
     if (response.statusCode != 200) {
-      throw Exception('API error'); // TODO: make this better
+      throw Exception('API error ${response.statusCode}'); // TODO: make this better
     }
     return response;
   }

@@ -6,7 +6,7 @@ import 'package:discover_deep_cove/views/activites/photograph_view.dart';
 import 'package:discover_deep_cove/views/activites/picture_select_view.dart';
 import 'package:discover_deep_cove/views/activites/picture_tap_view.dart';
 import 'package:discover_deep_cove/views/activites/text_answer_view.dart';
-import 'package:discover_deep_cove/views/fact_file/fact_file_details_new.dart';
+import 'package:discover_deep_cove/views/fact_file/fact_file_details.dart';
 import 'package:discover_deep_cove/views/fact_file/fact_file_overlay.dart';
 import 'package:discover_deep_cove/views/home.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_questions.dart';
