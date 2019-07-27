@@ -9,7 +9,7 @@ part of 'quiz.dart';
 abstract class _QuizBean implements Bean<Quiz> {
   final id = IntField('id');
   final lastModified = DateTimeField('last_modified');
-  final _unlocked = BoolField('unlocked');
+  final unlocked = BoolField('unlocked');
   final unlockCode = StrField('unlock_code');
   final title = StrField('title');
   final attempts = IntField('attempts');
@@ -19,7 +19,7 @@ abstract class _QuizBean implements Bean<Quiz> {
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
         lastModified.name: lastModified,
-        _unlocked.name: _unlocked,
+        unlocked.name: unlocked,
         unlockCode.name: unlockCode,
         title.name: title,
         attempts.name: attempts,
@@ -30,7 +30,7 @@ abstract class _QuizBean implements Bean<Quiz> {
     Quiz model = Quiz();
     model.id = adapter.parseValue(map['id']);
     model.lastModified = adapter.parseValue(map['last_modified']);
-    model._unlocked = adapter.parseValue(map['unlocked']);
+    model.unlocked = adapter.parseValue(map['unlocked']);
     model.unlockCode = adapter.parseValue(map['unlock_code']);
     model.title = adapter.parseValue(map['title']);
     model.attempts = adapter.parseValue(map['attempts']);
@@ -47,7 +47,7 @@ abstract class _QuizBean implements Bean<Quiz> {
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
       ret.add(lastModified.set(model.lastModified));
-      ret.add(_unlocked.set(model._unlocked));
+      ret.add(unlocked.set(model.unlocked));
       ret.add(unlockCode.set(model.unlockCode));
       ret.add(title.set(model.title));
       ret.add(attempts.set(model.attempts));
@@ -57,8 +57,7 @@ abstract class _QuizBean implements Bean<Quiz> {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(lastModified.name))
         ret.add(lastModified.set(model.lastModified));
-      if (only.contains(_unlocked.name))
-        ret.add(_unlocked.set(model._unlocked));
+      if (only.contains(unlocked.name)) ret.add(unlocked.set(model.unlocked));
       if (only.contains(unlockCode.name))
         ret.add(unlockCode.set(model.unlockCode));
       if (only.contains(title.name)) ret.add(title.set(model.title));
@@ -73,8 +72,8 @@ abstract class _QuizBean implements Bean<Quiz> {
       if (model.lastModified != null) {
         ret.add(lastModified.set(model.lastModified));
       }
-      if (model._unlocked != null) {
-        ret.add(_unlocked.set(model._unlocked));
+      if (model.unlocked != null) {
+        ret.add(unlocked.set(model.unlocked));
       }
       if (model.unlockCode != null) {
         ret.add(unlockCode.set(model.unlockCode));
@@ -100,8 +99,8 @@ abstract class _QuizBean implements Bean<Quiz> {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
     st.addDateTime(lastModified.name, isNullable: false);
-    st.addBool(_unlocked.name, isNullable: true);
-    st.addStr(unlockCode.name, isNullable: false);
+    st.addBool(unlocked.name, isNullable: true);
+    st.addStr(unlockCode.name, isNullable: true);
     st.addStr(title.name, isNullable: false);
     st.addInt(attempts.name, isNullable: true);
     st.addInt(highScore.name, isNullable: true);

@@ -1,6 +1,8 @@
+import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
+import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 
 part 'quiz_question.jorm.dart';
@@ -15,7 +17,7 @@ class QuizQuestion {
   int quizId;
 
   @Column(isNullable: true)
-  bool trueFalseQuestion;
+  bool trueFalseAnswer;
 
   @Column()
   String text;
@@ -31,6 +33,15 @@ class QuizQuestion {
 
   @BelongsTo(QuizAnswerBean, isNullable: true)
   int correctAnswerId;
+
+  @IgnoreColumn()
+  MediaFile image; // TODO: Preload these fields
+
+  @IgnoreColumn()
+  MediaFile audio;
+
+  @IgnoreColumn()
+  QuizAnswer correctAnswer;
 }
 
 @GenBean()
@@ -39,12 +50,18 @@ class QuizQuestionBean extends Bean<QuizQuestion> with _QuizQuestionBean {
       : quizAnswerBean = QuizAnswerBean(adapter),
         super(adapter);
 
+  QuizQuestionBean.of(BuildContext context)
+      : quizAnswerBean = QuizAnswerBean(DatabaseAdapter.of(context)),
+        super(DatabaseAdapter.of(context));
+
   final QuizAnswerBean quizAnswerBean;
 
   MediaFileBean _mediaFileBean;
+
   MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
 
   QuizBean _quizBean;
+
   QuizBean get quizBean => _quizBean ?? QuizBean(adapter);
 
   final String tableName = 'quiz_questions';

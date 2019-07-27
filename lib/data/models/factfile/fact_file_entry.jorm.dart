@@ -113,7 +113,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         foreignCol: 'id',
         isNullable: false);
     st.addStr(primaryName.name, isNullable: false);
-    st.addStr(altName.name, isNullable: false);
+    st.addStr(altName.name, isNullable: true);
     st.addStr(cardText.name, isNullable: false);
     st.addStr(bodyText.name, isNullable: false);
     st.addInt(mainImageId.name,
@@ -123,11 +123,11 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     st.addInt(pronounceAudioId.name,
         foreignTable: mediaFileBean.tableName,
         foreignCol: 'id',
-        isNullable: false);
+        isNullable: true);
     st.addInt(listenAudioId.name,
         foreignTable: mediaFileBean.tableName,
         foreignCol: 'id',
-        isNullable: false);
+        isNullable: true);
     return adapter.createTable(st);
   }
 

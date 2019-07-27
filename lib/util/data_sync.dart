@@ -20,7 +20,7 @@ import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/permissions.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:http/http.dart' as http;
-import 'package:jaguar_orm/jaguar_orm.dart';
+import 'package:sqflite/sqflite.dart';
 
 /// Facilitates communication between this application, and the CMS server.
 ///
@@ -28,10 +28,10 @@ import 'package:jaguar_orm/jaguar_orm.dart';
 class SyncProvider {
   SyncProvider._();
 
-  /// Retrieve the checksum for the zipped resources file that will be
-  /// sent by the CMS server. This can be compared with the checksum of
+  /// Retrieve the hash for the zipped resources file that will be
+  /// sent by the CMS server. This can be compared with the hash of
   /// the actual file that has been downloaded from the server.
-  static Future<String> _getFileChecksum() async {
+  static Future<String> _getFilesHash() async {
     http.Response response = await http.get(Env.filesHashUrl);
     if (response.statusCode != 200) {
       throw Exception('API error'); // TODO: make this better
@@ -39,10 +39,10 @@ class SyncProvider {
     return response.body;
   }
 
-  /// Retrieve the checksum for the JSON data that will be sent by the
-  /// CMS server. This can be compared with the checksum of the actual
+  /// Retrieve the hash for the JSON data that will be sent by the
+  /// CMS server. This can be compared with the hash of the actual
   /// JSON data that was downloaded from the server.
-  static Future<String> _getJsonChecksum() async {
+  static Future<String> _getJsonHash() async {
     http.Response response = await http.get(Env.dataHashUrl);
     if (response.statusCode != 200) {
       throw Exception('API error'); // TODO: make this better
@@ -81,15 +81,15 @@ class SyncProvider {
     String jsonString = await _requestData();
     print('JSON data received...');
 
-    // Calculate checksum of downloaded data.
+    // Calculate hash of downloaded data.
     String downloadHash =
         sha256.convert(Utf8Encoder().convert(jsonString)).toString();
-    String expectedHash = await _getJsonChecksum();
+    String expectedHash = await _getJsonHash();
 
-    print('Calculated hash: $downloadHash');
-    print('Expected hash: $expectedHash');
+//    print('Calculated hash: $downloadHash');
+//    print('Expected hash: $expectedHash');
 
-    // Compare with expected checksum from server.
+    // Compare with expected hash from server.
     if (downloadHash.toString() != expectedHash) {
       // Retrieved data is corrupted.
       print('JSON data failed integrity check...');
@@ -114,7 +114,7 @@ class SyncProvider {
   /// file passes the integrity check.
   static Future<File> _downloadZipFile() async {
     // get the resources directory
-    Directory rootDir = Directory(await Env.rootStorageDirPath);
+    Directory rootDir = Directory(Env.rootStorageDirPath);
 
     print('Requesting zip file from server.');
 
@@ -129,10 +129,10 @@ class SyncProvider {
     // integrity check
     String downloadHash =
         sha256.convert(await resourcesZip.readAsBytes()).toString();
-    String expectedHash = await _getFileChecksum();
+    String expectedHash = await _getFilesHash();
 
-    print('Calculated checksum: $downloadHash');
-    print('Expected checksum: $expectedHash');
+//    print('Calculated checksum: $downloadHash');
+//    print('Expected checksum: $expectedHash');
 
     // integrity check
     if (downloadHash != expectedHash) {
@@ -153,7 +153,7 @@ class SyncProvider {
   ///
   /// Returns true if successful.
   static Future<bool> _extractFileStructure(File payload) async {
-    Directory resourceDir = Directory(await Env.resourcesPath);
+    Directory resourceDir = Directory(Env.resourcesPath);
     // delete existing resource directory
     if (await resourceDir.exists()) {
       print('Deleting existing resource directory,');
@@ -175,7 +175,7 @@ class SyncProvider {
     } else {
       // something went wrong with extraction
       throw Exception('Something went wrong with file extraction.');
-      // TODO: Improve the handling of this.
+      // TODO: Improve the handling of this. This will break the application.
     }
   }
 
@@ -185,10 +185,8 @@ class SyncProvider {
   /// have more recent 'lastModified' timestamps. This means that user inputs
   /// and scores will be retained for unmodified quizzes/activities.
   static Future<bool> _rebuildDatabase(Map<String, dynamic> data) async {
-
     // Below code causes new database file to be created if it doesn't exist.
     SqfliteAdapter adapter = await DB.instance.adapter;
-
 
     MediaFileBean mediaFileBean = MediaFileBean(adapter);
     await mediaFileBean.drop();
@@ -211,24 +209,25 @@ class SyncProvider {
       await factFileEntryBean.insert(factFileEntryBean.fromMap(map));
     }
 
-    FactFileEntryImageBean factFileEntryImageBean = FactFileEntryImageBean(adapter);
+    FactFileEntryImageBean factFileEntryImageBean =
+        FactFileEntryImageBean(adapter);
     await factFileEntryImageBean.drop();
     await factFileEntryImageBean.createTable();
-    for(Map<String, dynamic> map in data['factFileEntryImages']){
+    for (Map<String, dynamic> map in data['factFileEntryImages']) {
       await factFileEntryImageBean.insert(factFileEntryImageBean.fromMap(map));
     }
 
     FactFileNuggetBean factFileNuggetBean = FactFileNuggetBean(adapter);
     await factFileNuggetBean.drop();
     await factFileNuggetBean.createTable();
-    for(Map<String, dynamic> map in data['factFileNuggets']){
+    for (Map<String, dynamic> map in data['factFileNuggets']) {
       await factFileNuggetBean.insert(factFileNuggetBean.fromMap(map));
     }
 
     TrackBean trackBean = TrackBean(adapter);
     await trackBean.drop();
     await trackBean.createTable();
-    for(Map<String, dynamic> map in data['tracks']){
+    for (Map<String, dynamic> map in data['tracks']) {
       await trackBean.insert(trackBean.fromMap(map));
     }
 
@@ -236,8 +235,7 @@ class SyncProvider {
     // This means user inputs will be retained where appropriate.
     ActivityBean activityBean = ActivityBean(adapter);
     await activityBean.createTable(ifNotExists: true);
-    for(Map<String, dynamic> map in data['activities']){
-
+    for (Map<String, dynamic> map in data['activities']) {
       // The activity retrieved from the CMS.
       Activity newActivity = activityBean.fromMap(map);
 
@@ -245,7 +243,7 @@ class SyncProvider {
       Activity oldActivity = await activityBean.find(newActivity.id);
 
       // If the new activity doesn't exist, create it.
-      if(oldActivity == null){
+      if (oldActivity == null) {
         await activityBean.insert(newActivity);
         print("Activity created");
         continue;
@@ -253,7 +251,7 @@ class SyncProvider {
 
       // If the activity has been modified, replace it with the newer
       // version.
-      if(oldActivity.lastModified.isBefore(newActivity.lastModified)){
+      if (oldActivity.lastModified.isBefore(newActivity.lastModified)) {
         await activityBean.remove(newActivity.id);
         await activityBean.insert(newActivity);
         print("Activity updated");
@@ -266,19 +264,21 @@ class SyncProvider {
     ActivityImageBean activityImageBean = ActivityImageBean(adapter);
     await activityImageBean.drop();
     await activityImageBean.createTable();
-    for(Map<String, dynamic> map in data['activityImages']){
+    for (Map<String, dynamic> map in data['activityImages']) {
       await activityImageBean.insert(activityImageBean.fromMap(map));
     }
 
     QuizBean quizBean = QuizBean(adapter);
     await quizBean.createTable(ifNotExists: true);
-    for(Map<String, dynamic> map in data['quizzes']){
-
+    for (Map<String, dynamic> map in data['quizzes']) {
       Quiz newQuiz = quizBean.fromMap(map);
+      newQuiz.highScore = 0;
+      newQuiz.attempts = 0;
+      newQuiz.unlocked = map['unlock_code'] == null;
       Quiz oldQuiz = await quizBean.find(newQuiz.id);
 
       // Insert new quiz if it doesn't already exist in database.
-      if(oldQuiz == null){
+      if (oldQuiz == null) {
         quizBean.insert(newQuiz);
         print("Quiz inserted");
         continue;
@@ -286,7 +286,7 @@ class SyncProvider {
 
       // Replace quiz if the CMS provided a newer version.
       // This will remove user scores for this quiz.
-      if(oldQuiz.lastModified.isBefore(newQuiz.lastModified)){
+      if (oldQuiz.lastModified.isBefore(newQuiz.lastModified)) {
         await quizBean.remove(newQuiz.id);
         await quizBean.insert(newQuiz);
         print("Quiz updated.");
@@ -294,27 +294,26 @@ class SyncProvider {
       }
 
       print("Quiz unmodified");
-
     }
 
     QuizQuestionBean quizQuestionBean = QuizQuestionBean(adapter);
     await quizQuestionBean.drop();
     await quizQuestionBean.createTable();
-    for(Map<String, dynamic> map in data['quizQuestions']){
+    for (Map<String, dynamic> map in data['quizQuestions']) {
       await quizQuestionBean.insert(quizQuestionBean.fromMap(map));
     }
 
     QuizAnswerBean quizAnswerBean = QuizAnswerBean(adapter);
     await quizAnswerBean.drop();
     await quizAnswerBean.createTable();
-    for(Map<String, dynamic> map in data['quizAnswers']){
+    for (Map<String, dynamic> map in data['quizAnswers']) {
       await quizAnswerBean.insert(quizAnswerBean.fromMap(map));
     }
 
     ConfigBean configBean = ConfigBean(adapter);
     await configBean.drop();
     await configBean.createTable();
-    for(Map<String, dynamic> map in data['config']){
+    for (Map<String, dynamic> map in data['config']) {
       await configBean.insert(configBean.fromMap(map));
     }
 
@@ -327,8 +326,9 @@ class SyncProvider {
   /// existing content and rebuilding.
   ///
   /// Current implementation will result in the loss of any user data
-  /// (activity inputs, answers, scores, etc).
-  static Future<bool> syncResources() async {
+  /// (activity inputs, answers, scores, etc) if a newer version of the
+  /// activity/quiz is available.
+  static Future<bool> syncResources(Map<String, bool> updatesAvailable) async {
     print('Syncing application resources with CMS server...');
 
     if (!await Permissions.ensurePermission(PermissionGroup.storage)) {
@@ -336,70 +336,62 @@ class SyncProvider {
       return false;
     }
 
-    // Download and check data
-    Map<String, dynamic> data = await _downloadData();
-    if (data == null) {
-      print('Data was not downloaded successfully. Aborting');
-      // TODO: Review what to do here
-      return false;
+    Map<String, bool> updatesAvailable = await updatedDataAvailable();
+    Map<String, dynamic> data;
+    File payload;
+
+    if (updatesAvailable['data']) {
+      data = await _downloadData();
+      if (data == null) return false;
+    } else {
+      print('Application database up to date!');
     }
 
-    // Download and check zip file.
-    File payload = await _downloadZipFile();
-    if (payload == null) {
-      print('Files were not downloaded successfully. Aborting');
-      // TODO: Review what to do here
-      return false;
+    if (updatesAvailable['files']) {
+      payload = await _downloadZipFile();
+      if (payload == null) return false;
+    } else {
+      print('Application media files up to date!');
     }
-
-    // We now have good, updated data and files.
 
     // Removing existing files and extracting zip in its place.
-    bool extracted = await _extractFileStructure(payload);
+    if (payload != null) bool extracted = await _extractFileStructure(payload);
 
     // Deleting existing database and rebuilding
-    bool dataRebuilt = await _rebuildDatabase(data);
+    if (data != null) bool dataRebuilt = await _rebuildDatabase(data);
 
     print('Application content successfully synced.');
     return true;
   }
 
-  /// Retrieves the version number of the current online resources.
-  /// TODO: Implement this locally and on the server
-  static Future<double> getRemoteResourcesVersion() async {
-    // retrieve current version from CMS
-
-    // return value
-  }
-
-  /// Checks the version number of the local resources
-  /// TODO: Implement this locally and on the server
-  static Future<double> getLocalResourcesVersion() async {
-    // retrieve current version number from database
-
-    // return value
-  }
-
-  /// Fetches remote and local resource versions. If the remote version is
-  /// greater than the local, then updated resources are available.
-  ///
-  /// Returns a map containing both remote and local resources versions.
-  /// TODO: Implement this locally and on the server
-  static Future<Map<String, double>> getResourcesVersions() async {
-    // call getRemoteResourcesVersion
-
-    // call getLocalResourcesVersion
-
-    // return map of following data
-    //    'remoteVersion' : 3.0,
-    //    'localVersion' : 2.2
-    // TODO: Review below idea and determine suitability for this project
-    // Idea: Minor version number increase indicates that new data is compatible
-    // with any existing user data. Major version increase indicates that all
-    // user data will be wiped during sync.
-  }
-
   /// Returns true is updated resources are available on the remote server.
-  static Future<bool> updatedResourcesAvailable() async =>
-      await getRemoteResourcesVersion() > await getLocalResourcesVersion();
+  static Future<Map<String, bool>> updatedDataAvailable() async {
+    Config local;
+    ConfigBean cfgBean = ConfigBean(await DB.instance.adapter);
+
+    try {
+      local = await cfgBean.find(1);
+    } catch (ex) {
+      if (ex is DatabaseException) {
+        // Probably first-time sync, tables don't exist yet.
+        return {'data': true, 'files': true};
+      }
+      throw ex; // otherwise, throw the exception
+    }
+
+    http.Response response = await http.get(Env.versionsUrl);
+    if (response.statusCode != 200) {
+      throw Exception('API responded with error - Error code: ' +
+          response.statusCode.toString());
+    }
+
+    var remote = json.decode(response.body);
+
+// Compare remote versions to local versions, setting to 'true' if a
+// newer version is available on the server.
+    return {
+      'data': (remote['data'] as int) > local.dataVersion,
+      'files': (remote['files'] as int) > local.filesVersion,
+    };
+  }
 }

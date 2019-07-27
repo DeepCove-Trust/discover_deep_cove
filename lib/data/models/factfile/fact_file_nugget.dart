@@ -1,5 +1,7 @@
+import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:meta/meta.dart';
 
@@ -48,11 +50,16 @@ class FactFileNugget {
 class FactFileNuggetBean extends Bean<FactFileNugget> with _FactFileNuggetBean {
   FactFileNuggetBean(Adapter adapter) : super(adapter);
 
+  FactFileNuggetBean.of(BuildContext context)
+      : super(DatabaseAdapter.of(context));
+
   FactFileEntryBean _factFileEntryBean;
+
   FactFileEntryBean get factFileEntryBean =>
       _factFileEntryBean ?? FactFileEntryBean(adapter);
 
   MediaFileBean _mediaFileBean;
+
   MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
 
   final String tableName = 'fact_file_nuggets';

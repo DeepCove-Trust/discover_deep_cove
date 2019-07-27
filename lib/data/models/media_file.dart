@@ -1,3 +1,4 @@
+import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/activity/activity_images.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
@@ -6,6 +7,7 @@ import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
+import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 import 'package:meta/meta.dart';
@@ -26,7 +28,10 @@ class MediaFile {
   MediaFile();
 
   MediaFile.make(
-      {@required this.id, @required this.fileType, @required this.path, this.name});
+      {@required this.id,
+      @required this.fileType,
+      @required this.path,
+      this.name});
 
   @PrimaryKey()
   int id;
@@ -94,6 +99,18 @@ class MediaFileBean extends Bean<MediaFile> with _MediaFileBean {
         quizQuestionBean = QuizQuestionBean(adapter),
         quizAnswerBean = QuizAnswerBean(adapter),
         super(adapter);
+
+  MediaFileBean.of(BuildContext context)
+      : factFileNuggetBean = FactFileNuggetBean(DatabaseAdapter.of(context)),
+        factFileEntryBean = FactFileEntryBean(DatabaseAdapter.of(context)),
+        factFileEntryImageBean =
+            FactFileEntryImageBean(DatabaseAdapter.of(context)),
+        activityBean = ActivityBean(DatabaseAdapter.of(context)),
+        activityImageBean = ActivityImageBean(DatabaseAdapter.of(context)),
+        quizBean = QuizBean(DatabaseAdapter.of(context)),
+        quizQuestionBean = QuizQuestionBean(DatabaseAdapter.of(context)),
+        quizAnswerBean = QuizAnswerBean(DatabaseAdapter.of(context)),
+        super(DatabaseAdapter.of(context));
 
   final FactFileNuggetBean factFileNuggetBean;
   final FactFileEntryBean factFileEntryBean;

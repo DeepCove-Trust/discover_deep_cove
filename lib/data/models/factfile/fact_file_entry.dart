@@ -1,7 +1,9 @@
+import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 import 'package:meta/meta.dart';
@@ -29,7 +31,7 @@ class FactFileEntry {
   @Column()
   String primaryName;
 
-  @Column()
+  @Column(isNullable: true)
   String altName;
 
   @Column()
@@ -41,10 +43,10 @@ class FactFileEntry {
   @BelongsTo(MediaFileBean)
   int mainImageId;
 
-  @BelongsTo(MediaFileBean)
+  @BelongsTo(MediaFileBean, isNullable: true)
   int pronounceAudioId;
 
-  @BelongsTo(MediaFileBean)
+  @BelongsTo(MediaFileBean, isNullable: true)
   int listenAudioId;
 
   /// List of all media files used in this entries gallery
@@ -77,13 +79,21 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
         factFileNuggetBean = FactFileNuggetBean(adapter),
         super(adapter);
 
+  FactFileEntryBean.of(BuildContext context)
+      : factFileEntryImageBean =
+            FactFileEntryImageBean(DatabaseAdapter.of(context)),
+        factFileNuggetBean = FactFileNuggetBean(DatabaseAdapter.of(context)),
+        super(DatabaseAdapter.of(context));
+
   final FactFileEntryImageBean factFileEntryImageBean;
   final FactFileNuggetBean factFileNuggetBean;
 
   MediaFileBean _mediaFileBean;
+
   MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
 
   FactFileCategoryBean _factFileCategoryBean;
+
   FactFileCategoryBean get factFileCategoryBean =>
       _factFileCategoryBean ??= FactFileCategoryBean(adapter);
 
@@ -93,7 +103,7 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
   /// it preloaded with all media file relationships.
   Future<FactFileEntry> findAndPreload(int id) async {
     FactFileEntry entry = await find(id, preload: true);
-    entry = await preloadExtras(entry);
+    entry = await _preloadExtras(entry);
 
     return entry;
   }
@@ -104,18 +114,25 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
     List<FactFileEntry> entries = await preloadAll(await getAll());
 
     for (FactFileEntry entry in entries) {
-      entry = await preloadExtras(entry);
+      entry = await _preloadExtras(entry);
     }
-
     return entries;
   }
 
-  Future<FactFileEntry> preloadExtras(FactFileEntry entry) async {
+  Future<List<FactFileEntry>> preloadExtras(List<FactFileEntry> entries) async {
+    for (FactFileEntry entry in entries) {
+      entry = await _preloadExtras(entry);
+    }
+    return entries;
+  }
+
+  Future<FactFileEntry> _preloadExtras(FactFileEntry entry) async {
     entry.category = await factFileCategoryBean.find(entry.categoryId);
     entry.mainImage = await mediaFileBean.find(entry.mainImageId);
-    entry.pronounceAudio = await mediaFileBean.find(entry.pronounceAudioId);
-    entry.listenAudio = await mediaFileBean.find(entry.listenAudioId);
-
+    if (entry.pronounceAudioId != null)
+      entry.pronounceAudio = await mediaFileBean.find(entry.pronounceAudioId);
+    if (entry.listenAudioId != null)
+      entry.listenAudio = await mediaFileBean.find(entry.listenAudioId);
     return entry;
   }
 }
