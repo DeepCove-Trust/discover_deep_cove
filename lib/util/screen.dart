@@ -8,4 +8,8 @@ class Screen {
   static double height(BuildContext context) {
     return MediaQuery.of(context).size.height;
   }
+
+  static Orientation orient(BuildContext context){
+    return MediaQuery.of(context).orientation;
+  }
 }
