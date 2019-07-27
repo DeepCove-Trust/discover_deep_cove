@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/handleOrientation.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // Todo: I have serious doubts about the responsive of this page...
@@ -53,6 +56,14 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
   }
 
   Widget getContent(BuildContext context) {
+    Screen.width(context) >= 600
+        ? handleOrientation([
+            DeviceOrientation.portraitUp,
+            DeviceOrientation.landscapeLeft,
+            DeviceOrientation.landscapeRight
+          ])
+        : handleOrientation([DeviceOrientation.portraitUp]);
+        
     return Container(
       height: MediaQuery.of(context).size.width,
       child: Stack(
