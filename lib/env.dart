@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:latlong/latlong.dart';
 
 /// This class provides easy access to the applications environment variables,
 /// and other variables derived from these.
@@ -70,6 +71,30 @@ class Env {
   /// Relative path to which the zip file from the server will be extracted.
   static String get _resourcesPath => DotEnv().env['resourcesPath'];
 
+  //----------------------------MAP SETTINGS------------------------------------
+  // These settings provide the zoom and pan limits for the map, as well as
+  // default starting position.
+
+  static double get mapMinZoom => DotEnv().env['minZoom'] as double;
+
+  static double get mapMaxZoom => DotEnv().env['maxZoom'] as double;
+
+  static double get mapDefaultZoom => DotEnv().env['defaultZoom'] as double;
+
+  static LatLng get swPanBoundary => LatLng(
+      DotEnv().env['swPanBoundaryLat'] as double,
+      DotEnv().env['swPanBoundaryLong'] as double);
+
+  static LatLng get nePanBoundary => LatLng(
+      DotEnv().env['nePanBoundaryLat'] as double,
+      DotEnv().env['nePanBoundaryLong'] as double
+  );
+
+  static LatLng get defaultMapCenter => LatLng(
+      DotEnv().env['defaultCenterLat'] as double,
+      DotEnv().env['defaultCenterLong'] as double
+  );
+
   //-------------------------- HELPER METHODS ----------------------------------
   // These perform basic processing on configured variables, in order to return
   // more useful information to the application code.
@@ -108,12 +133,10 @@ class Env {
   static String get rootStorageDirPath => _rootStorageDirPath;
 
   /// Returns the path to the database file.
-  static String get dbPath  =>
-      join(_rootStorageDirPath, _dbPath);
+  static String get dbPath => join(_rootStorageDirPath, _dbPath);
 
   /// Returns the path to the resources directory.
-  static String get resourcesPath =>
-      join(_rootStorageDirPath, _resourcesPath);
+  static String get resourcesPath => join(_rootStorageDirPath, _resourcesPath);
 
   /// Returns the absolute path to a resource file, given the relative
   /// path from the applications root storage directory.
