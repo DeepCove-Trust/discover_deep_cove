@@ -126,7 +126,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
           child: fc.widget,
         );
       },
-      tag: widget.entry.primaryName,
+      tag: widget.entry.id,
       child: Container(
         child: Image(
           image:

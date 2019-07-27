@@ -22,6 +22,7 @@ class _FactFileTabState extends State<FactFileTab> {
     return widget.entries.map((entry) {
       return SmallTile(
         title: entry.primaryName,
+        heroTag: entry.id,
         imagePath: Env.getResourcePath(entry.mainImage.path),
         onTap: () => handleTap(entry),
       );
