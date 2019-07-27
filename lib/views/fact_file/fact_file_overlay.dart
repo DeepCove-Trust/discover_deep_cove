@@ -94,17 +94,10 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
                                 SubHeading(text: widget.entry.altName),
                               ],
                             ),
-                            Column( // Todo: Add InkWell and onTap
-                              children: [
-                                Icon(FontAwesomeIcons.infoCircle, color: Colors.white, size: 30),
-                                SizedBox(height: 10),
-                                BodyText(text: 'More Info'),
-                              ],
-                            ),
+                            buildInfoButton(context),
                           ],
                         ),
-                        BodyText(
-                            text: widget.entry.cardText),
+                        BodyText(text: widget.entry.cardText),
                         getButtonRow(),
                       ],
                     ),
@@ -141,14 +134,13 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
         widget.entry.pronounceAudio != null) {
       return Column(
         children: [
-          Divider(
-              color: Colors.white, height: 50
-          ),
+          Divider(color: Colors.white, height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (widget.entry.listenAudio != null)
-                OutlineButton( // Todo: Customize active effects and play audio
+                OutlineButton(
+                  // Todo: Customize active effects and play audio
                   child: BodyText(text: 'Listen'),
                   onPressed: () => print('Pressed "Listen"'),
                   borderSide: BorderSide(color: Colors.white),
@@ -165,5 +157,26 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
       );
     }
     return Container();
+  }
+
+  buildInfoButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.of(context).pushNamed(
+        '/factFileDetails',
+        arguments: widget.entry,
+      ),
+      child: Container( // Todo: This will not be responsive...
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Color.fromRGBO(0, 0, 0, 0.25)),
+        child: Column(
+          children: [
+            Icon(FontAwesomeIcons.infoCircle,
+                color: Colors.white, size: 30),
+            SizedBox(height: 10),
+            BodyText(text: 'More Info'),
+          ],
+        ),
+      ),
+    );
   }
 }
