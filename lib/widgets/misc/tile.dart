@@ -44,7 +44,8 @@ class Tile extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 12),
                 color: Color.fromRGBO(0, 0, 0, 0.75),
-                child: Column(
+                child: Column( 
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Heading(text: title),
                     if (subheading != null)
