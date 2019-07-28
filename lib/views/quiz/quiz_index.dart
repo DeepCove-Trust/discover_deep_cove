@@ -16,6 +16,8 @@ class _QuizIndexState extends State<QuizIndex> {
   void initState() {
     quizBean = QuizBean.of(context);
     refreshData();
+
+    super.initState();
   }
 
   Future<void> refreshData() async {
