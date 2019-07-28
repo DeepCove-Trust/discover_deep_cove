@@ -45,12 +45,10 @@ class _QuizIndexState extends State<QuizIndex> {
               mainAxisSpacing: 20,
               crossAxisSpacing: 20,
               crossAxisCount: (Screen.width(context) >= 600 &&
-                      MediaQuery.of(context).orientation ==
-                          Orientation.landscape)
+                      Screen.orientation(context) == Orientation.landscape)
                   ? 3
                   : (Screen.width(context) >= 600 &&
-                          MediaQuery.of(context).orientation ==
-                              Orientation.portrait)
+                          Screen.orientation(context) == Orientation.portrait)
                       ? 2
                       : 1,
               padding: EdgeInsets.all(20.0),
