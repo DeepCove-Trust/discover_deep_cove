@@ -12,6 +12,7 @@ class BodyText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      overflow: TextOverflow.fade,
       style: Theme.of(context).textTheme.body1,
       textAlign: align,
     );

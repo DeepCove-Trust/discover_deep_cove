@@ -28,7 +28,7 @@ class SmallTile extends StatelessWidget {
                 opacity: 0.25,
                 child: c,
               ),
-              tag: title,
+              tag: heroTag,
               child: Image.file(File(imagePath)),
             ),
             SizedBox(
