@@ -1,5 +1,6 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/tile.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,21 @@ class _QuizIndexState extends State<QuizIndex> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: quizzes.length > 0
-          ? ListView(children: buildCards(context, quizzes))
+          ? GridView.count(
+              mainAxisSpacing: 20,
+              crossAxisSpacing: 20,
+              crossAxisCount: (Screen.width(context) >= 600 &&
+                      MediaQuery.of(context).orientation ==
+                          Orientation.landscape)
+                  ? 3
+                  : (Screen.width(context) >= 600 &&
+                          MediaQuery.of(context).orientation ==
+                              Orientation.portrait)
+                      ? 2
+                      : 1,
+              padding: EdgeInsets.all(20.0),
+              children: buildCards(context, quizzes),
+            )
           : Center(child: CircularProgressIndicator()),
     );
   }
