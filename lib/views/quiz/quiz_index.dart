@@ -2,7 +2,7 @@ import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/handleOrientation.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/tile.dart';
+import 'package:discover_deep_cove/widgets/quiz/quiz_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
