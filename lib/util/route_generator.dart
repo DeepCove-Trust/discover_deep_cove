@@ -29,12 +29,11 @@ class RouteGenerator {
 
       //Fact file routes
       case '/factFileDetails':
-        if (args is FactFileDetails) {
-          final FactFileDetails args = settings.arguments;
+        if (args is FactFileEntry) {
+          final FactFileEntry args = settings.arguments;
           return MaterialPageRoute(
             builder: (_) => FactFileDetails(
-              entry: args.entry,
-              heroTag: args.heroTag,
+              entry: args,
             ),
           );
         }
@@ -45,11 +44,9 @@ class RouteGenerator {
         if (args is FactFileEntry) {
           final FactFileEntry args = settings.arguments;
           return TransparentPageRoute(
-            builder: (_) => FactFileOverlay(
-              entry: args
-            ),
+            builder: (_) => FactFileOverlay(entry: args),
           );
-        }else {
+        } else {
           return _errorRoute();
         }
         break;
