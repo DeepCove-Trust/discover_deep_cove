@@ -5,20 +5,20 @@ import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
-class TextAnswerView extends StatefulWidget {
+class TextAnswerActivityView extends StatefulWidget {
   final Activity activity;
-  final bool fromMap;
+  final bool isReview;
 
   ///Takes in a [TextAnswerActivity] and a [bool] and displays the view based
   ///on the value of the [bool], you can complete the activity if the [bool] is false
   ///and review it if the [bool] is true.
-  TextAnswerView({this.activity, this.fromMap});
+  TextAnswerActivityView({this.activity, this.isReview});
 
   @override
-  _TextAnswerViewState createState() => _TextAnswerViewState();
+  _TextAnswerActivityViewState createState() => _TextAnswerActivityViewState();
 }
 
-class _TextAnswerViewState extends State<TextAnswerView> {
+class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
   final controller = TextEditingController();
 
   @override
@@ -52,7 +52,7 @@ class _TextAnswerViewState extends State<TextAnswerView> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: widget.fromMap
+                  child: widget.isReview
                       ? BodyText(
                           text: "You Answered:",
                         )
@@ -61,7 +61,7 @@ class _TextAnswerViewState extends State<TextAnswerView> {
                               (MediaQuery.of(context).size.height / 100) * 2.5,
                         ),
                 ),
-                widget.fromMap
+                widget.isReview
                     ? Container(
                         width: (MediaQuery.of(context).size.width / 4) * 3.5,
                         height: (MediaQuery.of(context).size.height / 100) * 38,
@@ -98,7 +98,7 @@ class _TextAnswerViewState extends State<TextAnswerView> {
                           ),
                         ),
                       ),
-                widget.fromMap
+                widget.isReview
                     ? Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Text(
@@ -112,7 +112,7 @@ class _TextAnswerViewState extends State<TextAnswerView> {
               ],
             ),
           ),
-          widget.fromMap
+          widget.isReview
               ? BottomBackButton()
               : Column(
                   mainAxisAlignment: MainAxisAlignment.end,

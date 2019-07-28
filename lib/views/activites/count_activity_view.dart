@@ -5,20 +5,20 @@ import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CountView extends StatefulWidget {
+class CountActivityView extends StatefulWidget {
   final Activity activity;
-  final bool fromMap;
+  final bool isReview;
 
-  ///Takes in a [CountActivity] and a [bool] and displays the view based
+  ///Takes in a [CountActivityView] and a [bool] and displays the view based
   ///on the value of the [bool], you can complete the activity if the [bool] is false
   ///and review it if the [bool] is true.
-  CountView({this.activity, this.fromMap});
+  CountActivityView({this.activity, this.isReview});
 
   @override
-  _CountViewState createState() => _CountViewState();
+  _CountActivityViewState createState() => _CountActivityViewState();
 }
 
-class _CountViewState extends State<CountView> {
+class _CountActivityViewState extends State<CountActivityView> {
   int count = 1;
 
   @override
@@ -51,7 +51,7 @@ class _CountViewState extends State<CountView> {
           ),
           Padding(
             padding: const EdgeInsets.all(12.0),
-            child: widget.fromMap
+            child: widget.isReview
                 ? BodyText(
                     text: "You Counted:",
                   )
@@ -62,7 +62,7 @@ class _CountViewState extends State<CountView> {
           SizedBox(
             height: (MediaQuery.of(context).size.height / 100) * 20,
           ),
-          widget.fromMap
+          widget.isReview
               ? Container(
                   width: MediaQuery.of(context).size.width,
                   height: (MediaQuery.of(context).size.height / 100) * 10,
@@ -130,7 +130,7 @@ class _CountViewState extends State<CountView> {
                     ],
                   ),
                 ),
-          widget.fromMap
+          widget.isReview
               ? Padding(
                   padding:
                       const EdgeInsets.only(left: 20.0, right: 20.0, top: 40.0),
@@ -143,7 +143,7 @@ class _CountViewState extends State<CountView> {
                 )
               : null,
           Expanded(child: Container()),
-          widget.fromMap
+          widget.isReview
               ? BottomBackButton()
               : Container(
                   width: MediaQuery.of(context).size.width,

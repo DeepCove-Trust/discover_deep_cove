@@ -9,20 +9,20 @@ import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:toast/toast.dart';
 
-class PictureTapView extends StatefulWidget {
+class PictureTapActivityView extends StatefulWidget {
   final Activity activity;
-  final bool fromMap;
+  final bool isReview;
 
   ///Takes in a [PictureTapActivity] and a [bool] and displays the view based
   ///on the value of the [bool], you can complete the activity if the [bool] is false
   ///and review it if the [bool] is true.
-  PictureTapView({this.activity, this.fromMap});
+  PictureTapActivityView({this.activity, this.isReview});
 
   @override
-  _PictureTapViewState createState() => _PictureTapViewState();
+  _PictureTapActivityViewState createState() => _PictureTapActivityViewState();
 }
 
-class _PictureTapViewState extends State<PictureTapView> {
+class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   Offset tapPos;
   Color transparentAccent;
   bool firstTap = false;
@@ -64,13 +64,13 @@ class _PictureTapViewState extends State<PictureTapView> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-            child: widget.fromMap
+            child: widget.isReview
                 ? BodyText(
                     text: "Your Answer:",
                   )
                 : null,
           ),
-          widget.fromMap
+          widget.isReview
               ? Stack(
                   fit: StackFit.loose,
                   children: <Widget>[
@@ -178,7 +178,7 @@ class _PictureTapViewState extends State<PictureTapView> {
                   ],
                 ),
           Expanded(child: Container()),
-          widget.fromMap
+          widget.isReview
               ? BottomBackButton()
               : Container(
                   width: MediaQuery.of(context).size.width,

@@ -6,20 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:discover_deep_cove/widgets/activities/selected_photo.dart';
 
-class PictureSelectView extends StatefulWidget {
+class PictureSelectActivityView extends StatefulWidget {
   final Activity activity;
-  final bool fromMap;
+  final bool isReview;
 
   ///Takes in a [PictureSelectActivity] and a [bool] and displays the view based
   ///on the value of the [bool], you can complete the activity if the [bool] is false
   ///and review it if the [bool] is true.
-  PictureSelectView({this.activity, this.fromMap});
+  PictureSelectActivityView({this.activity, this.isReview});
 
   @override
-  _PictureSelectViewState createState() => _PictureSelectViewState();
+  _PictureSelectActivityViewState createState() => _PictureSelectActivityViewState();
 }
 
-class _PictureSelectViewState extends State<PictureSelectView> {
+class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
   int photoIndex = 0;
 
   previousImage() {
@@ -62,19 +62,19 @@ class _PictureSelectViewState extends State<PictureSelectView> {
             padding: const EdgeInsets.fromLTRB(40, 30, 40, 30),
             child: Column(
               children: <Widget>[
-                widget.fromMap
+                widget.isReview
                     ? BodyText(
                         text: "You Answered:",
                       )
                     : null,
                 Heading(
-                    text: !widget.fromMap
+                    text: !widget.isReview
                         ? widget.activity.imageOptions[photoIndex].name
                         : widget.activity.selectedPicture.name),
               ],
             ),
           ),
-          !widget.fromMap
+          !widget.isReview
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -132,7 +132,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
                     ),
                   ),
                 ),
-          widget.fromMap
+          widget.isReview
               ? Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
@@ -144,7 +144,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
                 )
               : null,
           Expanded(child: Container()),
-          widget.fromMap
+          widget.isReview
               ? BottomBackButton()
               : Container(
                   width: MediaQuery.of(context).size.width,

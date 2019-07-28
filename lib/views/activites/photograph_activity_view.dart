@@ -11,20 +11,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:toast/toast.dart';
 
-class PhotographView extends StatefulWidget {
+class PhotographActivityView extends StatefulWidget {
   final Activity activity;
-  final bool fromMap;
+  final bool isReview;
 
   ///Takes in a [PhotographActivity] and a [bool] and displays the view based
   ///on the value of the [bool], you can complete the activity if the [bool] is false
   ///and review it if the [bool] is true.
-  PhotographView({this.activity, this.fromMap});
+  PhotographActivityView({this.activity, this.isReview});
 
   @override
-  _PhotographViewState createState() => _PhotographViewState();
+  _PhotographActivityViewState createState() => _PhotographActivityViewState();
 }
 
-class _PhotographViewState extends State<PhotographView> {
+class _PhotographActivityViewState extends State<PhotographActivityView> {
   File _imageFile;
   dynamic _pickImageError;
   String _retrieveDataError;
@@ -106,7 +106,7 @@ class _PhotographViewState extends State<PhotographView> {
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Divider(color: Color(0xFF777777)),
           ),
-          widget.fromMap
+          widget.isReview
               ? Column(
                   children: <Widget>[
                     BodyText(
@@ -166,7 +166,7 @@ class _PhotographViewState extends State<PhotographView> {
                   ),
                 ),
           Expanded(child: Container()),
-          widget.fromMap
+          widget.isReview
               ? Padding(
                   padding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 0.0),
                   child: Text(
@@ -178,7 +178,7 @@ class _PhotographViewState extends State<PhotographView> {
                 )
               : null,
           Expanded(child: Container()),
-          widget.fromMap
+          widget.isReview
               ? BottomBackButton()
               : Container(
                   width: MediaQuery.of(context).size.width,
@@ -234,7 +234,7 @@ class _PhotographViewState extends State<PhotographView> {
         ],
       ),
       backgroundColor: Theme.of(context).backgroundColor,
-      floatingActionButton: widget.fromMap
+      floatingActionButton: widget.isReview
           ? Container()
           : Padding(
               padding: const EdgeInsets.all(8.0),
