@@ -20,15 +20,25 @@ class Tile extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.fromLTRB(12, 15, 12, 0),
         decoration: BoxDecoration(
+          image: imagePath != null
+              ? DecorationImage(
+                  image: FileImage(File(imagePath)), fit: BoxFit.cover)
+              : null,
           boxShadow: [
-            BoxShadow(color: Colors.black, offset: Offset(3, 3), blurRadius: 5),
+            BoxShadow(color: Colors.black, offset: Offset(5, 5), blurRadius: 5),
           ],
         ),
         child: Stack(
           alignment: AlignmentDirectional.bottomCenter,
           children: [
             if (imagePath != null)
-              Hero(tag: title, child: Image.file(File(imagePath))),
+              Hero(
+                tag: title,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.width,
+                ),
+              ),
             SizedBox(
               width: double.infinity, // expands the child to limits
               child: Container(
