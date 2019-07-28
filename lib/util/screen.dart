@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Screen {
-  static double width(BuildContext context) {
-    return MediaQuery.of(context).size.width;
-  }
+  static double width(BuildContext context) => MediaQuery.of(context).size.width;
 
-  static double height(BuildContext context) {
-    return MediaQuery.of(context).size.height;
-  }
+  static double height(BuildContext context) =>MediaQuery.of(context).size.height;
 
-  static Orientation orientation(BuildContext context){
-    return MediaQuery.of(context).orientation;
-  }
+  static Orientation orientation(BuildContext context) => MediaQuery.of(context).orientation;
 }
