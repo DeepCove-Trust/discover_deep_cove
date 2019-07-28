@@ -1,8 +1,7 @@
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/widgets/misc/tile.dart';
+import 'package:discover_deep_cove/widgets/fact_file/fact_file_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_deep_cove/widgets/misc/small_tile.dart';
 
 class FactFileTab extends StatefulWidget {
   final List<FactFileEntry> entries;
