@@ -14,19 +14,16 @@ class Screen {
       MediaQuery.of(context).orientation;
 
   static double percentOfWidth(BuildContext context, double percent) =>
-      MediaQuery.of(context).size.width -
-      (MediaQuery.of(context).size.width * (percent / 100));
+      Screen.width(context) - Screen.width(context) * (percent / 100);
 
   static double percentofHeight(BuildContext context, double percent) =>
-      MediaQuery.of(context).size.height -
-      (MediaQuery.of(context).size.height * (percent / 100));
+      Screen.height(context) - Screen.height(context) * (percent / 100);
 
-  static setOrientations(BuildContext context) =>
-      Screen.width(context) >= 600
-          ? handleOrientation([
-              DeviceOrientation.portraitUp,
-              DeviceOrientation.landscapeLeft,
-              DeviceOrientation.landscapeRight
-            ])
-          : handleOrientation([DeviceOrientation.portraitUp]);
+  static setOrientations(BuildContext context) => Screen.width(context) >= 600
+      ? handleOrientation([
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.landscapeLeft,
+          DeviceOrientation.landscapeRight
+        ])
+      : handleOrientation([DeviceOrientation.portraitUp]);
 }
