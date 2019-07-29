@@ -39,7 +39,9 @@ class _QuizIndexState extends State<QuizIndex> {
               crossAxisCount: (Screen.width(context) >= 600
                   ? Screen.isPortrait(context) ? 3 : 2
                   : 1),
-              padding: EdgeInsets.all(Screen.width(context, percentage: 2.5)),
+              padding: EdgeInsets.all(
+                Screen.width(context, percentage: 2.5),
+              ),
               children: buildCards(context, quizzes),
             )
           : Center(child: CircularProgressIndicator()),
