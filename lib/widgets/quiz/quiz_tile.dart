@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
-import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
 import 'package:flutter/material.dart';
 
 class Tile extends StatelessWidget {
@@ -18,29 +18,45 @@ class Tile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.fromLTRB(12, 15, 12, 0),
         decoration: BoxDecoration(
+          image: imagePath != null
+              ? DecorationImage(
+                  image: FileImage(File(imagePath)), fit: BoxFit.cover)
+              : null,
           boxShadow: [
-            BoxShadow(color: Colors.black, offset: Offset(3, 3), blurRadius: 5),
+            BoxShadow(color: Colors.black, offset: Offset(5, 5), blurRadius: 5),
           ],
         ),
         child: Stack(
           alignment: AlignmentDirectional.bottomCenter,
           children: [
             if (imagePath != null)
-              Hero(tag: title, child: Image.file(File(imagePath))),
+              Hero(
+                tag: title,
+                child: Container(
+                  width: Screen.width(context),
+                  height: Screen.width(context),
+                ),
+              ),
             SizedBox(
               width: double.infinity, // expands the child to limits
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 12),
                 color: Color.fromRGBO(0, 0, 0, 0.75),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Heading(text: title),
+                    Heading(
+                      text: title,
+                      align: TextAlign.center,
+                    ),
                     if (subheading != null)
                       SizedBox(height: 10), //
                     if (subheading != null)
-                      BodyText(text: subheading),
+                      BodyText(
+                        text: subheading,
+                        align: TextAlign.center,
+                      ),
                   ],
                 ),
               ),

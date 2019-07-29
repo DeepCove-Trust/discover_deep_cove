@@ -1,6 +1,7 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/widgets/misc/tile.dart';
+import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/quiz/quiz_tile.dart';
 import 'package:flutter/material.dart';
 
 class QuizIndex extends StatefulWidget {
@@ -16,6 +17,8 @@ class _QuizIndexState extends State<QuizIndex> {
   void initState() {
     quizBean = QuizBean.of(context);
     refreshData();
+
+    super.initState();
   }
 
   Future<void> refreshData() async {
@@ -25,10 +28,20 @@ class _QuizIndexState extends State<QuizIndex> {
 
   @override
   Widget build(BuildContext context) {
+    Screen.setOrientations(context);
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: quizzes.length > 0
-          ? ListView(children: buildCards(context, quizzes))
+          ? GridView.count(
+              mainAxisSpacing: Screen.width(context, percentage: 2.5),
+              crossAxisSpacing: Screen.width(context, percentage: 2.5),
+              crossAxisCount: (Screen.width(context) >= 600
+                  ? Screen.isPortrait(context) ? 3 : 2
+                  : 1),
+              padding: EdgeInsets.all(Screen.width(context, percentage: 2.5)),
+              children: buildCards(context, quizzes),
+            )
           : Center(child: CircularProgressIndicator()),
     );
   }
