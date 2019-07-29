@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'handleOrientation.dart';
 
 class Screen {
   static double width(BuildContext context) =>
@@ -17,4 +20,13 @@ class Screen {
   static double percentofHeight(BuildContext context, double percent) =>
       MediaQuery.of(context).size.height -
       (MediaQuery.of(context).size.height * (percent / 100));
+
+  static setOrientations(BuildContext context) =>
+      Screen.width(context) >= 600
+          ? handleOrientation([
+              DeviceOrientation.portraitUp,
+              DeviceOrientation.landscapeLeft,
+              DeviceOrientation.landscapeRight
+            ])
+          : handleOrientation([DeviceOrientation.portraitUp]);
 }

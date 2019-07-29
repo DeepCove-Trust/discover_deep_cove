@@ -1,10 +1,8 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/handleOrientation.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class QuizIndex extends StatefulWidget {
   @override
@@ -30,14 +28,8 @@ class _QuizIndexState extends State<QuizIndex> {
 
   @override
   Widget build(BuildContext context) {
-    Screen.width(context) >= 600
-        ? handleOrientation([
-            DeviceOrientation.portraitUp,
-            DeviceOrientation.landscapeLeft,
-            DeviceOrientation.landscapeRight
-          ])
-        : handleOrientation([DeviceOrientation.portraitUp]);
-
+    Screen.setOrientations(context);
+    
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: quizzes.length > 0
