@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
@@ -33,8 +34,8 @@ class Tile extends StatelessWidget {
               Hero(
                 tag: title,
                 child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.width,
+                  width: Screen.width(context),
+                  height: Screen.width(context),
                 ),
               ),
             SizedBox(
