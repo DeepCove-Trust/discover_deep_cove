@@ -34,8 +34,8 @@ class Tile extends StatelessWidget {
               Hero(
                 tag: title,
                 child: Container(
-                  width: Screen.width(context),
-                  height: Screen.width(context),
+                  width: Screen.width(context: context),
+                  height: Screen.width(context: context),
                 ),
               ),
             SizedBox(
