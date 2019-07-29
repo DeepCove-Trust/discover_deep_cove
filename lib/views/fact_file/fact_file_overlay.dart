@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
@@ -38,6 +39,8 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
 
   @override
   Widget build(BuildContext context) {
+    Screen.setOrientations(context);
+
     return GestureDetector(
       onTap: () {
         setState(() {
