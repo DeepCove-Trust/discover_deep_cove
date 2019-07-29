@@ -26,4 +26,7 @@ class Screen {
           DeviceOrientation.landscapeRight
         ])
       : handleOrientation([DeviceOrientation.portraitUp]);
+
+  static bool isPortrait(BuildContext context) =>
+      Screen.orientation(context) == Orientation.portrait;
 }

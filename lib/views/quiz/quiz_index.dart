@@ -29,20 +29,16 @@ class _QuizIndexState extends State<QuizIndex> {
   @override
   Widget build(BuildContext context) {
     Screen.setOrientations(context);
-    
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: quizzes.length > 0
           ? GridView.count(
               mainAxisSpacing: Screen.percentOfWidth(context, 97.5),
               crossAxisSpacing: Screen.percentOfWidth(context, 97.5),
-              crossAxisCount: (Screen.width(context) >= 600 &&
-                      Screen.orientation(context) == Orientation.landscape)
-                  ? 3
-                  : (Screen.width(context) >= 600 &&
-                          Screen.orientation(context) == Orientation.portrait)
-                      ? 2
-                      : 1,
+              crossAxisCount: (Screen.width(context) >= 600
+                  ? Screen.isPortrait(context) ? 3 : 2
+                  : 1),
               padding: EdgeInsets.all(Screen.percentOfWidth(context, 97.5)),
               children: buildCards(context, quizzes),
             )
