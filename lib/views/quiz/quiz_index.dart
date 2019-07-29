@@ -34,12 +34,12 @@ class _QuizIndexState extends State<QuizIndex> {
       backgroundColor: Theme.of(context).backgroundColor,
       body: quizzes.length > 0
           ? GridView.count(
-              mainAxisSpacing: Screen.width(context: context, percentage: 97.5),
-              crossAxisSpacing: Screen.width(context: context, percentage: 97.5),
-              crossAxisCount: (Screen.width(context: context) >= 600
+              mainAxisSpacing: Screen.width(context, percentage: 2.5),
+              crossAxisSpacing: Screen.width(context, percentage: 2.5),
+              crossAxisCount: (Screen.width(context) >= 600
                   ? Screen.isPortrait(context) ? 3 : 2
                   : 1),
-              padding: EdgeInsets.all(Screen.width(context: context, percentage: 97.5)),
+              padding: EdgeInsets.all(Screen.width(context, percentage: 2.5)),
               children: buildCards(context, quizzes),
             )
           : Center(child: CircularProgressIndicator()),
