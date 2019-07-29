@@ -17,7 +17,6 @@ class Tile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.fromLTRB(12, 15, 12, 0),
         decoration: BoxDecoration(
           image: imagePath != null
               ? DecorationImage(
