@@ -40,7 +40,7 @@ class _FactFileTabState extends State<FactFileTab> {
               crossAxisSpacing: Screen.width(context, percentage: 2.5),
               crossAxisCount: (Screen.width(context) >= 600
                   ? Screen.isPortrait(context) ? 2 : 3
-                  : 1),
+                  : 2),
               padding: EdgeInsets.all(
                 Screen.width(context, percentage: 2.5),
               ),
