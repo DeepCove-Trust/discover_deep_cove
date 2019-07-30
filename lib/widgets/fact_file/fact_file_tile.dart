@@ -14,7 +14,6 @@ class SmallTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(6, 8, 6, 0),
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(color: Colors.black54, offset: Offset(3, 3), blurRadius: 3)
       ]),

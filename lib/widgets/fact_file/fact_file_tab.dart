@@ -1,5 +1,6 @@
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/fact_file/fact_file_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -35,9 +36,15 @@ class _FactFileTabState extends State<FactFileTab> {
       children: <Widget>[
         Container(
           child: GridView.count(
-            crossAxisCount: 2,
-            padding: EdgeInsets.all(4),
-            childAspectRatio: 8.0 / 8.0,
+            mainAxisSpacing: Screen.width(context, percentage: 2.5),
+            crossAxisSpacing: Screen.width(context, percentage: 2.5),
+            crossAxisCount:
+                (Screen.width(context) >= 600 && !Screen.isPortrait(context))
+                    ? 3
+                    : 2,
+            padding: EdgeInsets.all(
+              Screen.width(context, percentage: 2.5),
+            ),
             children: _buildGridCards(widget.entries.length, context),
           ),
         ),
