@@ -102,9 +102,9 @@ class _FactFileDetailsState extends State<FactFileDetails> {
       padding: EdgeInsets.all(15),
       child: Column(
         children: [
-          Heading( Screen.width(context).toString()),
+          Heading(widget.entry.primaryName),
           SizedBox(height: Screen.height(context, percentage: 1.56)),
-          SubHeading( widget.entry.altName),
+          SubHeading(widget.entry.altName),
           Divider(color: Colors.white, height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -132,7 +132,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                           size: Screen.width(context) <= 350 ? 16 : 24,
                         ),
                         SizedBox(height: 10),
-                        BodyText( 'Pronounce'),
+                        BodyText('Pronounce'),
                       ],
                     ),
                     onPressed: () => player.play(
@@ -164,7 +164,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                           size: Screen.width(context) <= 350 ? 16 : 24,
                         ),
                         SizedBox(height: 10),
-                        BodyText( 'Listen'),
+                        BodyText('Listen'),
                       ],
                     ),
                     onPressed: () => player.play(
@@ -177,12 +177,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
           ),
           Divider(color: Colors.white, height: 50),
           BodyText(
-            
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam consectetur justo eu libero fermentum, vel bibendum eros dapibus. Nam a orci ac mauris malesuada tincidunt id non tortor. Duis nisi eros, blandit in leo nec, varius pretium magna. Sed quis nibh varius, lacinia ante id, maximus lectus. Donec vitae congue felis, eget ullamcorper turpis. Nunc non ligula pharetra, lacinia tellus hendrerit, volutpat tortor. Sed at sapien ac turpis fringilla ullamcorper ac eu nulla. Duis id congue felis. Aenean laoreet accumsan mauris. Pellentesque sapien eros, porttitor venenatis iaculis sit amet, accumsan in risus. Aliquam ornare nec lectus sit amet feugiat."
-                "Sed non sem ac nulla convallis sollicitudin consectetur eu ex. Suspendisse fermentum vel sapien a aliquet. Aliquam sodales sit amet libero eu ullamcorper. Duis facilisis quis dui vitae consectetur. Suspendisse porta commodo dolor sed accumsan. Nam quam tellus, semper in neque ac, eleifend interdum nunc. Aliquam erat volutpat. Aenean quis auctor ligula, ut vestibulum felis. Morbi laoreet nibh quis arcu interdum tempor. Vivamus mattis orci est, id sollicitudin purus tincidunt a. Phasellus sit amet sapien ut metus rutrum placerat."
-                "Praesent velit nibh, condimentum sed porta gravida, efficitur at nibh. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque suscipit, nisl nec sollicitudin cursus, lectus purus sollicitudin lacus, ac pretium sapien leo id libero. Vestibulum accumsan porttitor eros. Aenean libero ante, sagittis sed aliquam ac, tincidunt suscipit ligula. Integer dui nisi, pulvinar a sem sit amet, commodo imperdiet urna. Sed congue dignissim sodales. Duis pulvinar faucibus lacinia."
-                "Morbi et ullamcorper eros. Donec in efficitur elit, vel convallis nulla. Proin augue nunc, dapibus non lacus sit amet, mattis mattis lectus. Nulla et est suscipit eros aliquam dictum. Pellentesque eu gravida risus, vel faucibus lorem. Sed interdum ullamcorper mi, ut finibus dui rhoncus a. Etiam tempor laoreet lobortis. Nullam varius nisl at varius semper. Aliquam pharetra felis sapien, quis malesuada urna gravida non."
-                "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec nec elit eget metus finibus bibendum nec vel tellus. Donec lobortis id elit quis ultrices. Ut urna enim, molestie eu posuere eget, porta et nunc. Nullam non elit vitae massa ultricies dictum. Duis rutrum hendrerit est id lobortis. Suspendisse est turpis, fringilla sed enim ac, dictum maximus ipsum. Suspendisse porttitor, ipsum id porta maximus, tortor eros viverra orci, eget finibus tortor magna id justo. Etiam elementum bibendum mauris vel tempus. Donec pharetra lorem sed mauris molestie, nec lobortis orci vestibulum.",
+            widget.entry.bodyText,
             align: TextAlign.justify,
           ),
           // Todo: Incorporate nuggets
