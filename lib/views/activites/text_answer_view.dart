@@ -27,7 +27,7 @@ class _TextAnswerViewState extends State<TextAnswerView> {
       appBar: AppBar(
         leading: Container(),
         title: Heading(
-          text: widget.activity.title,
+           widget.activity.title,
         ),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
@@ -54,7 +54,7 @@ class _TextAnswerViewState extends State<TextAnswerView> {
                   padding: const EdgeInsets.all(8.0),
                   child: widget.fromMap
                       ? BodyText(
-                          text: "You Answered:",
+                           "You Answered:",
                         )
                       : SizedBox(
                           height:
@@ -76,7 +76,7 @@ class _TextAnswerViewState extends State<TextAnswerView> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: BodyText(
-                            text: widget.activity.userText,
+                             widget.activity.userText,
                           ),
                         ),
                       )
@@ -134,7 +134,7 @@ class _TextAnswerViewState extends State<TextAnswerView> {
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                               child: BodyText(
-                                text: "Pass",
+                                 "Pass",
                               ),
                             ),
                           ),
@@ -163,7 +163,7 @@ class _TextAnswerViewState extends State<TextAnswerView> {
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                               child: BodyText(
-                                text: "Save",
+                                 "Save",
                               ),
                             ),
                           ),

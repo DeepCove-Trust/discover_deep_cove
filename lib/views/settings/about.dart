@@ -17,13 +17,13 @@ class About extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Heading(
-                    text: "About the trust",
+                     "About the trust",
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: BodyText(
-                    text:
+                    
                         "The Deep Cove Outdoor Education Trust is a non profit "
                         "organisation that was established in 1971. The Deep Cove Hostel"
                         " is a 50 bed building and was established for the purpose of "
@@ -34,13 +34,13 @@ class About extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Heading(
-                    text: "Special thanks",
+                     "Special thanks",
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: BodyText(
-                    text:
+                    
                         "The trust and developers would like to give a special thank you to"
                         " serveral people who helped make this app a reality"
                         "The Southern Insitute Te Reo department provide maori pronuciations "
@@ -51,19 +51,19 @@ class About extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: BodyText(
-                    text: "https://www.doc.govt.nz",
+                     "https://www.doc.govt.nz",
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Heading(
-                    text: "Developers",
+                     "Developers",
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: BodyText(
-                    text: "This app was developed by Mitchell Quarrie,"
+                     "This app was developed by Mitchell Quarrie,"
                         " Samuel Jackson and Samuel Grant",
                   ),
                 ),

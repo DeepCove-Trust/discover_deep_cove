@@ -87,7 +87,7 @@ class _PhotographViewState extends State<PhotographView> {
       appBar: AppBar(
         leading: Container(),
         title: Heading(
-          text: widget.activity.title,
+           widget.activity.title,
         ),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
@@ -110,7 +110,7 @@ class _PhotographViewState extends State<PhotographView> {
               ? Column(
                   children: <Widget>[
                     BodyText(
-                      text: "Your photo:",
+                       "Your photo:",
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
@@ -142,7 +142,7 @@ class _PhotographViewState extends State<PhotographView> {
                             case ConnectionState.none:
                             case ConnectionState.waiting:
                               return BodyText(
-                                text: 'You have not taken a photo yet.',
+                                 'You have not taken a photo yet.',
                                 align: TextAlign.center,
                               );
                             case ConnectionState.done:
@@ -155,7 +155,7 @@ class _PhotographViewState extends State<PhotographView> {
                                 );
                               } else {
                                 return BodyText(
-                                  text: 'You have not taken a photo yet.',
+                                   'You have not taken a photo yet.',
                                   align: TextAlign.center,
                                 );
                               }
@@ -197,7 +197,7 @@ class _PhotographViewState extends State<PhotographView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                            text: "Pass",
+                             "Pass",
                           ),
                         ),
                       ),
@@ -224,7 +224,7 @@ class _PhotographViewState extends State<PhotographView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                            text: "Save",
+                             "Save",
                           ),
                         ),
                       ),
@@ -240,7 +240,7 @@ class _PhotographViewState extends State<PhotographView> {
               padding: const EdgeInsets.all(8.0),
               child: CustomFab(
                 icon: FontAwesomeIcons.camera,
-                text: "I see it!",
+                 text: "I see it!",
                 onPressed: () {
                   _onImageButtonPressed(ImageSource.camera);
                 },

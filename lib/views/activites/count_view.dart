@@ -27,7 +27,7 @@ class _CountViewState extends State<CountView> {
       appBar: AppBar(
         leading: Container(),
         title: Heading(
-          text: widget.activity.title,
+           widget.activity.title,
         ),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
@@ -53,7 +53,7 @@ class _CountViewState extends State<CountView> {
             padding: const EdgeInsets.all(12.0),
             child: widget.fromMap
                 ? BodyText(
-                    text: "You Counted:",
+                     "You Counted:",
                   )
                 : SizedBox(
                     height: (MediaQuery.of(context).size.height / 100) * 5,
@@ -162,7 +162,7 @@ class _CountViewState extends State<CountView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                            text: "Pass",
+                             "Pass",
                           ),
                         ),
                       ),
@@ -178,7 +178,7 @@ class _CountViewState extends State<CountView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                            text: "Save",
+                             "Save",
                           ),
                         ),
                       ),

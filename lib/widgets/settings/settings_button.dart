@@ -23,7 +23,7 @@ class SettingsButton extends StatelessWidget {
             ),
             Container(
                 width: MediaQuery.of(context).size.width * 0.6,
-                child: SubHeading(text: text, align: TextAlign.center))
+                child: SubHeading( text, align: TextAlign.center))
           ],
         ),
       ),

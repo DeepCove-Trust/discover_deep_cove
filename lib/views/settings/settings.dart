@@ -34,7 +34,7 @@ class _SettingsState extends State<Settings> {
         ),
         SettingsButton(
           iconData: FontAwesomeIcons.undo,
-          text: "Reset Progress",
+           "Reset Progress",
           onTap: null,
         ),
         Divider(
@@ -42,7 +42,7 @@ class _SettingsState extends State<Settings> {
         ),
         SettingsButton(
           iconData: FontAwesomeIcons.sync,
-          text: "Check for updates",
+           "Check for updates",
           onTap: syncResources,
         ),
         Divider(
@@ -50,7 +50,7 @@ class _SettingsState extends State<Settings> {
         ),
         SettingsButton(
           iconData: FontAwesomeIcons.infoCircle,
-          text: "About this app",
+           "About this app",
           onTap: () {
             Navigator.of(context).pushNamed('/about');
           },

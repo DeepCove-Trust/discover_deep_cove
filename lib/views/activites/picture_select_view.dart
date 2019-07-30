@@ -39,7 +39,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
       appBar: AppBar(
         leading: Container(),
         title: Heading(
-          text: widget.activity.title,
+           widget.activity.title,
         ),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
@@ -64,11 +64,11 @@ class _PictureSelectViewState extends State<PictureSelectView> {
               children: <Widget>[
                 widget.fromMap
                     ? BodyText(
-                        text: "You Answered:",
+                         "You Answered:",
                       )
                     : null,
                 Heading(
-                    text: !widget.fromMap
+                     !widget.fromMap
                         ? widget.activity.imageOptions[photoIndex].name
                         : widget.activity.selectedPicture.name),
               ],
@@ -163,7 +163,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                            text: "Pass",
+                             "Pass",
                           ),
                         ),
                       ),
@@ -180,7 +180,7 @@ class _PictureSelectViewState extends State<PictureSelectView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                            text: "Save",
+                             "Save",
                           ),
                         ),
                       ),

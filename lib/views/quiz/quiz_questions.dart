@@ -60,7 +60,7 @@ class _QuizQuestionsState extends State<QuizQuestions> {
       appBar: appbarVisible ? AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Heading(
-          text:widget.quiz.title,
+          widget.quiz.title,
         ),
         centerTitle: true,
         leading: Container(),
@@ -68,7 +68,7 @@ class _QuizQuestionsState extends State<QuizQuestions> {
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Heading(
-              text:"${index + 1}/${widget.quiz.questions.length}",
+              "${index + 1}/${widget.quiz.questions.length}",
             ),
           ),
         ],

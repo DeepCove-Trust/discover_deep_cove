@@ -47,7 +47,7 @@ class _PictureTapViewState extends State<PictureTapView> {
       appBar: AppBar(
         leading: Container(),
         title: Heading(
-          text: widget.activity.title,
+           widget.activity.title,
         ),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
@@ -66,7 +66,7 @@ class _PictureTapViewState extends State<PictureTapView> {
             padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: widget.fromMap
                 ? BodyText(
-                    text: "Your Answer:",
+                     "Your Answer:",
                   )
                 : null,
           ),
@@ -197,7 +197,7 @@ class _PictureTapViewState extends State<PictureTapView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                            text: "Pass",
+                             "Pass",
                           ),
                         ),
                       ),
@@ -225,7 +225,7 @@ class _PictureTapViewState extends State<PictureTapView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                            text: "Save",
+                             "Save",
                           ),
                         ),
                       ),

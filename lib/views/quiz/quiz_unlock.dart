@@ -35,7 +35,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 20, horizontal: 50),
                       child: BodyText(
-                        text:
+                        
                             "Your teacher will give you codes to unlock quizzes.",
                         align: TextAlign.center,
                       ),
@@ -67,7 +67,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                               padding:
                                   const EdgeInsets.fromLTRB(8.0, 0, 8.0, 20),
                               child: BodyText(
-                                text:
+                                
                                     "Simply use the code posted in the communal kitchen of the lodge to "
                                     "Unlock all quizzes immediately!",
                                 align: TextAlign.center,
@@ -93,7 +93,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                               padding:
                                   const EdgeInsets.symmetric(vertical: 20.0),
                               child: Heading(
-                                text: "Enter unlock code:",
+                                 "Enter unlock code:",
                               ),
                             ),
                             ClipRRect(
@@ -118,7 +118,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Heading(
-                                    text: "Unlock",
+                                     "Unlock",
                                   ),
                                 ),
                                 onPressed: () {

@@ -26,7 +26,7 @@ class LoadingModalOverlay extends StatelessWidget{
               icon ?? CircularProgressIndicator(),
               SizedBox(height: 50),
               BodyText(
-                text: loadingMessage,
+                 loadingMessage,
                 align: TextAlign.center,
               ),
             ],

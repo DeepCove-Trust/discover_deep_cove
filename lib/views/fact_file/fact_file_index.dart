@@ -59,7 +59,7 @@ class _FactFileIndexState extends State<FactFileIndex>
           width: MediaQuery.of(context).size.width /
               (categories.length > 2 ? 3 : categories.length),
           // Todo: better way?
-          child: BodyText(text: c.name, align: TextAlign.center));
+          child: BodyText( c.name, align: TextAlign.center));
     }).toList();
   }
 

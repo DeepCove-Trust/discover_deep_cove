@@ -322,7 +322,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ),
         ],
         title: Heading(
-          text: trackTitle,
+           trackTitle,
         ),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColorDark,
@@ -330,7 +330,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     } else if (pageIs(Page.Quiz)) {
       return AppBar(
         title: Heading(
-          text: "Deep Cove Trivia",
+           "Deep Cove Trivia",
         ),
         centerTitle: true,
         actions: <Widget>[
@@ -409,7 +409,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       floatingActionButton: pageIs(Page.Map)
           ? CustomFab(
               icon: FontAwesomeIcons.qrcode,
-              text: "Scan",
+               text: "Scan",
               onPressed: scan,
             )
           : null,

@@ -16,7 +16,7 @@ class QuizTextButton extends StatelessWidget {
         height: (MediaQuery.of(context).size.height / 100) * 13.5,
         child: Center(
           child: Heading(
-            text: text,
+             text,
           ),
         ),
         decoration: new BoxDecoration(

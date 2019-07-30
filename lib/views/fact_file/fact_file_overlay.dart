@@ -95,15 +95,15 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Heading(text: widget.entry.primaryName),
+                                Heading( widget.entry.primaryName),
                                 SizedBox(height: 5),
-                                SubHeading(text: widget.entry.altName),
+                                SubHeading( widget.entry.altName),
                               ],
                             ),
                             buildInfoButton(context),
                           ],
                         ),
-                        BodyText(text: widget.entry.cardText),
+                        BodyText( widget.entry.cardText),
                         getButtonRow(),
                       ],
                     ),
@@ -154,7 +154,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
                       children: <Widget>[
                         Icon(FontAwesomeIcons.music, color: Colors.white),
                         SizedBox(height: 10),
-                        BodyText(text: 'Pronounce'),
+                        BodyText( 'Pronounce'),
                       ],
                     ),
                     onPressed: () => player.play(
@@ -173,7 +173,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
                       children: <Widget>[
                         Icon(FontAwesomeIcons.volumeUp, color: Colors.white),
                         SizedBox(height: 10),
-                        BodyText(text: 'Listen'),
+                        BodyText( 'Listen'),
                       ],
                     ),
                     onPressed: () => player.play(
@@ -202,7 +202,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
         children: [
           Icon(FontAwesomeIcons.infoCircle, color: Colors.white, size: 30),
           SizedBox(height: 10),
-          BodyText(text: 'More Info'),
+          BodyText( 'More Info'),
         ],
       ),
     );

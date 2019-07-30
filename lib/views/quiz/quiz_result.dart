@@ -34,7 +34,7 @@ class QuizResult extends StatelessWidget {
                 ),
               ),
               BodyText(
-                text: "Quiz Completed!",
+                 "Quiz Completed!",
                 align: TextAlign.center,
               ),
               SizedBox(
@@ -51,7 +51,7 @@ class QuizResult extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20.0),
                         child: BodyText(
-                          text: "Your Score:",
+                           "Your Score:",
                         ),
                       ),
                       Text(
@@ -63,13 +63,13 @@ class QuizResult extends StatelessWidget {
                       ),
                       highscore
                           ? BodyText(
-                              text: "New Highscore!",
+                               "New Highscore!",
                             )
                           : null,
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: BodyText(
-                          text: setMessage(),
+                           setMessage(),
                           align: TextAlign.center,
                         ),
                       ),
