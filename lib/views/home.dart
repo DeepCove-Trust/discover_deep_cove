@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/activity/track.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/views/activites/count_view.dart';
 import 'package:discover_deep_cove/views/activites/photograph_view.dart';
 import 'package:discover_deep_cove/views/activites/picture_select_view.dart';
@@ -365,6 +366,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    Screen.setOrientations(context);
+    
     return Stack(children: _buildPage());
   }
 

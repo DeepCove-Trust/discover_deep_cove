@@ -5,6 +5,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
@@ -34,12 +35,24 @@ class _FactFileDetailsState extends State<FactFileDetails> {
   }
 
   buildContent() {
-    return ListView(
-      children: [
-        getCarousel(),
-        getContent(),
-      ],
-    );
+    return (Screen.width(context) >= 600 && !Screen.isPortrait(context))
+        ? GridView.count(
+            crossAxisCount: 2,
+            children: [
+              getCarousel(),
+              ListView(
+                children: [
+                  getContent(),
+                ],
+              ),
+            ],
+          )
+        : ListView(
+            children: [
+              getCarousel(),
+              getContent(),
+            ],
+          );
   }
 
   getCarousel() {
@@ -48,8 +61,8 @@ class _FactFileDetailsState extends State<FactFileDetails> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.width,
+            width: Screen.width(context),
+            height: Screen.width(context),
             child: Hero(
               tag: widget.entry.id,
               child: Carousel(
@@ -64,8 +77,8 @@ class _FactFileDetailsState extends State<FactFileDetails> {
           );
         } else {
           return Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.width,
+            width: Screen.width(context),
+            height: Screen.width(context),
             child: Center(child: CircularProgressIndicator()),
           );
         }
@@ -98,7 +111,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
             children: [
               if (widget.entry.pronounceAudio != null)
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width - 90) / 2,
+                  width: Screen.width(context, percentage: 88.75) / 2,
                   child: OutlineButton(
                     padding: EdgeInsets.all(10),
                     child: Column(
@@ -117,7 +130,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                 ),
               if (widget.entry.listenAudio != null)
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width - 90) / 2,
+                  width: Screen.width(context, percentage: 88.75) / 2,
                   child: OutlineButton(
                     padding: EdgeInsets.all(10),
                     child: Column(
@@ -138,7 +151,12 @@ class _FactFileDetailsState extends State<FactFileDetails> {
           ),
           Divider(color: Colors.white, height: 50),
           BodyText(
-            text: widget.entry.bodyText,
+            text:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam consectetur justo eu libero fermentum, vel bibendum eros dapibus. Nam a orci ac mauris malesuada tincidunt id non tortor. Duis nisi eros, blandit in leo nec, varius pretium magna. Sed quis nibh varius, lacinia ante id, maximus lectus. Donec vitae congue felis, eget ullamcorper turpis. Nunc non ligula pharetra, lacinia tellus hendrerit, volutpat tortor. Sed at sapien ac turpis fringilla ullamcorper ac eu nulla. Duis id congue felis. Aenean laoreet accumsan mauris. Pellentesque sapien eros, porttitor venenatis iaculis sit amet, accumsan in risus. Aliquam ornare nec lectus sit amet feugiat."
+                "Sed non sem ac nulla convallis sollicitudin consectetur eu ex. Suspendisse fermentum vel sapien a aliquet. Aliquam sodales sit amet libero eu ullamcorper. Duis facilisis quis dui vitae consectetur. Suspendisse porta commodo dolor sed accumsan. Nam quam tellus, semper in neque ac, eleifend interdum nunc. Aliquam erat volutpat. Aenean quis auctor ligula, ut vestibulum felis. Morbi laoreet nibh quis arcu interdum tempor. Vivamus mattis orci est, id sollicitudin purus tincidunt a. Phasellus sit amet sapien ut metus rutrum placerat."
+                "Praesent velit nibh, condimentum sed porta gravida, efficitur at nibh. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque suscipit, nisl nec sollicitudin cursus, lectus purus sollicitudin lacus, ac pretium sapien leo id libero. Vestibulum accumsan porttitor eros. Aenean libero ante, sagittis sed aliquam ac, tincidunt suscipit ligula. Integer dui nisi, pulvinar a sem sit amet, commodo imperdiet urna. Sed congue dignissim sodales. Duis pulvinar faucibus lacinia."
+                "Morbi et ullamcorper eros. Donec in efficitur elit, vel convallis nulla. Proin augue nunc, dapibus non lacus sit amet, mattis mattis lectus. Nulla et est suscipit eros aliquam dictum. Pellentesque eu gravida risus, vel faucibus lorem. Sed interdum ullamcorper mi, ut finibus dui rhoncus a. Etiam tempor laoreet lobortis. Nullam varius nisl at varius semper. Aliquam pharetra felis sapien, quis malesuada urna gravida non."
+                "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec nec elit eget metus finibus bibendum nec vel tellus. Donec lobortis id elit quis ultrices. Ut urna enim, molestie eu posuere eget, porta et nunc. Nullam non elit vitae massa ultricies dictum. Duis rutrum hendrerit est id lobortis. Suspendisse est turpis, fringilla sed enim ac, dictum maximus ipsum. Suspendisse porttitor, ipsum id porta maximus, tortor eros viverra orci, eget finibus tortor magna id justo. Etiam elementum bibendum mauris vel tempus. Donec pharetra lorem sed mauris molestie, nec lobortis orci vestibulum.",
             align: TextAlign.justify,
           ),
           // Todo: Incorporate nuggets
