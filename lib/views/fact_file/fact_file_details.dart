@@ -102,8 +102,8 @@ class _FactFileDetailsState extends State<FactFileDetails> {
       padding: EdgeInsets.all(15),
       child: Column(
         children: [
-          Heading(text: widget.entry.primaryName),
-          SizedBox(height: 20),
+          Heading(text: Screen.width(context).toString()),
+          SizedBox(height: Screen.height(context, percentage: 1.56)),
           SubHeading(text: widget.entry.altName),
           Divider(color: Colors.white, height: 50),
           Row(
@@ -111,13 +111,26 @@ class _FactFileDetailsState extends State<FactFileDetails> {
             children: [
               if (widget.entry.pronounceAudio != null)
                 SizedBox(
-                  width: Screen.width(context, percentage: 88.75) / 2,
+                  width: Screen.width(
+                        context,
+                        percentage: Screen.width(context) <= 350
+                            ? 80
+                            : Screen.width(context) >= 600 &&
+                                    !Screen.isPortrait(context)
+                                ? 45
+                                : 88.75,
+                      ) /
+                      2,
                   child: OutlineButton(
                     padding: EdgeInsets.all(10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Icon(FontAwesomeIcons.music, color: Colors.white),
+                        Icon(
+                          FontAwesomeIcons.music,
+                          color: Colors.white,
+                          size: Screen.width(context) <= 350 ? 16 : 24,
+                        ),
                         SizedBox(height: 10),
                         BodyText(text: 'Pronounce'),
                       ],
@@ -130,13 +143,26 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                 ),
               if (widget.entry.listenAudio != null)
                 SizedBox(
-                  width: Screen.width(context, percentage: 88.75) / 2,
+                  width: Screen.width(
+                        context,
+                        percentage: Screen.width(context) <= 350
+                            ? 80
+                            : Screen.width(context) >= 600 &&
+                                    !Screen.isPortrait(context)
+                                ? 45
+                                : 88.75,
+                      ) /
+                      2,
                   child: OutlineButton(
                     padding: EdgeInsets.all(10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Icon(FontAwesomeIcons.volumeUp, color: Colors.white),
+                        Icon(
+                          FontAwesomeIcons.volumeUp,
+                          color: Colors.white,
+                          size: Screen.width(context) <= 350 ? 16 : 24,
+                        ),
                         SizedBox(height: 10),
                         BodyText(text: 'Listen'),
                       ],
