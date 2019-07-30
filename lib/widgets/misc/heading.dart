@@ -5,7 +5,7 @@ class Heading  extends StatelessWidget {
 
   ///Returns a custom [Text] widget for accessing headline theme
   ///and has an optional alignment property.
-  Heading({this.text, this.align});
+  Heading(this.text, {this.align});
 
   @override
   Widget build(BuildContext context) {
