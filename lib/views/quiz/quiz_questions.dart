@@ -91,7 +91,7 @@ class _QuizQuestionsState extends State<QuizQuestions> {
                     });
                   },
                 )
-              : null,
+              : Container(),
         ],
       ),
     );
