@@ -75,25 +75,25 @@ class Env {
   // These settings provide the zoom and pan limits for the map, as well as
   // default starting position.
 
-  static double get mapMinZoom => DotEnv().env['minZoom'] as double;
+  static double get mapMinZoom => double.parse(DotEnv().env['minZoom']);
 
-  static double get mapMaxZoom => DotEnv().env['maxZoom'] as double;
+  static double get mapMaxZoom => double.parse(DotEnv().env['maxZoom']);
 
-  static double get mapDefaultZoom => DotEnv().env['defaultZoom'] as double;
+  static double get mapDefaultZoom => double.parse(DotEnv().env['defaultZoom']);
 
   static LatLng get swPanBoundary => LatLng(
-      DotEnv().env['swPanBoundaryLat'] as double,
-      DotEnv().env['swPanBoundaryLong'] as double);
+      double.parse(DotEnv().env['swPanBoundaryLat']),
+      double.parse(DotEnv().env['swPanBoundaryLong']));
 
   static LatLng get nePanBoundary => LatLng(
-      DotEnv().env['nePanBoundaryLat'] as double,
-      DotEnv().env['nePanBoundaryLong'] as double
-  );
+        double.parse(DotEnv().env['nePanBoundaryLat']),
+        double.parse(DotEnv().env['nePanBoundaryLong']),
+      );
 
   static LatLng get defaultMapCenter => LatLng(
-      DotEnv().env['defaultCenterLat'] as double,
-      DotEnv().env['defaultCenterLong'] as double
-  );
+        double.parse(DotEnv().env['defaultCenterLat']),
+        double.parse(DotEnv().env['defaultCenterLong']),
+      );
 
   //-------------------------- HELPER METHODS ----------------------------------
   // These perform basic processing on configured variables, in order to return

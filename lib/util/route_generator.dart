@@ -1,11 +1,13 @@
+import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/util/transparent_page_route.dart';
-import 'package:discover_deep_cove/views/activites/count_view.dart';
-import 'package:discover_deep_cove/views/activites/photograph_view.dart';
-import 'package:discover_deep_cove/views/activites/picture_select_view.dart';
-import 'package:discover_deep_cove/views/activites/picture_tap_view.dart';
-import 'package:discover_deep_cove/views/activites/text_answer_view.dart';
+import 'package:discover_deep_cove/views/activites/activity_screen_args.dart';
+import 'package:discover_deep_cove/views/activites/count_activity_view.dart';
+import 'package:discover_deep_cove/views/activites/photograph_activity_view.dart';
+import 'package:discover_deep_cove/views/activites/picture_select_activity_view.dart';
+import 'package:discover_deep_cove/views/activites/picture_tap_activity_view.dart';
+import 'package:discover_deep_cove/views/activites/text_answer_activity_view.dart';
 import 'package:discover_deep_cove/views/fact_file/fact_file_details.dart';
 import 'package:discover_deep_cove/views/fact_file/fact_file_overlay.dart';
 import 'package:discover_deep_cove/views/home.dart';
@@ -68,69 +70,40 @@ class RouteGenerator {
         return _errorRoute();
 
       //Activity routes
-      case '/countView':
-        if (args is CountView) {
-          final CountView args = settings.arguments;
-          return MaterialPageRoute(
-            builder: (_) => CountView(
-              activity: args.activity,
-              fromMap: args.fromMap,
-            ),
-          );
+      case '/activity':
+        ActivityScreenArgs aArgs = args as ActivityScreenArgs;
+        if (aArgs != null) {
+          if (aArgs.activity.activityType ==
+              ActivityType.countActivity as int) {
+            return MaterialPageRoute(
+                builder: (_) => CountActivityView(
+                    activity: aArgs.activity, isReview: aArgs.isReview));
+          }
+          if (aArgs.activity.activityType ==
+              ActivityType.photographActivity as int) {
+            return MaterialPageRoute(
+                builder: (_) => PhotographActivityView(
+                    activity: aArgs.activity, isReview: aArgs.isReview));
+          }
+          if (aArgs.activity.activityType ==
+              ActivityType.pictureSelectActivity as int) {
+            return MaterialPageRoute(
+                builder: (_) => PictureSelectActivityView(
+                    activity: aArgs.activity, isReview: aArgs.isReview));
+          }
+          if (aArgs.activity.activityType ==
+              ActivityType.pictureTapActivity as int) {
+            return MaterialPageRoute(
+                builder: (_) => PictureTapActivityView(
+                    activity: aArgs.activity, isReview: aArgs.isReview));
+          }
+          if (aArgs.activity.activityType ==
+              ActivityType.textAnswerActivity as int) {
+            return MaterialPageRoute(
+                builder: (_) => TextAnswerActivityView(
+                    activity: aArgs.activity, isReview: aArgs.isReview));
+          }
         }
-
-        return _errorRoute();
-
-      case '/photographView':
-        if (args is PhotographView) {
-          final PhotographView args = settings.arguments;
-          return MaterialPageRoute(
-            builder: (_) => PhotographView(
-              activity: args.activity,
-              fromMap: args.fromMap,
-            ),
-          );
-        }
-
-        return _errorRoute();
-
-      case '/pictureSelectView':
-        if (args is PictureSelectView) {
-          final PictureSelectView args = settings.arguments;
-          return MaterialPageRoute(
-            builder: (_) => PictureSelectView(
-              activity: args.activity,
-              fromMap: args.fromMap,
-            ),
-          );
-        }
-
-        return _errorRoute();
-
-      case '/pictureTapView':
-        if (args is PictureTapView) {
-          final PictureTapView args = settings.arguments;
-          return MaterialPageRoute(
-            builder: (_) => PictureTapView(
-              activity: args.activity,
-              fromMap: args.fromMap,
-            ),
-          );
-        }
-
-        return _errorRoute();
-
-      case '/textAnswerView':
-        if (args is TextAnswerView) {
-          final TextAnswerView args = settings.arguments;
-          return MaterialPageRoute(
-            builder: (_) => TextAnswerView(
-              activity: args.activity,
-              fromMap: args.fromMap,
-            ),
-          );
-        }
-
         return _errorRoute();
 
       default:
