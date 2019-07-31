@@ -28,6 +28,12 @@ class TrackBean extends Bean<Track> with _TrackBean {
       : activityBean = ActivityBean(DatabaseAdapter.of(context)),
         super(DatabaseAdapter.of(context));
 
+  Future<List<Track>> getAllAndPreload() async {
+    List<Track> tracks = await getAll();
+    tracks = await preloadAll(tracks);
+    return tracks;
+  }
+
   final ActivityBean activityBean;
 
   final String tableName = 'tracks';

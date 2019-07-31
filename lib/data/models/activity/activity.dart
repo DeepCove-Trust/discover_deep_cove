@@ -4,10 +4,13 @@ import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
+import 'package:latlong/latlong.dart' show LatLng;
+
 
 part 'activity.jorm.dart';
 
 enum ActivityType{
+  informational,
   countActivity,
   photographActivity,
   pictureSelectActivity,
@@ -81,6 +84,9 @@ class Activity {
 
   @IgnoreColumn()
   MediaFile userPhoto; // Todo: preload this
+
+  @IgnoreColumn()
+  LatLng get latLng => LatLng(yCoord, xCoord);
 
   ActivityType getType() => ActivityType.values[activityType];
 
