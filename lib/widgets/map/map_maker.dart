@@ -163,13 +163,10 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
     return Container(
         child: GestureDetector(
       onTap: () => widget.onMarkerTap(activity),
-      child: Icon(
-        isCurrentTrack
-            ? activity.isCompleted()
+      child: Icon(activity.isCompleted()
                 ? FontAwesomeIcons.lockOpen
-                : FontAwesomeIcons.lock
-            : Icons.fiber_manual_record,
-        size: isCurrentTrack ? 30 : 15,
+                : FontAwesomeIcons.lock,
+        size: isCurrentTrack ? 30 : 20,
         color: isCurrentTrack ? Theme.of(context).accentColor : Colors.grey,
       ),
     ));
