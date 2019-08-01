@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_text_button.dart';
@@ -7,7 +11,6 @@ import 'package:audioplayers/audio_cache.dart';
 class TextQuestion extends StatefulWidget {
   final QuizQuestion question;
   final List<VoidCallback> onTaps;
-  static final AudioCache audioPlayer = new AudioCache();
 
   TextQuestion({this.question, this.onTaps});
 
@@ -16,6 +19,8 @@ class TextQuestion extends StatefulWidget {
 }
 
 class _TextQuestionState extends State<TextQuestion> {
+  AudioPlayer player = AudioPlayer();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,7 +32,8 @@ class _TextQuestionState extends State<TextQuestion> {
               Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(widget.question.image.path),
+                    image: FileImage(
+                        File(Env.getResourcePath(widget.question.image.path))),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -52,11 +58,9 @@ class _TextQuestionState extends State<TextQuestion> {
                         widget.question.audio != null
                             ? OutlineButton.icon(
                                 onPressed: () {
-                                  TextQuestion.audioPlayer.play(
-                                    widget.question.audio.path.substring(
-                                      widget.question.audio.path.indexOf('/') +
-                                          1,
-                                    ),
+                                  player.play(
+                                    widget.question.audio.path,
+                                    isLocal: true,
                                   );
                                 },
                                 label: Text(
@@ -72,7 +76,7 @@ class _TextQuestionState extends State<TextQuestion> {
                                   color: Colors.white,
                                 ),
                               )
-                            : null,
+                            : Container(),
                       ],
                     ),
                   ),
@@ -84,7 +88,7 @@ class _TextQuestionState extends State<TextQuestion> {
         Expanded(
           child: Container(
             color: Theme.of(context).backgroundColor,
-            child: widget.question.trueFalseAnswer
+            child: widget.question.trueFalseAnswer != null
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[

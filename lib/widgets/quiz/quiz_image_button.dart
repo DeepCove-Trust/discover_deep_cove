@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:flutter/material.dart';
 
 class QuizImageButton extends StatelessWidget {
@@ -12,8 +16,8 @@ class QuizImageButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: MediaQuery.of(context).size.width / 2.2,
-        height: (MediaQuery.of(context).size.height / 100 * 23.45),
+        width: Screen.width(context, percentage: 45),
+        height: Screen.height(context, percentage: 23.5),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
           child: Container(
@@ -30,7 +34,7 @@ class QuizImageButton extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(imagePath),
+                      image: FileImage(File(Env.getResourcePath(imagePath))),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -59,7 +63,7 @@ class QuizImageButton extends StatelessWidget {
                           ),
                         ],
                       )
-                    : null,
+                    : Container(),
               ],
             ),
           ),

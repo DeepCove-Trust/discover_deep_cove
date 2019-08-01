@@ -113,7 +113,7 @@ class _QuizQuestionsState extends State<QuizQuestions> {
         name: widget.quiz.title,
         score: score,
         outOf: widget.quiz.questions.length,
-        highscore: newHighscore,
+        isHighscore: newHighscore,
       );
     } else if (widget.quiz.questions[index].image != null) {
       if (widget.quiz.questions.length - index == 1)
@@ -134,11 +134,11 @@ class _QuizQuestionsState extends State<QuizQuestions> {
 
       return ImageQuestion(
         question: widget.quiz.questions[index],
-        onTaps: [
-          () => handleAnswer(0),
-          () => handleAnswer(1),
-          () => handleAnswer(2),
-          () => handleAnswer(3),
+    onTaps: [
+    () => handleAnswer(0),
+    () => handleAnswer(1),
+    () => handleAnswer(2),
+    () => handleAnswer(3),
         ],
       );
     }

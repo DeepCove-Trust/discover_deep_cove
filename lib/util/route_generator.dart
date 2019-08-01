@@ -13,6 +13,7 @@ import 'package:discover_deep_cove/views/fact_file/fact_file_overlay.dart';
 import 'package:discover_deep_cove/views/home.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_questions.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_unlock.dart';
+import 'package:discover_deep_cove/views/quiz/quiz_view.dart';
 import 'package:discover_deep_cove/views/settings/about.dart';
 import 'package:flutter/material.dart';
 
@@ -61,7 +62,7 @@ class RouteGenerator {
       case '/quizQuestions':
         if (args is Quiz) {
           return MaterialPageRoute(
-            builder: (_) => QuizQuestions(
+            builder: (_) => QuizView(
               quiz: args,
             ),
           );

@@ -1,13 +1,12 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_image_button.dart';
-import 'package:audioplayers/audio_cache.dart';
 
 class ImageQuestion extends StatefulWidget {
   final QuizQuestion question;
   final List<VoidCallback> onTaps;
-  static final AudioCache audioPlayer = new AudioCache();
 
   ImageQuestion({this.question, this.onTaps});
 
@@ -16,6 +15,8 @@ class ImageQuestion extends StatefulWidget {
 }
 
 class _ImageQuestionState extends State<ImageQuestion> {
+  AudioPlayer player = AudioPlayer();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,11 +47,9 @@ class _ImageQuestionState extends State<ImageQuestion> {
                         child: widget.question.audio != null
                             ? OutlineButton.icon(
                                 onPressed: () {
-                                  ImageQuestion.audioPlayer.play(
-                                    widget.question.audio.path.substring(
-                                      widget.question.audio.path.indexOf('/') +
-                                          1,
-                                    ),
+                                  player.play(
+                                    widget.question.audio.path,
+                                    isLocal: true,
                                   );
                                 },
                                 label: Text(

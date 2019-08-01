@@ -10,19 +10,18 @@ class QuizIndex extends StatefulWidget {
 }
 
 class _QuizIndexState extends State<QuizIndex> {
-  QuizBean quizBean;
   List<Quiz> quizzes = List<Quiz>();
 
   @override
   void initState() {
-    quizBean = QuizBean.of(context);
+
     refreshData();
 
     super.initState();
   }
 
   Future<void> refreshData() async {
-    List<Quiz> data = await quizBean.getAllAndPreload();
+    List<Quiz> data = await QuizBean.of(context).getAllAndPreload();
     setState(() => quizzes = data);
   }
 
