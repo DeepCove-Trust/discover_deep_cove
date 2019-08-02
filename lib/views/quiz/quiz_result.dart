@@ -1,3 +1,4 @@
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class QuizResult extends StatelessWidget {
                 ),
               ),
               BodyText(
-                 "Quiz Completed!",
+                "Quiz Completed!",
                 align: TextAlign.center,
               ),
               SizedBox(
@@ -44,14 +45,14 @@ class QuizResult extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Container(
                   height: (MediaQuery.of(context).size.height / 100) * 37,
-                  width: MediaQuery.of(context).size.width,
+                  width: Screen.width(context),
                   color: Theme.of(context).primaryColor,
                   child: Column(
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20.0),
                         child: BodyText(
-                           "Your Score:",
+                          "Your Score:",
                         ),
                       ),
                       Text(
@@ -63,13 +64,13 @@ class QuizResult extends StatelessWidget {
                       ),
                       highscore
                           ? BodyText(
-                               "New Highscore!",
+                              "New Highscore!",
                             )
                           : null,
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: BodyText(
-                           setMessage(),
+                          setMessage(),
                           align: TextAlign.center,
                         ),
                       ),

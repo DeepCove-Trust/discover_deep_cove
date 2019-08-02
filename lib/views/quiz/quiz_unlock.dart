@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
@@ -35,8 +36,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 20, horizontal: 50),
                       child: BodyText(
-                        
-                            "Your teacher will give you codes to unlock quizzes.",
+                        "Your teacher will give you codes to unlock quizzes.",
                         align: TextAlign.center,
                       ),
                     ),
@@ -67,9 +67,8 @@ class _QuizUnlockState extends State<QuizUnlock> {
                               padding:
                                   const EdgeInsets.fromLTRB(8.0, 0, 8.0, 20),
                               child: BodyText(
-                                
-                                    "Simply use the code posted in the communal kitchen of the lodge to "
-                                    "Unlock all quizzes immediately!",
+                                "Simply use the code posted in the communal kitchen of the lodge to "
+                                "Unlock all quizzes immediately!",
                                 align: TextAlign.center,
                               ),
                             ),
@@ -85,7 +84,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Container(
-                        width: MediaQuery.of(context).size.width,
+                        width: Screen.width(context),
                         color: Theme.of(context).primaryColor,
                         child: Column(
                           children: <Widget>[
@@ -93,14 +92,13 @@ class _QuizUnlockState extends State<QuizUnlock> {
                               padding:
                                   const EdgeInsets.symmetric(vertical: 20.0),
                               child: Heading(
-                                 "Enter unlock code:",
+                                "Enter unlock code:",
                               ),
                             ),
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10.0),
                               child: Container(
-                                width: (MediaQuery.of(context).size.width / 4) *
-                                    2.5,
+                                width: Screen.width(context, percentage: 37.5),
                                 color: Colors.white,
                                 child: TextField(
                                   controller: controller,
@@ -118,7 +116,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Heading(
-                                     "Unlock",
+                                    "Unlock",
                                   ),
                                 ),
                                 onPressed: () {

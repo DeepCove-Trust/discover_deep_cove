@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -87,7 +88,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                           color: Color.fromARGB(190, 0, 0, 0),
                           height:
                               (MediaQuery.of(context).size.height / 100) * 5,
-                          width: MediaQuery.of(context).size.width,
+                          width: Screen.width(context),
                           child: Center(
                             child: Padding(
                               padding:
@@ -175,7 +176,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
           widget.isReview
               ? BottomBackButton()
               : Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: Screen.width(context),
                   color: Theme.of(context).primaryColorDark,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,3 +1,4 @@
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class SettingsButton extends StatelessWidget {
               child: Icon(iconData, color: Colors.white),
             ),
             Container(
-                width: MediaQuery.of(context).size.width * 0.6,
+                width: Screen.width(context, percentage: 40),
                 child: SubHeading( text, align: TextAlign.center))
           ],
         ),

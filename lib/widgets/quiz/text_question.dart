@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_text_button.dart';
@@ -38,7 +39,7 @@ class _TextQuestionState extends State<TextQuestion> {
                   Container(
                     color: Color.fromARGB(190, 0, 0, 0),
                     height: (MediaQuery.of(context).size.height / 100) * 12,
-                    width: MediaQuery.of(context).size.width,
+                    width: Screen.width(context),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[

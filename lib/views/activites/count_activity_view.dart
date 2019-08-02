@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -47,7 +48,7 @@ class _CountActivityViewState extends State<CountActivityView> {
             padding: const EdgeInsets.all(12.0),
             child: widget.isReview
                 ? BodyText(
-                     "You Counted:",
+                    "You Counted:",
                   )
                 : SizedBox(
                     height: (MediaQuery.of(context).size.height / 100) * 5,
@@ -58,7 +59,7 @@ class _CountActivityViewState extends State<CountActivityView> {
           ),
           widget.isReview
               ? Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: Screen.width(context),
                   height: (MediaQuery.of(context).size.height / 100) * 10,
                   color: Theme.of(context).primaryColor,
                   child: Row(
@@ -75,7 +76,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                   ),
                 )
               : Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: Screen.width(context),
                   height: (MediaQuery.of(context).size.height / 100) * 10,
                   color: Theme.of(context).primaryColor,
                   child: Row(
@@ -140,7 +141,7 @@ class _CountActivityViewState extends State<CountActivityView> {
           widget.isReview
               ? BottomBackButton()
               : Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: Screen.width(context),
                   color: Theme.of(context).primaryColorDark,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -156,7 +157,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                             "Pass",
+                            "Pass",
                           ),
                         ),
                       ),
@@ -172,7 +173,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                             "Save",
+                            "Save",
                           ),
                         ),
                       ),

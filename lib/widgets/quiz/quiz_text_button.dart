@@ -1,3 +1,4 @@
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 
@@ -12,11 +13,11 @@ class QuizTextButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: MediaQuery.of(context).size.width / 2.5,
+        width: Screen.width(context, percentage: 60.0),
         height: (MediaQuery.of(context).size.height / 100) * 13.5,
         child: Center(
           child: Heading(
-             text,
+            text,
           ),
         ),
         decoration: new BoxDecoration(

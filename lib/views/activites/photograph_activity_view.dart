@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -104,13 +105,14 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
               ? Column(
                   children: <Widget>[
                     BodyText(
-                       "Your photo:",
+                      "Your photo:",
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Container(
-                        height: (MediaQuery.of(context).size.height / 100) * 45.2,
-                        width: (MediaQuery.of(context).size.width / 4) * 3.5,
+                        height:
+                            (MediaQuery.of(context).size.height / 100) * 45.2,
+                        width: Screen.width(context, percentage: 12.5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           image: DecorationImage(
@@ -136,7 +138,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                             case ConnectionState.none:
                             case ConnectionState.waiting:
                               return BodyText(
-                                 'You have not taken a photo yet.',
+                                'You have not taken a photo yet.',
                                 align: TextAlign.center,
                               );
                             case ConnectionState.done:
@@ -149,7 +151,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                                 );
                               } else {
                                 return BodyText(
-                                   'You have not taken a photo yet.',
+                                  'You have not taken a photo yet.',
                                   align: TextAlign.center,
                                 );
                               }
@@ -175,7 +177,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
           widget.isReview
               ? BottomBackButton()
               : Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: Screen.width(context),
                   color: Theme.of(context).primaryColorDark,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -191,7 +193,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                             "Pass",
+                            "Pass",
                           ),
                         ),
                       ),
@@ -218,7 +220,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                             "Save",
+                            "Save",
                           ),
                         ),
                       ),
@@ -234,7 +236,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
               padding: const EdgeInsets.all(8.0),
               child: CustomFab(
                 icon: FontAwesomeIcons.camera,
-                 text: "I see it!",
+                text: "I see it!",
                 onPressed: () {
                   _onImageButtonPressed(ImageSource.camera);
                 },

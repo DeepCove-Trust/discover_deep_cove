@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -48,7 +49,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                   padding: const EdgeInsets.all(8.0),
                   child: widget.isReview
                       ? BodyText(
-                           "You Answered:",
+                          "You Answered:",
                         )
                       : SizedBox(
                           height:
@@ -57,27 +58,26 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                 ),
                 widget.isReview
                     ? Container(
-                        width: (MediaQuery.of(context).size.width / 4) * 3.5,
+                        width: Screen.width(context, percentage: 12.5),
                         height: (MediaQuery.of(context).size.height / 100) * 38,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            width: 1.0,
-                            color: Theme.of(context).primaryColor,
-                          ),
+                              width: 1.0,
+                              color: Theme.of(context).primaryColor),
                           borderRadius: BorderRadius.all(Radius.circular(5.0) //
                               ),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: BodyText(
-                             widget.activity.userText,
+                            widget.activity.userText,
                           ),
                         ),
                       )
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
                         child: Container(
-                          width: (MediaQuery.of(context).size.width / 4) * 3.5,
+                          width: Screen.width(context, percentage: 12.5),
                           height:
                               (MediaQuery.of(context).size.height / 100) * 38,
                           color: Colors.white,
@@ -112,7 +112,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     Container(
-                      width: MediaQuery.of(context).size.width,
+                      width: Screen.width(context),
                       color: Theme.of(context).primaryColorDark,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -128,7 +128,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                               child: BodyText(
-                                 "Pass",
+                                "Pass",
                               ),
                             ),
                           ),
@@ -157,7 +157,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                               child: BodyText(
-                                 "Save",
+                                "Save",
                               ),
                             ),
                           ),

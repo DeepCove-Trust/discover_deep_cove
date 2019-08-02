@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -85,7 +86,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                         Container(
                           height: (MediaQuery.of(context).size.height / 100) *
                               38.68,
-                          width: (MediaQuery.of(context).size.width / 4) * 3,
+                          width: Screen.width(context, percentage: 25.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             image: DecorationImage(
@@ -117,7 +118,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                 )
               : Container(
                   height: (MediaQuery.of(context).size.height / 100) * 38.68,
-                  width: (MediaQuery.of(context).size.width / 4) * 3,
+                  width: Screen.width(context, percentage: 25.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     image: DecorationImage(
@@ -141,7 +142,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
           widget.isReview
               ? BottomBackButton()
               : Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: Screen.width(context),
                   color: Theme.of(context).primaryColorDark,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
