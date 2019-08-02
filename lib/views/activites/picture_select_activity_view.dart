@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
@@ -16,7 +17,8 @@ class PictureSelectActivityView extends StatefulWidget {
   PictureSelectActivityView({this.activity, this.isReview});
 
   @override
-  _PictureSelectActivityViewState createState() => _PictureSelectActivityViewState();
+  _PictureSelectActivityViewState createState() =>
+      _PictureSelectActivityViewState();
 }
 
 class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
@@ -36,14 +38,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Container(),
-        title: Heading(
-           widget.activity.title,
-        ),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
-      ),
+      appBar: ActivityAppBar(widget.activity.title),
       body: Column(
         children: <Widget>[
           Padding(
@@ -64,13 +59,12 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
               children: <Widget>[
                 widget.isReview
                     ? BodyText(
-                         "You Answered:",
+                        "You Answered:",
                       )
                     : null,
-                Heading(
-                    !widget.isReview
-                        ? widget.activity.imageOptions[photoIndex].name
-                        : widget.activity.selectedPicture.name),
+                Heading(!widget.isReview
+                    ? widget.activity.imageOptions[photoIndex].name
+                    : widget.activity.selectedPicture.name),
               ],
             ),
           ),
@@ -163,7 +157,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                             "Pass",
+                            "Pass",
                           ),
                         ),
                       ),
@@ -180,7 +174,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                             "Save",
+                            "Save",
                           ),
                         ),
                       ),

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
@@ -44,14 +45,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Container(),
-        title: Heading(
-           widget.activity.title,
-        ),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
-      ),
+      appBar: ActivityAppBar(widget.activity.title),
       body: Column(
         children: <Widget>[
           Padding(
@@ -66,7 +60,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
             padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: widget.isReview
                 ? BodyText(
-                     "Your Answer:",
+                    "Your Answer:",
                   )
                 : null,
           ),
@@ -197,7 +191,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                             "Pass",
+                            "Pass",
                           ),
                         ),
                       ),
@@ -225,7 +219,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                             "Save",
+                            "Save",
                           ),
                         ),
                       ),
