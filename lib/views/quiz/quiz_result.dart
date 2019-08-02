@@ -39,12 +39,12 @@ class QuizResult extends StatelessWidget {
                 align: TextAlign.center,
               ),
               SizedBox(
-                height: (MediaQuery.of(context).size.height / 100) * 5,
+                height: Screen.height(context, percentage: 5.0),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Container(
-                  height: (MediaQuery.of(context).size.height / 100) * 37,
+                  height: Screen.height(context, percentage: 37.0),
                   width: Screen.width(context),
                   color: Theme.of(context).primaryColor,
                   child: Column(

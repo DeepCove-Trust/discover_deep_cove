@@ -49,7 +49,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              height: (MediaQuery.of(context).size.height / 100) * 13,
+              height: Screen.height(context, percentage: 13.0),
               width: Screen.width(context, percentage: 25),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -79,7 +79,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
               ),
             ),
             SizedBox(
-              height: (MediaQuery.of(context).size.height / 100) * 5,
+              height: Screen.height(context, percentage: 5.0),
             ),
             Container(
               child: Padding(

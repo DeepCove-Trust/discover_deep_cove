@@ -22,7 +22,7 @@ class _TextQuestionState extends State<TextQuestion> {
     return Column(
       children: <Widget>[
         Container(
-          height: (MediaQuery.of(context).size.height / 100) * 51.58,
+          height: Screen.height(context, percentage: 51.58),
           child: Stack(
             children: <Widget>[
               Container(
@@ -38,7 +38,7 @@ class _TextQuestionState extends State<TextQuestion> {
                 children: <Widget>[
                   Container(
                     color: Color.fromARGB(190, 0, 0, 0),
-                    height: (MediaQuery.of(context).size.height / 100) * 12,
+                    height:Screen.height(context, percentage: 12.0),
                     width: Screen.width(context),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -34,7 +34,7 @@ class _CountActivityViewState extends State<CountActivityView> {
             child: Text(widget.activity.description),
           ),
           SizedBox(
-            height: (MediaQuery.of(context).size.height / 100) * 10,
+            height: Screen.height(context, percentage: 10.0),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
@@ -51,16 +51,16 @@ class _CountActivityViewState extends State<CountActivityView> {
                     "You Counted:",
                   )
                 : SizedBox(
-                    height: (MediaQuery.of(context).size.height / 100) * 5,
+                    height: Screen.height(context, percentage: 5.0),
                   ),
           ),
           SizedBox(
-            height: (MediaQuery.of(context).size.height / 100) * 20,
+            height: Screen.height(context, percentage: 20.0),
           ),
           widget.isReview
               ? Container(
                   width: Screen.width(context),
-                  height: (MediaQuery.of(context).size.height / 100) * 10,
+                  height: Screen.height(context, percentage: 10.0),
                   color: Theme.of(context).primaryColor,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -77,7 +77,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                 )
               : Container(
                   width: Screen.width(context),
-                  height: (MediaQuery.of(context).size.height / 100) * 10,
+                  height: Screen.height(context, percentage: 10.0),
                   color: Theme.of(context).primaryColor,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -28,7 +28,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: (MediaQuery.of(context).size.height / 100) * 13,
+                  height: Screen.height(context, percentage: 13.0),
                 ),
                 Column(
                   children: <Widget>[
@@ -60,8 +60,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                             ),
                             SizedBox(
                               height:
-                                  (MediaQuery.of(context).size.height / 100) *
-                                      1.5,
+                                  Screen.height(context, percentage: 1.5),
                             ),
                             Padding(
                               padding:

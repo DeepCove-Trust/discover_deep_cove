@@ -111,7 +111,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Container(
                         height:
-                            (MediaQuery.of(context).size.height / 100) * 45.2,
+                            Screen.height(context, percentage: 45.2),
                         width: Screen.width(context, percentage: 12.5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),

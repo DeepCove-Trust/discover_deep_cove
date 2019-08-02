@@ -84,8 +84,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                     Column(
                       children: <Widget>[
                         Container(
-                          height: (MediaQuery.of(context).size.height / 100) *
-                              38.68,
+                          height: Screen.height(context, percentage: 38.68),
                           width: Screen.width(context, percentage: 25.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
@@ -117,7 +116,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                   ],
                 )
               : Container(
-                  height: (MediaQuery.of(context).size.height / 100) * 38.68,
+                  height: Screen.height(context, percentage: 38.68),
                   width: Screen.width(context, percentage: 25.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),

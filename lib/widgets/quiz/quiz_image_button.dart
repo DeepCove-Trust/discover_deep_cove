@@ -14,7 +14,7 @@ class QuizImageButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: Screen.width(context) / 2.2,
-        height: (MediaQuery.of(context).size.height / 100 * 23.45),
+        height: Screen.height(context, percentage: 23.5),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
           child: Container(
@@ -43,7 +43,7 @@ class QuizImageButton extends StatelessWidget {
                           Container(
                             color: Color.fromARGB(190, 0, 0, 0),
                             height:
-                                (MediaQuery.of(context).size.height / 100) * 5,
+                                Screen.height(context, percentage: 5.0),
                             width: Screen.width(context),
                             child: Center(
                               child: Padding(

@@ -52,14 +52,13 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                           "You Answered:",
                         )
                       : SizedBox(
-                          height:
-                              (MediaQuery.of(context).size.height / 100) * 2.5,
+                          height: Screen.height(context, percentage: 2.5),
                         ),
                 ),
                 widget.isReview
                     ? Container(
                         width: Screen.width(context, percentage: 12.5),
-                        height: (MediaQuery.of(context).size.height / 100) * 38,
+                        height: Screen.height(context, percentage: 38.0),
                         decoration: BoxDecoration(
                           border: Border.all(
                               width: 1.0,
@@ -78,8 +77,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                         borderRadius: BorderRadius.circular(10.0),
                         child: Container(
                           width: Screen.width(context, percentage: 12.5),
-                          height:
-                              (MediaQuery.of(context).size.height / 100) * 38,
+                          height: Screen.height(context, percentage: 38.0),
                           color: Colors.white,
                           child: TextField(
                             keyboardType: TextInputType.multiline,
