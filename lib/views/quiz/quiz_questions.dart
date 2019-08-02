@@ -59,6 +59,7 @@ class _QuizQuestionsState extends State<QuizQuestions> {
     return Scaffold(
       appBar: appbarVisible ? AppBar(
         backgroundColor: Theme.of(context).primaryColor,
+        brightness: Brightness.dark,
         title: Heading(
           widget.quiz.title,
         ),

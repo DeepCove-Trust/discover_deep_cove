@@ -170,6 +170,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ),
         ],
         backgroundColor: Theme.of(context).primaryColor,
+        brightness: Brightness.dark,
       );
     } else {
       return null;
