@@ -1,14 +1,12 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:toast/toast.dart';
 
 class PictureTapActivityView extends StatefulWidget {

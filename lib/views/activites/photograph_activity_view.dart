@@ -7,7 +7,6 @@ import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
-import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -110,8 +109,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Container(
-                        height:
-                            Screen.height(context, percentage: 45.2),
+                        height: Screen.height(context, percentage: 45.2),
                         width: Screen.width(context, percentage: 12.5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),

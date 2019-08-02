@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/views/activites/activity_screen_args.dart';
 import 'package:discover_deep_cove/views/fact_file/fact_file_index.dart';

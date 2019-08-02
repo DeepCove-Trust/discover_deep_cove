@@ -1,8 +1,7 @@
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class LoadingModalOverlay extends StatelessWidget{
+class LoadingModalOverlay extends StatelessWidget {
   final String loadingMessage;
   final Icon icon;
 
@@ -26,7 +25,7 @@ class LoadingModalOverlay extends StatelessWidget{
               icon ?? CircularProgressIndicator(),
               SizedBox(height: 50),
               BodyText(
-                 loadingMessage,
+                loadingMessage,
                 align: TextAlign.center,
               ),
             ],
