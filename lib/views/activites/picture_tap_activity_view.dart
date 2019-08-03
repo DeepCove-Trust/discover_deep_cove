@@ -1,12 +1,12 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/util/hex_color.dart';
+import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:toast/toast.dart';
 
 class PictureTapActivityView extends StatefulWidget {
@@ -44,14 +44,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Container(),
-        title: Heading(
-          text: widget.activity.title,
-        ),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
-      ),
+      appBar: ActivityAppBar(widget.activity.title),
       body: Column(
         children: <Widget>[
           Padding(
@@ -66,7 +59,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
             padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: widget.isReview
                 ? BodyText(
-                    text: "Your Answer:",
+                    "Your Answer:",
                   )
                 : null,
           ),
@@ -75,8 +68,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                   fit: StackFit.loose,
                   children: <Widget>[
                     Container(
-                      height:
-                          (MediaQuery.of(context).size.height / 100) * 51.58,
+                      height: Screen.height(context, percentage: 51.58),
                       child: Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -91,9 +83,8 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                       children: <Widget>[
                         Container(
                           color: Color.fromARGB(190, 0, 0, 0),
-                          height:
-                              (MediaQuery.of(context).size.height / 100) * 5,
-                          width: MediaQuery.of(context).size.width,
+                          height: Screen.height(context, percentage: 5.0),
+                          width: Screen.width(context),
                           child: Center(
                             child: Padding(
                               padding:
@@ -140,8 +131,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                       onTapDown: _handleTap,
                       child: Container(
                         key: _keyImage,
-                        height:
-                            (MediaQuery.of(context).size.height / 100) * 51.58,
+                        height: Screen.height(context, percentage: 51.58),
                         child: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
@@ -181,7 +171,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
           widget.isReview
               ? BottomBackButton()
               : Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: Screen.width(context),
                   color: Theme.of(context).primaryColorDark,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -197,7 +187,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                            text: "Pass",
+                            "Pass",
                           ),
                         ),
                       ),
@@ -225,7 +215,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                            text: "Save",
+                            "Save",
                           ),
                         ),
                       ),

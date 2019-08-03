@@ -46,7 +46,6 @@ ThemeData appTheme() {
     textTheme: TextTheme(
       headline: TextStyle(fontSize: 30, color: Colors.white),
       subhead: TextStyle(fontSize: 25, color: Colors.white),
-      body1: TextStyle(fontSize: 20, color: Colors.white),
     ),
   );
 }

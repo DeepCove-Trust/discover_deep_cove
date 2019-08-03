@@ -7,6 +7,7 @@ import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_grid.dart';
 import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_text_button.dart';
@@ -33,7 +34,7 @@ class _TextQuestionState extends State<TextQuestion> {
   Widget buildAudioButton() {
     return OutlineButton.icon(
       onPressed: () => playAudio(),
-      label: BodyText(text: 'Listen', align: TextAlign.center),
+      label: BodyText('Listen', align: TextAlign.center),
       borderSide: BorderSide(color: Colors.white, width: 0.5),
       icon: Icon(FontAwesomeIcons.music, color: Colors.white),
     );
@@ -66,7 +67,7 @@ class _TextQuestionState extends State<TextQuestion> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SubHeading(text: widget.question.text),
+                        SubHeading(widget.question.text),
                         if (hasAudio) buildAudioButton(),
                       ],
                     ),

@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
-import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -84,14 +85,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Container(),
-        title: Heading(
-          text: widget.activity.title,
-        ),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
-      ),
+      appBar: ActivityAppBar(widget.activity.title),
       body: Column(
         children: <Widget>[
           Padding(
@@ -110,13 +104,13 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
               ? Column(
                   children: <Widget>[
                     BodyText(
-                      text: "Your photo:",
+                      "Your photo:",
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Container(
-                        height: (MediaQuery.of(context).size.height / 100) * 45.2,
-                        width: (MediaQuery.of(context).size.width / 4) * 3.5,
+                        height: Screen.height(context, percentage: 45.2),
+                        width: Screen.width(context, percentage: 87.5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           image: DecorationImage(
@@ -142,7 +136,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                             case ConnectionState.none:
                             case ConnectionState.waiting:
                               return BodyText(
-                                text: 'You have not taken a photo yet.',
+                                'You have not taken a photo yet.',
                                 align: TextAlign.center,
                               );
                             case ConnectionState.done:
@@ -155,7 +149,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                                 );
                               } else {
                                 return BodyText(
-                                  text: 'You have not taken a photo yet.',
+                                  'You have not taken a photo yet.',
                                   align: TextAlign.center,
                                 );
                               }
@@ -181,7 +175,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
           widget.isReview
               ? BottomBackButton()
               : Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: Screen.width(context),
                   color: Theme.of(context).primaryColorDark,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -197,7 +191,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                            text: "Pass",
+                            "Pass",
                           ),
                         ),
                       ),
@@ -224,7 +218,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: BodyText(
-                            text: "Save",
+                            "Save",
                           ),
                         ),
                       ),

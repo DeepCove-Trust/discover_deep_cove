@@ -1,5 +1,5 @@
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 
 class QuizTextButton extends StatelessWidget {
@@ -13,10 +13,12 @@ class QuizTextButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: Screen.width(context, percentage: 40),
+        width: Screen.width(context, percentage: 40.0),
         height: Screen.height(context, percentage: 13.5),
         child: Center(
-          child: SubHeading(text: text),
+          child: Heading(
+            text,
+          ),
         ),
         decoration: new BoxDecoration(
           border: new Border.all(

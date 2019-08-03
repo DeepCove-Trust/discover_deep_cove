@@ -11,7 +11,7 @@ class BottomBackButton extends StatelessWidget {
         onPressed: () => Navigator.pop(context),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical : 20),
-          child: BodyText(text: 'Back'),
+          child: BodyText( 'Back'),
         )
       ),
     );

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/views/activites/activity_screen_args.dart';
 import 'package:discover_deep_cove/views/fact_file/fact_file_index.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_index.dart';
@@ -114,38 +115,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
 //End qr reader section
 
-  ///provides the [AppBar] for a specific pages
-  AppBar setAppBar(Widget pageNum) {
-    if (pageIs(Page.Map)) {
-      return null;
-//      return AppBar(
-//        leading: IconButton(
-//          icon: Icon(FontAwesomeIcons.arrowLeft),
-//          onPressed: () => changeTrack(increase: false),
-//          color: Colors.white,
-//        ),
-//        actions: <Widget>[
-//          IconButton(
-//            icon: Icon(FontAwesomeIcons.arrowRight),
-//            onPressed: () => changeTrack(increase: true),
-//            color: Colors.white,
-//          ),
-//        ],
-//        title: Heading(
-//          text: tracks.length > 0 ? currentTrack.name : '',
-//        ),
-//        centerTitle: true,
-//        backgroundColor: Theme.of(context).primaryColorDark,
-//      );
-    } else if (pageIs(Page.Quiz)) {
-      return null;
-    } else {
-      return null;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    Screen.setOrientations(context);
+    
     return Stack(children: _buildPage());
   }
 
@@ -153,7 +126,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     List<Widget> contents = List<Widget>();
 
     contents.add(Scaffold(
-      appBar: setAppBar(currentPage),
       body: currentPage,
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
@@ -187,7 +159,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       floatingActionButton: pageIs(Page.Map)
           ? CustomFab(
               icon: FontAwesomeIcons.qrcode,
-              text: "Scan",
+               text: "Scan",
               onPressed: scan,
             )
           : null,

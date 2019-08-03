@@ -1,3 +1,4 @@
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:flutter/material.dart';
@@ -34,24 +35,24 @@ class QuizResult extends StatelessWidget {
                 ),
               ),
               BodyText(
-                text: "Quiz Completed!",
+                "Quiz Completed!",
                 align: TextAlign.center,
               ),
               SizedBox(
-                height: (MediaQuery.of(context).size.height / 100) * 5,
+                height: Screen.height(context, percentage: 5.0),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Container(
-                  height: (MediaQuery.of(context).size.height / 100) * 37,
-                  width: MediaQuery.of(context).size.width,
+                  height: Screen.height(context, percentage: 37.0),
+                  width: Screen.width(context),
                   color: Theme.of(context).primaryColor,
                   child: Column(
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20.0),
                         child: BodyText(
-                          text: "Your Score:",
+                          "Your Score:",
                         ),
                       ),
                       Text(
@@ -63,13 +64,13 @@ class QuizResult extends StatelessWidget {
                       ),
                       isHighscore
                           ? BodyText(
-                              text: "New Highscore!",
+                              "New Highscore!",
                             )
                           : Container(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: BodyText(
-                          text: setMessage(),
+                          setMessage(),
                           align: TextAlign.center,
                         ),
                       ),

@@ -56,10 +56,10 @@ class _FactFileIndexState extends State<FactFileIndex>
   List<Container> getTabHeadings() {
     return categories.map((c) {
       return Container(
-          width: MediaQuery.of(context).size.width /
+          width: Screen.width(context) /
               (categories.length > 2 ? 3 : categories.length),
           // Todo: better way?
-          child: BodyText(text: c.name, align: TextAlign.center));
+          child: BodyText( c.name, align: TextAlign.center));
     }).toList();
   }
 
