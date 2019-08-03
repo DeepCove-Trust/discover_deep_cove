@@ -35,11 +35,29 @@ class QuizAnswerBean extends Bean<QuizAnswer> with _QuizAnswerBean {
   QuizAnswerBean.of(BuildContext context) : super(DatabaseAdapter.of(context));
 
   MediaFileBean _mediaFileBean;
+
   MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
 
   QuizQuestionBean _quizQuestionBean;
+
   QuizQuestionBean get quizQuestionBean =>
       _quizQuestionBean ?? QuizQuestionBean(adapter);
 
   final String tableName = 'quiz_answers';
+
+  Future<QuizAnswer> preloadRelationships(QuizAnswer answer) async {
+    answer = await preload(answer);
+    if (answer.imageId != null) {
+      answer.image = await mediaFileBean.find(answer.imageId);
+    }
+    return answer;
+  }
+
+  Future<List<QuizAnswer>> preloadAllRelationships(
+      List<QuizAnswer> answers) async {
+    for(QuizAnswer answer in answers){
+      answer = await preloadRelationships(answer);
+    }
+    return answers;
+  }
 }

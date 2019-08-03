@@ -115,67 +115,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
 //End qr reader section
 
-  ///provides the [AppBar] for a specific pages
-  AppBar setAppBar(Widget pageNum) {
-    if (pageIs(Page.Map)) {
-      return null;
-//      return AppBar(
-//        leading: IconButton(
-//          icon: Icon(FontAwesomeIcons.arrowLeft),
-//          onPressed: () => changeTrack(increase: false),
-//          color: Colors.white,
-//        ),
-//        actions: <Widget>[
-//          IconButton(
-//            icon: Icon(FontAwesomeIcons.arrowRight),
-//            onPressed: () => changeTrack(increase: true),
-//            color: Colors.white,
-//          ),
-//        ],
-//        title: Heading(
-//          text: tracks.length > 0 ? currentTrack.name : '',
-//        ),
-//        centerTitle: true,
-//        backgroundColor: Theme.of(context).primaryColorDark,
-//      );
-    } else if (pageIs(Page.Quiz)) {
-      return AppBar(
-        title: Heading(
-           "Deep Cove Trivia",
-        ),
-        centerTitle: true,
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/quizUnlock');
-            },
-            color: Colors.transparent,
-            padding: EdgeInsets.only(top: 7.0),
-            child: Column(
-              children: <Widget>[
-                Icon(
-                  FontAwesomeIcons.lockOpen,
-                  color: Colors.white,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: Text(
-                    "Unlock",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-        backgroundColor: Theme.of(context).primaryColor,
-        brightness: Brightness.dark,
-      );
-    } else {
-      return null;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     Screen.setOrientations(context);
@@ -187,7 +126,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     List<Widget> contents = List<Widget>();
 
     contents.add(Scaffold(
-      appBar: setAppBar(currentPage),
       body: currentPage,
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(

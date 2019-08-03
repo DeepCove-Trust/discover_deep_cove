@@ -11,8 +11,8 @@ import 'package:discover_deep_cove/views/activites/text_answer_activity_view.dar
 import 'package:discover_deep_cove/views/fact_file/fact_file_details.dart';
 import 'package:discover_deep_cove/views/fact_file/fact_file_overlay.dart';
 import 'package:discover_deep_cove/views/home.dart';
-import 'package:discover_deep_cove/views/quiz/quiz_questions.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_unlock.dart';
+import 'package:discover_deep_cove/views/quiz/quiz_view.dart';
 import 'package:discover_deep_cove/views/settings/about.dart';
 import 'package:flutter/material.dart';
 
@@ -48,20 +48,22 @@ class RouteGenerator {
           return TransparentPageRoute(
             builder: (_) => FactFileOverlay(entry: args),
           );
-        } else {
-          return _errorRoute();
         }
-        break;
+        return _errorRoute();
+
       //Quiz routes
       case '/quizUnlock':
-        return MaterialPageRoute(
-          builder: (_) => QuizUnlock(),
-        );
+        if (args is VoidCallback) {
+          return MaterialPageRoute(
+            builder: (_) => QuizUnlock(refreshCallback: args,),
+          );
+        }
+        return _errorRoute();
 
       case '/quizQuestions':
         if (args is Quiz) {
           return MaterialPageRoute(
-            builder: (_) => QuizQuestions(
+            builder: (_) => QuizView(
               quiz: args,
             ),
           );

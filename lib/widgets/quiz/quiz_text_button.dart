@@ -6,7 +6,7 @@ class QuizTextButton extends StatelessWidget {
   final VoidCallback onTap;
   final String text;
 
-  const QuizTextButton({this.onTap, this.text});
+  const QuizTextButton({@required this.onTap, @required this.text});
 
   @override
   Widget build(BuildContext context) {

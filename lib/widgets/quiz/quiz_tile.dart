@@ -33,7 +33,7 @@ class Tile extends StatelessWidget {
             if (imagePath != null)
               Hero(
                 tag: title,
-                child: Container(
+                child: Container( // todo this hero is pointless now
                   width: Screen.width(context),
                   height: Screen.width(context),
                 ),

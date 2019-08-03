@@ -1,0 +1,170 @@
+import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
+import 'package:discover_deep_cove/views/quiz/quiz_result.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
+import 'package:discover_deep_cove/widgets/quiz/correct_wrong_overlay.dart';
+import 'package:discover_deep_cove/widgets/quiz/image_question.dart';
+import 'package:discover_deep_cove/widgets/quiz/quiz_image_button.dart';
+import 'package:discover_deep_cove/widgets/quiz/quiz_text_button.dart';
+import 'package:discover_deep_cove/widgets/quiz/text_only_question.dart';
+import 'package:discover_deep_cove/widgets/quiz/text_question.dart';
+import 'package:flutter/material.dart';
+
+class QuizView extends StatefulWidget {
+  QuizView({this.quiz});
+
+  final Quiz quiz;
+
+  @override
+  State createState() => QuizViewState();
+}
+
+class QuizViewState extends State<QuizView> {
+  bool questionsLoaded = false;
+
+  QuizQuestion get currentQuestion => widget.quiz.questions[questionIndex];
+  bool isCorrect;
+  String guess;
+  String answer;
+  bool showOverlay = false;
+  int questionIndex = 0;
+  int score = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    loadQuestions();
+  }
+
+  Future<void> loadQuestions() async {
+    widget.quiz.questions = await QuizQuestionBean.of(context)
+        .preloadAllRelationships(widget.quiz.questions);
+    setState(() => questionsLoaded = true);
+  }
+
+  Future<void> updateHighScore(int score) async {
+    Quiz quiz = widget.quiz;
+    quiz.highScore = score;
+    await QuizBean.of(context).update(quiz);
+  }
+
+  void handleAnswer(int answerId) {
+    if (currentQuestion.trueFalseQuestion != null) {
+      isCorrect = answerId == (currentQuestion.trueFalseQuestion ? 1 : 0);
+      guess = answerId == 0 ? "False" : "True";
+      answer = currentQuestion.trueFalseQuestion ? "True" : "False";
+    } else {
+      isCorrect = answerId == currentQuestion.correctAnswerId;
+      guess = currentQuestion.answers.firstWhere((a) => a.id == answerId).text;
+      answer = currentQuestion.answers
+          .firstWhere((a) => a.id == currentQuestion.correctAnswerId)
+          .text;
+    }
+
+    if (isCorrect) score++;
+
+    setState(() => showOverlay = true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: questionIndex < widget.quiz.questions.length
+          ? AppBar(
+              brightness: Brightness.dark,
+              title: Heading(widget.quiz.title),
+              centerTitle: true,
+              leading: Container(),
+              actions: [
+                Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Heading(
+                    '${questionIndex + 1}/${widget.quiz.questions.length}',
+                  ),
+                )
+              ],
+              backgroundColor: Theme.of(context).primaryColor,
+            )
+          : null,
+      body: questionsLoaded
+          ? Stack(
+              fit: StackFit.expand,
+              children: [
+                buildQuestionView(),
+                if (showOverlay) buildOverlay(),
+              ],
+            )
+          : Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  Widget buildQuestionView() {
+    if (questionIndex == widget.quiz.questions.length) {
+      bool isHighScore = false;
+      if (score > widget.quiz.highScore) {
+        updateHighScore(score);
+        isHighScore = true;
+      }
+
+      return QuizResult(
+        name: widget.quiz.title,
+        score: score,
+        outOf: widget.quiz.questions.length,
+        isHighscore: isHighScore,
+      );
+    }
+
+    // if the question has an image
+    if (currentQuestion.image != null) {
+      return TextQuestion(
+          question: currentQuestion, answers: buildAnswerTiles());
+    }
+
+    // if any answers have an image
+    if (currentQuestion.answers.any((a) => a.image != null)) {
+      return ImageQuestion(
+          question: currentQuestion, answers: buildAnswerTiles());
+    }
+
+    // if the question/answers are text only
+    return TextOnlyQuestion(
+        question: currentQuestion, answers: buildAnswerTiles());
+  }
+
+  List<Widget> buildAnswerTiles() {
+    if (currentQuestion.trueFalseQuestion != null) {
+      return [
+        QuizTextButton(onTap: () => handleAnswer(1), text: 'True'),
+        QuizTextButton(onTap: () => handleAnswer(0), text: 'False')
+      ];
+    }
+
+    // does the question have any image answers?
+    return currentQuestion.answers.any((a) => a.image != null)
+        ? currentQuestion.answers.map((answer) {
+            return QuizImageButton(
+              onTap: () => handleAnswer(answer.id),
+              imagePath: answer.image.path,
+              text: answer.text,
+            );
+          }).toList()
+        : currentQuestion.answers.map((answer) {
+            return QuizTextButton(
+              onTap: () => handleAnswer(answer.id),
+              text: answer.text,
+            );
+          }).toList();
+  }
+
+  Widget buildOverlay() {
+    return CorrectWrongOverlay(
+      isCorrect: isCorrect,
+      guess: guess,
+      answer: answer,
+      onTap: () => setState(() {
+        questionIndex++;
+        showOverlay = false;
+      }),
+    );
+  }
+}

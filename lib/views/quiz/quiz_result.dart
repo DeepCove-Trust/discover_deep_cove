@@ -7,11 +7,11 @@ class QuizResult extends StatelessWidget {
   final String name;
   final int score;
   final int outOf;
-  final bool highscore;
+  final bool isHighscore;
 
   ///takes in a [string], two [ints] and a bool and
   ///returns the view displaying the correct information.
-  QuizResult({this.name, this.score, this.outOf, this.highscore});
+  QuizResult({this.name, this.score, this.outOf, this.isHighscore});
 
   @override
   Widget build(BuildContext context) {
@@ -59,14 +59,14 @@ class QuizResult extends StatelessWidget {
                         "$score/$outOf",
                         style: Theme.of(context)
                             .textTheme
-                            .body1
+                            .headline
                             .copyWith(fontSize: 100),
                       ),
-                      highscore
+                      isHighscore
                           ? BodyText(
                               "New Highscore!",
                             )
-                          : null,
+                          : Container(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: BodyText(
@@ -80,20 +80,20 @@ class QuizResult extends StatelessWidget {
               ),
             ],
           ),
-          BottomBackButton(),
         ],
       ),
       backgroundColor: Theme.of(context).backgroundColor,
+      bottomNavigationBar: BottomBackButton(),
     );
   }
 
   setMessage() {
     if (score == outOf) {
-      return "Congratulations you got every question correct!";
+      return "Congratulations, you got every question correct!";
     } else if (((score / outOf) * 100) >= 50) {
-      return "Almost there keep up the good work!";
+      return "Almost there, keep up the good work!";
     } else if (((score / outOf) * 100) >= 0 && ((score / outOf) * 100) <= 49) {
-      return "You are improving keep up the good work";
+      return "You are improving, keep up the good work!";
     } else {
       return "You can do better, keep trying!";
     }

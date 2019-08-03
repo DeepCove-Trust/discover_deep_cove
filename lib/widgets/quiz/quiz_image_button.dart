@@ -1,19 +1,22 @@
+import 'dart:io';
+
+import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:flutter/material.dart';
 
 class QuizImageButton extends StatelessWidget {
   final VoidCallback onTap;
   final String imagePath;
-  final String title;
+  final String text;
 
-  const QuizImageButton({this.onTap, this.imagePath, this.title});
+  const QuizImageButton({this.onTap, this.imagePath, this.text});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: Screen.width(context) / 2.2,
+        width: Screen.width(context, percentage: 45),
         height: Screen.height(context, percentage: 23.5),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
@@ -31,26 +34,26 @@ class QuizImageButton extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(imagePath),
-                      fit: BoxFit.fill,
+                      image: FileImage(File(Env.getResourcePath(imagePath))),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                title != null
+                text != null
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           Container(
                             color: Color.fromARGB(190, 0, 0, 0),
                             height:
-                                Screen.height(context, percentage: 5.0),
+                                Screen.height(context, percentage: 5),
                             width: Screen.width(context),
                             child: Center(
                               child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   child: Text(
-                                    title,
+                                    text,
                                     style: Theme.of(context).textTheme.body1,
                                     softWrap: false,
                                     maxLines: 1,
@@ -60,7 +63,7 @@ class QuizImageButton extends StatelessWidget {
                           ),
                         ],
                       )
-                    : null,
+                    : Container(),
               ],
             ),
           ),
