@@ -1,8 +1,10 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class QuizIndex extends StatefulWidget {
   @override
@@ -30,6 +32,37 @@ class _QuizIndexState extends State<QuizIndex> {
     Screen.setOrientations(context);
 
     return Scaffold(
+      appBar: AppBar(
+        title: Heading(
+          text: "Deep Cove Trivia",
+        ),
+        centerTitle: true,
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/quizUnlock', arguments: refreshData);
+            },
+            color: Colors.transparent,
+            padding: EdgeInsets.only(top: 7.0),
+            child: Column(
+              children: <Widget>[
+                Icon(
+                  FontAwesomeIcons.lockOpen,
+                  color: Colors.white,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Text(
+                    "Unlock",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: RefreshIndicator(
         onRefresh: () => refreshData(),

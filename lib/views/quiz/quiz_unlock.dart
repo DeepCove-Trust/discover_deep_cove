@@ -10,7 +10,7 @@ enum UnlockStatus { success, alreadyUnlocked, failure }
 class QuizUnlock extends StatefulWidget {
   final VoidCallback refreshCallback;
 
-  QuizUnlock({this.refreshCallback});
+  QuizUnlock({@required this.refreshCallback});
 
   @override
   _QuizUnlockState createState() => _QuizUnlockState();
@@ -127,7 +127,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                                     text: "Unlock",
                                   ),
                                 ),
-                                onPressed: () => verifyCode(),
+                                onPressed: () => verifyCode(context),
                                 borderSide:
                                     BorderSide(color: Color(0xFFFFFFFF)),
                               ),
@@ -149,17 +149,15 @@ class _QuizUnlockState extends State<QuizUnlock> {
     );
   }
 
-  void verifyCode() async {
+  void verifyCode(BuildContext context) async {
     UnlockStatus status;
 
-    Quiz quiz = await QuizBean.of(context)
-        .findOneWhere((quiz) => quiz.unlockCode == controller.text);
+    Quiz quiz = await QuizBean.of(context).findByCode(controller.text);
 
-    if(quiz != null){
-      if(quiz.unlocked){
-        status  = UnlockStatus.alreadyUnlocked;
-      }
-      else {
+    if (quiz != null) {
+      if (quiz.unlocked) {
+        status = UnlockStatus.alreadyUnlocked;
+      } else {
         quiz.unlocked = true;
         await QuizBean.of(context).update(quiz);
         status = UnlockStatus.success;
@@ -167,7 +165,6 @@ class _QuizUnlockState extends State<QuizUnlock> {
 
       widget.refreshCallback();
       Navigator.of(context).pop();
-
     } else {
       status = UnlockStatus.failure;
     }

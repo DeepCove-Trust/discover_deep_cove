@@ -49,15 +49,17 @@ class RouteGenerator {
           return TransparentPageRoute(
             builder: (_) => FactFileOverlay(entry: args),
           );
-        } else {
-          return _errorRoute();
         }
-        break;
+        return _errorRoute();
+
       //Quiz routes
       case '/quizUnlock':
-        return MaterialPageRoute(
-          builder: (_) => QuizUnlock(),
-        );
+        if (args is VoidCallback) {
+          return MaterialPageRoute(
+            builder: (_) => QuizUnlock(refreshCallback: args,),
+          );
+        }
+        return _errorRoute();
 
       case '/quizQuestions':
         if (args is Quiz) {

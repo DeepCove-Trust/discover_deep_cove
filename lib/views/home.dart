@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/views/activites/activity_screen_args.dart';
 import 'package:discover_deep_cove/views/fact_file/fact_file_index.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_index.dart';
@@ -139,37 +138,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 //        backgroundColor: Theme.of(context).primaryColorDark,
 //      );
     } else if (pageIs(Page.Quiz)) {
-      return AppBar(
-        title: Heading(
-          text: "Deep Cove Trivia",
-        ),
-        centerTitle: true,
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/quizUnlock');
-            },
-            color: Colors.transparent,
-            padding: EdgeInsets.only(top: 7.0),
-            child: Column(
-              children: <Widget>[
-                Icon(
-                  FontAwesomeIcons.lockOpen,
-                  color: Colors.white,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: Text(
-                    "Unlock",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-        backgroundColor: Theme.of(context).primaryColor,
-      );
+      return null;
     } else {
       return null;
     }

@@ -1,9 +1,13 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
-import 'package:discover_deep_cove/views/quiz/quiz_question_view.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_result.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/correct_wrong_overlay.dart';
+import 'package:discover_deep_cove/widgets/quiz/image_question.dart';
+import 'package:discover_deep_cove/widgets/quiz/quiz_image_button.dart';
+import 'package:discover_deep_cove/widgets/quiz/quiz_text_button.dart';
+import 'package:discover_deep_cove/widgets/quiz/text_only_question.dart';
+import 'package:discover_deep_cove/widgets/quiz/text_question.dart';
 import 'package:flutter/material.dart';
 
 class QuizView extends StatefulWidget {
@@ -23,7 +27,6 @@ class QuizViewState extends State<QuizView> {
   String guess;
   String answer;
   bool showOverlay = false;
-  bool showAppBar = true;
   int questionIndex = 0;
   int score = 0;
 
@@ -66,7 +69,7 @@ class QuizViewState extends State<QuizView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: showAppBar
+      appBar: questionIndex < widget.quiz.questions.length
           ? AppBar(
               title: Heading(text: widget.quiz.title),
               centerTitle: true,
@@ -82,7 +85,7 @@ class QuizViewState extends State<QuizView> {
               ],
               backgroundColor: Theme.of(context).primaryColor,
             )
-          : Container(),
+          : null,
       body: questionsLoaded
           ? Stack(
               fit: StackFit.expand,
@@ -103,8 +106,6 @@ class QuizViewState extends State<QuizView> {
         isHighScore = true;
       }
 
-      setState(() => showAppBar = false);
-
       return QuizResult(
         name: widget.quiz.title,
         score: score,
@@ -113,10 +114,44 @@ class QuizViewState extends State<QuizView> {
       );
     }
 
-    return QuizQuestionView(
-      question: currentQuestion,
-      callBack: (answerId) => handleAnswer(answerId),
-    );
+    // if the question has an image
+    if (currentQuestion.image != null) {
+      return TextQuestion(question: currentQuestion, answers: buildAnswerTiles());
+    }
+
+    // if any answers have an image
+    if (currentQuestion.answers.any((a) => a.image != null)) {
+      return ImageQuestion(question: currentQuestion, answers: buildAnswerTiles());
+    }
+
+    // if the question/answers are text only
+    return TextOnlyQuestion(question: currentQuestion, answers: buildAnswerTiles());
+
+  }
+
+  List<Widget> buildAnswerTiles() {
+    if (currentQuestion.trueFalseQuestion != null) {
+      return [
+        QuizTextButton(onTap: () => handleAnswer(1), text: 'True'),
+        QuizTextButton(onTap: () => handleAnswer(0), text: 'False')
+      ];
+    }
+
+    // does the question have any image answers?
+    return currentQuestion.answers.any((a) => a.image != null)
+        ? currentQuestion.answers.map((answer) {
+      return QuizImageButton(
+        onTap: () => handleAnswer(answer.id),
+        imagePath: answer.image.path,
+        text: answer.text,
+      );
+    }).toList()
+        : currentQuestion.answers.map((answer) {
+      return QuizTextButton(
+        onTap: () => handleAnswer(answer.id),
+        text: answer.text,
+      );
+    }).toList();
   }
 
   Widget buildOverlay() {
