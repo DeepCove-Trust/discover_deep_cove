@@ -146,6 +146,7 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
           backgroundColor:
               isForCurrent ? Theme.of(context).accentColor : Colors.grey,
           onPressed: null,
+          heroTag: null,
         );
       },
     );
