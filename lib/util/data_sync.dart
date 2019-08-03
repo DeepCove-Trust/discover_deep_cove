@@ -238,6 +238,7 @@ class SyncProvider {
     for (Map<String, dynamic> map in data['activities']) {
       // The activity retrieved from the CMS.
       Activity newActivity = activityBean.fromMap(map);
+      newActivity.informationActivityUnlocked = false;
 
       // The activity already in the database.
       Activity oldActivity = await activityBean.find(newActivity.id);

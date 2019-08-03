@@ -28,8 +28,11 @@ class Activity {
   @BelongsTo(TrackBean)
   int trackId;
 
-  @Column()
-  int activityType;
+  @Column(name: 'activityType')
+  int _activityType;
+
+  @IgnoreColumn()
+  ActivityType get activityType => ActivityType.values[_activityType];
 
   @Column()
   String qrCode;
@@ -61,6 +64,9 @@ class Activity {
   @BelongsTo(MediaFileBean, isNullable: true)
   int selectedPictureId;
 
+  @Column()
+  bool informationActivityUnlocked;
+
   @Column(isNullable: true)
   double userXCoord;
 
@@ -88,11 +94,9 @@ class Activity {
   @IgnoreColumn()
   LatLng get latLng => LatLng(yCoord, xCoord);
 
-  ActivityType getType() => ActivityType.values[activityType];
-
   bool isCompleted(){
 
-    switch(ActivityType.values[activityType]){
+    switch(activityType){
       case ActivityType.pictureSelectActivity: {
         return selectedPictureId != null;
       }

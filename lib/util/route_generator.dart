@@ -76,31 +76,31 @@ class RouteGenerator {
         ActivityScreenArgs aArgs = args as ActivityScreenArgs;
         if (aArgs != null) {
           if (aArgs.activity.activityType ==
-              ActivityType.countActivity as int) {
+              ActivityType.countActivity) {
             return MaterialPageRoute(
                 builder: (_) => CountActivityView(
                     activity: aArgs.activity, isReview: aArgs.isReview));
           }
           if (aArgs.activity.activityType ==
-              ActivityType.photographActivity as int) {
+              ActivityType.photographActivity) {
             return MaterialPageRoute(
                 builder: (_) => PhotographActivityView(
                     activity: aArgs.activity, isReview: aArgs.isReview));
           }
           if (aArgs.activity.activityType ==
-              ActivityType.pictureSelectActivity as int) {
+              ActivityType.pictureSelectActivity) {
             return MaterialPageRoute(
                 builder: (_) => PictureSelectActivityView(
                     activity: aArgs.activity, isReview: aArgs.isReview));
           }
           if (aArgs.activity.activityType ==
-              ActivityType.pictureTapActivity as int) {
+              ActivityType.pictureTapActivity) {
             return MaterialPageRoute(
                 builder: (_) => PictureTapActivityView(
                     activity: aArgs.activity, isReview: aArgs.isReview));
           }
           if (aArgs.activity.activityType ==
-              ActivityType.textAnswerActivity as int) {
+              ActivityType.textAnswerActivity) {
             return MaterialPageRoute(
                 builder: (_) => TextAnswerActivityView(
                     activity: aArgs.activity, isReview: aArgs.isReview));
