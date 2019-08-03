@@ -6,7 +6,7 @@ class BodyText extends StatelessWidget {
 
   ///Returns a custom [Text] widget for accessing body1 theme
   ///and has an optional alignment property.
-  BodyText({this.text, this.align});
+  BodyText({this.text, this.align = TextAlign.center});
 
   @override
   Widget build(BuildContext context) {

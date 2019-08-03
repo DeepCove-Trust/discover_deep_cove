@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 class QuizImageButton extends StatelessWidget {
   final VoidCallback onTap;
   final String imagePath;
-  final String title;
+  final String text;
 
-  const QuizImageButton({this.onTap, this.imagePath, this.title});
+  const QuizImageButton({this.onTap, this.imagePath, this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -35,25 +35,25 @@ class QuizImageButton extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: FileImage(File(Env.getResourcePath(imagePath))),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                title != null
+                text != null
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           Container(
                             color: Color.fromARGB(190, 0, 0, 0),
                             height:
-                                (MediaQuery.of(context).size.height / 100) * 5,
-                            width: MediaQuery.of(context).size.width,
+                                Screen.height(context, percentage: 5),
+                            width: Screen.width(context),
                             child: Center(
                               child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   child: Text(
-                                    title,
+                                    text,
                                     style: Theme.of(context).textTheme.body1,
                                     softWrap: false,
                                     maxLines: 1,

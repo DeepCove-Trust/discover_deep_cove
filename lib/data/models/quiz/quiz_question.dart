@@ -16,8 +16,12 @@ class QuizQuestion {
   @BelongsTo(QuizBean)
   int quizId;
 
-  @Column(isNullable: true)
-  bool trueFalseAnswer;
+  @Column(name: 'trueFalseQuestion', isNullable: true)
+  int _trueFalseQuestion;
+
+  @IgnoreColumn()
+  bool get trueFalseQuestion =>
+      _trueFalseQuestion != null ? _trueFalseQuestion == 1 : null;
 
   @Column()
   String text;
@@ -35,13 +39,13 @@ class QuizQuestion {
   int correctAnswerId;
 
   @IgnoreColumn()
-  MediaFile image; // TODO: Preload these fields
+  MediaFile image;
 
   @IgnoreColumn()
   MediaFile audio;
 
   @IgnoreColumn()
-  QuizAnswer correctAnswer;
+  QuizAnswer correctAnswer; // Todo: Don't think we need this one
 }
 
 @GenBean()
@@ -71,15 +75,17 @@ class QuizQuestionBean extends Bean<QuizQuestion> with _QuizQuestionBean {
     if (question.imageId != null) {
       question.image = await mediaFileBean.find(question.imageId);
     }
-    if(question.audioId != null){
+    if (question.audioId != null) {
       question.audio = await mediaFileBean.find(question.audioId);
     }
-    question.answers = await quizAnswerBean.preloadAllRelationships(question.answers);
+    question.answers =
+        await quizAnswerBean.preloadAllRelationships(question.answers);
     return question;
   }
 
-  Future<List<QuizQuestion>> preloadAllRelationships(List<QuizQuestion> questions) async {
-    for(QuizQuestion question in questions){
+  Future<List<QuizQuestion>> preloadAllRelationships(
+      List<QuizQuestion> questions) async {
+    for (QuizQuestion question in questions) {
       question = await preloadRelationships(question);
     }
     return questions;

@@ -1,12 +1,12 @@
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
 import 'package:flutter/material.dart';
 
 class QuizTextButton extends StatelessWidget {
   final VoidCallback onTap;
   final String text;
 
-  const QuizTextButton({this.onTap, this.text});
+  const QuizTextButton({@required this.onTap, @required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +16,7 @@ class QuizTextButton extends StatelessWidget {
         width: Screen.width(context, percentage: 40),
         height: Screen.height(context, percentage: 13.5),
         child: Center(
-          child: Heading(
-            text: text,
-          ),
+          child: SubHeading(text: text),
         ),
         decoration: new BoxDecoration(
           border: new Border.all(

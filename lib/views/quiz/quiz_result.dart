@@ -65,7 +65,7 @@ class QuizResult extends StatelessWidget {
                           ? BodyText(
                               text: "New Highscore!",
                             )
-                          : null,
+                          : Container(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: BodyText(

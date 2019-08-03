@@ -1,25 +1,24 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
-import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_grid.dart';
 import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:discover_deep_cove/widgets/quiz/quiz_image_button.dart';
 
-class ImageQuestion extends StatefulWidget {
+class TextOnlyQuestion extends StatefulWidget {
   final QuizQuestion question;
-  final List<QuizImageButton> answers;
+  final List<Widget> answers;
 
-  ImageQuestion({this.question, this.answers});
+  TextOnlyQuestion({this.question, this.answers});
 
   @override
-  _ImageQuestionState createState() => _ImageQuestionState();
+  _TextOnlyQuestionState createState() => _TextOnlyQuestionState();
 }
 
-class _ImageQuestionState extends State<ImageQuestion> {
+class _TextOnlyQuestionState extends State<TextOnlyQuestion> {
   AudioPlayer player = AudioPlayer();
+
   bool get hasAudio => widget.question.audio != null;
 
   void playAudio() {
@@ -43,27 +42,28 @@ class _ImageQuestionState extends State<ImageQuestion> {
             child: Container(
           color: Theme.of(context).backgroundColor,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 80.0, bottom: 25),
                 child: Container(
                   color: Color.fromARGB(190, 0, 0, 0),
-                  height: Screen.height(context, percentage: 20),
-                  width: Screen.width(context),
+                  height: (MediaQuery.of(context).size.height / 100) * 20,
+                  width: MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SubHeading(
-                          text: widget.question.text, align: TextAlign.center),
-                      if(hasAudio) Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: buildAudioButton(),
-                      ),
+                    children: <Widget>[
+                      SubHeading(text: widget.question.text),
+                      if (hasAudio)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: buildAudioButton(),
+                        ),
                     ],
                   ),
                 ),
               ),
-              CustomGrid(children: widget.answers),
+              CustomGrid(children: widget.answers)
             ],
           ),
         )),

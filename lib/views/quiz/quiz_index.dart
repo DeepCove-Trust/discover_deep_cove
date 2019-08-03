@@ -14,7 +14,6 @@ class _QuizIndexState extends State<QuizIndex> {
 
   @override
   void initState() {
-
     refreshData();
 
     super.initState();
@@ -22,6 +21,7 @@ class _QuizIndexState extends State<QuizIndex> {
 
   Future<void> refreshData() async {
     List<Quiz> data = await QuizBean.of(context).getAllAndPreload();
+    data = data.where((quiz) => quiz.unlocked).toList();
     setState(() => quizzes = data);
   }
 
@@ -31,27 +31,35 @@ class _QuizIndexState extends State<QuizIndex> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: quizzes.length > 0
-          ? GridView.count(
-              mainAxisSpacing: Screen.width(context, percentage: 2.5),
-              crossAxisSpacing: Screen.width(context, percentage: 2.5),
-              crossAxisCount: (Screen.width(context) >= 600
-                  ? Screen.isPortrait(context) ? 2 : 3
-                  : 1),
-              padding: EdgeInsets.all(
-                Screen.width(context, percentage: 2.5),
-              ),
-              children: buildCards(context, quizzes),
-            )
-          : Center(child: CircularProgressIndicator()),
+      body: RefreshIndicator(
+        onRefresh: () => refreshData(),
+        child: quizzes.length > 0
+            ? GridView.count(
+                mainAxisSpacing: Screen.width(context, percentage: 2.5),
+                crossAxisSpacing: Screen.width(context, percentage: 2.5),
+                crossAxisCount: (Screen.width(context) >= 600
+                    ? Screen.isPortrait(context) ? 2 : 3
+                    : 1),
+                padding: EdgeInsets.all(
+                  Screen.width(context, percentage: 2.5),
+                ),
+                children: buildCards(context, quizzes),
+              )
+            : Center(child: CircularProgressIndicator()),
+      ),
     );
+  }
+
+  Future<void> addAttempt(Quiz quiz) async {
+    quiz.attempts++;
+    await QuizBean.of(context).update(quiz);
   }
 
   List<Tile> buildCards(BuildContext context, List<Quiz> quizzes) {
     return quizzes.map((quiz) {
       return Tile(
         onTap: () {
-          quiz.attempts++;
+          addAttempt(quiz);
           Navigator.of(context).pushNamed('/quizQuestions', arguments: quiz);
         },
         title: quiz.title,

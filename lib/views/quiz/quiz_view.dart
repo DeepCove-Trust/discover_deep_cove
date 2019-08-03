@@ -1,10 +1,9 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
+import 'package:discover_deep_cove/views/quiz/quiz_question_view.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_result.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/correct_wrong_overlay.dart';
-import 'package:discover_deep_cove/widgets/quiz/image_question.dart';
-import 'package:discover_deep_cove/widgets/quiz/text_question.dart';
 import 'package:flutter/material.dart';
 
 class QuizView extends StatefulWidget {
@@ -32,19 +31,12 @@ class QuizViewState extends State<QuizView> {
   void initState() {
     super.initState();
     loadQuestions();
-    addAttempt();
   }
 
   Future<void> loadQuestions() async {
     widget.quiz.questions = await QuizQuestionBean.of(context)
         .preloadAllRelationships(widget.quiz.questions);
     setState(() => questionsLoaded = true);
-  }
-
-  Future<void> addAttempt() async {
-    Quiz quiz = widget.quiz;
-    quiz.attempts++;
-    await QuizBean.of(context).update(quiz);
   }
 
   Future<void> updateHighScore(int score) async {
@@ -54,10 +46,10 @@ class QuizViewState extends State<QuizView> {
   }
 
   void handleAnswer(int answerId) {
-    if (currentQuestion.trueFalseAnswer != null) {
-      isCorrect = answerId == (currentQuestion.trueFalseAnswer as int);
+    if (currentQuestion.trueFalseQuestion != null) {
+      isCorrect = answerId == (currentQuestion.trueFalseQuestion ? 1 : 0);
       guess = answerId == 0 ? "False" : "True";
-      answer = currentQuestion.trueFalseAnswer ? "True" : "False";
+      answer = currentQuestion.trueFalseQuestion ? "True" : "False";
     } else {
       isCorrect = answerId == currentQuestion.correctAnswerId;
       guess = currentQuestion.answers.firstWhere((a) => a.id == answerId).text;
@@ -121,27 +113,10 @@ class QuizViewState extends State<QuizView> {
       );
     }
 
-    if (currentQuestion.image != null) {
-      return TextQuestion(
-        question: currentQuestion,
-        onTaps: [
-          () => handleAnswer(currentQuestion.answers[0].id),
-          () => handleAnswer(currentQuestion.answers[1].id),
-          () => handleAnswer(currentQuestion.answers[2].id),
-          () => handleAnswer(currentQuestion.answers[3].id),
-        ],
-      );
-    } else {
-      return ImageQuestion(
-        question: currentQuestion,
-        onTaps: [
-          () => handleAnswer(currentQuestion.answers[0].id),
-          () => handleAnswer(currentQuestion.answers[1].id),
-          () => handleAnswer(currentQuestion.answers[2].id),
-          () => handleAnswer(currentQuestion.answers[3].id),
-        ],
-      );
-    }
+    return QuizQuestionView(
+      question: currentQuestion,
+      callBack: (answerId) => handleAnswer(answerId),
+    );
   }
 
   Widget buildOverlay() {

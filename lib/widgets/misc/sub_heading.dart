@@ -5,7 +5,7 @@ class SubHeading  extends StatelessWidget {
 
   ///Returns a custom [Text] widget for accessing headline theme
   ///and has an optional alignment property.
-  SubHeading({this.text, this.align});
+  SubHeading({this.text, this.align = TextAlign.center});
 
   @override
   Widget build(BuildContext context) {

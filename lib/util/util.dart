@@ -1,9 +1,11 @@
 import 'dart:io' show File, Directory;
 
 import 'package:archive/archive.dart' show ZipDecoder, Archive, ArchiveFile;
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' show Response;
 import 'package:meta/meta.dart' show required;
 import 'package:path/path.dart' show join;
+import 'package:toast/toast.dart';
 
 /// Container class for general helper functions.
 class Util {
@@ -49,5 +51,16 @@ class Util {
       print(ex.toString());
       return false;
     }
+  }
+
+  static void showToast(BuildContext context, String text) {
+    Toast.show(
+      text,
+      context,
+      duration: Toast.LENGTH_SHORT,
+      gravity: Toast.BOTTOM,
+      backgroundColor: Theme.of(context).primaryColor,
+      textColor: Colors.black,
+    );
   }
 }

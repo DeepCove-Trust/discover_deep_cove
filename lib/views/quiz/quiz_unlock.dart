@@ -1,11 +1,17 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
+
+enum UnlockStatus { success, alreadyUnlocked, failure }
 
 class QuizUnlock extends StatefulWidget {
+  final VoidCallback refreshCallback;
+
+  QuizUnlock({this.refreshCallback});
+
   @override
   _QuizUnlockState createState() => _QuizUnlockState();
 }
@@ -121,59 +127,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                                     text: "Unlock",
                                   ),
                                 ),
-                                onPressed: () {
-                                  String status;
-
-                                  for (Quiz quiz in quizzes) {
-                                    if (!quiz.unlocked &&
-                                        quiz.unlockCode == controller.text) {
-                                      quiz.unlocked = true;
-                                      status = "Success";
-
-                                      break;
-                                    } else if (quiz.unlocked &&
-                                        quiz.unlockCode == controller.text) {
-                                      status = "Unlocked";
-                                      break;
-                                    }
-                                  }
-
-                                  switch (status) {
-                                    case "Success":
-                                      Toast.show(
-                                        "Quiz unlocked!",
-                                        context,
-                                        duration: Toast.LENGTH_SHORT,
-                                        gravity: Toast.BOTTOM,
-                                        backgroundColor:
-                                            Theme.of(context).primaryColor,
-                                        textColor: Colors.black,
-                                      );
-                                      Navigator.of(context).pop();
-                                      break;
-                                    case "Unlocked":
-                                      Toast.show(
-                                        "Quiz already unlocked!",
-                                        context,
-                                        duration: Toast.LENGTH_SHORT,
-                                        gravity: Toast.BOTTOM,
-                                        backgroundColor:
-                                            Theme.of(context).primaryColor,
-                                        textColor: Colors.black,
-                                      );
-                                      break;
-                                    default:
-                                      Toast.show(
-                                        "Unrecognized code! please try again.",
-                                        context,
-                                        duration: Toast.LENGTH_SHORT,
-                                        gravity: Toast.BOTTOM,
-                                        backgroundColor:
-                                            Theme.of(context).primaryColor,
-                                        textColor: Colors.black,
-                                      );
-                                  }
-                                },
+                                onPressed: () => verifyCode(),
                                 borderSide:
                                     BorderSide(color: Color(0xFFFFFFFF)),
                               ),
@@ -193,5 +147,40 @@ class _QuizUnlockState extends State<QuizUnlock> {
       backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: BottomBackButton(),
     );
+  }
+
+  void verifyCode() async {
+    UnlockStatus status;
+
+    Quiz quiz = await QuizBean.of(context)
+        .findOneWhere((quiz) => quiz.unlockCode == controller.text);
+
+    if(quiz != null){
+      if(quiz.unlocked){
+        status  = UnlockStatus.alreadyUnlocked;
+      }
+      else {
+        quiz.unlocked = true;
+        await QuizBean.of(context).update(quiz);
+        status = UnlockStatus.success;
+      }
+
+      widget.refreshCallback();
+      Navigator.of(context).pop();
+
+    } else {
+      status = UnlockStatus.failure;
+    }
+
+    switch (status) {
+      case UnlockStatus.success:
+        Util.showToast(context, 'Quiz unlocked');
+        break;
+      case UnlockStatus.alreadyUnlocked:
+        Util.showToast(context, 'Quiz already unlocked');
+        break;
+      default:
+        Util.showToast(context, 'Invalid code entered');
+    }
   }
 }
