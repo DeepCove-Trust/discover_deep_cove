@@ -3,6 +3,7 @@ import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/route_generator.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -45,6 +46,7 @@ ThemeData appTheme() {
 
     textTheme: TextTheme(
       headline: TextStyle(fontSize: 30, color: Colors.white),
+      body1: TextStyle(fontSize: 16, color: Colors.white),
       subhead: TextStyle(fontSize: 25, color: Colors.white),
     ),
   );
