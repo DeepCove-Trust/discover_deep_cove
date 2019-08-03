@@ -60,7 +60,7 @@ class QuizResult extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .body1
-                            .copyWith(fontSize: 100),
+                            .copyWith(fontSize: 100, color: Colors.white),
                       ),
                       isHighscore
                           ? BodyText(

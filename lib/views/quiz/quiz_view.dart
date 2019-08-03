@@ -71,14 +71,15 @@ class QuizViewState extends State<QuizView> {
     return Scaffold(
       appBar: questionIndex < widget.quiz.questions.length
           ? AppBar(
+              brightness: Brightness.dark,
               title: Heading(widget.quiz.title),
               centerTitle: true,
               leading: Container(),
               actions: [
                 Padding(
                   padding: EdgeInsets.all(12.0),
-                  child: Heading(                    
-                        '${questionIndex + 1}/${widget.quiz.questions.length}',
+                  child: Heading(
+                    '${questionIndex + 1}/${widget.quiz.questions.length}',
                   ),
                 )
               ],
@@ -115,17 +116,19 @@ class QuizViewState extends State<QuizView> {
 
     // if the question has an image
     if (currentQuestion.image != null) {
-      return TextQuestion(question: currentQuestion, answers: buildAnswerTiles());
+      return TextQuestion(
+          question: currentQuestion, answers: buildAnswerTiles());
     }
 
     // if any answers have an image
     if (currentQuestion.answers.any((a) => a.image != null)) {
-      return ImageQuestion(question: currentQuestion, answers: buildAnswerTiles());
+      return ImageQuestion(
+          question: currentQuestion, answers: buildAnswerTiles());
     }
 
     // if the question/answers are text only
-    return TextOnlyQuestion(question: currentQuestion, answers: buildAnswerTiles());
-
+    return TextOnlyQuestion(
+        question: currentQuestion, answers: buildAnswerTiles());
   }
 
   List<Widget> buildAnswerTiles() {
@@ -139,18 +142,18 @@ class QuizViewState extends State<QuizView> {
     // does the question have any image answers?
     return currentQuestion.answers.any((a) => a.image != null)
         ? currentQuestion.answers.map((answer) {
-      return QuizImageButton(
-        onTap: () => handleAnswer(answer.id),
-        imagePath: answer.image.path,
-        text: answer.text,
-      );
-    }).toList()
+            return QuizImageButton(
+              onTap: () => handleAnswer(answer.id),
+              imagePath: answer.image.path,
+              text: answer.text,
+            );
+          }).toList()
         : currentQuestion.answers.map((answer) {
-      return QuizTextButton(
-        onTap: () => handleAnswer(answer.id),
-        text: answer.text,
-      );
-    }).toList();
+            return QuizTextButton(
+              onTap: () => handleAnswer(answer.id),
+              text: answer.text,
+            );
+          }).toList();
   }
 
   Widget buildOverlay() {

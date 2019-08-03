@@ -62,6 +62,7 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
     return tracks != null
         ? Scaffold(
             appBar: AppBar(
+              brightness: Brightness.dark,
               leading: IconButton(
                 icon: Icon(FontAwesomeIcons.arrowLeft),
                 onPressed: () => changeTrack(increase: false),
