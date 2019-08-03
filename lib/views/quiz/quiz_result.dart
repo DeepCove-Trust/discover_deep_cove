@@ -59,8 +59,8 @@ class QuizResult extends StatelessWidget {
                         "$score/$outOf",
                         style: Theme.of(context)
                             .textTheme
-                            .body1
-                            .copyWith(fontSize: 100, color: Colors.white),
+                            .headline
+                            .copyWith(fontSize: 100),
                       ),
                       isHighscore
                           ? BodyText(
