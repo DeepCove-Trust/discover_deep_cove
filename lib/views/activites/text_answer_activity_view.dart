@@ -1,9 +1,9 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -135,19 +135,10 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                             child: OutlineButton(
                               onPressed: () {
                                 if (controller.text.isNotEmpty) {
-                                  widget.activity.userText =
-                                      controller.text.toString();
-                                  Navigator.of(context).pop();
+                                  saveAnswer();
                                 } else {
-                                  Toast.show(
-                                    "Please write down your answer!",
-                                    context,
-                                    duration: Toast.LENGTH_SHORT,
-                                    gravity: Toast.BOTTOM,
-                                    backgroundColor:
-                                        Theme.of(context).primaryColor,
-                                    textColor: Colors.black,
-                                  );
+                                  Util.showToast(context,
+                                      "Please write down your answer!");
                                 }
                               },
                               borderSide: BorderSide(color: Color(0xFF777777)),
@@ -168,5 +159,11 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
       ),
       backgroundColor: Theme.of(context).backgroundColor,
     );
+  }
+
+  void saveAnswer() async {
+    widget.activity.userText = controller.text.toString();
+    await ActivityBean.of(context).update(widget.activity);
+    Navigator.of(context).pop();
   }
 }

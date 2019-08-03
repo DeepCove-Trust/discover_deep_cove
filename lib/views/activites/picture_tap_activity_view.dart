@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -25,7 +27,7 @@ class PictureTapActivityView extends StatefulWidget {
 class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   Offset tapPos;
   Color transparentAccent;
-  bool firstTap = false;
+  bool isTapped = false;
   double posY = 0;
   double posX = 0;
 
@@ -72,8 +74,9 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                       child: Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: FileImage(File(widget.activity.image.path)),
-                            fit: BoxFit.fill,
+                            image: FileImage(File(Env.getResourcePath(
+                                widget.activity.image.path))),
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
@@ -142,7 +145,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                         ),
                       ),
                     ),
-                    firstTap
+                    isTapped
                         ? Positioned(
                             top: posY,
                             left: posX,
@@ -164,7 +167,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                               ),
                             ),
                           )
-                        : null,
+                        : Container(),
                   ],
                 ),
           Expanded(child: Container()),
@@ -195,19 +198,10 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                         padding: const EdgeInsets.all(8.0),
                         child: OutlineButton(
                           onPressed: () {
-                            if (firstTap) {
-                              widget.activity.userXCoord = posX;
-                              widget.activity.userYCoord = posY;
-                              Navigator.of(context).pop();
+                            if (isTapped) {
+                              saveAnswer();
                             } else {
-                              Toast.show(
-                                "Please tap the picture!",
-                                context,
-                                duration: Toast.LENGTH_SHORT,
-                                gravity: Toast.BOTTOM,
-                                backgroundColor: Theme.of(context).primaryColor,
-                                textColor: Colors.black,
-                              );
+                              Util.showToast(context, "Please tap the picture!");
                             }
                           },
                           borderSide: BorderSide(color: Color(0xFF777777)),
@@ -232,7 +226,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   void _handleTap(TapDownDetails details) {
     final RenderBox referenceBox = context.findRenderObject();
     setState(() {
-      firstTap = true;
+      isTapped = true;
       tapPos = referenceBox.globalToLocal(details.globalPosition);
       posX = tapPos.dx - 50;
       posY = tapPos.dy - (_getPositions() + 50);
@@ -252,5 +246,12 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   setTransparentColor() {
     return transparentAccent = HexColor(
         '80' + Theme.of(context).accentColor.toString().substring(10, 16));
+  }
+
+  void saveAnswer() async {
+    widget.activity.userXCoord = posX;
+    widget.activity.userYCoord = posY;
+    await ActivityBean.of(context).update(widget.activity);
+    Navigator.of(context).pop();
   }
 }

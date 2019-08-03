@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
@@ -62,7 +65,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                     ? BodyText(
                         "You Answered:",
                       )
-                    : null,
+                    : Container(),
                 Heading(!widget.isReview
                     ? widget.activity.imageOptions[photoIndex].name
                     : widget.activity.selectedPicture.name),
@@ -121,7 +124,8 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     image: DecorationImage(
-                      image: AssetImage(widget.activity.selectedPicture.path),
+                      image: FileImage(File(Env.getResourcePath(
+                          widget.activity.selectedPicture.path))),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -136,7 +140,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                         ),
                   ),
                 )
-              : null,
+              : Container(),
           Expanded(child: Container()),
           widget.isReview
               ? BottomBackButton()
@@ -164,11 +168,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: OutlineButton(
-                          onPressed: () {
-                            widget.activity.selectedPicture =
-                                widget.activity.imageOptions[photoIndex];
-                            Navigator.of(context).pop();
-                          },
+                          onPressed: () => saveAnswer(),
                           borderSide: BorderSide(color: Color(0xFF777777)),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
@@ -185,5 +185,11 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
       ),
       backgroundColor: Theme.of(context).backgroundColor,
     );
+  }
+
+  saveAnswer() async {
+    widget.activity.selectedPicture = widget.activity.imageOptions[photoIndex];
+    await ActivityBean.of(context).update(widget.activity);
+    Navigator.of(context).pop();
   }
 }
