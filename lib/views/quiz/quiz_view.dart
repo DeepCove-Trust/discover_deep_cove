@@ -71,15 +71,14 @@ class QuizViewState extends State<QuizView> {
     return Scaffold(
       appBar: questionIndex < widget.quiz.questions.length
           ? AppBar(
-              title: Heading(text: widget.quiz.title),
+              title: Heading(widget.quiz.title),
               centerTitle: true,
               leading: Container(),
               actions: [
                 Padding(
                   padding: EdgeInsets.all(12.0),
-                  child: Heading(
-                    text:
-                        "${questionIndex + 1}/${widget.quiz.questions.length}",
+                  child: Heading(                    
+                        '${questionIndex + 1}/${widget.quiz.questions.length}',
                   ),
                 )
               ],

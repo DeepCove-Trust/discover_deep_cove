@@ -34,7 +34,7 @@ class _QuizIndexState extends State<QuizIndex> {
     return Scaffold(
       appBar: AppBar(
         title: Heading(
-          text: "Deep Cove Trivia",
+          'Deep Cove Trivia',
         ),
         centerTitle: true,
         actions: <Widget>[
@@ -62,6 +62,7 @@ class _QuizIndexState extends State<QuizIndex> {
           ),
         ],
         backgroundColor: Theme.of(context).primaryColor,
+        brightness: Brightness.dark,
       ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: RefreshIndicator(

@@ -28,7 +28,7 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion> {
   Widget buildAudioButton() {
     return OutlineButton.icon(
       onPressed: () => playAudio(),
-      label: BodyText(text: 'Listen', align: TextAlign.center),
+      label: BodyText('Listen', align: TextAlign.center),
       borderSide: BorderSide(color: Colors.white, width: 0.5),
       icon: Icon(FontAwesomeIcons.music, color: Colors.white),
     );
@@ -53,7 +53,7 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SubHeading(text: widget.question.text),
+                      SubHeading(widget.question.text),
                       if (hasAudio)
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0),
