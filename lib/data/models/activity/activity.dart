@@ -6,10 +6,9 @@ import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:latlong/latlong.dart' show LatLng;
 
-
 part 'activity.jorm.dart';
 
-enum ActivityType{
+enum ActivityType {
   informational,
   countActivity,
   photographActivity,
@@ -94,34 +93,38 @@ class Activity {
   @IgnoreColumn()
   LatLng get latLng => LatLng(yCoord, xCoord);
 
-  bool isCompleted(){
-
-    switch(activityType){
-      case ActivityType.pictureSelectActivity: {
-        return selectedPictureId != null;
-      }
-      break;
-      case ActivityType.pictureTapActivity: {
-        return userXCoord != null && userYCoord != null;
-      }
-      break;
-      case ActivityType.countActivity: {
-        return userCount != null;
-      }
-      break;
-      case ActivityType.textAnswerActivity: {
-        return userText != null;
-      }
-      break;
-      case ActivityType.photographActivity: {
-        return userPhotoId != null;
-      }
-      break;
-      default: {
-        return false;
-      }
+  bool isCompleted() {
+    switch (activityType) {
+      case ActivityType.pictureSelectActivity:
+        {
+          return selectedPictureId != null;
+        }
+        break;
+      case ActivityType.pictureTapActivity:
+        {
+          return userXCoord != null && userYCoord != null;
+        }
+        break;
+      case ActivityType.countActivity:
+        {
+          return userCount != null;
+        }
+        break;
+      case ActivityType.textAnswerActivity:
+        {
+          return userText != null;
+        }
+        break;
+      case ActivityType.photographActivity:
+        {
+          return userPhotoId != null;
+        }
+        break;
+      default:
+        {
+          return false;
+        }
     }
-
   }
 }
 
@@ -138,10 +141,31 @@ class ActivityBean extends Bean<Activity> with _ActivityBean {
   final ActivityImageBean activityImageBean;
 
   TrackBean _trackBean;
+
   TrackBean get trackBean => _trackBean ?? TrackBean(adapter);
 
   MediaFileBean _mediaFileBean;
+
   MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
 
   final String tableName = 'activities';
+
+  Future<Activity> preloadRelationships(Activity activity) async {
+    activity = await preload(activity);
+
+    if (activity.imageId != null) {
+      activity.image = await mediaFileBean.find(activity.imageId);
+    }
+
+    if (activity.userPhotoId != null) {
+      activity.userPhoto = await mediaFileBean.find(activity.userPhotoId);
+    }
+
+    if (activity.selectedPictureId != null) {
+      activity.selectedPicture =
+          await mediaFileBean.find(activity.selectedPictureId);
+    }
+
+    return activity;
+  }
 }
