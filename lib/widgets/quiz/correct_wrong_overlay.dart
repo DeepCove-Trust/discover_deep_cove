@@ -50,7 +50,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
           children: <Widget>[
             Container(
               height: Screen.height(context, percentage: 13.0),
-              width: Screen.width(context, percentage: 25),
+              width: Screen.width(context, percentage: 75),
               decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,

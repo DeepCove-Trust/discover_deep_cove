@@ -23,8 +23,9 @@ class SettingsButton extends StatelessWidget {
               child: Icon(iconData, color: Colors.white),
             ),
             Container(
-                width: Screen.width(context, percentage: 40),
-                child: SubHeading( text, align: TextAlign.center))
+              width: Screen.width(context, percentage: 60),
+              child: SubHeading(text, align: TextAlign.center),
+            )
           ],
         ),
       ),

@@ -13,7 +13,7 @@ class QuizTextButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: Screen.width(context, percentage: 60.0),
+        width: Screen.width(context, percentage: 40.0),
         height: Screen.height(context, percentage: 13.5),
         child: Center(
           child: Heading(

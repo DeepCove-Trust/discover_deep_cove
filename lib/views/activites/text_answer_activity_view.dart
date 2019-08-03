@@ -57,7 +57,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                 ),
                 widget.isReview
                     ? Container(
-                        width: Screen.width(context, percentage: 12.5),
+                        width: Screen.width(context, percentage: 87.5),
                         height: Screen.height(context, percentage: 38.0),
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -76,7 +76,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
                         child: Container(
-                          width: Screen.width(context, percentage: 12.5),
+                          width: Screen.width(context, percentage: 87.5),
                           height: Screen.height(context, percentage: 38.0),
                           color: Colors.white,
                           child: TextField(
