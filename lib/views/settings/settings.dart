@@ -37,17 +37,13 @@ class _SettingsState extends State<Settings> {
           text: "Reset Progress",
           onTap: null,
         ),
-        Divider(
-          color: Color(0xFF777777), height: 1
-        ),
+        Divider(color: Color(0xFF777777), height: 1),
         SettingsButton(
           iconData: FontAwesomeIcons.sync,
           text: "Check for updates",
           onTap: syncResources,
         ),
-        Divider(
-          color: Color(0xFF777777), height: 1
-        ),
+        Divider(color: Color(0xFF777777), height: 1),
         SettingsButton(
           iconData: FontAwesomeIcons.infoCircle,
           text: "About this app",
@@ -55,9 +51,7 @@ class _SettingsState extends State<Settings> {
             Navigator.of(context).pushNamed('/about');
           },
         ),
-        Divider(
-          color: Color(0xFF777777), height: 1
-        ),
+        Divider(color: Color(0xFF777777), height: 1),
       ],
     );
 

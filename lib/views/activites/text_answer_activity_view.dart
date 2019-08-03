@@ -1,4 +1,6 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
@@ -24,14 +26,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Container(),
-        title: Heading(
-          text: widget.activity.title,
-        ),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
-      ),
+      appBar: ActivityAppBar(widget.activity.title),
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -54,38 +49,35 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                   padding: const EdgeInsets.all(8.0),
                   child: widget.isReview
                       ? BodyText(
-                          text: "You Answered:",
+                          "You Answered:",
                         )
                       : SizedBox(
-                          height:
-                              (MediaQuery.of(context).size.height / 100) * 2.5,
+                          height: Screen.height(context, percentage: 2.5),
                         ),
                 ),
                 widget.isReview
                     ? Container(
-                        width: (MediaQuery.of(context).size.width / 4) * 3.5,
-                        height: (MediaQuery.of(context).size.height / 100) * 38,
+                        width: Screen.width(context, percentage: 87.5),
+                        height: Screen.height(context, percentage: 38.0),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            width: 1.0,
-                            color: Theme.of(context).primaryColor,
-                          ),
+                              width: 1.0,
+                              color: Theme.of(context).primaryColor),
                           borderRadius: BorderRadius.all(Radius.circular(5.0) //
                               ),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: BodyText(
-                            text: widget.activity.userText,
+                            widget.activity.userText,
                           ),
                         ),
                       )
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
                         child: Container(
-                          width: (MediaQuery.of(context).size.width / 4) * 3.5,
-                          height:
-                              (MediaQuery.of(context).size.height / 100) * 38,
+                          width: Screen.width(context, percentage: 87.5),
+                          height: Screen.height(context, percentage: 38.0),
                           color: Colors.white,
                           child: TextField(
                             keyboardType: TextInputType.multiline,
@@ -118,7 +110,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     Container(
-                      width: MediaQuery.of(context).size.width,
+                      width: Screen.width(context),
                       color: Theme.of(context).primaryColorDark,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -134,7 +126,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                               child: BodyText(
-                                text: "Pass",
+                                "Pass",
                               ),
                             ),
                           ),
@@ -163,7 +155,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                               child: BodyText(
-                                text: "Save",
+                                "Save",
                               ),
                             ),
                           ),

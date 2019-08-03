@@ -60,7 +60,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
 
   Widget getContent(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.width,
+      height: Screen.width(context),
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
@@ -72,8 +72,8 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
               alignment: AlignmentDirectional.center,
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width - 20,
-                  height: MediaQuery.of(context).size.width - 20,
+                  width: Screen.width(context) - 20,
+                  height: Screen.width(context) - 20,
 //                    decoration: BoxDecoration(
 //                      image: DecorationImage(
 //                        image: FileImage(File(
@@ -83,7 +83,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
 //                    ),
                   color: Color.fromRGBO(0, 0, 0, 0.5),
                   child: Container(
-                    height: MediaQuery.of(context).size.width - 20,
+                    height: Screen.width(context) - 20,
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(24.0),
                     child: Column(
@@ -95,15 +95,15 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Heading(text: widget.entry.primaryName),
+                                Heading( widget.entry.primaryName),
                                 SizedBox(height: 5),
-                                SubHeading(text: widget.entry.altName),
+                                SubHeading( widget.entry.altName),
                               ],
                             ),
                             buildInfoButton(context),
                           ],
                         ),
-                        BodyText(text: widget.entry.cardText),
+                        BodyText( widget.entry.cardText),
                         getButtonRow(),
                       ],
                     ),
@@ -146,7 +146,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
             children: [
               if (widget.entry.pronounceAudio != null)
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width - 90) / 2,
+                  width: (Screen.width(context) - 90) / 2,
                   child: OutlineButton(
                     padding: EdgeInsets.all(10),
                     child: Column(
@@ -154,7 +154,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
                       children: <Widget>[
                         Icon(FontAwesomeIcons.music, color: Colors.white),
                         SizedBox(height: 10),
-                        BodyText(text: 'Pronounce'),
+                        BodyText( 'Pronounce'),
                       ],
                     ),
                     onPressed: () => player.play(
@@ -165,7 +165,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
                 ),
               if (widget.entry.listenAudio != null)
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width - 90) / 2,
+                  width: (Screen.width(context) - 90) / 2,
                   child: OutlineButton(
                     padding: EdgeInsets.all(10),
                     child: Column(
@@ -173,7 +173,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
                       children: <Widget>[
                         Icon(FontAwesomeIcons.volumeUp, color: Colors.white),
                         SizedBox(height: 10),
-                        BodyText(text: 'Listen'),
+                        BodyText( 'Listen'),
                       ],
                     ),
                     onPressed: () => player.play(
@@ -202,7 +202,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
         children: [
           Icon(FontAwesomeIcons.infoCircle, color: Colors.white, size: 30),
           SizedBox(height: 10),
-          BodyText(text: 'More Info'),
+          BodyText( 'More Info'),
         ],
       ),
     );

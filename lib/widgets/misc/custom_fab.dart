@@ -20,7 +20,7 @@ class CustomFab extends StatelessWidget {
       label: Padding(
         padding: const EdgeInsets.fromLTRB(4.0, 2.0, 8.0, 2.0),
         child: BodyText(
-          text: text,
+           text,
         ),
       ),
       onPressed: onPressed,

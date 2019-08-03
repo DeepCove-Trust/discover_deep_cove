@@ -5,6 +5,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
@@ -34,12 +35,24 @@ class _FactFileDetailsState extends State<FactFileDetails> {
   }
 
   buildContent() {
-    return ListView(
-      children: [
-        getCarousel(),
-        getContent(),
-      ],
-    );
+    return (Screen.width(context) >= 600 && !Screen.isPortrait(context))
+        ? GridView.count(
+            crossAxisCount: 2,
+            children: [
+              getCarousel(),
+              ListView(
+                children: [
+                  getContent(),
+                ],
+              ),
+            ],
+          )
+        : ListView(
+            children: [
+              getCarousel(),
+              getContent(),
+            ],
+          );
   }
 
   getCarousel() {
@@ -48,8 +61,8 @@ class _FactFileDetailsState extends State<FactFileDetails> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.width,
+            width: Screen.width(context),
+            height: Screen.width(context),
             child: Hero(
               tag: widget.entry.id,
               child: Carousel(
@@ -64,8 +77,8 @@ class _FactFileDetailsState extends State<FactFileDetails> {
           );
         } else {
           return Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.width,
+            width: Screen.width(context),
+            height: Screen.width(context),
             child: Center(child: CircularProgressIndicator()),
           );
         }
@@ -89,24 +102,37 @@ class _FactFileDetailsState extends State<FactFileDetails> {
       padding: EdgeInsets.all(15),
       child: Column(
         children: [
-          Heading(text: widget.entry.primaryName),
-          SizedBox(height: 20),
-          SubHeading(text: widget.entry.altName),
+          Heading(widget.entry.primaryName),
+          SizedBox(height: Screen.height(context, percentage: 1.56)),
+          SubHeading(widget.entry.altName),
           Divider(color: Colors.white, height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               if (widget.entry.pronounceAudio != null)
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width - 90) / 2,
+                  width: Screen.width(
+                        context,
+                        percentage: Screen.width(context) <= 350
+                            ? 80
+                            : Screen.width(context) >= 600 &&
+                                    !Screen.isPortrait(context)
+                                ? 45
+                                : 88.75,
+                      ) /
+                      2,
                   child: OutlineButton(
                     padding: EdgeInsets.all(10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Icon(FontAwesomeIcons.music, color: Colors.white),
+                        Icon(
+                          FontAwesomeIcons.music,
+                          color: Colors.white,
+                          size: Screen.width(context) <= 350 ? 16 : 24,
+                        ),
                         SizedBox(height: 10),
-                        BodyText(text: 'Pronounce'),
+                        BodyText('Pronounce'),
                       ],
                     ),
                     onPressed: () => player.play(
@@ -117,15 +143,28 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                 ),
               if (widget.entry.listenAudio != null)
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width - 90) / 2,
+                  width: Screen.width(
+                        context,
+                        percentage: Screen.width(context) <= 350
+                            ? 80
+                            : Screen.width(context) >= 600 &&
+                                    !Screen.isPortrait(context)
+                                ? 45
+                                : 88.75,
+                      ) /
+                      2,
                   child: OutlineButton(
                     padding: EdgeInsets.all(10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Icon(FontAwesomeIcons.volumeUp, color: Colors.white),
+                        Icon(
+                          FontAwesomeIcons.volumeUp,
+                          color: Colors.white,
+                          size: Screen.width(context) <= 350 ? 16 : 24,
+                        ),
                         SizedBox(height: 10),
-                        BodyText(text: 'Listen'),
+                        BodyText('Listen'),
                       ],
                     ),
                     onPressed: () => player.play(
@@ -138,7 +177,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
           ),
           Divider(color: Colors.white, height: 50),
           BodyText(
-            text: widget.entry.bodyText,
+            widget.entry.bodyText,
             align: TextAlign.justify,
           ),
           // Todo: Incorporate nuggets

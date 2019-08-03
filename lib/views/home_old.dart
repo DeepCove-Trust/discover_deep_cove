@@ -316,7 +316,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ),
         ],
         title: Heading(
-          text: tracks[currentTrackNum].name,
+          tracks[currentTrackNum].name,
         ),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColorDark,
@@ -324,7 +324,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     } else if (pageIs(Page.Quiz)) {
       return AppBar(
         title: Heading(
-          text: "Deep Cove Trivia",
+          "Deep Cove Trivia",
         ),
         centerTitle: true,
         actions: <Widget>[

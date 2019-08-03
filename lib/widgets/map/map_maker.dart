@@ -78,7 +78,7 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
                 stream: trackStream,
                 initialData: currentTrack.name,
                 builder: (context, snapshot) {
-                  return Heading(text: snapshot.hasData ? snapshot.data : '');
+                  return Heading(snapshot.hasData ? snapshot.data : '');
                 },
               ),
               centerTitle: true,

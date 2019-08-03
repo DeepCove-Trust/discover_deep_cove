@@ -1,3 +1,4 @@
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
@@ -48,8 +49,8 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              height: (MediaQuery.of(context).size.height / 100) * 13,
-              width: (MediaQuery.of(context).size.width / 10) * 2.5,
+              height: Screen.height(context, percentage: 13.0),
+              width: Screen.width(context, percentage: 75),
               decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
@@ -71,20 +72,20 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Heading(
-                text: widget.isCorrect == true
+                widget.isCorrect == true
                     ? "Correct! ${widget.answer} is the right answer"
                     : "Wrong! You selected ${widget.guess} the correct answer is ${widget.answer}",
                 align: TextAlign.center,
               ),
             ),
             SizedBox(
-              height: (MediaQuery.of(context).size.height / 100) * 5,
+              height: Screen.height(context, percentage: 5.0),
             ),
             Container(
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: BodyText(
-                  text: "Tap to proceed",
+                  "Tap to proceed",
                   align: TextAlign.center,
                 ),
               ),
