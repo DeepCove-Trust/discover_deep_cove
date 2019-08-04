@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
@@ -170,7 +171,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                         ),
                   ),
                 )
-              : null,
+              : Container(),
           Expanded(child: Container()),
           widget.isReview
               ? BottomBackButton()
@@ -237,6 +238,18 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
   }
 
   void saveAnswer() async {
-    // Todo: save the image
+    // Todo: save the image properly
+
+    MediaFile image = MediaFile.create(
+      name: '' /* todo */,
+      path: _imageFile.path,
+      fileType: (MediaFileType.jpg as int),
+    );
+    var id = await MediaFileBean.of(context).insert(image);
+    image = await MediaFileBean.of(context).find(id);
+
+    widget.activity.userPhotoId = image.id;
+    await ActivityBean.of(context).update(widget.activity);
+    Navigator.of(context).pop();
   }
 }

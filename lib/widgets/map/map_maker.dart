@@ -227,6 +227,6 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
 
   void animateToActivity(int activityId) async {
     Activity activity = await ActivityBean.of(context).find(activityId);
-    animatedMove(latLng: activity.latLng, zoom: 16.0);
+    animatedMove(latLng: activity.latLng, zoom: 18.0);
   }
 }

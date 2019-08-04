@@ -92,8 +92,8 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             image: DecorationImage(
-                              image: AssetImage(widget
-                                  .activity.imageOptions[photoIndex].path),
+                              image: FileImage(File(Env.getResourcePath(
+                                  widget.activity.imageOptions[photoIndex].path))),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -188,7 +188,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
   }
 
   saveAnswer() async {
-    widget.activity.selectedPicture = widget.activity.imageOptions[photoIndex];
+    widget.activity.selectedPictureId = widget.activity.imageOptions[photoIndex].id;
     await ActivityBean.of(context).update(widget.activity);
     Navigator.of(context).pop();
   }

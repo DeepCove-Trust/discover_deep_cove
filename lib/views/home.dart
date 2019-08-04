@@ -70,8 +70,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     mapAnimateController.close();
   }
 
-  void handleMarkerTap(Activity activity) {
+  void handleMarkerTap(Activity activity) async {
     if (activity.isCompleted()) {
+      activity = await ActivityBean.of(context).preloadRelationships(activity);
       navigateToActivity(activity, true);
     } else {
       Toast.show(
@@ -111,14 +112,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   ///Receives the result of the scan and determines what action to take
   void handleMessage(qrString) async {
     List<Activity> activities = await ActivityBean.of(context).getAll();
-    Activity activity = activities.firstWhere((a) => a.qrCode == qrString);
+    Activity activity;
 
-    activity = await ActivityBean.of(context).preloadRelationships(activity);
-
-    if(activity == null){
+    try {
+      activity = activities.firstWhere((a) => a.qrCode == qrString);
+    }
+    catch(ex){
       Util.showToast(context, 'Unrecognized QR Code...');
       return;
     }
+
+    activity = await ActivityBean.of(context).preloadRelationships(activity);
 
     if (pageIs(Page.Map)) {
       mapAnimateController.sink.add(activity.id);

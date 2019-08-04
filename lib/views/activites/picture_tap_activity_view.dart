@@ -138,8 +138,9 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                         child: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage(widget.activity.image.path),
-                              fit: BoxFit.fill,
+                              image: FileImage(File(Env.getResourcePath(
+                                  widget.activity.image.path))),
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -172,7 +173,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                 ),
           Expanded(child: Container()),
           widget.isReview
-              ? BottomBackButton()
+              ? Container()
               : Container(
                   width: Screen.width(context),
                   color: Theme.of(context).primaryColorDark,
@@ -201,7 +202,8 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                             if (isTapped) {
                               saveAnswer();
                             } else {
-                              Util.showToast(context, "Please tap the picture!");
+                              Util.showToast(
+                                  context, "Please tap the picture!");
                             }
                           },
                           borderSide: BorderSide(color: Color(0xFF777777)),
@@ -218,6 +220,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                 ),
         ],
       ),
+      bottomNavigationBar: widget.isReview ? BottomBackButton() : null,
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }
