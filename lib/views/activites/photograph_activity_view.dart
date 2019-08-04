@@ -174,7 +174,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
               : Container(),
           Expanded(child: Container()),
           widget.isReview
-              ? BottomBackButton()
+              ? Container()
               : Container(
                   width: Screen.width(context),
                   color: Theme.of(context).primaryColorDark,
@@ -220,6 +220,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                 ),
         ],
       ),
+      bottomNavigationBar: widget.isReview ? BottomBackButton() : null,
       backgroundColor: Theme.of(context).backgroundColor,
       floatingActionButton: widget.isReview
           ? Container()
@@ -243,7 +244,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
     MediaFile image = MediaFile.create(
       name: '' /* todo */,
       path: _imageFile.path,
-      fileType: (MediaFileType.jpg as int),
+      fileType: (MediaFileType.jpg.index),
     );
     var id = await MediaFileBean.of(context).insert(image);
     image = await MediaFileBean.of(context).find(id);

@@ -143,7 +143,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
               : Container(),
           Expanded(child: Container()),
           widget.isReview
-              ? BottomBackButton()
+              ? Container()
               : Container(
                   width: Screen.width(context),
                   color: Theme.of(context).primaryColorDark,
@@ -183,6 +183,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                 ),
         ],
       ),
+      bottomNavigationBar: widget.isReview ? BottomBackButton() : null,
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }

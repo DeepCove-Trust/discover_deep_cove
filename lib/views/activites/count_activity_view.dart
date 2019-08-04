@@ -138,7 +138,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                 : Container(),
             Expanded(child: Container()),
             widget.isReview
-                ? BottomBackButton()
+                ? Container()
                 : Container(
                     width: Screen.width(context),
                     color: Theme.of(context).primaryColorDark,
@@ -174,6 +174,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                   ),
           ],
         ),
+        bottomNavigationBar: widget.isReview ? BottomBackButton() : null,
         backgroundColor: Theme.of(context).backgroundColor);
   }
 
