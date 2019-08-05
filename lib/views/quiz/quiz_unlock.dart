@@ -23,27 +23,24 @@ class _QuizUnlockState extends State<QuizUnlock> {
   TextEditingController textController = TextEditingController();
   ScrollController scrollController = ScrollController();
   List<Quiz> quizzes;
-  KeyboardVisibilityNotification _keyboardVisibility =
-      new KeyboardVisibilityNotification();
-  int _keyboardVisibilitySubscriberId;
-  bool _keyboardState;
+  // KeyboardVisibilityNotification _keyboardVisibility =
+  //     new KeyboardVisibilityNotification();
+  // int _keyboardVisibilitySubscriberId;
+  // bool _keyboardState;
 
-  @protected
-  void initState() {
-    super.initState();
+  // @protected
+  // void initState() {
+  //   super.initState();
 
-    _keyboardState = _keyboardVisibility.isKeyboardVisible;
+  //   _keyboardState = _keyboardVisibility.isKeyboardVisible;
 
-    _keyboardVisibilitySubscriberId = _keyboardVisibility.addNewListener(
-      onChange: (bool visible) {
-        setState(() {
-          if (visible) scrollView();
-
-        });
-        
-      },
-    );
-  }
+  //   _keyboardVisibilitySubscriberId = _keyboardVisibility.addNewListener(
+  //     onChange: (bool visible) {
+  //       print(visible);
+  //       scrollView();        
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -90,17 +87,6 @@ class _QuizUnlockState extends State<QuizUnlock> {
                             SizedBox(
                               height: Screen.height(context, percentage: 1.5),
                             ),
-                            OutlineButton(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Heading(
-                                    "Unlock",
-                                  ),
-                                ),
-                                onPressed: () => scrollView(),
-                                borderSide:
-                                    BorderSide(color: Color(0xFFFFFFFF)),
-                              ),
                             Padding(
                               padding:
                                   const EdgeInsets.fromLTRB(8.0, 0, 8.0, 20),
@@ -213,6 +199,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
 
   void scrollView() {
     var scrollPosition = scrollController.position;
+    print("scrolled");
 
   scrollController.animateTo(
     scrollPosition.maxScrollExtent,
