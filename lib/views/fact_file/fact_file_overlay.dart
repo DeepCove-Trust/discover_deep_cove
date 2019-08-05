@@ -4,7 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +103,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
                             buildInfoButton(context),
                           ],
                         ),
-                        BodyText( widget.entry.cardText),
+                        Body( widget.entry.cardText),
                         getButtonRow(),
                       ],
                     ),
@@ -154,7 +154,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
                       children: <Widget>[
                         Icon(FontAwesomeIcons.music, color: Colors.white),
                         SizedBox(height: 10),
-                        BodyText( 'Pronounce'),
+                        Body( 'Pronounce'),
                       ],
                     ),
                     onPressed: () => player.play(
@@ -173,7 +173,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
                       children: <Widget>[
                         Icon(FontAwesomeIcons.volumeUp, color: Colors.white),
                         SizedBox(height: 10),
-                        BodyText( 'Listen'),
+                        Body( 'Listen'),
                       ],
                     ),
                     onPressed: () => player.play(
@@ -202,7 +202,7 @@ class _FactFileOverlayState extends State<FactFileOverlay> {
         children: [
           Icon(FontAwesomeIcons.infoCircle, color: Colors.white, size: 30),
           SizedBox(height: 10),
-          BodyText( 'More Info'),
+          Body( 'More Info'),
         ],
       ),
     );

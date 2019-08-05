@@ -4,7 +4,7 @@ import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +62,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
             child: Column(
               children: <Widget>[
                 widget.isReview
-                    ? BodyText(
+                    ? Body(
                         "You Answered:",
                       )
                     : Container(),
@@ -160,7 +160,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
                           ),
-                          child: BodyText(
+                          child: Body(
                             "Pass",
                           ),
                         ),
@@ -173,7 +173,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
                           ),
-                          child: BodyText(
+                          child: Body(
                             "Save",
                           ),
                         ),

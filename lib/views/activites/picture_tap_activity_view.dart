@@ -6,7 +6,7 @@ import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -60,7 +60,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
           Padding(
             padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: widget.isReview
-                ? BodyText(
+                ? Body(
                     "Your Answer:",
                   )
                 : null,
@@ -190,7 +190,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
                           ),
-                          child: BodyText(
+                          child: Body(
                             "Pass",
                           ),
                         ),
@@ -210,7 +210,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
                           ),
-                          child: BodyText(
+                          child: Body(
                             "Save",
                           ),
                         ),

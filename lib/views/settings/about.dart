@@ -1,4 +1,4 @@
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class About extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: BodyText(
+                  child: Body(
                     
                         "The Deep Cove Outdoor Education Trust is a non profit "
                         "organisation that was established in 1971. The Deep Cove Hostel"
@@ -39,7 +39,7 @@ class About extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: BodyText(
+                  child: Body(
                     
                         "The trust and developers would like to give a special thank you to"
                         " serveral people who helped make this app a reality"
@@ -50,7 +50,7 @@ class About extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: BodyText(
+                  child: Body(
                      "https://www.doc.govt.nz",
                   ),
                 ),
@@ -62,7 +62,7 @@ class About extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: BodyText(
+                  child: Body(
                      "This app was developed by Mitchell Quarrie,"
                         " Samuel Jackson and Samuel Grant",
                   ),

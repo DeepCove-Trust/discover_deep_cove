@@ -1,5 +1,5 @@
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -84,7 +84,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
             Container(
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: BodyText(
+                child: Body(
                   "Tap to proceed",
                   align: TextAlign.center,
                 ),

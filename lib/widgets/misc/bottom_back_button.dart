@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 
 class BottomBackButton extends StatelessWidget {
   @override
@@ -11,7 +11,7 @@ class BottomBackButton extends StatelessWidget {
         onPressed: () => Navigator.pop(context),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical : 20),
-          child: BodyText( 'Back'),
+          child: Body( 'Back'),
         )
       ),
     );

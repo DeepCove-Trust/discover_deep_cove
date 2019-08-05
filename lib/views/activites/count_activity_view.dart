@@ -1,7 +1,7 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -46,7 +46,7 @@ class _CountActivityViewState extends State<CountActivityView> {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: widget.isReview
-                  ? BodyText(
+                  ? Body(
                       "You Counted:",
                     )
                   : SizedBox(
@@ -153,7 +153,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
-                            child: BodyText('Pass'),
+                            child: Body('Pass'),
                           ),
                         ),
                         Padding(
@@ -164,7 +164,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
-                            child: BodyText(
+                            child: Body(
                               "Save",
                             ),
                           ),

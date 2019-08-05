@@ -1,5 +1,5 @@
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +34,7 @@ class QuizResult extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              BodyText(
+              Body(
                 "Quiz Completed!",
                 align: TextAlign.center,
               ),
@@ -51,7 +51,7 @@ class QuizResult extends StatelessWidget {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20.0),
-                        child: BodyText(
+                        child: Body(
                           "Your Score:",
                         ),
                       ),
@@ -63,13 +63,13 @@ class QuizResult extends StatelessWidget {
                             .copyWith(fontSize: 100),
                       ),
                       isHighscore
-                          ? BodyText(
+                          ? Body(
                               "New Highscore!",
                             )
                           : Container(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: BodyText(
+                        child: Body(
                           setMessage(),
                           align: TextAlign.center,
                         ),

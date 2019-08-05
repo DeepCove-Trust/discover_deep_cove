@@ -1,7 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_grid.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class _ImageQuestionState extends State<ImageQuestion> {
   Widget buildAudioButton() {
     return OutlineButton.icon(
       onPressed: () => playAudio(),
-      label: BodyText('Listen', align: TextAlign.center),
+      label: Body('Listen', align: TextAlign.center),
       borderSide: BorderSide(color: Colors.white, width: 0.5),
       icon: Icon(FontAwesomeIcons.music, color: Colors.white),
     );

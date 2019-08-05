@@ -2,7 +2,7 @@ import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +54,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: widget.isReview
-                      ? BodyText(
+                      ? Body(
                           "You Answered:",
                         )
                       : SizedBox(
@@ -74,7 +74,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: BodyText(
+                          child: Body(
                             widget.activity.userText,
                             align: TextAlign.left,
                           ),
@@ -133,7 +133,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
-                              child: BodyText(
+                              child: Body(
                                 "Pass",
                               ),
                             ),
@@ -153,7 +153,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
-                              child: BodyText(
+                              child: Body(
                                 "Save",
                               ),
                             ),

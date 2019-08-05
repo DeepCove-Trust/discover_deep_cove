@@ -1,7 +1,7 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 20, horizontal: 50),
-                      child: BodyText(
+                      child: Body(
                         "Your teacher will give you codes to unlock quizzes.",
                         align: TextAlign.center,
                       ),
@@ -71,7 +71,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                             Padding(
                               padding:
                                   const EdgeInsets.fromLTRB(8.0, 0, 8.0, 20),
-                              child: BodyText(
+                              child: Body(
                                 "Simply use the code posted in the communal kitchen of the lodge to "
                                 "Unlock all quizzes immediately!",
                                 align: TextAlign.center,
