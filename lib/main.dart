@@ -44,9 +44,9 @@ ThemeData appTheme() {
     fontFamily: 'Roboto',
 
     textTheme: TextTheme(
-      headline: TextStyle(fontSize: 30, color: Colors.white),
+      headline: TextStyle(color: Colors.white),
       body1: TextStyle(color: Colors.white),
-      subhead: TextStyle(fontSize: 25, color: Colors.white),
+      subhead: TextStyle(color: Colors.white),
     ),
   );
 }
