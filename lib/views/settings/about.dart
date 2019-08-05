@@ -17,54 +17,52 @@ class About extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Heading(
-                     "About the trust",
+                    "About the trust",
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Body(
-                    
-                        "The Deep Cove Outdoor Education Trust is a non profit "
-                        "organisation that was established in 1971. The Deep Cove Hostel"
-                        " is a 50 bed building and was established for the purpose of "
-                        "enabling school aged children a unique opportunity to experience"
-                        " life in a remote part of the Fiordland National Park.",
+                    "The Deep Cove Outdoor Education Trust is a non profit "
+                    "organisation that was established in 1971. The Deep Cove Hostel"
+                    " is a 50 bed building and was established for the purpose of "
+                    "enabling school aged children a unique opportunity to experience"
+                    " life in a remote part of the Fiordland National Park.",
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Heading(
-                     "Special thanks",
+                    "Special thanks",
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Body(
-                    
-                        "The trust and developers would like to give a special thank you to"
-                        " serveral people who helped make this app a reality"
-                        "The Southern Insitute Te Reo department provide maori pronuciations "
-                        "audio for the native bird calls was sourced from the Department of"
-                        " Conservation",
+                    "The trust and developers would like to give a special thank you to"
+                    " serveral people who helped make this app a reality"
+                    "The Southern Insitute Te Reo department provide maori pronuciations "
+                    "audio for the native bird calls was sourced from the Department of"
+                    " Conservation",
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Body(
-                     "https://www.doc.govt.nz",
+                    "https://www.doc.govt.nz",
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Heading(
-                     "Developers",
+                    "Developers",
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Body(
-                     "This app was developed by Mitchell Quarrie,"
-                        " Samuel Jackson and Samuel Grant",
+                    "This app was developed by Mitchell Quarrie,"
+                    " Samuel Jackson and Samuel Grant",
                   ),
                 ),
               ],
