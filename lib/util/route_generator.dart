@@ -9,7 +9,6 @@ import 'package:discover_deep_cove/views/activites/picture_select_activity_view.
 import 'package:discover_deep_cove/views/activites/picture_tap_activity_view.dart';
 import 'package:discover_deep_cove/views/activites/text_answer_activity_view.dart';
 import 'package:discover_deep_cove/views/fact_file/fact_file_details.dart';
-import 'package:discover_deep_cove/views/fact_file/fact_file_overlay.dart';
 import 'package:discover_deep_cove/views/home.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_unlock.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_view.dart';
@@ -40,15 +39,6 @@ class RouteGenerator {
           );
         }
 
-        return _errorRoute();
-
-      case '/factFileOverlay':
-        if (args is FactFileEntry) {
-          final FactFileEntry args = settings.arguments;
-          return TransparentPageRoute(
-            builder: (_) => FactFileOverlay(entry: args),
-          );
-        }
         return _errorRoute();
 
       //Quiz routes
