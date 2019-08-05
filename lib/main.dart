@@ -1,5 +1,5 @@
-import 'package:discover_deep_cove/data/db.dart';
 import 'package:discover_deep_cove/data/database_adapter.dart';
+import 'package:discover_deep_cove/data/db.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/route_generator.dart';
@@ -45,6 +45,7 @@ ThemeData appTheme() {
 
     textTheme: TextTheme(
       headline: TextStyle(fontSize: 30, color: Colors.white),
+      body1: TextStyle(color: Colors.white),
       subhead: TextStyle(fontSize: 25, color: Colors.white),
     ),
   );

@@ -17,10 +17,12 @@ class MapMaker extends StatefulWidget {
     @required this.mapController,
     @required this.context,
     @required this.onMarkerTap,
+    @required this.animationStream,
   });
 
   final Function(Activity) onMarkerTap;
   final MapController mapController;
+  final Stream<int> animationStream;
   final BuildContext context;
 
   @override
@@ -39,9 +41,13 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    print('map init');
     super.initState();
     trackStreamController = StreamController();
     trackStream = trackStreamController.stream;
+    widget.animationStream.listen((activityId) {
+      animateToActivity(activityId);
+    });
     currentTrackNum = 0;
     loadTracks();
   }
@@ -103,11 +109,11 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
             ),
           )
         : Container(
-      color: Theme.of(context).backgroundColor,
-      child: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+            color: Theme.of(context).backgroundColor,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
   }
 
   TileLayerOptions _buildTileLayerOptions() {
@@ -140,6 +146,7 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
           backgroundColor:
               isForCurrent ? Theme.of(context).accentColor : Colors.grey,
           onPressed: null,
+          heroTag: null,
         );
       },
     );
@@ -159,21 +166,7 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
     return markers;
   }
 
-  _buildMarker(BuildContext context, Activity activity) {
-    bool isCurrentTrack = activity.trackId == currentTrack.id;
-    return Container(
-        child: GestureDetector(
-      onTap: () => widget.onMarkerTap(activity),
-      child: Icon(activity.isCompleted()
-                ? FontAwesomeIcons.lockOpen
-                : FontAwesomeIcons.lock,
-        size: isCurrentTrack ? 30 : 20,
-        color: isCurrentTrack ? Theme.of(context).accentColor : Colors.grey,
-      ),
-    ));
-  }
-
-  void _animatedMove({LatLng latLng, double zoom}) {
+  void animatedMove({LatLng latLng, double zoom}) {
     final _latTween = Tween<double>(
         begin: widget.mapController.center.latitude, end: latLng.latitude);
     final _lngTween = Tween<double>(
@@ -204,6 +197,21 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
     controller.forward();
   }
 
+  _buildMarker(BuildContext context, Activity activity) {
+    bool isCurrentTrack = activity.trackId == currentTrack.id;
+    return Container(
+        child: GestureDetector(
+      onTap: () => widget.onMarkerTap(activity),
+      child: Icon(
+        activity.isCompleted()
+            ? FontAwesomeIcons.lockOpen
+            : FontAwesomeIcons.lock,
+        size: isCurrentTrack ? 30 : 20,
+        color: isCurrentTrack ? Theme.of(context).accentColor : Colors.grey,
+      ),
+    ));
+  }
+
   ///Changes the trackTitle which is displayed on the AppBar
   ///and pans the map to the first marker within that set
   void changeTrack({bool increase}) async {
@@ -214,6 +222,11 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
         : (currentTrackNum + tracks.length - 1) % tracks.length;
 
     trackStreamController.sink.add(currentTrack.name);
-    _animatedMove(latLng: currentTrack.activities[0].latLng, zoom: 16.0);
+    animatedMove(latLng: currentTrack.activities[0].latLng, zoom: 16.0);
+  }
+
+  void animateToActivity(int activityId) async {
+    Activity activity = await ActivityBean.of(context).find(activityId);
+    animatedMove(latLng: activity.latLng, zoom: 18.0);
   }
 }

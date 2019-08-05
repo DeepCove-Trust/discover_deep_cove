@@ -27,6 +27,12 @@ enum MediaFileType {
 class MediaFile {
   MediaFile();
 
+  MediaFile.create({
+    @required this.fileType,
+    @required this.path,
+    @required this.name,
+  });
+
   MediaFile.make(
       {@required this.id,
       @required this.fileType,

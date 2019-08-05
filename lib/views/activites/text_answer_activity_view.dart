@@ -1,11 +1,10 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
 
 class TextAnswerActivityView extends StatefulWidget {
   final Activity activity;
@@ -22,6 +21,13 @@ class TextAnswerActivityView extends StatefulWidget {
 
 class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
   final controller = TextEditingController();
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +76,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                           padding: const EdgeInsets.all(8.0),
                           child: BodyText(
                             widget.activity.userText,
+                            align: TextAlign.left,
                           ),
                         ),
                       )
@@ -82,6 +89,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                           child: TextField(
                             keyboardType: TextInputType.multiline,
                             maxLines: 10,
+                            style: TextStyle(color: Colors.black),
                             controller: controller,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -100,12 +108,12 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                               ),
                         ),
                       )
-                    : null,
+                    : Container(),
               ],
             ),
           ),
           widget.isReview
-              ? BottomBackButton()
+              ? Container()
               : Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
@@ -135,19 +143,10 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                             child: OutlineButton(
                               onPressed: () {
                                 if (controller.text.isNotEmpty) {
-                                  widget.activity.userText =
-                                      controller.text.toString();
-                                  Navigator.of(context).pop();
+                                  saveAnswer();
                                 } else {
-                                  Toast.show(
-                                    "Please write down your answer!",
-                                    context,
-                                    duration: Toast.LENGTH_SHORT,
-                                    gravity: Toast.BOTTOM,
-                                    backgroundColor:
-                                        Theme.of(context).primaryColor,
-                                    textColor: Colors.black,
-                                  );
+                                  Util.showToast(context,
+                                      "Please write down your answer!");
                                 }
                               },
                               borderSide: BorderSide(color: Color(0xFF777777)),
@@ -166,7 +165,14 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                 )
         ],
       ),
+      bottomNavigationBar: widget.isReview ? BottomBackButton() : null,
       backgroundColor: Theme.of(context).backgroundColor,
     );
+  }
+
+  void saveAnswer() async {
+    widget.activity.userText = controller.text;
+    await ActivityBean.of(context).update(widget.activity);
+    Navigator.of(context).pop();
   }
 }

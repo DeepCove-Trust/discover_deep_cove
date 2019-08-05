@@ -10,7 +10,7 @@ abstract class _ActivityBean implements Bean<Activity> {
   final id = IntField('id');
   final lastModified = DateTimeField('last_modified');
   final trackId = IntField('track_id');
-  final activityType = IntField('activity_type');
+  final _activityType = IntField('activity_type');
   final qrCode = StrField('qr_code');
   final xCoord = DoubleField('x_coord');
   final yCoord = DoubleField('y_coord');
@@ -20,6 +20,8 @@ abstract class _ActivityBean implements Bean<Activity> {
   final imageId = IntField('image_id');
   final userPhotoId = IntField('user_photo_id');
   final selectedPictureId = IntField('selected_picture_id');
+  final informationActivityUnlocked =
+      BoolField('information_activity_unlocked');
   final userXCoord = DoubleField('user_x_coord');
   final userYCoord = DoubleField('user_y_coord');
   final userCount = IntField('user_count');
@@ -29,7 +31,7 @@ abstract class _ActivityBean implements Bean<Activity> {
         id.name: id,
         lastModified.name: lastModified,
         trackId.name: trackId,
-        activityType.name: activityType,
+        _activityType.name: _activityType,
         qrCode.name: qrCode,
         xCoord.name: xCoord,
         yCoord.name: yCoord,
@@ -39,6 +41,7 @@ abstract class _ActivityBean implements Bean<Activity> {
         imageId.name: imageId,
         userPhotoId.name: userPhotoId,
         selectedPictureId.name: selectedPictureId,
+        informationActivityUnlocked.name: informationActivityUnlocked,
         userXCoord.name: userXCoord,
         userYCoord.name: userYCoord,
         userCount.name: userCount,
@@ -49,7 +52,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     model.id = adapter.parseValue(map['id']);
     model.lastModified = adapter.parseValue(map['last_modified']);
     model.trackId = adapter.parseValue(map['track_id']);
-    model.activityType = adapter.parseValue(map['activity_type']);
+    model._activityType = adapter.parseValue(map['activity_type']);
     model.qrCode = adapter.parseValue(map['qr_code']);
     model.xCoord = adapter.parseValue(map['x_coord']);
     model.yCoord = adapter.parseValue(map['y_coord']);
@@ -59,6 +62,8 @@ abstract class _ActivityBean implements Bean<Activity> {
     model.imageId = adapter.parseValue(map['image_id']);
     model.userPhotoId = adapter.parseValue(map['user_photo_id']);
     model.selectedPictureId = adapter.parseValue(map['selected_picture_id']);
+    model.informationActivityUnlocked =
+        adapter.parseValue(map['information_activity_unlocked']);
     model.userXCoord = adapter.parseValue(map['user_x_coord']);
     model.userYCoord = adapter.parseValue(map['user_y_coord']);
     model.userCount = adapter.parseValue(map['user_count']);
@@ -75,7 +80,7 @@ abstract class _ActivityBean implements Bean<Activity> {
       ret.add(id.set(model.id));
       ret.add(lastModified.set(model.lastModified));
       ret.add(trackId.set(model.trackId));
-      ret.add(activityType.set(model.activityType));
+      ret.add(_activityType.set(model._activityType));
       ret.add(qrCode.set(model.qrCode));
       ret.add(xCoord.set(model.xCoord));
       ret.add(yCoord.set(model.yCoord));
@@ -85,6 +90,8 @@ abstract class _ActivityBean implements Bean<Activity> {
       ret.add(imageId.set(model.imageId));
       ret.add(userPhotoId.set(model.userPhotoId));
       ret.add(selectedPictureId.set(model.selectedPictureId));
+      ret.add(
+          informationActivityUnlocked.set(model.informationActivityUnlocked));
       ret.add(userXCoord.set(model.userXCoord));
       ret.add(userYCoord.set(model.userYCoord));
       ret.add(userCount.set(model.userCount));
@@ -94,8 +101,8 @@ abstract class _ActivityBean implements Bean<Activity> {
       if (only.contains(lastModified.name))
         ret.add(lastModified.set(model.lastModified));
       if (only.contains(trackId.name)) ret.add(trackId.set(model.trackId));
-      if (only.contains(activityType.name))
-        ret.add(activityType.set(model.activityType));
+      if (only.contains(_activityType.name))
+        ret.add(_activityType.set(model._activityType));
       if (only.contains(qrCode.name)) ret.add(qrCode.set(model.qrCode));
       if (only.contains(xCoord.name)) ret.add(xCoord.set(model.xCoord));
       if (only.contains(yCoord.name)) ret.add(yCoord.set(model.yCoord));
@@ -108,6 +115,9 @@ abstract class _ActivityBean implements Bean<Activity> {
         ret.add(userPhotoId.set(model.userPhotoId));
       if (only.contains(selectedPictureId.name))
         ret.add(selectedPictureId.set(model.selectedPictureId));
+      if (only.contains(informationActivityUnlocked.name))
+        ret.add(
+            informationActivityUnlocked.set(model.informationActivityUnlocked));
       if (only.contains(userXCoord.name))
         ret.add(userXCoord.set(model.userXCoord));
       if (only.contains(userYCoord.name))
@@ -125,8 +135,8 @@ abstract class _ActivityBean implements Bean<Activity> {
       if (model.trackId != null) {
         ret.add(trackId.set(model.trackId));
       }
-      if (model.activityType != null) {
-        ret.add(activityType.set(model.activityType));
+      if (model._activityType != null) {
+        ret.add(_activityType.set(model._activityType));
       }
       if (model.qrCode != null) {
         ret.add(qrCode.set(model.qrCode));
@@ -155,6 +165,10 @@ abstract class _ActivityBean implements Bean<Activity> {
       if (model.selectedPictureId != null) {
         ret.add(selectedPictureId.set(model.selectedPictureId));
       }
+      if (model.informationActivityUnlocked != null) {
+        ret.add(
+            informationActivityUnlocked.set(model.informationActivityUnlocked));
+      }
       if (model.userXCoord != null) {
         ret.add(userXCoord.set(model.userXCoord));
       }
@@ -178,7 +192,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     st.addDateTime(lastModified.name, isNullable: false);
     st.addInt(trackId.name,
         foreignTable: trackBean.tableName, foreignCol: 'id', isNullable: false);
-    st.addInt(activityType.name, isNullable: false);
+    st.addInt(_activityType.name, isNullable: false);
     st.addStr(qrCode.name, isNullable: false);
     st.addDouble(xCoord.name, isNullable: false);
     st.addDouble(yCoord.name, isNullable: false);
@@ -197,6 +211,7 @@ abstract class _ActivityBean implements Bean<Activity> {
         foreignTable: mediaFileBean.tableName,
         foreignCol: 'id',
         isNullable: true);
+    st.addBool(informationActivityUnlocked.name, isNullable: false);
     st.addDouble(userXCoord.name, isNullable: true);
     st.addDouble(userYCoord.name, isNullable: true);
     st.addInt(userCount.name, isNullable: true);

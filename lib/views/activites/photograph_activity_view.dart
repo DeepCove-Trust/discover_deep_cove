@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/misc/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -10,7 +12,6 @@ import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:toast/toast.dart';
 
 class PhotographActivityView extends StatefulWidget {
   final Activity activity;
@@ -170,10 +171,10 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                         ),
                   ),
                 )
-              : null,
+              : Container(),
           Expanded(child: Container()),
           widget.isReview
-              ? BottomBackButton()
+              ? Container()
               : Container(
                   width: Screen.width(context),
                   color: Theme.of(context).primaryColorDark,
@@ -200,17 +201,9 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                         child: OutlineButton(
                           onPressed: () {
                             if (_imageFile != null) {
-                              // Todo: Make saving photos work.
-                              Navigator.of(context).pop();
+                              saveAnswer();
                             } else {
-                              Toast.show(
-                                "Please take a photo!",
-                                context,
-                                duration: Toast.LENGTH_SHORT,
-                                gravity: Toast.BOTTOM,
-                                backgroundColor: Theme.of(context).primaryColor,
-                                textColor: Colors.black,
-                              );
+                              Util.showToast(context, 'Please take a photo!');
                             }
                           },
                           borderSide: BorderSide(color: Color(0xFF777777)),
@@ -227,6 +220,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                 ),
         ],
       ),
+      bottomNavigationBar: widget.isReview ? BottomBackButton() : null,
       backgroundColor: Theme.of(context).backgroundColor,
       floatingActionButton: widget.isReview
           ? Container()
@@ -242,5 +236,21 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+  }
+
+  void saveAnswer() async {
+    // Todo: save the image properly
+
+    MediaFile image = MediaFile.create(
+      name: '' /* todo */,
+      path: _imageFile.path,
+      fileType: (MediaFileType.jpg.index),
+    );
+    var id = await MediaFileBean.of(context).insert(image);
+    image = await MediaFileBean.of(context).find(id);
+
+    widget.activity.userPhotoId = image.id;
+    await ActivityBean.of(context).update(widget.activity);
+    Navigator.of(context).pop();
   }
 }

@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/views/activites/activity_screen_args.dart';
 import 'package:discover_deep_cove/views/fact_file/fact_file_index.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_index.dart';
 import 'package:discover_deep_cove/views/settings/settings.dart';
 import 'package:discover_deep_cove/widgets/map/map_maker.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
-import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/loading_modal_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,6 +34,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   LatLng mapPosition;
   int zoomLevel;
 
+  // Stream controller to tell map when to animate
+  StreamController<int> mapAnimateController;
+
   Widget currentPage;
   List<Widget> pages = List<Widget>();
 
@@ -43,6 +46,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    mapAnimateController = StreamController();
     mapController = MapController();
     // Initialize the list of page widgets.
     pages.add(FactFileIndex());
@@ -50,6 +54,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     pages.add(MapMaker(
       mapController: mapController,
       context: context,
+      animationStream: mapAnimateController.stream.asBroadcastStream(), // todo
       onMarkerTap: handleMarkerTap,
     )); // placeholder
     pages.add(QuizIndex());
@@ -59,8 +64,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     currentPage = pages[Page.Map.index];
   }
 
-  void handleMarkerTap(Activity activity) {
+  @override
+  void dispose() {
+    super.dispose();
+    mapAnimateController.close();
+  }
+
+  void handleMarkerTap(Activity activity) async {
     if (activity.isCompleted()) {
+      activity = await ActivityBean.of(context).preloadRelationships(activity);
       navigateToActivity(activity, true);
     } else {
       Toast.show(
@@ -98,19 +110,29 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   ///Receives the result of the scan and determines what action to take
-  void handleMessage(qrString) {
-//    Activity selectedActivity;
-//
-//    for (Track track in tracks) {
-//      for (Activity activity in track.activities) {
-//        if (activity.qrCode == qrString) {
-//          selectedActivity = activity;
-//          break;
-//        }
-//      }
-//    }
-//
-//    navigateToActivity(selectedActivity, false);
+  void handleMessage(qrString) async {
+    List<Activity> activities = await ActivityBean.of(context).getAll();
+    Activity activity;
+
+    try {
+      activity = activities.firstWhere((a) => a.qrCode == qrString);
+    }
+    catch(ex){
+      Util.showToast(context, 'Unrecognized QR Code...');
+      return;
+    }
+
+    activity = await ActivityBean.of(context).preloadRelationships(activity);
+
+    if (pageIs(Page.Map)) {
+      mapAnimateController.sink.add(activity.id);
+    }
+
+    // allow time to animate
+    await Future.delayed(Duration(milliseconds: 1100));
+
+    Navigator.pushNamed(context, '/activity',
+        arguments: ActivityScreenArgs(activity: activity));
   }
 
 //End qr reader section
@@ -118,7 +140,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Screen.setOrientations(context);
-    
+
     return Stack(children: _buildPage());
   }
 
@@ -159,8 +181,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       floatingActionButton: pageIs(Page.Map)
           ? CustomFab(
               icon: FontAwesomeIcons.qrcode,
-               text: "Scan",
-              onPressed: scan,
+              text: "Scan",
+              onPressed: () => scan(),
             )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
