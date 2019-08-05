@@ -9,7 +9,11 @@ class SmallTile extends StatelessWidget {
   final Object heroTag;
   final VoidCallback onTap;
 
-  SmallTile({@required this.title, @required this.imagePath, this.onTap, this.heroTag});
+  SmallTile(
+      {@required this.title,
+      @required this.imagePath,
+      this.onTap,
+      this.heroTag});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,7 @@ class SmallTile extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 8),
                 color: Color.fromRGBO(0, 0, 0, 0.75),
                 child: SubHeading(
-                   title,
+                  title,
                   align: TextAlign.center,
                 ),
               ),
