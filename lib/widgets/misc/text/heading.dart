@@ -1,6 +1,7 @@
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:flutter/material.dart';
-class Heading  extends StatelessWidget {
+
+class Heading extends StatelessWidget {
   final String text;
   final TextAlign align;
 
@@ -12,8 +13,9 @@ class Heading  extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: Theme.of(context).textTheme.headline.copyWith(
-        fontSize: Screen.width(context) <= 350 ? 25 : 30, 
+      style: TextStyle(
+        fontSize: Screen.width(context) <= 350 ? 25 : 30,
+        color: Colors.white,
       ),
       textAlign: align,
     );

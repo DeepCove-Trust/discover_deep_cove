@@ -42,11 +42,5 @@ ThemeData appTheme() {
     backgroundColor: HexColor("FF363636"),
 
     fontFamily: 'Roboto',
-
-    textTheme: TextTheme(
-      headline: TextStyle(color: Colors.white),
-      body1: TextStyle(color: Colors.white),
-      subhead: TextStyle(color: Colors.white),
-    ),
   );
 }

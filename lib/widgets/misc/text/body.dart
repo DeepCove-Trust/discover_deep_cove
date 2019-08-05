@@ -14,9 +14,10 @@ class Body extends StatelessWidget {
     return Text(
       text,
       overflow: TextOverflow.fade,
-      style: Theme.of(context).textTheme.body1.copyWith(
-            fontSize: Screen.width(context) <= 350 ? 16 : 20,
-          ),
+      style: TextStyle(
+        fontSize: Screen.width(context) <= 350 ? 16 : 20,
+        color: Colors.white,
+      ),
       textAlign: align,
     );
   }
