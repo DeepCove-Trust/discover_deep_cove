@@ -63,7 +63,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                           vertical: 20, horizontal: 50),
                       child: Body(
                         "Your teacher will give you codes to unlock quizzes.",
-                        align: TextAlign.center,
+                        
                       ),
                     ),
                     Padding(
@@ -94,7 +94,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                               child: Body(
                                 "Simply use the code posted in the communal kitchen of the lodge to "
                                 "Unlock all quizzes immediately!",
-                                align: TextAlign.center,
+                                
                               ),
                             ),
                           ],

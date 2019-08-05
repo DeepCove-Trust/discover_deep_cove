@@ -26,7 +26,7 @@ class LoadingModalOverlay extends StatelessWidget {
               SizedBox(height: 50),
               Body(
                 loadingMessage,
-                align: TextAlign.center,
+                
               ),
             ],
           ),

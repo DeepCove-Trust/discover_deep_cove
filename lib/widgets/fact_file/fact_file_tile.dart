@@ -41,7 +41,7 @@ class SmallTile extends StatelessWidget {
                 color: Color.fromRGBO(0, 0, 0, 0.75),
                 child: SubHeading(
                   title,
-                  align: TextAlign.center,
+                  
                 ),
               ),
             )

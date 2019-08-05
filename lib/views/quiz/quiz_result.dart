@@ -36,7 +36,7 @@ class QuizResult extends StatelessWidget {
               ),
               Body(
                 "Quiz Completed!",
-                align: TextAlign.center,
+                
               ),
               SizedBox(
                 height: Screen.height(context, percentage: 5.0),
@@ -71,7 +71,7 @@ class QuizResult extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Body(
                           setMessage(),
-                          align: TextAlign.center,
+                          
                         ),
                       ),
                     ],

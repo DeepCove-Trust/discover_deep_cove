@@ -48,14 +48,14 @@ class Tile extends StatelessWidget {
                   children: [
                     Heading(
                        title,
-                      align: TextAlign.center,
+                      
                     ),
                     if (subheading != null)
                       SizedBox(height: 10), //
                     if (subheading != null)
                       Body(
                          subheading,
-                        align: TextAlign.center,
+                        
                       ),
                   ],
                 ),

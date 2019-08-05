@@ -139,7 +139,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                             case ConnectionState.waiting:
                               return Body(
                                 'You have not taken a photo yet.',
-                                align: TextAlign.center,
+                                
                               );
                             case ConnectionState.done:
                               return _previewImage();
@@ -152,7 +152,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                               } else {
                                 return Body(
                                   'You have not taken a photo yet.',
-                                  align: TextAlign.center,
+                                  
                                 );
                               }
                           }
