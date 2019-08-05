@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
@@ -21,8 +22,9 @@ class QuizUnlock extends StatefulWidget {
 ///Allows the user to unlock a [quiz]
 class _QuizUnlockState extends State<QuizUnlock> {
   TextEditingController textController = TextEditingController();
-  ScrollController scrollController = ScrollController();
   List<Quiz> quizzes;
+
+  //ScrollController scrollController = ScrollController();
   // KeyboardVisibilityNotification _keyboardVisibility =
   //     new KeyboardVisibilityNotification();
   // int _keyboardVisibilitySubscriberId;
@@ -42,6 +44,17 @@ class _QuizUnlockState extends State<QuizUnlock> {
   //   );
   // }
 
+  // void scrollView() {
+  //   var scrollPosition = scrollController.position;
+  //   print("scrolled");
+
+  //   scrollController.animateTo(
+  //     scrollPosition.maxScrollExtent,
+  //     duration: Duration(milliseconds: 200),
+  //     curve: Curves.easeOut,
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,27 +62,37 @@ class _QuizUnlockState extends State<QuizUnlock> {
         fit: StackFit.expand,
         children: <Widget>[
           SingleChildScrollView(
-            controller: scrollController,
+            //controller: scrollController,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: Screen.height(context, percentage: 13.0),
+                  height: Screen.height(context,
+                      percentage: Screen.width(context) <= 350 ? 5 : 8),
                 ),
                 Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 50),
-                      child: Body(
-                        "Your teacher will give you codes to unlock quizzes.",
-                        
-                      ),
+                      padding: EdgeInsets.symmetric(
+                          vertical: Screen.height(context,
+                              percentage: Screen.width(context) <= 350 ? 2 : 5),
+                          horizontal: Screen.width(context) <= 350 ? 20 : 50),
+                      child: Screen.width(context) <= 600
+                          ? Body(
+                              "Your teacher will give you codes to unlock quizzes.",
+                            )
+                          : Heading(
+                              "Your teacher will give you codes to unlock quizzes.",
+                            ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 50),
+                      padding: EdgeInsets.symmetric(
+                          vertical: Screen.height(context, percentage: 5),
+                          horizontal: Screen.width(context) <= 350 ? 20 : 50),
                       child: Container(
+                        width: Screen.width(context,
+                            percentage:
+                                Screen.width(context) <= 350 ? 100 : 80),
                         child: Column(
                           children: <Widget>[
                             Padding(
@@ -77,8 +100,9 @@ class _QuizUnlockState extends State<QuizUnlock> {
                               child: Text(
                                 "Not a Student?",
                                 style: TextStyle(
-                                  fontSize:
-                                      Screen.width(context) <= 350 ? 16 : 20,
+                                  fontSize: Screen.width(context) <= 350
+                                      ? 16
+                                      : Screen.width(context) >= 650 ? 30 : 20,
                                   color: Colors.white,
                                   decoration: TextDecoration.underline,
                                 ),
@@ -86,16 +110,22 @@ class _QuizUnlockState extends State<QuizUnlock> {
                               ),
                             ),
                             SizedBox(
-                              height: Screen.height(context, percentage: 1.5),
+                              height: Screen.height(context,
+                                  percentage:
+                                      Screen.width(context) <= 350 ? 1.5 : 3),
                             ),
                             Padding(
                               padding:
                                   const EdgeInsets.fromLTRB(8.0, 0, 8.0, 20),
-                              child: Body(
-                                "Simply use the code posted in the communal kitchen of the lodge to "
-                                "Unlock all quizzes immediately!",
-                                
-                              ),
+                              child: Screen.width(context) <= 600
+                                  ? Body(
+                                      "Simply use the code posted in the communal kitchen of the lodge to "
+                                      "Unlock all quizzes immediately!",
+                                    )
+                                  : Heading(
+                                      "Simply use the code posted in the communal kitchen of the lodge to "
+                                      "Unlock all quizzes immediately!",
+                                    ),
                             ),
                           ],
                         ),
@@ -107,37 +137,55 @@ class _QuizUnlockState extends State<QuizUnlock> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: Screen.width(context,
+                            percentage: Screen.width(context) <= 350 ? 2 : 5),
+                      ),
                       child: Container(
-                        width: Screen.width(context),
+                        width: Screen.width(context,
+                            percentage:
+                                Screen.width(context) <= 350 ? 100 : 80),
                         color: Theme.of(context).primaryColor,
                         child: Column(
                           children: <Widget>[
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 20.0),
+                              padding: EdgeInsets.only(
+                                top: Screen.width(context, percentage: 5),
+                                bottom: Screen.width(context, percentage: 5),
+                              ),
                               child: Heading(
                                 "Enter unlock code:",
                               ),
                             ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: Container(
-                                width: Screen.width(context, percentage: 37.5),
-                                color: Colors.white,
-                                child: TextField(
-                                  controller: textController,
-                                  style: TextStyle(color: Colors.black),
-                                  decoration: InputDecoration(
+                            Transform.scale(
+                              scale: Screen.width(context) >= 600 ? 1.25 : 1,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Container(
+                                  width: Screen.width(
+                                    context,
+                                    percentage: Screen.width(context) >= 600
+                                        ? 30
+                                        : 62.5,
+                                  ),
+                                  color: Colors.white,
+                                  child: TextField(
+                                    controller: textController,
+                                    style: TextStyle(color: Colors.black),
+                                    decoration: InputDecoration(
                                       hintText: 'Enter code...',
                                       border: InputBorder.none,
-                                      contentPadding: EdgeInsets.all(8.0)),
+                                      contentPadding: EdgeInsets.all(8.0),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 20.0),
+                              padding: EdgeInsets.symmetric(
+                                  vertical:
+                                      Screen.width(context, percentage: 5)),
                               child: OutlineButton(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -146,8 +194,9 @@ class _QuizUnlockState extends State<QuizUnlock> {
                                   ),
                                 ),
                                 onPressed: () => verifyCode(context),
-                                borderSide:
-                                    BorderSide(color: Color(0xFFFFFFFF)),
+                                borderSide: BorderSide(
+                                  color: HexColor("FFFFFFFF"),
+                                ),
                               ),
                             ),
                           ],
@@ -196,16 +245,5 @@ class _QuizUnlockState extends State<QuizUnlock> {
       default:
         Util.showToast(context, 'Invalid code entered');
     }
-  }
-
-  void scrollView() {
-    var scrollPosition = scrollController.position;
-    print("scrolled");
-
-    scrollController.animateTo(
-      scrollPosition.maxScrollExtent,
-      duration: Duration(milliseconds: 200),
-      curve: Curves.easeOut,
-    );
   }
 }
