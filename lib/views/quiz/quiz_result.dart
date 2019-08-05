@@ -27,7 +27,7 @@ class QuizResult extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
                 child: Text(
                   name,
-                  TextStyle(
+                  style: TextStyle(
                     fontSize: Screen.width(context) <= 350 ? 40 : 60,
                     color: Colors.white,
                   ),
