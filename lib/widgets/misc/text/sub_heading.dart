@@ -13,6 +13,7 @@ class SubHeading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      overflow: TextOverflow.fade,
       style: TextStyle(
         fontSize: Screen.width(context) <= 350 ? 20 : 25,
         color: Colors.white,
