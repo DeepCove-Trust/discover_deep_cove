@@ -6,10 +6,10 @@ import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/heading.dart';
-import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

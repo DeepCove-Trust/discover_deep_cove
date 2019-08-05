@@ -1,5 +1,5 @@
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 
 class SettingsButton extends StatelessWidget {

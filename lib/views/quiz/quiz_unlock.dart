@@ -1,7 +1,7 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/heading.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 
 class SmallTile extends StatelessWidget {

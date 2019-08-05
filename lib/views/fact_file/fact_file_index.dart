@@ -4,7 +4,7 @@ import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart'
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/fact_file/fact_file_tab.dart';
 import 'package:flutter/material.dart';
 

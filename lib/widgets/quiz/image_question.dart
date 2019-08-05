@@ -1,9 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_grid.dart';
-import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_image_button.dart';

@@ -1,7 +1,7 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_result.dart';
-import 'package:discover_deep_cove/widgets/misc/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/correct_wrong_overlay.dart';
 import 'package:discover_deep_cove/widgets/quiz/image_question.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_image_button.dart';

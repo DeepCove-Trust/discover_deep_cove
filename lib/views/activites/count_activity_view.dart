@@ -1,7 +1,7 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
-import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

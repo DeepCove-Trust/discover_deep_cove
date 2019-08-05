@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 
 class CustomFab extends StatelessWidget {
   final IconData icon;
