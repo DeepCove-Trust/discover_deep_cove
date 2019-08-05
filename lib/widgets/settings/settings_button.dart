@@ -14,7 +14,7 @@ class SettingsButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 50, horizontal: 12),
+        padding: EdgeInsets.symmetric(vertical: Screen.height(context, percentage: 5), horizontal: 12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
