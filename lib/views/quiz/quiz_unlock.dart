@@ -5,6 +5,7 @@ import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 enum UnlockStatus { success, alreadyUnlocked, failure }
 
@@ -19,9 +20,30 @@ class QuizUnlock extends StatefulWidget {
 
 ///Allows the user to unlock a [quiz]
 class _QuizUnlockState extends State<QuizUnlock> {
-  final controller = TextEditingController();
-
+  TextEditingController textController = TextEditingController();
+  ScrollController scrollController = ScrollController();
   List<Quiz> quizzes;
+  KeyboardVisibilityNotification _keyboardVisibility =
+      new KeyboardVisibilityNotification();
+  int _keyboardVisibilitySubscriberId;
+  bool _keyboardState;
+
+  @protected
+  void initState() {
+    super.initState();
+
+    _keyboardState = _keyboardVisibility.isKeyboardVisible;
+
+    _keyboardVisibilitySubscriberId = _keyboardVisibility.addNewListener(
+      onChange: (bool visible) {
+        setState(() {
+          if (visible) scrollView();
+
+        });
+        
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +52,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
         fit: StackFit.expand,
         children: <Widget>[
           SingleChildScrollView(
+            controller: scrollController,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -65,9 +88,19 @@ class _QuizUnlockState extends State<QuizUnlock> {
                               ),
                             ),
                             SizedBox(
-                              height:
-                                  Screen.height(context, percentage: 1.5),
+                              height: Screen.height(context, percentage: 1.5),
                             ),
+                            OutlineButton(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Heading(
+                                    "Unlock",
+                                  ),
+                                ),
+                                onPressed: () => scrollView(),
+                                borderSide:
+                                    BorderSide(color: Color(0xFFFFFFFF)),
+                              ),
                             Padding(
                               padding:
                                   const EdgeInsets.fromLTRB(8.0, 0, 8.0, 20),
@@ -106,7 +139,8 @@ class _QuizUnlockState extends State<QuizUnlock> {
                                 width: Screen.width(context, percentage: 37.5),
                                 color: Colors.white,
                                 child: TextField(
-                                  controller: controller,
+                                  controller: textController,
+                                  style: TextStyle(color: Colors.black),
                                   decoration: InputDecoration(
                                       hintText: 'Enter code...',
                                       border: InputBorder.none,
@@ -138,7 +172,6 @@ class _QuizUnlockState extends State<QuizUnlock> {
               ],
             ),
           ),
-//          BackNavBottom(),
         ],
       ),
       backgroundColor: Theme.of(context).backgroundColor,
@@ -149,7 +182,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
   void verifyCode(BuildContext context) async {
     UnlockStatus status;
 
-    Quiz quiz = await QuizBean.of(context).findByCode(controller.text);
+    Quiz quiz = await QuizBean.of(context).findByCode(textController.text);
 
     if (quiz != null) {
       if (quiz.unlocked) {
@@ -177,4 +210,16 @@ class _QuizUnlockState extends State<QuizUnlock> {
         Util.showToast(context, 'Invalid code entered');
     }
   }
+
+  void scrollView() {
+    var scrollPosition = scrollController.position;
+
+  scrollController.animateTo(
+    scrollPosition.maxScrollExtent,
+    duration: Duration(milliseconds: 200),
+    curve: Curves.easeOut,
+  );
 }
+}
+
+
