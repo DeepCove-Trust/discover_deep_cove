@@ -4,6 +4,7 @@ import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
+import 'package:discover_deep_cove/widgets/fact_file/editAnswer.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
@@ -92,8 +93,8 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             image: DecorationImage(
-                              image: FileImage(File(Env.getResourcePath(
-                                  widget.activity.imageOptions[photoIndex].path))),
+                              image: FileImage(File(Env.getResourcePath(widget
+                                  .activity.imageOptions[photoIndex].path))),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -133,12 +134,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
           widget.isReview
               ? Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    "To edit your answer, re-scan the QR code.",
-                    style: Theme.of(context).textTheme.body1.copyWith(
-                          color: Color(0xFF777777),
-                        ),
-                  ),
+                  child: EditAnswer(),
                 )
               : Container(),
           Expanded(child: Container()),
@@ -189,7 +185,8 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
   }
 
   saveAnswer() async {
-    widget.activity.selectedPictureId = widget.activity.imageOptions[photoIndex].id;
+    widget.activity.selectedPictureId =
+        widget.activity.imageOptions[photoIndex].id;
     await ActivityBean.of(context).update(widget.activity);
     Navigator.of(context).pop();
   }

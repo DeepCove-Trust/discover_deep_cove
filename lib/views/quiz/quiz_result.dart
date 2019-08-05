@@ -27,10 +27,10 @@ class QuizResult extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
                 child: Text(
                   name,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline
-                      .copyWith(fontSize: 40),
+                  TextStyle(
+                    fontSize: Screen.width(context) <= 350 ? 40 : 60,
+                    color: Colors.white,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -57,10 +57,10 @@ class QuizResult extends StatelessWidget {
                       ),
                       Text(
                         "$score/$outOf",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline
-                            .copyWith(fontSize: 100),
+                        style: TextStyle(
+                          fontSize: Screen.width(context) <= 350 ? 40 : 60,
+                          color: Colors.white,
+                        ),
                       ),
                       isHighscore
                           ? Body(

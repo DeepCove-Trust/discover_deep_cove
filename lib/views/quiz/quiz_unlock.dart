@@ -37,7 +37,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
   //   _keyboardVisibilitySubscriberId = _keyboardVisibility.addNewListener(
   //     onChange: (bool visible) {
   //       print(visible);
-  //       scrollView();        
+  //       scrollView();
   //     },
   //   );
   // }
@@ -76,11 +76,12 @@ class _QuizUnlockState extends State<QuizUnlock> {
                               padding: const EdgeInsets.only(top: 20.0),
                               child: Text(
                                 "Not a Student?",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .body1
-                                    .copyWith(
-                                        decoration: TextDecoration.underline),
+                                style: TextStyle(
+                                  fontSize:
+                                      Screen.width(context) <= 350 ? 16 : 20,
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
+                                ),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -201,12 +202,10 @@ class _QuizUnlockState extends State<QuizUnlock> {
     var scrollPosition = scrollController.position;
     print("scrolled");
 
-  scrollController.animateTo(
-    scrollPosition.maxScrollExtent,
-    duration: Duration(milliseconds: 200),
-    curve: Curves.easeOut,
-  );
+    scrollController.animateTo(
+      scrollPosition.maxScrollExtent,
+      duration: Duration(milliseconds: 200),
+      curve: Curves.easeOut,
+    );
+  }
 }
-}
-
-

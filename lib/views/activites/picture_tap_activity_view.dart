@@ -6,6 +6,7 @@ import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
+import 'package:discover_deep_cove/widgets/fact_file/editAnswer.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:flutter/material.dart';
@@ -92,13 +93,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text(
-                                "To edit your answer, re-scan the QR code.",
-                                style:
-                                    Theme.of(context).textTheme.body1.copyWith(
-                                          color: Color(0xFF777777),
-                                        ),
-                              ),
+                              child: EditAnswer(),
                             ),
                           ),
                         ),
