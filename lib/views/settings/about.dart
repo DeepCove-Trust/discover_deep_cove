@@ -1,3 +1,4 @@
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
@@ -15,13 +16,17 @@ class About extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  padding: EdgeInsets.symmetric(
+                    vertical: setYPadding(context),
+                  ),
                   child: Heading(
                     "About the trust",
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: setXPadding(context),
+                  ),
                   child: Body(
                     "The Deep Cove Outdoor Education Trust is a non profit "
                     "organisation that was established in 1971. The Deep Cove Hostel"
@@ -31,13 +36,17 @@ class About extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  padding: EdgeInsets.symmetric(
+                    vertical: setYPadding(context),
+                  ),
                   child: Heading(
                     "Special thanks",
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: setXPadding(context),
+                  ),
                   child: Body(
                     "The trust and developers would like to give a special thank you to"
                     " serveral people who helped make this app a reality"
@@ -47,19 +56,25 @@ class About extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 20,
+                  ),
                   child: Body(
                     "https://www.doc.govt.nz",
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  padding: EdgeInsets.symmetric(
+                    vertical: setYPadding(context),
+                  ),
                   child: Heading(
                     "Developers",
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: setXPadding(context),
+                  ),
                   child: Body(
                     "This app was developed by Mitchell Quarrie,"
                     " Samuel Jackson and Samuel Grant",
@@ -74,5 +89,21 @@ class About extends StatelessWidget {
         child: BottomBackButton(),
       ),
     );
+  }
+
+  setXPadding(BuildContext context) {
+    return Screen.height(context) >= 600 && Screen.isPortrait(context)
+        ? Screen.width(context, percentage: 10)
+        : Screen.height(context) >= 600 && !Screen.isPortrait(context)
+            ? Screen.width(context, percentage: 20)
+            : Screen.width(context, percentage: 5);
+  }
+
+  setYPadding(BuildContext context) {
+    return Screen.height(context) >= 600 && Screen.isPortrait(context)
+        ? Screen.width(context, percentage: 8)
+        : Screen.height(context) >= 600 && !Screen.isPortrait(context)
+            ? Screen.height(context, percentage: 10)
+            : Screen.width(context, percentage: 5);
   }
 }
