@@ -102,86 +102,112 @@ class _QuizUnlockState extends State<QuizUnlock> {
   }
 
   buildContent() {
-    return SingleChildScrollView(
+    return (Screen.width(context) >= 600 && !Screen.isPortrait(context))
+        ? GridView.count(
+            crossAxisCount: 2,
+            children: [
+              getTopHalf(),
+              getBottomHalf(),
+            ],
+          )
+        : SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                getTopHalf(),
+                getBottomHalf(),
+              ],
+            ),
+          );
+  }
+
+  getTopHalf() {
+    return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: getContent(),
+        children: <Widget>[
+          SizedBox(
+            height: Screen.height(context,
+                percentage: Screen.width(context) <= 350 ? 5 : Screen.width(context) >= 600 && Screen.isPortrait(context) ? 8 : 0),
+          ),
+          Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: Screen.height(context,
+                        percentage: Screen.width(context) <= 350 ? 2 : 5),
+                    horizontal: Screen.width(context) <= 350 ? 20 : 50),
+                child: Screen.width(context) <= 600
+                    ? Body(
+                        "Your teacher will give you codes to unlock quizzes.",
+                      )
+                    : Heading(
+                        "Your teacher will give you codes to unlock quizzes.",
+                      ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: Screen.height(context, percentage: 5),
+                    horizontal: Screen.width(context) <= 350 ? 20 : 50),
+                child: Container(
+                  width: Screen.width(context,
+                      percentage: Screen.width(context) <= 350 ? 100 : 80),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Text(
+                          "Not a Student?",
+                          style: TextStyle(
+                            fontSize: Screen.width(context) <= 350
+                                ? 16
+                                : Screen.width(context) >= 650 ? 30 : 20,
+                            color: Colors.white,
+                            decoration: TextDecoration.underline,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(
+                        height: Screen.height(context,
+                            percentage: Screen.width(context) <= 350 ? 1.5 : 3),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 20),
+                        child: Screen.width(context) <= 600
+                            ? Body(
+                                "Simply use the code posted in the communal kitchen of the lodge to "
+                                "Unlock all quizzes immediately!",
+                              )
+                            : Heading(
+                                "Simply use the code posted in the communal kitchen of the lodge to "
+                                "Unlock all quizzes immediately!",
+                              ),
+                      ),
+                    ],
+                  ),
+                  decoration: new BoxDecoration(
+                    border: new Border.all(
+                      color: Color(0xFF777777),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
-  List<Widget> getContent() {
-    return [
-      SizedBox(
-        height: Screen.height(context,
-            percentage: Screen.width(context) <= 350 ? 5 : 8),
-      ),
-      Column(
+  getBottomHalf() {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Padding(
             padding: EdgeInsets.symmetric(
-                vertical: Screen.height(context,
-                    percentage: Screen.width(context) <= 350 ? 2 : 5),
-                horizontal: Screen.width(context) <= 350 ? 20 : 50),
-            child: Screen.width(context) <= 600
-                ? Body(
-                    "Your teacher will give you codes to unlock quizzes.",
-                  )
-                : Heading(
-                    "Your teacher will give you codes to unlock quizzes.",
-                  ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: Screen.height(context, percentage: 5),
-                horizontal: Screen.width(context) <= 350 ? 20 : 50),
-            child: Container(
-              width: Screen.width(context,
-                  percentage: Screen.width(context) <= 350 ? 100 : 80),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: Text(
-                      "Not a Student?",
-                      style: TextStyle(
-                        fontSize: Screen.width(context) <= 350
-                            ? 16
-                            : Screen.width(context) >= 650 ? 30 : 20,
-                        color: Colors.white,
-                        decoration: TextDecoration.underline,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  SizedBox(
-                    height: Screen.height(context,
-                        percentage: Screen.width(context) <= 350 ? 1.5 : 3),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 20),
-                    child: Screen.width(context) <= 600
-                        ? Body(
-                            "Simply use the code posted in the communal kitchen of the lodge to "
-                            "Unlock all quizzes immediately!",
-                          )
-                        : Heading(
-                            "Simply use the code posted in the communal kitchen of the lodge to "
-                            "Unlock all quizzes immediately!",
-                          ),
-                  ),
-                ],
-              ),
-              decoration: new BoxDecoration(
-                border: new Border.all(
-                  color: Color(0xFF777777),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 8.0,
+              horizontal: Screen.width(context) >= 600 ? 28.0 : 8.0,
               vertical: Screen.width(context,
                   percentage: Screen.width(context) <= 350 ? 2 : 5),
             ),
@@ -244,6 +270,6 @@ class _QuizUnlockState extends State<QuizUnlock> {
           ),
         ],
       ),
-    ];
+    );
   }
 }
