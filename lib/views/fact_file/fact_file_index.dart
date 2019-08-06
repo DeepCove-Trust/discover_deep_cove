@@ -72,7 +72,7 @@ class _FactFileIndexState extends State<FactFileIndex>
 
   @override
   Widget build(BuildContext context) {
-    Screen.setOrientations(context);
+    
     
     // Loading screen
     if (categories.length == 0) {
