@@ -32,7 +32,7 @@ class SettingsButton extends StatelessWidget {
                       Screen.width(context) >= 600 && Screen.isPortrait(context)
                           ? 60
                           : 30),
-              child: SubHeading(text, align: TextAlign.center),
+              child: SubHeading(text),
             )
           ],
         ),

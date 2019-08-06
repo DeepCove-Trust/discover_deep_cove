@@ -56,10 +56,11 @@ class _FactFileIndexState extends State<FactFileIndex>
   List<Container> getTabHeadings() {
     return categories.map((c) {
       return Container(
-          width: Screen.width(context) /
-              (categories.length > 2 ? 3 : categories.length),
-          // Todo: better way?
-          child: Body( c.name, align: TextAlign.center));
+        width: Screen.width(context) /
+            (categories.length > 2 ? 3 : categories.length),
+        // Todo: better way?
+        child: Body(c.name),
+      );
     }).toList();
   }
 
@@ -72,8 +73,6 @@ class _FactFileIndexState extends State<FactFileIndex>
 
   @override
   Widget build(BuildContext context) {
-    
-    
     // Loading screen
     if (categories.length == 0) {
       return Container(
