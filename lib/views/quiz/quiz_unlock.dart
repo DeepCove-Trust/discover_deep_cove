@@ -106,8 +106,8 @@ class _QuizUnlockState extends State<QuizUnlock> {
         ? GridView.count(
             crossAxisCount: 2,
             children: [
-              getTopHalf(),
               getBottomHalf(),
+              getTopHalf(),
             ],
           )
         : SingleChildScrollView(
@@ -128,7 +128,11 @@ class _QuizUnlockState extends State<QuizUnlock> {
         children: <Widget>[
           SizedBox(
             height: Screen.height(context,
-                percentage: Screen.width(context) <= 350 ? 5 : Screen.width(context) >= 600 && Screen.isPortrait(context) ? 8 : 0),
+                percentage: Screen.width(context) <= 350
+                    ? 5
+                    : Screen.width(context) >= 600 && Screen.isPortrait(context)
+                        ? 8
+                        : 0),
           ),
           Column(
             children: <Widget>[
