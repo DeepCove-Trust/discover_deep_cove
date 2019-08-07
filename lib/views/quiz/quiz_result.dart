@@ -45,17 +45,17 @@ class QuizResult extends StatelessWidget {
         ? GridView.count(
             crossAxisCount: 2,
             children: [
-              getBottomHalf(context),
               getTopHalf(context),
+              getBottomHalf(context),
             ],
           )
         : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            getTopHalf(context),
-            getBottomHalf(context),
-          ],
-        );
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              getTopHalf(context),
+              getBottomHalf(context),
+            ],
+          );
   }
 
   getTopHalf(BuildContext context) {
@@ -86,45 +86,45 @@ class QuizResult extends StatelessWidget {
   }
 
   getBottomHalf(BuildContext context) {
-   return Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Container(
-            height: Screen.height(context, percentage: 37.0),
-            width: Screen.width(context,
-                percentage: Screen.width(context) >= 600 ? 70 : 100),
-            color: Theme.of(context).primaryColor,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: Screen.width(context) >= 600
-                      ? Heading(
-                          "Your score:",
-                        )
-                      : Body("Your score:"),
-                ),
-                Text(
-                  "$score/$outOf",
-                  style: TextStyle(
-                    fontSize: Screen.width(context) <= 350 ? 40 : 100,
-                    color: Colors.white,
-                  ),
-                ),
-                isHighscore
-                    ? Screen.width(context) >= 600
-                        ? Heading("New Highscore!")
-                        : Body("New Highscore!")
-                    : Container(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Screen.width(context) >= 600
-                      ? Heading(setMessage())
-                      : Body(setMessage()),
-                ),
-              ],
+    return Padding(
+      padding: EdgeInsets.only(top: Screen.isPortrait(context) ? 0 : 8.0),
+      child: Container(
+        height: Screen.height(context, percentage: 37.0),
+        width: Screen.width(context,
+            percentage: Screen.width(context) >= 600 ? 70 : 100),
+        color: Theme.of(context).primaryColor,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Screen.width(context) >= 600
+                  ? Heading(
+                      "Your score:",
+                    )
+                  : Body("Your score:"),
             ),
-          ),
-        );
+            Text(
+              "$score/$outOf",
+              style: TextStyle(
+                fontSize: Screen.width(context) <= 350 ? 40 : 100,
+                color: Colors.white,
+              ),
+            ),
+            isHighscore
+                ? Screen.width(context) >= 600
+                    ? Heading("New Highscore!")
+                    : Body("New Highscore!")
+                : Container(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Screen.width(context) >= 600
+                  ? Heading(setMessage())
+                  : Body(setMessage()),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
