@@ -104,12 +104,9 @@ class QuizResult extends StatelessWidget {
                     )
                   : Body("Your score:"),
             ),
-            Text(
+            Heading(
               "$score/$outOf",
-              style: TextStyle(
-                fontSize: Screen.width(context) <= 350 ? 40 : 100,
-                color: Colors.white,
-              ),
+              size: Screen.width(context) <= 350 ? 40 : 100,
             ),
             isHighscore
                 ? Screen.width(context) >= 600
