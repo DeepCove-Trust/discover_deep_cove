@@ -20,7 +20,46 @@ class QuizResult extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          Column(
+          buildContent(context),
+        ],
+      ),
+      backgroundColor: Theme.of(context).backgroundColor,
+      bottomNavigationBar: BottomBackButton(),
+    );
+  }
+
+  setMessage() {
+    if (score == outOf) {
+      return "Congratulations, you got every question correct!";
+    } else if (((score / outOf) * 100) >= 50) {
+      return "Almost there, keep up the good work!";
+    } else if (((score / outOf) * 100) >= 0 && ((score / outOf) * 100) <= 49) {
+      return "You are improving, keep up the good work!";
+    } else {
+      return "You can do better, keep trying!";
+    }
+  }
+
+  buildContent(BuildContext context) {
+    return (Screen.width(context) >= 600 && !Screen.isPortrait(context))
+        ? GridView.count(
+            crossAxisCount: 2,
+            children: [
+              getBottomHalf(context),
+              getTopHalf(context),
+            ],
+          )
+        : Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            getTopHalf(context),
+            getBottomHalf(context),
+          ],
+        );
+  }
+
+  getTopHalf(BuildContext context) {
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
@@ -42,7 +81,12 @@ class QuizResult extends StatelessWidget {
         SizedBox(
           height: Screen.height(context, percentage: 5.0),
         ),
-        Padding(
+      ],
+    );
+  }
+
+  getBottomHalf(BuildContext context) {
+   return Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Container(
             height: Screen.height(context, percentage: 37.0),
@@ -81,26 +125,6 @@ class QuizResult extends StatelessWidget {
               ],
             ),
           ),
-        )
-      ],
-    )
-        ],
-      ),
-      backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: BottomBackButton(),
-    );
-  }
-
-  setMessage() {
-    if (score == outOf) {
-      return "Congratulations, you got every question correct!";
-    } else if (((score / outOf) * 100) >= 50) {
-      return "Almost there, keep up the good work!";
-    } else if (((score / outOf) * 100) >= 0 && ((score / outOf) * 100) <= 49) {
-      return "You are improving, keep up the good work!";
-    } else {
-      return "You can do better, keep trying!";
-    }
+        );
   }
 }
-
