@@ -67,7 +67,7 @@ class QuizResult extends StatelessWidget {
           child: Text(
             name,
             style: TextStyle(
-              fontSize: Screen.width(context) <= 350 ? 30 : 60,
+              fontSize: Screen.width(context) <= 350 ? 40 : 60,
               color: Colors.white,
             ),
             textAlign: TextAlign.center,
@@ -75,7 +75,7 @@ class QuizResult extends StatelessWidget {
         ),
         Body(
           "Quiz Completed!",
-          size: Screen.width(context) >= 600 ? 30 : 0,
+          size: Screen.width(context) >= 600 ? 40 : 0,
         ),
         SizedBox(
           height: Screen.height(context, percentage: 5.0),
@@ -99,7 +99,7 @@ class QuizResult extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 20.0),
                 child: Body(
                   "Your score:",
-                  size: Screen.width(context) >= 600 ? 30 : 0,
+                  size: Screen.width(context) >= 600 ? 50 : 0,
                 )),
             Heading(
               "$score/$outOf",
@@ -108,14 +108,15 @@ class QuizResult extends StatelessWidget {
             isHighscore
                 ? Body(
                     "New Highscore!",
-                    size: Screen.width(context) >= 600 ? 30 : 0,
+                    size: Screen.width(context) >= 600 ? 50 : 0,
                   )
                 : Container(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Screen.width(context) >= 600
-                  ? Heading(setMessage())
-                  : Body(setMessage()),
+              child:Body(
+                    setMessage(),
+                    size: Screen.width(context) >= 600 ? 40 : 0,
+                  )
             ),
           ],
         ),
