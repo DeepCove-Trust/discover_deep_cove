@@ -88,19 +88,21 @@ class QuizResult extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: Screen.isPortrait(context) ? 0 : 8.0),
       child: Container(
-        height: Screen.height(context, percentage: 37.0),
+        height: Screen.height(context,
+            percentage: Screen.width(context) >= 600 ? 45.0 : 37.5),
         width: Screen.width(context,
-            percentage: Screen.width(context) >= 600 ? 70 : 100),
+            percentage: Screen.width(context) >= 600 ? 75 : 100),
         color: Theme.of(context).primaryColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                child: Body(
-                  "Your score:",
-                  size: Screen.width(context) >= 600 ? 50 : 0,
-                )),
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Body(
+                "Your score:",
+                size: Screen.width(context) >= 600 ? 40 : 0,
+              ),
+            ),
             Heading(
               "$score/$outOf",
               size: Screen.width(context) <= 350 ? 40 : 100,
@@ -108,15 +110,15 @@ class QuizResult extends StatelessWidget {
             isHighscore
                 ? Body(
                     "New Highscore!",
-                    size: Screen.width(context) >= 600 ? 50 : 0,
+                    size: Screen.width(context) >= 600 ? 40 : 0,
                   )
                 : Container(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child:Body(
-                    setMessage(),
-                    size: Screen.width(context) >= 600 ? 40 : 0,
-                  )
+              child: Body(
+                setMessage(),
+                size: Screen.width(context) >= 600 ? 40 : 0,
+              ),
             ),
           ],
         ),
