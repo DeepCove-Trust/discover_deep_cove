@@ -18,9 +18,9 @@ class SettingsButton extends StatelessWidget {
             vertical: Screen.height(context, percentage: 5), horizontal: 12),
         child: Row(
           mainAxisAlignment:
-              Screen.width(context) >= 600 && Screen.isPortrait(context)
-                  ? MainAxisAlignment.spaceEvenly
-                  : MainAxisAlignment.center,
+              !Screen.isPortrait(context)
+                  ? MainAxisAlignment.center
+                  : MainAxisAlignment.spaceEvenly,
           children: [
             Transform.scale(
               scale: 1.5, // Todo: Is this different to setting icon size?
