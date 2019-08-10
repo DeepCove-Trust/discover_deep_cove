@@ -1,6 +1,7 @@
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
 
 class QuizResult extends StatelessWidget {
@@ -19,67 +20,7 @@ class QuizResult extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-                child: Text(
-                  name,
-                  style: TextStyle(
-                    fontSize: Screen.width(context) <= 350 ? 40 : 60,
-                    color: Colors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Body(
-                "Quiz Completed!",
-                
-              ),
-              SizedBox(
-                height: Screen.height(context, percentage: 5.0),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Container(
-                  height: Screen.height(context, percentage: 37.0),
-                  width: Screen.width(context),
-                  color: Theme.of(context).primaryColor,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
-                        child: Body(
-                          "Your Score:",
-                        ),
-                      ),
-                      Text(
-                        "$score/$outOf",
-                        style: TextStyle(
-                          fontSize: Screen.width(context) <= 350 ? 40 : 60,
-                          color: Colors.white,
-                        ),
-                      ),
-                      isHighscore
-                          ? Body(
-                              "New Highscore!",
-                            )
-                          : Container(),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Body(
-                          setMessage(),
-                          
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+          buildContent(context),
         ],
       ),
       backgroundColor: Theme.of(context).backgroundColor,
@@ -97,5 +38,91 @@ class QuizResult extends StatelessWidget {
     } else {
       return "You can do better, keep trying!";
     }
+  }
+
+  buildContent(BuildContext context) {
+    return (Screen.width(context) >= 600 && !Screen.isPortrait(context))
+        ? GridView.count(
+            crossAxisCount: 2,
+            children: [
+              getTopHalf(context),
+              getBottomHalf(context),
+            ],
+          )
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              getTopHalf(context),
+              getBottomHalf(context),
+            ],
+          );
+  }
+
+  getTopHalf(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+          child: Text(
+            name,
+            style: TextStyle(
+              fontSize: Screen.width(context) <= 350 ? 40 : 60,
+              color: Colors.white,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Body(
+          "Quiz Completed!",
+          size: Screen.width(context) >= 600 ? 40 : 0,
+        ),
+        SizedBox(
+          height: Screen.height(context, percentage: 5.0),
+        ),
+      ],
+    );
+  }
+
+  getBottomHalf(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: Screen.isPortrait(context) ? 0 : 8.0),
+      child: Container(
+        height: Screen.height(context,
+            percentage: Screen.width(context) >= 600 ? 45.0 : 37.5),
+        width: Screen.width(context,
+            percentage: Screen.width(context) >= 600 ? 75 : 100),
+        color: Theme.of(context).primaryColor,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Body(
+                "Your score:",
+                size: Screen.width(context) >= 600 ? 40 : 0,
+              ),
+            ),
+            Heading(
+              "$score/$outOf",
+              size: Screen.width(context) <= 350 ? 40 : 100,
+            ),
+            isHighscore
+                ? Body(
+                    "New Highscore!",
+                    size: Screen.width(context) >= 600 ? 40 : 0,
+                  )
+                : Container(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Body(
+                setMessage(),
+                size: Screen.width(context) >= 600 ? 40 : 0,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
