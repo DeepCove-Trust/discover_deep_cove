@@ -9,29 +9,30 @@ class LoadingModalOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Opacity(
-          opacity: 0.9,
-          child: const ModalBarrier(
-            dismissible: false,
-            color: Colors.black,
+    return Scaffold(
+          body: Stack(
+        children: <Widget>[
+          Opacity(
+            opacity: 0.9,
+            child: const ModalBarrier(
+              dismissible: false,
+              color: Colors.black,
+            ),
           ),
-        ),
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              icon ?? CircularProgressIndicator(),
-              SizedBox(height: 50),
-              Body(
-                loadingMessage,
-                
-              ),
-            ],
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                icon ?? CircularProgressIndicator(),
+                SizedBox(height: 50),
+                Body(
+                  loadingMessage,
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
