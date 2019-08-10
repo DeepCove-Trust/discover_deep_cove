@@ -1,7 +1,8 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
-import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/fact_file/editAnswer.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -46,7 +47,7 @@ class _CountActivityViewState extends State<CountActivityView> {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: widget.isReview
-                  ? BodyText(
+                  ? Body(
                       "You Counted:",
                     )
                   : SizedBox(
@@ -66,10 +67,10 @@ class _CountActivityViewState extends State<CountActivityView> {
                       children: <Widget>[
                         Text(
                           widget.activity.userCount.toString(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline
-                              .copyWith(fontSize: 60),
+                          style: TextStyle(
+                            fontSize: Screen.width(context) <= 350 ? 40 : 60,
+                            color: Colors.white,
+                          ),
                         ),
                       ],
                     ),
@@ -100,10 +101,10 @@ class _CountActivityViewState extends State<CountActivityView> {
                         ),
                         Text(
                           count.toString(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline
-                              .copyWith(fontSize: 60),
+                          style: TextStyle(
+                            fontSize: Screen.width(context) <= 350 ? 40 : 60,
+                            color: Colors.white,
+                          ),
                         ),
                         Transform.scale(
                           scale: 1.5,
@@ -128,12 +129,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                 ? Padding(
                     padding: const EdgeInsets.only(
                         left: 20.0, right: 20.0, top: 40.0),
-                    child: Text(
-                      "To edit your answer, re-scan the QR code.",
-                      style: Theme.of(context).textTheme.body1.copyWith(
-                            color: Color(0xFF777777),
-                          ),
-                    ),
+                    child: EditAnswer(),
                   )
                 : Container(),
             Expanded(child: Container()),
@@ -153,7 +149,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
-                            child: BodyText('Pass'),
+                            child: Body('Pass'),
                           ),
                         ),
                         Padding(
@@ -164,7 +160,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
-                            child: BodyText(
+                            child: Body(
                               "Save",
                             ),
                           ),

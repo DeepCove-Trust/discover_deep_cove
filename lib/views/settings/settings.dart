@@ -18,46 +18,34 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: Stack(
-        children: _buildPage(),
+      body: ListView(
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              SettingsButton(
+                iconData: FontAwesomeIcons.undo,
+                text: "Reset Progress",
+                onTap: null,
+              ),
+              Divider(color: Color(0xFF777777), height: 1),
+              SettingsButton(
+                iconData: FontAwesomeIcons.sync,
+                text: "Check for updates",
+                onTap: syncResources,
+              ),
+              Divider(color: Color(0xFF777777), height: 1),
+              SettingsButton(
+                iconData: FontAwesomeIcons.infoCircle,
+                text: "About this app",
+                onTap: () {
+                  Navigator.of(context).pushNamed('/about');
+                },
+              ),
+            ],
+          )
+        ],
       ),
     );
-  }
-
-  List<Widget> _buildPage() {
-    List<Widget> widgets = List<Widget>();
-
-    Column content = Column(
-      children: <Widget>[
-        SizedBox(
-          height: 20,
-        ),
-        SettingsButton(
-          iconData: FontAwesomeIcons.undo,
-          text: "Reset Progress",
-          onTap: null,
-        ),
-        Divider(color: Color(0xFF777777), height: 1),
-        SettingsButton(
-          iconData: FontAwesomeIcons.sync,
-          text: "Check for updates",
-          onTap: syncResources,
-        ),
-        Divider(color: Color(0xFF777777), height: 1),
-        SettingsButton(
-          iconData: FontAwesomeIcons.infoCircle,
-          text: "About this app",
-          onTap: () {
-            Navigator.of(context).pushNamed('/about');
-          },
-        ),
-        Divider(color: Color(0xFF777777), height: 1),
-      ],
-    );
-
-    widgets.add(content);
-
-    return widgets;
   }
 
   void syncResources() async {

@@ -6,7 +6,8 @@ import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
-import 'package:discover_deep_cove/widgets/misc/body_text.dart';
+import 'package:discover_deep_cove/widgets/fact_file/editAnswer.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
 import 'package:flutter/material.dart';
@@ -104,7 +105,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
           widget.isReview
               ? Column(
                   children: <Widget>[
-                    BodyText(
+                    Body(
                       "Your photo:",
                     ),
                     Padding(
@@ -136,9 +137,8 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                           switch (snapshot.connectionState) {
                             case ConnectionState.none:
                             case ConnectionState.waiting:
-                              return BodyText(
+                              return Body(
                                 'You have not taken a photo yet.',
-                                align: TextAlign.center,
                               );
                             case ConnectionState.done:
                               return _previewImage();
@@ -149,7 +149,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                                   textAlign: TextAlign.center,
                                 );
                               } else {
-                                return BodyText(
+                                return Body(
                                   'You have not taken a photo yet.',
                                   align: TextAlign.center,
                                 );
@@ -164,12 +164,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
           widget.isReview
               ? Padding(
                   padding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 0.0),
-                  child: Text(
-                    "To edit your answer, re-scan the QR code.",
-                    style: Theme.of(context).textTheme.body1.copyWith(
-                          color: Color(0xFF777777),
-                        ),
-                  ),
+                  child: EditAnswer(),
                 )
               : Container(),
           Expanded(child: Container()),
@@ -191,7 +186,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
                           ),
-                          child: BodyText(
+                          child: Body(
                             "Pass",
                           ),
                         ),
@@ -210,7 +205,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
                           ),
-                          child: BodyText(
+                          child: Body(
                             "Save",
                           ),
                         ),

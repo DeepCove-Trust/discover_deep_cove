@@ -1,4 +1,4 @@
-import 'package:discover_deep_cove/widgets/misc/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
 
 class ActivityAppBar extends StatelessWidget with PreferredSizeWidget{
