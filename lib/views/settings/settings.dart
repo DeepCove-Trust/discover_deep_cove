@@ -78,7 +78,7 @@ class _SettingsState extends State<Settings> {
             loadingMessage: 'Downloading updates.\n\nPlease wait...');
       }
 
-      wasSuccess = await SyncProvider.syncResources(updates);
+      wasSuccess = await SyncProvider.syncResources();
     } catch (ex) {
       print(ex.toString());
       await displayError();

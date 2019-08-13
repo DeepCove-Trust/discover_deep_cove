@@ -23,7 +23,7 @@ void main() async {
       child: MaterialApp(
         title: Env.appName,
         theme: appTheme(),
-        initialRoute: '/',
+        initialRoute: '/splash',
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
     ),

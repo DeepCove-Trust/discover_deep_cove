@@ -329,7 +329,7 @@ class SyncProvider {
   /// Current implementation will result in the loss of any user data
   /// (activity inputs, answers, scores, etc) if a newer version of the
   /// activity/quiz is available.
-  static Future<bool> syncResources(Map<String, bool> updatesAvailable) async {
+  static Future<bool> syncResources() async {
     print('Syncing application resources with CMS server...');
 
     if (!await Permissions.ensurePermission(PermissionGroup.storage)) {
