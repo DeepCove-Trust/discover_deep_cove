@@ -26,6 +26,7 @@ class About extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: setXPadding(context),
+                  ),
                   child: Body(
                     "The Deep Cove Outdoor Education Trust is a non-profit "
                     "organisation that was established in 1971. The Deep Cove Hostel "
@@ -45,6 +46,7 @@ class About extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: setXPadding(context),
+                  ),
                   child: Body(
                     "The trust and developers would like to give a special thank you to "
                     "the Department of Conservation and the Te Reo Department of SIT for "
@@ -65,6 +67,7 @@ class About extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: setXPadding(context),
+                  ),
                   child: Body(
                     "This app was developed by Mitchell Quarrie,"
                     " Samuel Jackson and Samuel Grant",
