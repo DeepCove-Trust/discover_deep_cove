@@ -41,7 +41,7 @@ class QuizResult extends StatelessWidget {
   }
 
   buildContent(BuildContext context) {
-    return (Screen.width(context) >= 600 && !Screen.isPortrait(context))
+    return (Screen.isTablet(context) && !Screen.isPortrait(context))
         ? GridView.count(
             crossAxisCount: 2,
             children: [
@@ -75,7 +75,7 @@ class QuizResult extends StatelessWidget {
         ),
         Body(
           "Quiz Completed!",
-          size: Screen.width(context) >= 600 ? 40 : 0,
+          size: Screen.isTablet(context) ? 40 : 0,
         ),
         SizedBox(
           height: Screen.height(context, percentage: 5.0),
@@ -89,9 +89,9 @@ class QuizResult extends StatelessWidget {
       padding: EdgeInsets.only(top: Screen.isPortrait(context) ? 0 : 8.0),
       child: Container(
         height: Screen.height(context,
-            percentage: Screen.width(context) >= 600 ? 45.0 : 37.5),
+            percentage: Screen.isTablet(context) ? 45.0 : 37.5),
         width: Screen.width(context,
-            percentage: Screen.width(context) >= 600 ? 75 : 100),
+            percentage: Screen.isTablet(context) ? 75 : 100),
         color: Theme.of(context).primaryColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +100,7 @@ class QuizResult extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Body(
                 "Your score:",
-                size: Screen.width(context) >= 600 ? 40 : 0,
+                size: Screen.isTablet(context) ? 40 : 0,
               ),
             ),
             Heading(
@@ -110,14 +110,14 @@ class QuizResult extends StatelessWidget {
             isHighscore
                 ? Body(
                     "New Highscore!",
-                    size: Screen.width(context) >= 600 ? 40 : 0,
+                    size: Screen.isTablet(context) ? 40 : 0,
                   )
                 : Container(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Body(
                 setMessage(),
-                size: Screen.width(context) >= 600 ? 40 : 0,
+                size: Screen.isTablet(context) ? 40 : 0,
               ),
             ),
           ],

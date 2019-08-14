@@ -71,7 +71,7 @@ class _QuizIndexState extends State<QuizIndex> {
             ? GridView.count(
                 mainAxisSpacing: Screen.width(context, percentage: 2.5),
                 crossAxisSpacing: Screen.width(context, percentage: 2.5),
-                crossAxisCount: (Screen.width(context) >= 600
+                crossAxisCount: (Screen.isTablet(context)
                     ? Screen.isPortrait(context) ? 2 : 3
                     : 1),
                 padding: EdgeInsets.all(

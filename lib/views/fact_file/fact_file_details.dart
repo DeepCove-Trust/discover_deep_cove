@@ -35,7 +35,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
   }
 
   buildContent() {
-    return (Screen.width(context) >= 600 && !Screen.isPortrait(context))
+    return (Screen.isTablet(context) && !Screen.isPortrait(context))
         ? GridView.count(
             crossAxisCount: 2,
             children: [
@@ -115,7 +115,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                         context,
                         percentage: Screen.width(context) <= 350
                             ? 80
-                            : Screen.width(context) >= 600 &&
+                            : Screen.isTablet(context) &&
                                     !Screen.isPortrait(context)
                                 ? 45
                                 : 88.75,
@@ -147,7 +147,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                         context,
                         percentage: Screen.width(context) <= 350
                             ? 80
-                            : Screen.width(context) >= 600 &&
+                            : Screen.isTablet(context) &&
                                     !Screen.isPortrait(context)
                                 ? 45
                                 : 88.75,
