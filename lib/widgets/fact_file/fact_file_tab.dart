@@ -53,7 +53,7 @@ class _FactFileTabState extends State<FactFileTab> {
   }
 
   handleTap(FactFileEntry entry) {
-    Navigator.of(context).pushReplacementNamed(
+    Navigator.of(context).pushNamed(
       '/factFileDetails',
       arguments: entry,
     );
