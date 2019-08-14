@@ -29,7 +29,7 @@ class _QuizIndexState extends State<QuizIndex> {
 
   @override
   Widget build(BuildContext context) {
-    Screen.setOrientations(context);
+    
 
     return Scaffold(
       appBar: AppBar(

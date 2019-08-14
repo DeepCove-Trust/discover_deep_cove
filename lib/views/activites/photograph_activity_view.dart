@@ -150,8 +150,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                                 );
                               } else {
                                 return Body(
-                                  'You have not taken a photo yet.',
-                                  align: TextAlign.center,
+                                  'You have not taken a photo yet.'
                                 );
                               }
                           }

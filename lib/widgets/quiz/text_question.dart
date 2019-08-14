@@ -34,7 +34,7 @@ class _TextQuestionState extends State<TextQuestion> {
   Widget buildAudioButton() {
     return OutlineButton.icon(
       onPressed: () => playAudio(),
-      label: Body('Listen', align: TextAlign.center),
+      label: Body('Listen'),
       borderSide: BorderSide(color: Colors.white, width: 0.5),
       icon: Icon(FontAwesomeIcons.music, color: Colors.white),
     );
