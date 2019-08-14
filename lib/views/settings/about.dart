@@ -28,48 +28,41 @@ class About extends StatelessWidget {
                     horizontal: setXPadding(context),
                   ),
                   child: Body(
-                    "The Deep Cove Outdoor Education Trust is a non profit "
-                    "organisation that was established in 1971. The Deep Cove Hostel"
-                    " is a 50 bed building and was established for the purpose of "
-                    "enabling school aged children a unique opportunity to experience"
-                    " life in a remote part of the Fiordland National Park.",
+                    "The Deep Cove Outdoor Education Trust is a non-profit "
+                    "organisation that was established in 1971. The Deep Cove Hostel "
+                    "is a 50 bed building, and was established for the purpose of "
+                    "enabling school aged children a unique opportunity to experience "
+                    "life in a remote part of Fiordland National Park.",
+                    align: TextAlign.left,
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     vertical: setYPadding(context),
                   ),
-                  child: Heading(
-                    "Special thanks",
-                  ),
+                  child: Heading("Special thanks"),
                 ),
+                // Todo: Sort out the special thanks section
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: setXPadding(context),
                   ),
                   child: Body(
-                    "The trust and developers would like to give a special thank you to"
-                    " serveral people who helped make this app a reality"
-                    "The Southern Insitute Te Reo department provide maori pronuciations "
-                    "audio for the native bird calls was sourced from the Department of"
-                    " Conservation",
+                    "The trust and developers would like to give a special thank you to "
+                    "the Department of Conservation and the Te Reo Department of SIT for "
+                    "providing information and recordings used within this app.",
+                    align: TextAlign.left,
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 20,
-                  ),
-                  child: Body(
-                    "https://www.doc.govt.nz",
-                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 20),                  
+                  child: Body("https://www.doc.govt.nz"),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     vertical: setYPadding(context),
                   ),
-                  child: Heading(
-                    "Developers",
-                  ),
+                  child: Heading("Developers"),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
@@ -78,6 +71,7 @@ class About extends StatelessWidget {
                   child: Body(
                     "This app was developed by Mitchell Quarrie,"
                     " Samuel Jackson and Samuel Grant",
+                    align: TextAlign.left,
                   ),
                 ),
               ],

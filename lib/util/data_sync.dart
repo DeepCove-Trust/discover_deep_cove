@@ -55,7 +55,8 @@ class SyncProvider {
   static Future<http.Response> _requestFile() async {
     http.Response response = await http.get(Env.filesSyncUrl);
     if (response.statusCode != 200) {
-      throw Exception('API error ${response.statusCode}'); // TODO: make this better
+      throw Exception(
+          'API error ${response.statusCode}'); // TODO: make this better
     }
     return response;
   }
@@ -329,7 +330,7 @@ class SyncProvider {
   /// Current implementation will result in the loss of any user data
   /// (activity inputs, answers, scores, etc) if a newer version of the
   /// activity/quiz is available.
-  static Future<bool> syncResources(Map<String, bool> updatesAvailable) async {
+  static Future<bool> syncResources() async {
     print('Syncing application resources with CMS server...');
 
     if (!await Permissions.ensurePermission(PermissionGroup.storage)) {
@@ -337,22 +338,27 @@ class SyncProvider {
       return false;
     }
 
-    Map<String, bool> updatesAvailable = await updatedDataAvailable();
+    Map<String, bool> updatesAvailable;
     Map<String, dynamic> data;
     File payload;
 
-    if (updatesAvailable['data']) {
-      data = await _downloadData();
-      if (data == null) return false;
-    } else {
-      print('Application database up to date!');
-    }
+    try {
+      updatesAvailable = await updatedDataAvailable();
+      if (updatesAvailable['data']) {
+        data = await _downloadData();
+        if (data == null) return false;
+      } else {
+        print('Application database up to date!');
+      }
 
-    if (updatesAvailable['files']) {
-      payload = await _downloadZipFile();
-      if (payload == null) return false;
-    } else {
-      print('Application media files up to date!');
+      if (updatesAvailable['files']) {
+        payload = await _downloadZipFile();
+        if (payload == null) return false;
+      } else {
+        print('Application media files up to date!');
+      }
+    } catch (ex) {
+      return false;
     }
 
     // Removing existing files and extracting zip in its place.

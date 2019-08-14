@@ -13,6 +13,7 @@ import 'package:discover_deep_cove/views/home.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_unlock.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_view.dart';
 import 'package:discover_deep_cove/views/settings/about.dart';
+import 'package:discover_deep_cove/views/splash.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -21,9 +22,10 @@ class RouteGenerator {
 
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(
-          builder: (_) => Home(),
-        );
+        return MaterialPageRoute(builder: (_) => Home());
+
+      case '/splash':
+        return MaterialPageRoute(builder: (_) => Splash());
 
       case '/about':
         return MaterialPageRoute(builder: (_) => About());
@@ -45,7 +47,9 @@ class RouteGenerator {
       case '/quizUnlock':
         if (args is VoidCallback) {
           return MaterialPageRoute(
-            builder: (_) => QuizUnlock(refreshCallback: args,),
+            builder: (_) => QuizUnlock(
+              refreshCallback: args,
+            ),
           );
         }
         return _errorRoute();
@@ -65,14 +69,12 @@ class RouteGenerator {
       case '/activity':
         ActivityScreenArgs aArgs = args as ActivityScreenArgs;
         if (aArgs != null) {
-          if (aArgs.activity.activityType ==
-              ActivityType.countActivity) {
+          if (aArgs.activity.activityType == ActivityType.countActivity) {
             return MaterialPageRoute(
                 builder: (_) => CountActivityView(
                     activity: aArgs.activity, isReview: aArgs.isReview));
           }
-          if (aArgs.activity.activityType ==
-              ActivityType.photographActivity) {
+          if (aArgs.activity.activityType == ActivityType.photographActivity) {
             return MaterialPageRoute(
                 builder: (_) => PhotographActivityView(
                     activity: aArgs.activity, isReview: aArgs.isReview));
@@ -83,14 +85,12 @@ class RouteGenerator {
                 builder: (_) => PictureSelectActivityView(
                     activity: aArgs.activity, isReview: aArgs.isReview));
           }
-          if (aArgs.activity.activityType ==
-              ActivityType.pictureTapActivity) {
+          if (aArgs.activity.activityType == ActivityType.pictureTapActivity) {
             return MaterialPageRoute(
                 builder: (_) => PictureTapActivityView(
                     activity: aArgs.activity, isReview: aArgs.isReview));
           }
-          if (aArgs.activity.activityType ==
-              ActivityType.textAnswerActivity) {
+          if (aArgs.activity.activityType == ActivityType.textAnswerActivity) {
             return MaterialPageRoute(
                 builder: (_) => TextAnswerActivityView(
                     activity: aArgs.activity, isReview: aArgs.isReview));
