@@ -102,7 +102,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
   }
 
   buildContent() {
-    return (Screen.width(context) >= 600 && !Screen.isPortrait(context))
+    return (Screen.isTablet(context) && !Screen.isPortrait(context))
         ? GridView.count(
             crossAxisCount: 2,
             children: [
@@ -129,7 +129,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
           height: Screen.height(context,
               percentage: Screen.width(context) <= 350
                   ? 5
-                  : Screen.width(context) >= 600 && Screen.isPortrait(context)
+                  : Screen.isTablet(context) && Screen.isPortrait(context)
                       ? 8
                       : 5),
         ),
@@ -208,7 +208,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: Screen.width(context) >= 600 ? 28.0 : 8.0,
+            horizontal: Screen.isTablet(context) ? 28.0 : 8.0,
             vertical: Screen.width(context,
                 percentage: Screen.width(context) <= 350 ? 2 : 5),
           ),
@@ -228,13 +228,13 @@ class _QuizUnlockState extends State<QuizUnlock> {
                   ),
                 ),
                 Transform.scale(
-                  scale: Screen.width(context) >= 600 ? 1.25 : 1,
+                  scale: Screen.isTablet(context) ? 1.25 : 1,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
                     child: Container(
                       width: Screen.width(
                         context,
-                        percentage: Screen.width(context) >= 600 ? 30 : 62.5,
+                        percentage: Screen.isTablet(context) ? 30 : 62.5,
                       ),
                       color: Colors.white,
                       child: TextField(

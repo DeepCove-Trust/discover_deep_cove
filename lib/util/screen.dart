@@ -11,7 +11,7 @@ class Screen {
   static Orientation orientation(BuildContext context) =>
       MediaQuery.of(context).orientation;
 
-  static setOrientations(BuildContext context) => Screen.width(context) >= 600
+  static setOrientations(BuildContext context) => Screen.isTablet(context)
       ? SystemChrome.setPreferredOrientations([
           DeviceOrientation.portraitUp,
           DeviceOrientation.landscapeLeft,
@@ -21,4 +21,7 @@ class Screen {
 
   static bool isPortrait(BuildContext context) =>
       Screen.orientation(context) == Orientation.portrait;
+
+  static bool isTablet(BuildContext context) =>
+      Screen.isTablet(context);
 }
