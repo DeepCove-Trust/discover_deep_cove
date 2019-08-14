@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/util/data_sync.dart';
+import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/widgets/settings/settings_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -18,46 +19,35 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: Stack(
-        children: _buildPage(),
+      body: ListView(
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              SettingsButton(
+                iconData: FontAwesomeIcons.undo,
+                text: "Reset Progress",
+                onTap: null,
+              ),
+              Divider(color: HexColor("FF777777"), height: 1),
+              SettingsButton(
+                iconData: FontAwesomeIcons.sync,
+                text: "Check for updates",
+                onTap: syncResources,
+              ),
+              Divider(color: HexColor("FF777777"), height: 1),
+              SettingsButton(
+                iconData: FontAwesomeIcons.infoCircle,
+                text: "About this app",
+                onTap: () {
+                  Navigator.of(context).pushNamed('/about');
+                },
+              ),
+              Divider(color: HexColor("FF777777"), height: 1),
+            ],
+          )
+        ],
       ),
     );
-  }
-
-  List<Widget> _buildPage() {
-    List<Widget> widgets = List<Widget>();
-
-    Column content = Column(
-      children: <Widget>[
-        SizedBox(
-          height: 20,
-        ),
-        SettingsButton(
-          iconData: FontAwesomeIcons.undo,
-          text: "Reset Progress",
-          onTap: null,
-        ),
-        Divider(color: Color(0xFF777777), height: 1),
-        SettingsButton(
-          iconData: FontAwesomeIcons.sync,
-          text: "Check for updates",
-          onTap: syncResources,
-        ),
-        Divider(color: Color(0xFF777777), height: 1),
-        SettingsButton(
-          iconData: FontAwesomeIcons.infoCircle,
-          text: "About this app",
-          onTap: () {
-            Navigator.of(context).pushNamed('/about');
-          },
-        ),
-        Divider(color: Color(0xFF777777), height: 1),
-      ],
-    );
-
-    widgets.add(content);
-
-    return widgets;
   }
 
   void syncResources() async {

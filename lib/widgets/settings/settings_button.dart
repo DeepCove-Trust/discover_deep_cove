@@ -1,5 +1,5 @@
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/sub_heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 
 class SettingsButton extends StatelessWidget {
@@ -14,17 +14,24 @@ class SettingsButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 50, horizontal: 12),
+        padding: EdgeInsets.symmetric(
+            vertical: Screen.height(context, percentage: 5), horizontal: 12),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: !Screen.isPortrait(context)
+              ? MainAxisAlignment.center
+              : MainAxisAlignment.spaceEvenly,
           children: [
             Transform.scale(
               scale: 1.5, // Todo: Is this different to setting icon size?
               child: Icon(iconData, color: Colors.white),
             ),
             Container(
-              width: Screen.width(context, percentage: 60),
-              child: SubHeading(text, align: TextAlign.center),
+              width: Screen.width(context,
+                  percentage:
+                      Screen.width(context) >= 600 && Screen.isPortrait(context)
+                          ? 60
+                          : 30),
+              child: SubHeading(text),
             )
           ],
         ),

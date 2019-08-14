@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
 
 class Tile extends StatelessWidget {
@@ -48,14 +48,14 @@ class Tile extends StatelessWidget {
                   children: [
                     Heading(
                        title,
-                      align: TextAlign.center,
+                      
                     ),
                     if (subheading != null)
                       SizedBox(height: 10), //
                     if (subheading != null)
-                      BodyText(
+                      Body(
                          subheading,
-                        align: TextAlign.center,
+                        
                       ),
                   ],
                 ),

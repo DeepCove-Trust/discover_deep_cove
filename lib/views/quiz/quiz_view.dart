@@ -1,7 +1,9 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_result.dart';
-import 'package:discover_deep_cove/widgets/misc/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/correct_wrong_overlay.dart';
 import 'package:discover_deep_cove/widgets/quiz/image_question.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_image_button.dart';
@@ -72,14 +74,16 @@ class QuizViewState extends State<QuizView> {
       appBar: questionIndex < widget.quiz.questions.length
           ? AppBar(
               brightness: Brightness.dark,
-              title: Heading(widget.quiz.title),
+              title: Screen.width(context) <= 600 ? SubHeading(widget.quiz.title) : Heading(widget.quiz.title),
               centerTitle: true,
               leading: Container(),
               actions: [
-                Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: Heading(
-                    '${questionIndex + 1}/${widget.quiz.questions.length}',
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: SubHeading(
+                      '${questionIndex + 1}/${widget.quiz.questions.length}',
+                    ),
                   ),
                 )
               ],
