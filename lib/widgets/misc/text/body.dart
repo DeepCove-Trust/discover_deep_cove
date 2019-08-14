@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 class Body extends StatelessWidget {
   final String text;
   final TextAlign align;
+  final double size;
 
   ///Returns a custom [Text] widget for accessing body1 theme
   ///and has an optional alignment property.
-  Body(this.text, {this.align = TextAlign.center});
+  Body(this.text, {this.align = TextAlign.center, this.size = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class Body extends StatelessWidget {
       text,
       overflow: TextOverflow.fade,
       style: TextStyle(
-        fontSize: Screen.width(context) <= 350 ? 16 : 20,
+        fontSize: size == 0 ? Screen.width(context) <= 350 ? 16 : 20 : size,
         color: Colors.white,
       ),
       textAlign: align,
