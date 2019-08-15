@@ -52,7 +52,10 @@ class _TextQuestionState extends State<TextQuestion> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: FileImage(
-                        File(Env.getResourcePath(widget.question.image.path))),
+                      File(
+                        Env.getResourcePath(widget.question.image.path),
+                      ),
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),
