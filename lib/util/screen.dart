@@ -23,5 +23,5 @@ class Screen {
       Screen.orientation(context) == Orientation.portrait;
 
   static bool isTablet(BuildContext context) =>
-      Screen.isTablet(context);
+      MediaQuery.of(context).size.width >= 600;
 }
