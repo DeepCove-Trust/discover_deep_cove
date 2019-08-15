@@ -21,7 +21,7 @@ class CountActivityView extends StatefulWidget {
 }
 
 class _CountActivityViewState extends State<CountActivityView> {
-  int count = 1;
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
