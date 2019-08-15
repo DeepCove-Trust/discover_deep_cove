@@ -39,12 +39,57 @@ class _TextQuestionState extends State<TextQuestion> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  buildContent() {
+    return (Screen.isTablet(context) && !Screen.isPortrait(context))
+        ? GridView.count(
+            crossAxisCount: 2,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  questionComponent(),
+                ],
+              ),
+              //questionComponent(),
+              //answerComponent(),
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  answerComponent(),
+                ],
+              ),
+            ],
+          )
+        : Column(
+            children: <Widget>[
+              questionComponent(),
+              answerComponent(),
+            ],
+          );
+  }
+
+  answerComponent() {
+    return Expanded(
+      child: Container(
+        color: Theme.of(context).backgroundColor,
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CustomGrid(children: widget.answers),
+          ],
+        ),
+      ),
+    );
+  }
+
+  questionComponent() {
     return Column(
-      children: [
+      children: <Widget>[
         Container(
-          height: Screen.height(context, percentage: 50),
+          height: Screen.height(context,
+              percentage: !Screen.isPortrait(context) ? 80 : 50),
           child: Stack(
             children: [
               Container(
@@ -79,19 +124,12 @@ class _TextQuestionState extends State<TextQuestion> {
             ],
           ),
         ),
-        Expanded(
-          child: Container(
-            color: Theme.of(context).backgroundColor,
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CustomGrid(children: widget.answers),
-              ],
-            ),
-          ),
-        )
       ],
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return buildContent();
   }
 }
