@@ -21,7 +21,7 @@ class CountActivityView extends StatefulWidget {
 }
 
 class _CountActivityViewState extends State<CountActivityView> {
-  int count = 1;
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +31,14 @@ class _CountActivityViewState extends State<CountActivityView> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
-              child: Text(widget.activity.description),
+              child: Body(widget.activity.description),
             ),
             SizedBox(
               height: Screen.height(context, percentage: 10.0),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
-              child: Text(widget.activity.task),
+              child: Body(widget.activity.task),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
