@@ -133,8 +133,6 @@ class _TextQuestionState extends State<TextQuestion> {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
       height = constraints.maxHeight;
-      print(height);
-      print(MediaQuery.of(context).size.height);
         return Scaffold(
           body: buildContent(),
           //backgroundColor: Theme.of(context).backgroundColor,
