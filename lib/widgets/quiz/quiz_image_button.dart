@@ -17,16 +17,15 @@ class QuizImageButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: Screen.width(context, percentage: 45),
-        height: Screen.height(context, percentage: 23.5),
+        height: Screen.width(context, percentage: 45),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
           child: Container(
             decoration: BoxDecoration(
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                    color: Colors.black,
-                    offset: Offset(2.5, 2.5),
-                    blurRadius: 5.0),
+                  color: Colors.black,
+                ),
               ],
             ),
             child: Stack(
