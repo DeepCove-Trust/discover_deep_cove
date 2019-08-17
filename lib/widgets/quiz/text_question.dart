@@ -109,12 +109,12 @@ class _TextQuestionState extends State<TextQuestion> {
                 children: [
                   Container(
                     color: Color.fromARGB(190, 0, 0, 0),
-                    height: Screen.height(context, percentage: 12),
+                    height: Screen.height(context, percentage: Screen.isTablet(context) ? 10 : 15),
                     width: Screen.width(context),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SubHeading(widget.question.text),
+                        SubHeading(widget.question.text, size: Screen.isTablet(context) ? 30 : 0,),
                         if (hasAudio) buildAudioButton(),
                       ],
                     ),
