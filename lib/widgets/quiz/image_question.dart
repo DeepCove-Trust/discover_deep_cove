@@ -45,7 +45,7 @@ class _ImageQuestionState extends State<ImageQuestion> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top: 80.0, bottom: 25),
+                padding:  EdgeInsets.only(top:  Screen.height(context, percentage: 5), bottom:  Screen.height(context, percentage: 3)),
                 child: Container(
                   color: Color.fromARGB(190, 0, 0, 0),
                   height: Screen.height(context, percentage: 20),
@@ -55,7 +55,7 @@ class _ImageQuestionState extends State<ImageQuestion> {
                     children: [
                       SubHeading(widget.question.text),
                       if(hasAudio) Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
+                        padding: EdgeInsets.only(top:  Screen.height(context, percentage: 2)),
                         child: buildAudioButton(),
                       ),
                     ],
