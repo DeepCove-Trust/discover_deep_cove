@@ -45,20 +45,24 @@ class QuizImageButton extends StatelessWidget {
                         children: <Widget>[
                           Container(
                             color: Color.fromARGB(190, 0, 0, 0),
-                            height:
-                                Screen.height(context, percentage: 5),
+                            height: Screen.height(context, percentage: 5),
                             width: Screen.width(context),
                             child: Center(
                               child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: Text(
-                                    text,
-                                    style: Theme.of(context).textTheme.body1,
-                                    softWrap: false,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  )),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Text(
+                                  text,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: Screen.width(context) <= 350
+                                          ? 16
+                                          : 20),
+                                  softWrap: false,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                ),
+                              ),
                             ),
                           ),
                         ],
