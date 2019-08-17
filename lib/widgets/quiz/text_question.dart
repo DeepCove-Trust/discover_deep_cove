@@ -24,6 +24,7 @@ class TextQuestion extends StatefulWidget {
 
 class _TextQuestionState extends State<TextQuestion> {
   AudioPlayer player = AudioPlayer();
+  double height;
 
   bool get hasAudio => widget.question.audio != null;
 
@@ -51,9 +52,6 @@ class _TextQuestionState extends State<TextQuestion> {
                   questionComponent(),
                 ],
               ),
-              //questionComponent(),
-              //answerComponent(),
-
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -79,8 +77,8 @@ class _TextQuestionState extends State<TextQuestion> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Screen.isPortrait(context)
-                ? CustomGrid(children: widget.answers) : CustomHGrid(children: widget.answers)
-                
+                ? CustomGrid(children: widget.answers)
+                : CustomHGrid(children: widget.answers)
           ],
         ),
       ),
@@ -91,8 +89,7 @@ class _TextQuestionState extends State<TextQuestion> {
     return Column(
       children: <Widget>[
         Container(
-          height: Screen.height(context,
-              percentage: !Screen.isPortrait(context) ? 80 : 50),
+          height: !Screen.isPortrait(context) ? height : Screen.height(context, percentage: 50),
           child: Stack(
             children: [
               Container(
@@ -133,6 +130,16 @@ class _TextQuestionState extends State<TextQuestion> {
 
   @override
   Widget build(BuildContext context) {
-    return buildContent();
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+      height = constraints.maxHeight;
+      print(height);
+      print(MediaQuery.of(context).size.height);
+        return Scaffold(
+          body: buildContent(),
+          //backgroundColor: Theme.of(context).backgroundColor,
+        );
+      },
+    );
   }
 }
