@@ -16,8 +16,8 @@ class QuizImageButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: Screen.width(context, percentage: 45),
-        height: Screen.width(context, percentage: 45),
+        width: Screen.isPortrait(context) ? Screen.width(context, percentage: 45) : Screen.height(context, percentage: 40),
+        height: Screen.isPortrait(context) ? Screen.width(context, percentage: 45) : Screen.height(context, percentage: 40),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
           child: Container(
