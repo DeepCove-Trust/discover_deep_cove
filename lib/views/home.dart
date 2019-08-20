@@ -18,6 +18,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong/latlong.dart';
 import 'package:toast/toast.dart';
 
+import 'activites/activity_unlock.dart';
+
 enum Page { FactFile, Scan, Map, Quiz, Settings }
 
 class Home extends StatefulWidget {
@@ -116,8 +118,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
     try {
       activity = activities.firstWhere((a) => a.qrCode == qrString);
-    }
-    catch(ex){
+    } catch (ex) {
       Util.showToast(context, 'Unrecognized QR Code...');
       return;
     }
@@ -181,8 +182,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       floatingActionButton: pageIs(Page.Map)
           ? CustomFab(
               icon: FontAwesomeIcons.qrcode,
-              text: "Scan",
-              onPressed: () => scan(),
+              //text: "Scan"
+              text: "Unlock",
+              //onPressed: () => scan(),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ActivityUnlock()),
+              ),
             )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
