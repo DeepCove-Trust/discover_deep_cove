@@ -140,13 +140,10 @@ class _QuizUnlockState extends State<QuizUnlock> {
                   vertical: Screen.height(context,
                       percentage: Screen.width(context) <= 350 ? 2 : 5),
                   horizontal: Screen.width(context) <= 350 ? 20 : 50),
-              child: Screen.width(context) <= 600
-                  ? Body(
-                      "Your teacher will give you codes to unlock quizzes.",
-                    )
-                  : Heading(
-                      "Your teacher will give you codes to unlock quizzes.",
-                    ),
+              child: Body(
+                "Enter the code located below the QR code.",
+                size: Screen.width(context) <= 600 ? 0 : 30,
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
