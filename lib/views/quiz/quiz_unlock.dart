@@ -186,8 +186,8 @@ class _QuizUnlockState extends State<QuizUnlock> {
                     ),
                   ],
                 ),
-                decoration: new BoxDecoration(
-                  border: new Border.all(
+                decoration: BoxDecoration(
+                  border: Border.all(
                     color: Color(0xFF777777),
                   ),
                 ),
