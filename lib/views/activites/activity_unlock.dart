@@ -74,22 +74,23 @@ class ActivityUnlock extends StatelessWidget {
               ),
             ),
             Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: Screen.height(context, percentage: 5),
-                    horizontal: Screen.width(context) <= 350 ? 20 : 50),
-                child: Container(
-                  width: Screen.width(context,
-                      percentage: Screen.width(context) <= 350 ? 100 : 60),
-                  height: Screen.width(context,
-                      percentage: Screen.width(context) <= 350 ? 100 : 60),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    image: DecorationImage(
-                      image: AssetImage('assets/invalidQRcode.png'),
-                      fit: BoxFit.fill,
-                    ),
+              padding: EdgeInsets.symmetric(
+                  vertical: Screen.height(context, percentage: 2),
+                  horizontal: Screen.width(context) <= 350 ? 20 : 50),
+              child: Container(
+                width: Screen.width(context,
+                    percentage: Screen.width(context) <= 350 ? 100 : !Screen.isPortrait(context) ? 40 : 55),
+                height: Screen.width(context,
+                    percentage: Screen.width(context) <= 350 ? 100 : !Screen.isPortrait(context) ? 40 : 55),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  image: DecorationImage(
+                    image: AssetImage('assets/invalidQRcode.png'),
+                    fit: BoxFit.fill,
                   ),
-                )),
+                ),
+              ),
+            ),
           ],
         ),
       ],
@@ -102,9 +103,9 @@ class ActivityUnlock extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: Screen.isTablet(context) ? 28.0 : 8.0,
+            horizontal: Screen.isTablet(context) ? 8.0 : 8.0,
             vertical: Screen.width(context,
-                percentage: Screen.width(context) <= 350 ? 2 : 20),
+                percentage: Screen.width(context) <= 350 ? 2 : 15),
           ),
           child: Container(
             width: Screen.width(context,
@@ -128,7 +129,7 @@ class ActivityUnlock extends StatelessWidget {
                     child: Container(
                       width: Screen.width(
                         context,
-                        percentage: Screen.isTablet(context) ? 30 : 62.5,
+                        percentage: Screen.isTablet(context) ? 30 : 30.5,
                       ),
                       color: Colors.white,
                       child: TextField(
@@ -145,7 +146,7 @@ class ActivityUnlock extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      vertical: Screen.width(context, percentage: 5)),
+                      vertical: Screen.width(context, percentage: 5),),
                   child: OutlineButton(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
