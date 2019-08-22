@@ -79,7 +79,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                 context,
                 percentage: Screen.isTablet(context)
                     ? 20.0
-                    : Screen.width(context) <= 350 ? 5.0 : 10.0,
+                    : Screen.isSmall(context) ? 5.0 : 10.0,
               ),
             ),
             widget.isReview
@@ -93,7 +93,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                         Text(
                           widget.activity.userCount.toString(),
                           style: TextStyle(
-                            fontSize: Screen.width(context) <= 350 ? 40 : 60,
+                            fontSize: Screen.isSmall(context) ? 40 : 60,
                             color: Colors.white,
                           ),
                         ),
@@ -126,7 +126,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                         ),
                         Body(
                           count.toString(),
-                          size: Screen.width(context) <= 350
+                          size: Screen.isSmall(context)
                               ? 40
                               : Screen.isTablet(context) ? 80 : 50,
                         ),

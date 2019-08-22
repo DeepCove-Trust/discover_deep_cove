@@ -24,4 +24,7 @@ class Screen {
 
   static bool isTablet(BuildContext context) =>
       MediaQuery.of(context).size.width >= 600;
+
+  static bool isSmall(BuildContext context) =>
+      MediaQuery.of(context).size.width <= 350;    
 }
