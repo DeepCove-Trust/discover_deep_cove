@@ -30,19 +30,29 @@ class _CountActivityViewState extends State<CountActivityView> {
         body: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: Screen.width(context, percentage: 2.5), vertical: Screen.height(context, percentage: 5.0),),
+              padding: EdgeInsets.symmetric(
+                horizontal: Screen.width(context, percentage: 2.5),
+                vertical: Screen.height(context, percentage: 5.0),
+              ),
               child: Body(widget.activity.description),
             ),
             SizedBox(
               height: Screen.height(context, percentage: 10.0),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: Screen.width(context, percentage: 2.5), vertical: Screen.height(context, percentage: 5.0),),
+              padding: EdgeInsets.symmetric(
+                horizontal: Screen.width(context, percentage: 2.5),
+                vertical: Screen.height(context, percentage: 5.0),
+              ),
               child: Body(widget.activity.task),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: Screen.height(context, percentage: 5.0),),
-              child: Divider(color: Color(0xFF777777)),
+              padding: EdgeInsets.symmetric(
+                horizontal: Screen.height(context, percentage: 5.0),
+              ),
+              child: Divider(
+                color: Color(0xFF777777),
+              ),
             ),
             Padding(
               padding: EdgeInsets.all(12.0),
@@ -128,7 +138,10 @@ class _CountActivityViewState extends State<CountActivityView> {
             widget.isReview
                 ? Padding(
                     padding: EdgeInsets.only(
-                        left: Screen.width(context, percentage: 2.5), right: Screen.width(context, percentage: 2.5), top: Screen.height(context, percentage: 5.0),),
+                      left: Screen.width(context, percentage: 2.5),
+                      right: Screen.width(context, percentage: 2.5),
+                      top: Screen.height(context, percentage: 5.0),
+                    ),
                     child: EditAnswer(),
                   )
                 : Container(),
