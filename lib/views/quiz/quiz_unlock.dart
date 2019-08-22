@@ -220,6 +220,9 @@ class _QuizUnlockState extends State<QuizUnlock> {
                   ),
                   child: Heading(
                     "Enter unlock code:",
+                    size: Screen.width(context) >= 600
+                        ? 30
+                        : Screen.width(context) <= 350 ? 16 : 20,
                   ),
                 ),
                 Transform.scale(
@@ -253,6 +256,9 @@ class _QuizUnlockState extends State<QuizUnlock> {
                       padding: const EdgeInsets.all(8.0),
                       child: Heading(
                         "Unlock",
+                        size: Screen.width(context) >= 600
+                            ? 30
+                            : Screen.width(context) <= 350 ? 16 : 20,
                       ),
                     ),
                     onPressed: () => verifyCode(context),
