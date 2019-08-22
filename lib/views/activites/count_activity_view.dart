@@ -30,22 +30,22 @@ class _CountActivityViewState extends State<CountActivityView> {
         body: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
+              padding: EdgeInsets.symmetric(horizontal: Screen.width(context, percentage: 2.5), vertical: Screen.height(context, percentage: 5.0),),
               child: Body(widget.activity.description),
             ),
             SizedBox(
               height: Screen.height(context, percentage: 10.0),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
+              padding: EdgeInsets.symmetric(horizontal: Screen.width(context, percentage: 2.5), vertical: Screen.height(context, percentage: 5.0),),
               child: Body(widget.activity.task),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
+              padding: EdgeInsets.symmetric(horizontal: Screen.height(context, percentage: 5.0),),
               child: Divider(color: Color(0xFF777777)),
             ),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(12.0),
               child: widget.isReview
                   ? Body(
                       "You Counted:",
@@ -127,8 +127,8 @@ class _CountActivityViewState extends State<CountActivityView> {
                   ),
             widget.isReview
                 ? Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20.0, right: 20.0, top: 40.0),
+                    padding: EdgeInsets.only(
+                        left: Screen.width(context, percentage: 2.5), right: Screen.width(context, percentage: 2.5), top: Screen.height(context, percentage: 5.0),),
                     child: EditAnswer(),
                   )
                 : Container(),
