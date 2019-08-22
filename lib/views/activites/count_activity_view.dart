@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activityAppBar.dart';
 import 'package:discover_deep_cove/widgets/fact_file/editAnswer.dart';
@@ -51,7 +52,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                 horizontal: Screen.height(context, percentage: 5.0),
               ),
               child: Divider(
-                color: Color(0xFF777777),
+                color: HexColor("FF777777"),
               ),
             ),
             Padding(
@@ -158,7 +159,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                           padding: const EdgeInsets.all(8.0),
                           child: OutlineButton(
                             onPressed: () => Navigator.of(context).pop(),
-                            borderSide: BorderSide(color: Color(0xFF777777)),
+                            borderSide: BorderSide(color: HexColor("FF777777")),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
@@ -169,7 +170,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                           padding: const EdgeInsets.all(8.0),
                           child: OutlineButton(
                             onPressed: () => saveAnswer(),
-                            borderSide: BorderSide(color: Color(0xFF777777)),
+                            borderSide: BorderSide(color: HexColor("FF777777")),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
