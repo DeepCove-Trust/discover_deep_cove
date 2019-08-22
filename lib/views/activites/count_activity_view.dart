@@ -69,6 +69,7 @@ class _CountActivityViewState extends State<CountActivityView> {
               child: widget.isReview
                   ? Body(
                       "You Counted:",
+                      size: Screen.isTablet(context) ? 30.0 : 0,
                     )
                   : SizedBox(
                       height: Screen.height(context, percentage: 5.0),
