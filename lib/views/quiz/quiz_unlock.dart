@@ -141,7 +141,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                       percentage: Screen.width(context) <= 350 ? 2 : 5),
                   horizontal: Screen.width(context) <= 350 ? 20 : 50),
               child: Body(
-                "Enter the code located below the QR code.",
+                "Your teacher will give you codes to unlock quizzes.",
                 size: Screen.width(context) <= 600 ? 0 : 30,
               ),
             ),
@@ -174,15 +174,13 @@ class _QuizUnlockState extends State<QuizUnlock> {
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 20),
-                      child: Screen.width(context) <= 600
-                          ? Body(
-                              "Simply use the code posted in the communal kitchen of the lodge to "
-                              "Unlock all quizzes immediately!",
-                            )
-                          : Heading(
-                              "Simply use the code posted in the communal kitchen of the lodge to "
-                              "Unlock all quizzes immediately!",
-                            ),
+                      child: Heading(
+                        "Simply use the code posted in the communal kitchen of the lodge to "
+                        "Unlock all quizzes immediately!",
+                        size: Screen.width(context) >= 600
+                            ? 30
+                            : Screen.width(context) <= 350 ? 16 : 20,
+                      ),
                     ),
                   ],
                 ),
@@ -248,7 +246,8 @@ class _QuizUnlockState extends State<QuizUnlock> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      vertical: Screen.width(context, percentage: 5)),
+                    vertical: Screen.width(context, percentage: 5),
+                  ),
                   child: OutlineButton(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
