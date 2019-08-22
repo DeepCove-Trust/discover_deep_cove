@@ -47,7 +47,7 @@ class _CountActivityViewState extends State<CountActivityView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        widget.isReview
+        widget.isReview && !Screen.isPortrait(context)
             ? SizedBox(
                 height: Screen.height(
                   context,
@@ -71,9 +71,7 @@ class _CountActivityViewState extends State<CountActivityView> {
         SizedBox(
           height: Screen.height(
             context,
-            percentage: Screen.isTablet(context)
-                ? 20.0
-                : Screen.isSmall(context) ? 5.0 : 10.0,
+            percentage: Screen.isSmall(context) ? 5.0 : 10.0,
           ),
         ),
         widget.isReview
@@ -123,7 +121,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                       count.toString(),
                       size: Screen.isSmall(context)
                           ? 40
-                          : Screen.isTablet(context) ? 80 : 50,
+                          : Screen.isTablet(context) ? 70 : 50,
                     ),
                     Transform.scale(
                       scale: Screen.isTablet(context) ? 2 : 1.5,
