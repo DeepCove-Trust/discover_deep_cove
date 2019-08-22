@@ -35,17 +35,26 @@ class _CountActivityViewState extends State<CountActivityView> {
                 horizontal: Screen.width(context, percentage: 2.5),
                 vertical: Screen.height(context, percentage: 5.0),
               ),
-              child: Body(widget.activity.description),
+              child: Body(
+                widget.activity.description,
+                size: Screen.isTablet(context) ? 30.0 : 0,
+              ),
             ),
             SizedBox(
-              height: Screen.height(context, percentage: 10.0),
+              height: Screen.height(
+                context,
+                percentage: Screen.isTablet(context) ? 10.0 : 5.0,
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: Screen.width(context, percentage: 2.5),
                 vertical: Screen.height(context, percentage: 5.0),
               ),
-              child: Body(widget.activity.task),
+              child: Body(
+                widget.activity.task,
+                size: Screen.isTablet(context) ? 30.0 : 0,
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -66,7 +75,12 @@ class _CountActivityViewState extends State<CountActivityView> {
                     ),
             ),
             SizedBox(
-              height: Screen.height(context, percentage: 20.0),
+              height: Screen.height(
+                context,
+                percentage: Screen.isTablet(context)
+                    ? 20.0
+                    : Screen.width(context) <= 350 ? 5.0 : 10.0,
+              ),
             ),
             widget.isReview
                 ? Container(
@@ -94,7 +108,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Transform.scale(
-                          scale: 1.5,
+                          scale: Screen.isTablet(context) ? 2 : 1.5,
                           child: IconButton(
                             icon: Icon(
                               FontAwesomeIcons.chevronLeft,
@@ -110,15 +124,14 @@ class _CountActivityViewState extends State<CountActivityView> {
                             color: Colors.white,
                           ),
                         ),
-                        Text(
+                        Body(
                           count.toString(),
-                          style: TextStyle(
-                            fontSize: Screen.width(context) <= 350 ? 40 : 60,
-                            color: Colors.white,
-                          ),
+                          size: Screen.width(context) <= 350
+                              ? 40
+                              : Screen.isTablet(context) ? 80 : 50,
                         ),
                         Transform.scale(
-                          scale: 1.5,
+                          scale: Screen.isTablet(context) ? 2 : 1.5,
                           child: IconButton(
                             icon: Icon(
                               FontAwesomeIcons.chevronRight,
