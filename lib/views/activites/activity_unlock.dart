@@ -107,9 +107,9 @@ class ActivityUnlock extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: Screen.isTablet(context) ? 8.0 : 8.0,
+            horizontal: Screen.isTablet(context) ? 28.0 : 8.0,
             vertical: Screen.width(context,
-                percentage: 15),
+                percentage: Screen.isPortrait(context) ? 15 : 5),
           ),
           child: Container(
             width: Screen.width(context,
