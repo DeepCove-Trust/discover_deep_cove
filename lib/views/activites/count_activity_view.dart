@@ -149,16 +149,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                       ],
                     ),
                   ),
-            widget.isReview
-                ? Padding(
-                    padding: EdgeInsets.only(
-                      left: Screen.width(context, percentage: 2.5),
-                      right: Screen.width(context, percentage: 2.5),
-                      top: Screen.height(context, percentage: 5.0),
-                    ),
-                    child: EditAnswer(),
-                  )
-                : Container(),
+            
             Expanded(child: Container()),
             widget.isReview
                 ? Container()
@@ -195,6 +186,22 @@ class _CountActivityViewState extends State<CountActivityView> {
                       ],
                     ),
                   ),
+                  widget.isReview
+                ? Padding(
+                    padding: EdgeInsets.only(
+                      left: Screen.width(context, percentage: 2.5),
+                      right: Screen.width(context, percentage: 2.5),
+                      top: Screen.height(context, percentage: 5.0),
+                      bottom: Screen.height(context, percentage: 2.0),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        EditAnswer(),
+                      ],
+                    ),
+                  )
+                : Container(),
           ],
         ),
         bottomNavigationBar: widget.isReview ? BottomBackButton() : null,
