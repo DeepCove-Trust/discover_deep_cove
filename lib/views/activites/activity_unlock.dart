@@ -124,6 +124,9 @@ class ActivityUnlock extends StatelessWidget {
                   ),
                   child: Heading(
                     "Enter QR unlock code:",
+                    size: Screen.width(context) >= 600
+                        ? 30
+                        : Screen.width(context) <= 350 ? 16 : 20,
                   ),
                 ),
                 Transform.scale(
@@ -157,6 +160,9 @@ class ActivityUnlock extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Heading(
                         "Unlock",
+                        size: Screen.width(context) >= 600
+                            ? 30
+                            : Screen.width(context) <= 350 ? 16 : 20,
                       ),
                     ),
                     onPressed: () => verifyCode(context),
