@@ -43,6 +43,48 @@ class _CountActivityViewState extends State<CountActivityView> {
           );
   }
 
+  getTopHalf() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Screen.width(context, percentage: 2.5),
+            vertical: Screen.height(context, percentage: 5.0),
+          ),
+          child: Body(
+            widget.activity.description,
+            size: Screen.isTablet(context) ? 30.0 : 0,
+          ),
+        ),
+        SizedBox(
+          height: Screen.height(
+            context,
+            percentage: Screen.isTablet(context) ? 10.0 : 5.0,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Screen.width(context, percentage: 2.5),
+            vertical: Screen.height(context, percentage: 5.0),
+          ),
+          child: Body(
+            widget.activity.task,
+            size: Screen.isTablet(context) ? 30.0 : 0,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Screen.height(context, percentage: 5.0),
+          ),
+          child: Divider(
+            color: HexColor("FF777777"),
+          ),
+        ),
+      ],
+    );
+  }
+
   getBottomHalf() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -194,48 +236,6 @@ class _CountActivityViewState extends State<CountActivityView> {
                 ),
               )
             : Container(),
-      ],
-    );
-  }
-
-  getTopHalf() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Screen.width(context, percentage: 2.5),
-            vertical: Screen.height(context, percentage: 5.0),
-          ),
-          child: Body(
-            widget.activity.description,
-            size: Screen.isTablet(context) ? 30.0 : 0,
-          ),
-        ),
-        SizedBox(
-          height: Screen.height(
-            context,
-            percentage: Screen.isTablet(context) ? 10.0 : 5.0,
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Screen.width(context, percentage: 2.5),
-            vertical: Screen.height(context, percentage: 5.0),
-          ),
-          child: Body(
-            widget.activity.task,
-            size: Screen.isTablet(context) ? 30.0 : 0,
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Screen.height(context, percentage: 5.0),
-          ),
-          child: Divider(
-            color: HexColor("FF777777"),
-          ),
-        ),
       ],
     );
   }
