@@ -60,7 +60,7 @@ class _CountActivityViewState extends State<CountActivityView> {
         SizedBox(
           height: Screen.height(
             context,
-            percentage: Screen.isTablet(context) ? 10.0 : 5.0,
+            percentage: 5.0,
           ),
         ),
         Padding(
@@ -184,7 +184,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                   ],
                 ),
               ),
-        Expanded(child: Container()),
+        !Screen.isPortrait(context) ? Expanded(child: Container()) : Container(),
         widget.isReview
             ? Container()
             : Container(
@@ -197,23 +197,35 @@ class _CountActivityViewState extends State<CountActivityView> {
                       padding: const EdgeInsets.all(8.0),
                       child: OutlineButton(
                         onPressed: () => Navigator.of(context).pop(),
-                        borderSide: BorderSide(color: HexColor("FF777777")),
+                        borderSide: BorderSide(
+                          color: HexColor("FF777777"),
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        child: Body('Pass'),
+                        child: Body(
+                          'Pass',
+                          size: Screen.width(context) >= 600
+                              ? 30
+                              : Screen.width(context) <= 350 ? 16 : 20,
+                        ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: OutlineButton(
                         onPressed: () => saveAnswer(),
-                        borderSide: BorderSide(color: HexColor("FF777777")),
+                        borderSide: BorderSide(
+                          color: HexColor("FF777777"),
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
                         child: Body(
                           "Save",
+                          size: Screen.width(context) >= 600
+                              ? 30
+                              : Screen.width(context) <= 350 ? 16 : 20,
                         ),
                       ),
                     ),
@@ -229,7 +241,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                   bottom: Screen.height(context, percentage: 2.0),
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment:  !Screen.isPortrait(context) ? MainAxisAlignment.center : MainAxisAlignment.end,
                   children: <Widget>[
                     EditAnswer(),
                   ],
