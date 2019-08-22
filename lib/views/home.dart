@@ -182,13 +182,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       floatingActionButton: pageIs(Page.Map)
           ? CustomFab(
               icon: FontAwesomeIcons.qrcode,
-              //text: "Scan"
-              text: "Unlock",
-              //onPressed: () => scan(),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ActivityUnlock()),
-              ),
+              text: "Scan",
+              //text: "Unlock",
+              onPressed: () => scan(),
+              // onPressed: () => Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => ActivityUnlock()),
+              // ),
             )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
