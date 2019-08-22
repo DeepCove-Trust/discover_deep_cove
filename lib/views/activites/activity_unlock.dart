@@ -79,9 +79,13 @@ class ActivityUnlock extends StatelessWidget {
                   horizontal: Screen.width(context) <= 350 ? 20 : 50),
               child: Container(
                 width: Screen.width(context,
-                    percentage: Screen.width(context) <= 350 ? 100 : !Screen.isPortrait(context) ? 40 : 55),
+                    percentage: Screen.width(context) <= 350
+                        ? 50
+                        : !Screen.isPortrait(context) ? 40 : 60),
                 height: Screen.width(context,
-                    percentage: Screen.width(context) <= 350 ? 100 : !Screen.isPortrait(context) ? 40 : 55),
+                    percentage: Screen.width(context) <= 350
+                        ? 50
+                        : !Screen.isPortrait(context) ? 40 : 60),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   image: DecorationImage(
@@ -129,7 +133,7 @@ class ActivityUnlock extends StatelessWidget {
                     child: Container(
                       width: Screen.width(
                         context,
-                        percentage: Screen.isTablet(context) ? 30 : 30.5,
+                        percentage: Screen.isTablet(context) ? 30 : 62.5,
                       ),
                       color: Colors.white,
                       child: TextField(
@@ -146,7 +150,8 @@ class ActivityUnlock extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      vertical: Screen.width(context, percentage: 5),),
+                    vertical: Screen.width(context, percentage: 5),
+                  ),
                   child: OutlineButton(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
