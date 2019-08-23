@@ -1,6 +1,5 @@
 import 'package:discover_deep_cove/util/data_sync.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
-import 'package:discover_deep_cove/views/activites/activity_unlock.dart';
 import 'package:discover_deep_cove/widgets/settings/settings_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,8 +7,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class Settings extends StatefulWidget {
   final void Function({bool isLoading, String loadingMessage, Icon icon})
       onProgressUpdate;
+  final void Function(String code) onCodeEntry;
 
-  Settings({@required this.onProgressUpdate});
+  Settings({
+    @required this.onProgressUpdate,
+    @required this.onCodeEntry,
+  });
 
   @override
   _SettingsState createState() => _SettingsState();
@@ -45,9 +48,13 @@ class _SettingsState extends State<Settings> {
               ),
               Divider(color: HexColor("FF777777"), height: 1),
               SettingsButton(
-                  iconData: FontAwesomeIcons.qrcode,
-                  text: "Manually Enter Code",
-                  onTap: () => Navigator.pushNamed(context, '/activityUnlock',)
+                iconData: FontAwesomeIcons.qrcode,
+                text: "Manually Enter Code",
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  '/activityUnlock',
+                  arguments: widget.onCodeEntry,
+                ),
               ),
               Divider(color: HexColor("FF777777"), height: 1),
             ],

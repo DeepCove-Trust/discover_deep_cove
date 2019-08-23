@@ -10,6 +10,9 @@ enum UnlockStatus { success, alreadyUnlocked, failure }
 
 class ActivityUnlock extends StatelessWidget {
   final TextEditingController textController = TextEditingController();
+  final void Function(String code) onCodeEntry;
+
+  ActivityUnlock({@required this.onCodeEntry});
 
   @override
   Widget build(BuildContext context) {
@@ -26,37 +29,8 @@ class ActivityUnlock extends StatelessWidget {
   }
 
   void verifyCode(BuildContext context) async {
-    // Navigator.pushNamed(context, '/activity',
-    //     arguments: ActivityScreenArgs(activity: activity));
-    // UnlockStatus status;
-
-    // Activity activity = await ActivityBean.of(context).findByCode(textController.text);
-
-    // if (activity != null) {
-    //   if (activity.unlocked) {
-    //     status = UnlockStatus.alreadyUnlocked;
-    //   } else {
-    //     activity.unlocked = true;
-    //     await ActivityBean.of(context).update(activity);
-    //     status = UnlockStatus.success;
-    //   }
-
-    //   widget.refreshCallback();
-    //   Navigator.of(context).pop();
-    // } else {
-    //   status = UnlockStatus.failure;
-    // }
-
-    // switch (status) {
-    //   case UnlockStatus.success:
-    //     Util.showToast(context, 'Quiz unlocked');
-    //     break;
-    //   case UnlockStatus.alreadyUnlocked:
-    //     Util.showToast(context, 'Quiz already unlocked');
-    //     break;
-    //   default:
-    //     Util.showToast(context, 'Invalid code entered');
-    // }
+    Navigator.of(context).pop();
+    onCodeEntry(textController.text);
   }
 
   getBottomHalf(BuildContext context) {
@@ -90,7 +64,7 @@ class ActivityUnlock extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   image: DecorationImage(
                     image: AssetImage('assets/invalidQRcode.png'),
-                    fit: BoxFit.fill,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),

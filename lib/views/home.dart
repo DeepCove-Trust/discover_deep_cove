@@ -62,6 +62,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     pages.add(QuizIndex());
     pages.add(Settings(
       onProgressUpdate: setLoadingModal,
+      onCodeEntry: (code) => handleMessage(code),
     ));
     currentPage = pages[Page.Map.index];
   }
@@ -112,7 +113,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   ///Receives the result of the scan and determines what action to take
-  void handleMessage(qrString) async {
+  void handleMessage(String qrString) async {
     List<Activity> activities = await ActivityBean.of(context).getAll();
     Activity activity;
 

@@ -106,7 +106,7 @@ class RouteGenerator {
 
       case '/activityUnlock':
         return MaterialPageRoute(
-          builder: (_) => ActivityUnlock(),
+          builder: (_) => ActivityUnlock(onCodeEntry: args,),
         );
 
       default:
