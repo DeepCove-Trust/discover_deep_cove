@@ -18,8 +18,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong/latlong.dart';
 import 'package:toast/toast.dart';
 
-import 'activites/activity_unlock.dart';
-
 enum Page { FactFile, Scan, Map, Quiz, Settings }
 
 class Home extends StatefulWidget {
@@ -187,12 +185,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ? CustomFab(
               icon: FontAwesomeIcons.qrcode,
               text: "Scan",
-              //text: "Unlock",
               onPressed: () => scan(),
-              // onPressed: () => Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => ActivityUnlock()),
-              // ),
             )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
