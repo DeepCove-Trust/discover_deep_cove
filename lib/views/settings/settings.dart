@@ -1,5 +1,8 @@
+import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/util/data_sync.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
+import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/settings/settings_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -26,7 +29,7 @@ class _SettingsState extends State<Settings> {
               SettingsButton(
                 iconData: FontAwesomeIcons.undo,
                 text: "Reset Progress",
-                onTap: null,
+                onTap: _confirmResetDialog,
               ),
               Divider(color: HexColor("FF777777"), height: 1),
               SettingsButton(
@@ -95,5 +98,47 @@ class _SettingsState extends State<Settings> {
       icon: Icon(Icons.error_outline, color: Colors.red, size: 60),
     );
     await Future.delayed(Duration(seconds: 2));
+  }
+
+  _confirmResetDialog() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Confirm Progress Reset?'),
+            content: Text('This will reset all quiz and activity progress, and '
+                'cannot be undone. Are you sure?'),
+            actions: [
+              FlatButton(
+                child: Text('Cancel'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              FlatButton(
+                child: Text('Reset'),
+                onPressed: () => _resetProgress(),
+              ),
+            ],
+          );
+        });
+  }
+
+  _resetProgress() async {
+
+    ActivityBean activityBean = ActivityBean.of(context);
+    List<Activity> activities = await activityBean.getAll();
+    activities.forEach((a) {
+      a.clearProgress();
+      activityBean.update(a);
+    });
+
+    QuizBean quizBean = QuizBean.of(context);
+    List<Quiz> quizzes = await quizBean.getAll();
+    quizzes.forEach((q) {
+      q.clearProgress();
+      quizBean.update(q);
+    });
+
+    Navigator.of(context).pop();
+    Util.showToast(context, 'Progress Reset!');
   }
 }

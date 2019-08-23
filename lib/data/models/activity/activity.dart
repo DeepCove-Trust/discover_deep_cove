@@ -96,35 +96,38 @@ class Activity {
   bool isCompleted() {
     switch (activityType) {
       case ActivityType.pictureSelectActivity:
-        {
-          return selectedPictureId != null;
-        }
+        return selectedPictureId != null;
         break;
       case ActivityType.pictureTapActivity:
-        {
-          return userXCoord != null && userYCoord != null;
-        }
+        return userXCoord != null && userYCoord != null;
         break;
       case ActivityType.countActivity:
-        {
-          return userCount != null;
-        }
+        return userCount != null;
         break;
       case ActivityType.textAnswerActivity:
-        {
-          return userText != null;
-        }
+        return userText != null;
         break;
       case ActivityType.photographActivity:
-        {
-          return userPhotoId != null;
-        }
+        return userPhotoId != null;
+        break;
+      case ActivityType.informational:
+        return informationActivityUnlocked;
         break;
       default:
-        {
-          return false;
-        }
+        return false;
     }
+  }
+
+  clearProgress() {
+    userPhotoId = null;
+    userPhoto = null;
+    userCount = null;
+    userYCoord = null;
+    userXCoord = null;
+    userText = null;
+    selectedPictureId = null;
+    selectedPicture = null;
+    informationActivityUnlocked = false;
   }
 }
 
