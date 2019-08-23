@@ -6,7 +6,7 @@ import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_grid.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
-import 'package:discover_deep_cove/widgets/misc/text/custom_h_grid.dart';
+import 'package:discover_deep_cove/widgets/misc/text/custom_v_grid.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_text_button.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +78,7 @@ class _TextQuestionState extends State<TextQuestion> {
           children: <Widget>[
             Screen.isPortrait(context)
                 ? CustomGrid(children: widget.answers)
-                : CustomHGrid(children: widget.answers)
+                : CustomVGrid(children: widget.answers)
           ],
         ),
       ),
@@ -135,7 +135,7 @@ class _TextQuestionState extends State<TextQuestion> {
       height = constraints.maxHeight;
         return Scaffold(
           body: buildContent(),
-          //backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Theme.of(context).backgroundColor,
         );
       },
     );
