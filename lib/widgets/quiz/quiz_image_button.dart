@@ -16,17 +16,16 @@ class QuizImageButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: Screen.width(context, percentage: 45),
-        height: Screen.height(context, percentage: 23.5),
+        width: Screen.isPortrait(context) ? Screen.width(context, percentage: 45) : Screen.height(context, percentage: 40),
+        height: Screen.isPortrait(context) ? Screen.width(context, percentage: 45) : Screen.height(context, percentage: 40),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
           child: Container(
             decoration: BoxDecoration(
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                    color: Colors.black,
-                    offset: Offset(2.5, 2.5),
-                    blurRadius: 5.0),
+                  color: Colors.black,
+                ),
               ],
             ),
             child: Stack(
@@ -53,10 +52,14 @@ class QuizImageButton extends StatelessWidget {
                                     const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Text(
                                   text,
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: Screen.width(context) <= 350
+                                          ? 16
+                                          : 20),
                                   softWrap: false,
                                   maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                  overflow: TextOverflow.fade,
                                 ),
                               ),
                             ),

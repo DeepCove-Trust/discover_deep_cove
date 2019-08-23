@@ -1,8 +1,10 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_grid.dart';
+import 'package:discover_deep_cove/widgets/misc/text/custom_v_grid.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -19,8 +21,9 @@ class TextOnlyQuestion extends StatefulWidget {
 
 class _TextOnlyQuestionState extends State<TextOnlyQuestion> {
   AudioPlayer player = AudioPlayer();
-
   bool get hasAudio => widget.question.audio != null;
+
+  double height;
 
   void playAudio() {
     player.play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
@@ -35,40 +38,98 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion> {
     );
   }
 
+  buildContent() {
+    return (Screen.isTablet(context) && !Screen.isPortrait(context))
+        ? GridView.count(
+            crossAxisCount: 2,
+            children: [
+              Column(
+                children: <Widget>[
+                  questionComponent(),
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  answerComponent(),
+                ],
+              ),
+            ],
+          )
+        : Column(
+            children: <Widget>[
+              questionComponent(),
+              answerComponent(),
+            ],
+          );
+  }
+
+  answerComponent() {
+    return Expanded(
+      child: Container(
+        color: Theme.of(context).backgroundColor,
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Screen.isPortrait(context)
+                ? CustomGrid(children: widget.answers)
+                : CustomVGrid(children: widget.answers)
+          ],
+        ),
+      ),
+    );
+  }
+
+  questionComponent() {
+    return Container(
+      color: Theme.of(context).backgroundColor,
+      height: Screen.isPortrait(context)
+          ? height / 2
+          : height - Screen.height(context, percentage: 4.5),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(
+              top: Screen.height(context, percentage: 5),
+              left: Screen.height(context,
+                  percentage: Screen.isPortrait(context) ? 0 : 3),
+              bottom: Screen.height(context, percentage: 3),
+            ),
+            child: Container(
+              color: Color.fromARGB(190, 0, 0, 0),
+              height: Screen.height(context, percentage: 20),
+              width: Screen.width(context),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SubHeading(widget.question.text),
+                  if (hasAudio)
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: Screen.height(context, percentage: 2),
+                      ),
+                      child: buildAudioButton(),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Expanded(
-            child: Container(
-          color: Theme.of(context).backgroundColor,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 80.0, bottom: 25),
-                child: Container(
-                  color: Color.fromARGB(190, 0, 0, 0),
-                  height: (MediaQuery.of(context).size.height / 100) * 20,
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SubHeading(widget.question.text),
-                      if (hasAudio)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: buildAudioButton(),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-              CustomGrid(children: widget.answers)
-            ],
-          ),
-        )),
-      ],
+    return Scaffold(
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          height = constraints.maxHeight;
+          return buildContent();
+        },
+      ),
+      backgroundColor: Theme.of(context).backgroundColor,
     );
   }
 }

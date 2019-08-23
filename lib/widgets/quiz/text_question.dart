@@ -4,13 +4,13 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_grid.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/custom_v_grid.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
-import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/quiz/quiz_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:discover_deep_cove/widgets/quiz/quiz_text_button.dart';
 
 class TextQuestion extends StatefulWidget {
   final QuizQuestion question;
@@ -24,6 +24,7 @@ class TextQuestion extends StatefulWidget {
 
 class _TextQuestionState extends State<TextQuestion> {
   AudioPlayer player = AudioPlayer();
+  double height;
 
   bool get hasAudio => widget.question.audio != null;
 
@@ -40,19 +41,67 @@ class _TextQuestionState extends State<TextQuestion> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  buildContent() {
+    return (Screen.isTablet(context) && !Screen.isPortrait(context))
+        ? GridView.count(
+            crossAxisCount: 2,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  questionComponent(),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  answerComponent(),
+                ],
+              ),
+            ],
+          )
+        : Column(
+            children: <Widget>[
+              questionComponent(),
+              answerComponent(),
+            ],
+          );
+  }
+
+  answerComponent() {
+    return Expanded(
+      child: Container(
+        color: Theme.of(context).backgroundColor,
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Screen.isPortrait(context)
+                ? CustomGrid(children: widget.answers)
+                : CustomVGrid(children: widget.answers)
+          ],
+        ),
+      ),
+    );
+  }
+
+  questionComponent() {
     return Column(
-      children: [
+      children: <Widget>[
         Container(
-          height: Screen.height(context, percentage: 50),
+          height: !Screen.isPortrait(context)
+              ? height - Screen.height(context, percentage: 4.5)
+              : Screen.height(context, percentage: 50),
           child: Stack(
             children: [
               Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: FileImage(
-                        File(Env.getResourcePath(widget.question.image.path))),
+                      File(
+                        Env.getResourcePath(widget.question.image.path),
+                      ),
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -62,12 +111,16 @@ class _TextQuestionState extends State<TextQuestion> {
                 children: [
                   Container(
                     color: Color.fromARGB(190, 0, 0, 0),
-                    height: Screen.height(context, percentage: 12),
+                    height: Screen.height(context,
+                        percentage: Screen.isTablet(context) ? 10 : 15),
                     width: Screen.width(context),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SubHeading(widget.question.text),
+                        SubHeading(
+                          widget.question.text,
+                          size: Screen.isTablet(context) ? 30 : 0,
+                        ),
                         if (hasAudio) buildAudioButton(),
                       ],
                     ),
@@ -77,19 +130,20 @@ class _TextQuestionState extends State<TextQuestion> {
             ],
           ),
         ),
-        Expanded(
-          child: Container(
-            color: Theme.of(context).backgroundColor,
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CustomGrid(children: widget.answers),
-              ],
-            ),
-          ),
-        )
       ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        height = constraints.maxHeight;
+        return Scaffold(
+          body: buildContent(),
+          backgroundColor: Theme.of(context).backgroundColor,
+        );
+      },
     );
   }
 }

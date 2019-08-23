@@ -33,6 +33,7 @@ class _QuizIndexState extends State<QuizIndex> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: Container(),
         title: Heading(
           'Deep Cove Trivia',
         ),

@@ -49,8 +49,8 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              height: Screen.height(context, percentage: 13.0),
-              width: Screen.width(context, percentage: 75),
+              height: Screen.width(context, percentage: 20),
+              width: Screen.width(context, percentage: 20),
               decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
@@ -61,7 +61,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
                   widget.isCorrect == true
                       ? FontAwesomeIcons.check
                       : FontAwesomeIcons.times,
-                  size: _iconAnimation.value * 80,
+                  size: Screen.width(context, percentage: 15),
                   color: widget.isCorrect == true ? Colors.green : Colors.red,
                 ),
               ),

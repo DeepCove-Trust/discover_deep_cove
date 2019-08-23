@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 
 class Tile extends StatelessWidget {
@@ -33,7 +33,8 @@ class Tile extends StatelessWidget {
             if (imagePath != null)
               Hero(
                 tag: title,
-                child: Container( // todo this hero is pointless now
+                child: Container(
+                  // todo this hero is pointless now
                   width: Screen.width(context),
                   height: Screen.width(context),
                 ),
@@ -46,16 +47,14 @@ class Tile extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Heading(
-                       title,
-                      
+                    SubHeading(
+                      title,
                     ),
                     if (subheading != null)
                       SizedBox(height: 10), //
                     if (subheading != null)
                       Body(
-                         subheading,
-                        
+                        subheading,
                       ),
                   ],
                 ),
