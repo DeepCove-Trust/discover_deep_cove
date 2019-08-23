@@ -9,7 +9,7 @@ class EditAnswer extends StatelessWidget {
       "To edit your answer, re-scan the QR code.",
       style: TextStyle(
         fontSize:
-            Screen.isTablet(context) ? 25.0 : Screen.isSmall(context) ? 12 : 20,
+            Screen.isTablet(context) ? 25.0 : Screen.isSmall(context) ? 14 : 20,
         color: HexColor("FF777777"),
       ),
       textAlign: TextAlign.center,
