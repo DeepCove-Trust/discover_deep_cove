@@ -30,7 +30,7 @@ class SettingsButton extends StatelessWidget {
                   percentage:
                       Screen.width(context) >= 600 && Screen.isPortrait(context)
                           ? 60
-                          : 30),
+                          : 40),
               child: SubHeading(text),
             )
           ],

@@ -21,15 +21,9 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: ListView(
-        children: <Widget>[
+        children: [
           Column(
-            children: <Widget>[
-              SettingsButton(
-                iconData: FontAwesomeIcons.lockOpen,
-                text: "Unlock activity",
-                onTap: () => Navigator.pushNamed(context, '/activityUnlock',)
-              ),
-              Divider(color: HexColor("FF777777"), height: 1),
+            children: [
               SettingsButton(
                 iconData: FontAwesomeIcons.undo,
                 text: "Reset Progress",
@@ -48,6 +42,12 @@ class _SettingsState extends State<Settings> {
                 onTap: () {
                   Navigator.of(context).pushNamed('/about');
                 },
+              ),
+              Divider(color: HexColor("FF777777"), height: 1),
+              SettingsButton(
+                  iconData: FontAwesomeIcons.qrcode,
+                  text: "Manually Enter Code",
+                  onTap: () => Navigator.pushNamed(context, '/activityUnlock',)
               ),
               Divider(color: HexColor("FF777777"), height: 1),
             ],
