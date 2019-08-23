@@ -44,7 +44,13 @@ class Quiz {
   int imageId;
 
   @IgnoreColumn()
-  MediaFile image; // TODO: Add method to preload this.
+  MediaFile image;
+
+  clearProgress(){
+    attempts = 0;
+    highScore = 0;
+    unlocked = unlockCode == null;
+  }
 }
 
 @GenBean()

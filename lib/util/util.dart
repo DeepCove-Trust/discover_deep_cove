@@ -57,7 +57,7 @@ class Util {
     Toast.show(
       text,
       context,
-      duration: Toast.LENGTH_SHORT,
+      duration: Toast.LENGTH_LONG,
       gravity: Toast.BOTTOM,
       backgroundColor: Theme.of(context).primaryColor,
       textColor: Colors.black,
