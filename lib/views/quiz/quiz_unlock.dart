@@ -24,37 +24,6 @@ class _QuizUnlockState extends State<QuizUnlock> {
   TextEditingController textController = TextEditingController();
   List<Quiz> quizzes;
 
-  //ScrollController scrollController = ScrollController();
-  // KeyboardVisibilityNotification _keyboardVisibility =
-  //     new KeyboardVisibilityNotification();
-  // int _keyboardVisibilitySubscriberId;
-  // bool _keyboardState;
-
-  // @protected
-  // void initState() {
-  //   super.initState();
-
-  //   _keyboardState = _keyboardVisibility.isKeyboardVisible;
-
-  //   _keyboardVisibilitySubscriberId = _keyboardVisibility.addNewListener(
-  //     onChange: (bool visible) {
-  //       print(visible);
-  //       scrollView();
-  //     },
-  //   );
-  // }
-
-  // void scrollView() {
-  //   var scrollPosition = scrollController.position;
-  //   print("scrolled");
-
-  //   scrollController.animateTo(
-  //     scrollPosition.maxScrollExtent,
-  //     duration: Duration(milliseconds: 200),
-  //     curve: Curves.easeOut,
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
