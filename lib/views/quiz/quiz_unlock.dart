@@ -102,7 +102,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
   }
 
   buildContent() {
-    return (Screen.isTablet(context) && !Screen.isPortrait(context))
+    return (Screen.isTablet(context) && Screen.isLandscape(context))
         ? GridView.count(
             crossAxisCount: 2,
             children: [
@@ -127,7 +127,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
       children: <Widget>[
         SizedBox(
           height: Screen.height(context,
-              percentage: Screen.width(context) <= 350
+              percentage: Screen.isSmall(context)
                   ? 5
                   : Screen.isTablet(context) && Screen.isPortrait(context)
                       ? 8
@@ -138,20 +138,23 @@ class _QuizUnlockState extends State<QuizUnlock> {
             Padding(
               padding: EdgeInsets.symmetric(
                   vertical: Screen.height(context,
-                      percentage: Screen.width(context) <= 350 ? 2 : 5),
-                  horizontal: Screen.width(context) <= 350 ? 20 : 50),
-              child: Body(
-                "Your teacher will give you codes to unlock quizzes.",
-                size: Screen.width(context) <= 600 ? 0 : 30,
-              ),
+                      percentage: Screen.isSmall(context) ? 2 : 5),
+                  horizontal: Screen.isSmall(context) ? 20 : 50),
+              child: Screen.width(context) <= 600
+                  ? Body(
+                      "Your teacher will give you codes to unlock quizzes.",
+                    )
+                  : Heading(
+                      "Your teacher will give you codes to unlock quizzes.",
+                    ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
                   vertical: Screen.height(context, percentage: 5),
-                  horizontal: Screen.width(context) <= 350 ? 20 : 50),
+                  horizontal: Screen.isSmall(context) ? 20 : 50),
               child: Container(
                 width: Screen.width(context,
-                    percentage: Screen.width(context) <= 350 ? 100 : 80),
+                    percentage: Screen.isSmall(context) ? 100 : 80),
                 child: Column(
                   children: <Widget>[
                     Padding(
@@ -159,7 +162,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                       child: Text(
                         "Not a Student?",
                         style: TextStyle(
-                          fontSize: Screen.width(context) <= 350
+                          fontSize: Screen.isSmall(context)
                               ? 16
                               : Screen.width(context) >= 650 ? 30 : 20,
                           color: Colors.white,
@@ -170,7 +173,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                     ),
                     SizedBox(
                       height: Screen.height(context,
-                          percentage: Screen.width(context) <= 350 ? 1.5 : 3),
+                          percentage: Screen.isSmall(context) ? 1.5 : 3),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 20),
@@ -205,7 +208,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
           padding: EdgeInsets.symmetric(
             horizontal: Screen.isTablet(context) ? 28.0 : 8.0,
             vertical: Screen.width(context,
-                percentage: Screen.width(context) <= 350 ? 2 : 5),
+                percentage: Screen.isSmall(context) ? 2 : 5),
           ),
           child: Container(
             width: Screen.width(context,
