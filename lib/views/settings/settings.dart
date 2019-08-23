@@ -1,5 +1,6 @@
 import 'package:discover_deep_cove/util/data_sync.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
+import 'package:discover_deep_cove/views/activites/activity_unlock.dart';
 import 'package:discover_deep_cove/widgets/settings/settings_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,6 +24,12 @@ class _SettingsState extends State<Settings> {
         children: <Widget>[
           Column(
             children: <Widget>[
+              SettingsButton(
+                iconData: FontAwesomeIcons.lockOpen,
+                text: "Unlock activity",
+                onTap: () => Navigator.pushNamed(context, '/activityUnlock',)
+              ),
+              Divider(color: HexColor("FF777777"), height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.undo,
                 text: "Reset Progress",
