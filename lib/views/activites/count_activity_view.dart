@@ -236,7 +236,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                   bottom: Screen.height(context, percentage: 2.0),
                 ),
                 child: Column(
-                  mainAxisAlignment: Screen.isLandscape(context) || Screen.isSmall(context)
+                  mainAxisAlignment: Screen.isLandscape(context)
                       ? MainAxisAlignment.center
                       : MainAxisAlignment.end,
                   children: <Widget>[
