@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_grid.dart';
 import 'package:discover_deep_cove/widgets/misc/text/custom_v_grid.dart';
@@ -25,7 +26,7 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion> {
   double height;
 
   void playAudio() {
-    player.play(widget.question.audio.path, isLocal: true);
+    player.play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
   }
 
   Widget buildAudioButton() {

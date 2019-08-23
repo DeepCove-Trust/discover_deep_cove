@@ -35,7 +35,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
   }
 
   buildContent() {
-    return (Screen.isTablet(context) && !Screen.isPortrait(context))
+    return (Screen.isTablet(context) && Screen.isLandscape(context))
         ? GridView.count(
             crossAxisCount: 2,
             children: [
@@ -113,10 +113,10 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                 SizedBox(
                   width: Screen.width(
                         context,
-                        percentage: Screen.width(context) <= 350
+                        percentage: Screen.isSmall(context)
                             ? 80
                             : Screen.isTablet(context) &&
-                                    !Screen.isPortrait(context)
+                                    Screen.isLandscape(context)
                                 ? 45
                                 : 88.75,
                       ) /
@@ -129,7 +129,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                         Icon(
                           FontAwesomeIcons.music,
                           color: Colors.white,
-                          size: Screen.width(context) <= 350 ? 16 : 24,
+                          size: Screen.isSmall(context) ? 16 : 24,
                         ),
                         SizedBox(height: 10),
                         Body('Pronounce'),
@@ -145,10 +145,10 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                 SizedBox(
                   width: Screen.width(
                         context,
-                        percentage: Screen.width(context) <= 350
+                        percentage: Screen.isSmall(context)
                             ? 80
                             : Screen.isTablet(context) &&
-                                    !Screen.isPortrait(context)
+                                    Screen.isLandscape(context)
                                 ? 45
                                 : 88.75,
                       ) /
@@ -161,7 +161,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                         Icon(
                           FontAwesomeIcons.volumeUp,
                           color: Colors.white,
-                          size: Screen.width(context) <= 350 ? 16 : 24,
+                          size: Screen.isSmall(context) ? 16 : 24,
                         ),
                         SizedBox(height: 10),
                         Body('Listen'),

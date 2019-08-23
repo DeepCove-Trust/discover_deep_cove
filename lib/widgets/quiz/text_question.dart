@@ -29,7 +29,7 @@ class _TextQuestionState extends State<TextQuestion> {
   bool get hasAudio => widget.question.audio != null;
 
   void playAudio() {
-    player.play(widget.question.audio.path, isLocal: true);
+    player.play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
   }
 
   Widget buildAudioButton() {
