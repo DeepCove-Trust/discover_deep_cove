@@ -102,7 +102,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
   }
 
   buildContent() {
-    return (Screen.isTablet(context) && !Screen.isPortrait(context))
+    return (Screen.isTablet(context) && Screen.isLandscape(context))
         ? GridView.count(
             crossAxisCount: 2,
             children: [

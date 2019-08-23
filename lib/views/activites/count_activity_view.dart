@@ -25,7 +25,7 @@ class _CountActivityViewState extends State<CountActivityView> {
   int count = 0;
 
   buildContent() {
-    return (Screen.isTablet(context) && !Screen.isPortrait(context))
+    return (Screen.isTablet(context) && Screen.isLandscape(context))
         ? GridView.count(
             crossAxisCount: 2,
             children: [
@@ -89,7 +89,7 @@ class _CountActivityViewState extends State<CountActivityView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        widget.isReview && !Screen.isPortrait(context)
+        widget.isReview && Screen.isLandscape(context)
             ? SizedBox(
                 height: Screen.height(
                   context,
@@ -135,7 +135,7 @@ class _CountActivityViewState extends State<CountActivityView> {
             : Container(
                 width: Screen.width(context),
                 height: Screen.height(context,
-                    percentage: !Screen.isPortrait(context) ? 15.0 : 10.0),
+                    percentage: Screen.isLandscape(context) ? 15.0 : 10.0),
                 color: Theme.of(context).primaryColor,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -240,7 +240,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                   bottom: Screen.height(context, percentage: 2.0),
                 ),
                 child: Column(
-                  mainAxisAlignment:  !Screen.isPortrait(context) ? MainAxisAlignment.center : MainAxisAlignment.end,
+                  mainAxisAlignment:  Screen.isLandscape(context) ? MainAxisAlignment.center : MainAxisAlignment.end,
                   children: <Widget>[
                     EditAnswer(),
                   ],

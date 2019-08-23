@@ -17,7 +17,7 @@ class SettingsButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(
             vertical: Screen.height(context, percentage: 5), horizontal: 12),
         child: Row(
-          mainAxisAlignment: !Screen.isPortrait(context)
+          mainAxisAlignment: Screen.isLandscape(context)
               ? MainAxisAlignment.center
               : MainAxisAlignment.spaceEvenly,
           children: [
