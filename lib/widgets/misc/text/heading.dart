@@ -16,7 +16,7 @@ class Heading extends StatelessWidget {
       text,
       overflow: TextOverflow.fade,
       style: TextStyle(
-        fontSize: size == 0 ? Screen.width(context) <= 350 ? 25 : 30 : size,
+        fontSize: size == 0 ? Screen.isSmall(context) ? 25 : 30 : size,
         color: Colors.white,
       ),
       textAlign: align,

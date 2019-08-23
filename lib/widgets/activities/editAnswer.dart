@@ -8,9 +8,11 @@ class EditAnswer extends StatelessWidget {
     return Text(
       "To edit your answer, re-scan the QR code.",
       style: TextStyle(
-        fontSize: Screen.width(context) <= 350 ? 16 : 20,
+        fontSize:
+            Screen.isTablet(context) ? 25.0 : Screen.isSmall(context) ? 14 : 20,
         color: HexColor("FF777777"),
       ),
+      textAlign: TextAlign.center,
     );
   }
 }

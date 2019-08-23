@@ -88,7 +88,7 @@ class About extends StatelessWidget {
   setXPadding(BuildContext context) {
     return Screen.height(context) >= 600 && Screen.isPortrait(context)
         ? Screen.width(context, percentage: 10)
-        : Screen.height(context) >= 600 && !Screen.isPortrait(context)
+        : Screen.height(context) >= 600 && Screen.isLandscape(context)
             ? Screen.width(context, percentage: 20)
             : Screen.width(context, percentage: 5);
   }
@@ -96,7 +96,7 @@ class About extends StatelessWidget {
   setYPadding(BuildContext context) {
     return Screen.height(context) >= 600 && Screen.isPortrait(context)
         ? Screen.width(context, percentage: 8)
-        : Screen.height(context) >= 600 && !Screen.isPortrait(context)
+        : Screen.height(context) >= 600 && Screen.isLandscape(context)
             ? Screen.height(context, percentage: 10)
             : Screen.width(context, percentage: 5);
   }

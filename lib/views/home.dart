@@ -102,11 +102,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   void navigateToActivity(Activity activity, bool isReview) {
-    Navigator.pushNamed(context, '/activity',
-        arguments: ActivityScreenArgs(
-          activity: activity,
-          isReview: isReview,
-        ));
+    Navigator.pushNamed(
+      context,
+      '/activity',
+      arguments: ActivityScreenArgs(
+        activity: activity,
+        isReview: isReview,
+      ),
+    );
   }
 
   ///Receives the result of the scan and determines what action to take
@@ -116,8 +119,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
     try {
       activity = activities.firstWhere((a) => a.qrCode == qrString);
-    }
-    catch(ex){
+    } catch (ex) {
       Util.showToast(context, 'Unrecognized QR Code...');
       return;
     }
