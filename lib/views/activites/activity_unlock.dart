@@ -1,12 +1,9 @@
-import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
-
-enum UnlockStatus { success, alreadyUnlocked, failure }
 
 class ActivityUnlock extends StatelessWidget {
   final TextEditingController textController = TextEditingController();
