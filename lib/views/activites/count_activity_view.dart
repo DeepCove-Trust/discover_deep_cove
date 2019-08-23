@@ -91,10 +91,7 @@ class _CountActivityViewState extends State<CountActivityView> {
       children: <Widget>[
         widget.isReview && Screen.isLandscape(context)
             ? SizedBox(
-                height: Screen.height(
-                  context,
-                  percentage:40.0
-                ),
+                height: Screen.height(context, percentage: 40.0),
               )
             : Container(),
         Padding(
@@ -182,7 +179,6 @@ class _CountActivityViewState extends State<CountActivityView> {
                   ],
                 ),
               ),
-              
         !widget.isReview ? Expanded(child: Container()) : Container(),
         widget.isReview
             ? Container()
@@ -204,9 +200,9 @@ class _CountActivityViewState extends State<CountActivityView> {
                         ),
                         child: Body(
                           'Pass',
-                          size: Screen.width(context) >= 600
+                          size: Screen.isTablet(context)
                               ? 30
-                              : Screen.width(context) <= 350 ? 16 : 20,
+                              : Screen.isSmall(context) ? 16 : 20,
                         ),
                       ),
                     ),
@@ -222,9 +218,9 @@ class _CountActivityViewState extends State<CountActivityView> {
                         ),
                         child: Body(
                           "Save",
-                          size: Screen.width(context) >= 600
+                          size: Screen.isTablet(context)
                               ? 30
-                              : Screen.width(context) <= 350 ? 16 : 20,
+                              : Screen.isSmall(context) ? 16 : 20,
                         ),
                       ),
                     ),
@@ -240,7 +236,9 @@ class _CountActivityViewState extends State<CountActivityView> {
                   bottom: Screen.height(context, percentage: 2.0),
                 ),
                 child: Column(
-                  mainAxisAlignment:  Screen.isLandscape(context) ? MainAxisAlignment.center : MainAxisAlignment.end,
+                  mainAxisAlignment: Screen.isLandscape(context)
+                      ? MainAxisAlignment.center
+                      : MainAxisAlignment.end,
                   children: <Widget>[
                     EditAnswer(),
                   ],

@@ -13,7 +13,7 @@ class ActivityAppBar extends StatelessWidget with PreferredSizeWidget{
       leading: Container(),
       title: Heading(
         text,
-        size: Screen.width(context) >= 600 ? 30 : 20,
+        size: Screen.isTablet(context) ? 30 : 20,
       ),
       centerTitle: true,
       backgroundColor: Theme.of(context).primaryColor,

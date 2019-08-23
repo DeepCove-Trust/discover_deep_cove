@@ -28,7 +28,7 @@ class SettingsButton extends StatelessWidget {
             Container(
               width: Screen.width(context,
                   percentage:
-                      Screen.width(context) >= 600 && Screen.isPortrait(context)
+                      Screen.isTablet(context) && Screen.isPortrait(context)
                           ? 60
                           : 30),
               child: SubHeading(text),
