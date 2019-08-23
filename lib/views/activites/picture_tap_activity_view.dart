@@ -50,32 +50,58 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
       body: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
-            child: Text(widget.activity.description),
+            padding: EdgeInsets.symmetric(
+              horizontal: Screen.width(context, percentage: 5),
+              vertical: Screen.height(context, percentage: 2.5),
+            ),
+            child: Body(
+              widget.activity.description,
+              size: Screen.isTablet(context)
+                  ? 30.0
+                  : Screen.isSmall(context) ? 14 : 16,
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
-            child: Text(widget.activity.task),
+            padding: EdgeInsets.symmetric(
+              horizontal: Screen.width(context, percentage: 5),
+              vertical: Screen.height(context, percentage: 1.25),
+            ),
+            child: Body(
+              widget.activity.task,
+              size: Screen.isTablet(context)
+                  ? 30.0
+                  : Screen.isSmall(context) ? 14 : 16,
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+            padding: EdgeInsets.symmetric(
+              vertical: Screen.height(context, percentage: 1.25),
+            ),
             child: widget.isReview
                 ? Body(
                     "Your Answer:",
+                    size: Screen.isTablet(context) ? 30.0 : 0,
                   )
                 : null,
+          ),
+          Expanded(
+            child: Container(),
           ),
           widget.isReview
               ? Stack(
                   fit: StackFit.loose,
                   children: <Widget>[
                     Container(
-                      height: Screen.height(context, percentage: 51.58),
+                      height: Screen.width(context),
+                      width: Screen.width(context),
                       child: Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: FileImage(File(Env.getResourcePath(
-                                widget.activity.image.path))),
+                            image: FileImage(
+                              File(
+                                Env.getResourcePath(widget.activity.image.path),
+                              ),
+                            ),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -103,11 +129,11 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                       left: widget.activity.userXCoord,
                       child: Center(
                         child: Container(
-                          width: 100.0,
-                          height: 100.0,
+                          width: Screen.height(context, percentage: 10),
+                          height: Screen.height(context, percentage: 10),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Color(0x80FF5026),
+                              color: HexColor("80FF5026"),
                               border: Border.all(
                                 color: setTransparentColor(),
                                 width: 3.0,
@@ -126,15 +152,28 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                   children: <Widget>[
                     GestureDetector(
                       onTapDown: _handleTap,
-                      child: Container(
-                        key: _keyImage,
-                        height: Screen.height(context, percentage: 51.58),
+                      child: Center(
                         child: Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: FileImage(File(Env.getResourcePath(
-                                  widget.activity.image.path))),
-                              fit: BoxFit.cover,
+                          key: _keyImage,
+                          height: Screen.width(context,
+                              percentage: Screen.isTablet(context)
+                                  ? 90
+                                  : Screen.isSmall(context) ? 70 : 80),
+                          width: Screen.width(context,
+                              percentage: Screen.isTablet(context)
+                                  ? 90
+                                  : Screen.isSmall(context) ? 70 : 80),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: FileImage(
+                                  File(
+                                    Env.getResourcePath(
+                                        widget.activity.image.path),
+                                  ),
+                                ),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
@@ -146,11 +185,11 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                             left: posX,
                             child: Center(
                               child: Container(
-                                width: 100.0,
-                                height: 100.0,
+                                width: Screen.height(context, percentage: 10),
+                                height: Screen.height(context, percentage: 10),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: Color(0x80FF5026),
+                                    color: HexColor("80FF5026"),
                                     border: Border.all(
                                       color: setTransparentColor(),
                                       width: 3.0,
@@ -165,7 +204,6 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                         : Container(),
                   ],
                 ),
-          Expanded(child: Container()),
           widget.isReview
               ? Container()
               : Container(
@@ -225,8 +263,8 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     setState(() {
       isTapped = true;
       tapPos = referenceBox.globalToLocal(details.globalPosition);
-      posX = tapPos.dx - 50;
-      posY = tapPos.dy - (_getPositions() + 50);
+      posX = tapPos.dx - (Screen.height(context, percentage: 10) / 2);
+      posY = tapPos.dy - (_getPositions() + (Screen.height(context, percentage: 10) / 2));
     });
   }
 
