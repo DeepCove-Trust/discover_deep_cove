@@ -16,17 +16,25 @@ class CustomVGrid extends StatelessWidget {
         children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [children[0], children[1],if (children.length > 2 )children[2], if (children.length > 3) children[3]],
+            children: [
+              children[0],
+              SizedBox(
+                height: Screen.height(context, percentage: 5),
+              ),
+              children[1],
+              SizedBox(
+                height: Screen.height(context, percentage: 5),
+              ),
+              if (children.length > 2) children[2],
+              SizedBox(
+                height: Screen.height(context, percentage: 5),
+              ),
+              if (children.length > 3) children[3],
+              SizedBox(
+                height: Screen.height(context, percentage: 5),
+              ),
+            ],
           ),
-          // SizedBox(
-          //   height: 12,
-          // ),
-          // children.length > 2
-          //     ? Column(
-          //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //         children: [if (children.length > 2 )children[2], if (children.length > 3) children[3]],
-          //       )
-          //     : Container(),
         ],
       ),
     );
