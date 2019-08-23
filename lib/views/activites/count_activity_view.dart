@@ -93,9 +93,7 @@ class _CountActivityViewState extends State<CountActivityView> {
             ? SizedBox(
                 height: Screen.height(
                   context,
-                  percentage: Screen.isTablet(context)
-                      ? 20.0
-                      : Screen.isSmall(context) ? 5.0 : 10.0,
+                  percentage:40.0
                 ),
               )
             : Container(),
@@ -184,7 +182,8 @@ class _CountActivityViewState extends State<CountActivityView> {
                   ],
                 ),
               ),
-        !Screen.isPortrait(context) ? Expanded(child: Container()) : Container(),
+              
+        !widget.isReview ? Expanded(child: Container()) : Container(),
         widget.isReview
             ? Container()
             : Container(
