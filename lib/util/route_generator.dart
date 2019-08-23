@@ -3,6 +3,7 @@ import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/util/transparent_page_route.dart';
 import 'package:discover_deep_cove/views/activites/activity_screen_args.dart';
+import 'package:discover_deep_cove/views/activites/activity_unlock.dart';
 import 'package:discover_deep_cove/views/activites/count_activity_view.dart';
 import 'package:discover_deep_cove/views/activites/photograph_activity_view.dart';
 import 'package:discover_deep_cove/views/activites/picture_select_activity_view.dart';
@@ -71,32 +72,42 @@ class RouteGenerator {
         if (aArgs != null) {
           if (aArgs.activity.activityType == ActivityType.countActivity) {
             return MaterialPageRoute(
-                builder: (_) => CountActivityView(
-                    activity: aArgs.activity, isReview: aArgs.isReview));
+              builder: (_) => CountActivityView(
+                  activity: aArgs.activity, isReview: aArgs.isReview),
+            );
           }
           if (aArgs.activity.activityType == ActivityType.photographActivity) {
             return MaterialPageRoute(
-                builder: (_) => PhotographActivityView(
-                    activity: aArgs.activity, isReview: aArgs.isReview));
+              builder: (_) => PhotographActivityView(
+                  activity: aArgs.activity, isReview: aArgs.isReview),
+            );
           }
           if (aArgs.activity.activityType ==
               ActivityType.pictureSelectActivity) {
             return MaterialPageRoute(
-                builder: (_) => PictureSelectActivityView(
-                    activity: aArgs.activity, isReview: aArgs.isReview));
+              builder: (_) => PictureSelectActivityView(
+                  activity: aArgs.activity, isReview: aArgs.isReview),
+            );
           }
           if (aArgs.activity.activityType == ActivityType.pictureTapActivity) {
             return MaterialPageRoute(
-                builder: (_) => PictureTapActivityView(
-                    activity: aArgs.activity, isReview: aArgs.isReview));
+              builder: (_) => PictureTapActivityView(
+                  activity: aArgs.activity, isReview: aArgs.isReview),
+            );
           }
           if (aArgs.activity.activityType == ActivityType.textAnswerActivity) {
             return MaterialPageRoute(
-                builder: (_) => TextAnswerActivityView(
-                    activity: aArgs.activity, isReview: aArgs.isReview));
+              builder: (_) => TextAnswerActivityView(
+                  activity: aArgs.activity, isReview: aArgs.isReview),
+            );
           }
         }
         return _errorRoute();
+
+      case '/activityUnlock':
+        return MaterialPageRoute(
+          builder: (_) => ActivityUnlock(onCodeEntry: args,),
+        );
 
       default:
         return _errorRoute();

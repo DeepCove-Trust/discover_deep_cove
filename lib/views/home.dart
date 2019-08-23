@@ -18,6 +18,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong/latlong.dart';
 import 'package:toast/toast.dart';
 
+import 'activites/activity_unlock.dart';
+
 enum Page { FactFile, Scan, Map, Quiz, Settings }
 
 class Home extends StatefulWidget {
@@ -60,6 +62,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     pages.add(QuizIndex());
     pages.add(Settings(
       onProgressUpdate: setLoadingModal,
+      onCodeEntry: (code) => handleMessage(code),
     ));
     currentPage = pages[Page.Map.index];
   }
@@ -113,7 +116,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   ///Receives the result of the scan and determines what action to take
-  void handleMessage(qrString) async {
+  void handleMessage(String qrString) async {
     List<Activity> activities = await ActivityBean.of(context).getAll();
     Activity activity;
 
@@ -184,7 +187,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ? CustomFab(
               icon: FontAwesomeIcons.qrcode,
               text: "Scan",
+              //text: "Unlock",
               onPressed: () => scan(),
+              // onPressed: () => Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => ActivityUnlock()),
+              // ),
             )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
