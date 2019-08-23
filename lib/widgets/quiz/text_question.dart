@@ -89,7 +89,9 @@ class _TextQuestionState extends State<TextQuestion> {
     return Column(
       children: <Widget>[
         Container(
-          height: !Screen.isPortrait(context) ? height : Screen.height(context, percentage: 50),
+          height: !Screen.isPortrait(context)
+              ? height - Screen.height(context, percentage: 4.5)
+              : Screen.height(context, percentage: 50),
           child: Stack(
             children: [
               Container(
@@ -109,12 +111,16 @@ class _TextQuestionState extends State<TextQuestion> {
                 children: [
                   Container(
                     color: Color.fromARGB(190, 0, 0, 0),
-                    height: Screen.height(context, percentage: Screen.isTablet(context) ? 10 : 15),
+                    height: Screen.height(context,
+                        percentage: Screen.isTablet(context) ? 10 : 15),
                     width: Screen.width(context),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SubHeading(widget.question.text, size: Screen.isTablet(context) ? 30 : 0,),
+                        SubHeading(
+                          widget.question.text,
+                          size: Screen.isTablet(context) ? 30 : 0,
+                        ),
                         if (hasAudio) buildAudioButton(),
                       ],
                     ),
@@ -132,7 +138,7 @@ class _TextQuestionState extends State<TextQuestion> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-      height = constraints.maxHeight;
+        height = constraints.maxHeight;
         return Scaffold(
           body: buildContent(),
           backgroundColor: Theme.of(context).backgroundColor,

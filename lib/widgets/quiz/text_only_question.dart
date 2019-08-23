@@ -82,7 +82,9 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion> {
   questionComponent() {
     return Container(
       color: Theme.of(context).backgroundColor,
-      height: Screen.isPortrait(context) ? height / 2 : height,
+      height: Screen.isPortrait(context)
+          ? height / 2
+          : height - Screen.height(context, percentage: 4.5),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -119,11 +121,14 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        height = constraints.maxHeight;
-        return buildContent();
-      },
+    return Scaffold(
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          height = constraints.maxHeight;
+          return buildContent();
+        },
+      ),
+      backgroundColor: Theme.of(context).backgroundColor,
     );
   }
 }
