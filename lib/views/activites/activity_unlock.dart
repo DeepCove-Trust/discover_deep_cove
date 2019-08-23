@@ -5,11 +5,17 @@ import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
 
-class ActivityUnlock extends StatelessWidget {
-  final TextEditingController textController = TextEditingController();
+class ActivityUnlock extends StatefulWidget {
   final void Function(String code) onCodeEntry;
 
   ActivityUnlock({@required this.onCodeEntry});
+
+  @override
+  _ActivityUnlockState createState() => _ActivityUnlockState();
+}
+
+class _ActivityUnlockState extends State<ActivityUnlock> {
+  final TextEditingController textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +33,7 @@ class ActivityUnlock extends StatelessWidget {
 
   void verifyCode(BuildContext context) async {
     Navigator.of(context).pop();
-    onCodeEntry(textController.text);
+    widget.onCodeEntry(textController.text);
   }
 
   getBottomHalf(BuildContext context) {
