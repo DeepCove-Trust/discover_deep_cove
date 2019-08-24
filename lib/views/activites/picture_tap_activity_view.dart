@@ -6,6 +6,7 @@ import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
+import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
@@ -111,9 +112,9 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                 )
               : null,
         ),
-        Expanded(
-          child: Container(),
-        ),
+        // Expanded(
+        //   child: Container(),
+        // ),
         widget.isReview
             ? Stack(
                 fit: StackFit.loose,
@@ -199,14 +200,14 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                         height: Screen.width(context,
                             percentage: Screen.isTablet(context) &&
                                     Screen.isLandscape(context)
-                                ? 43.5
+                                ? 42
                                 : Screen.isTablet(context)
                                     ? 90
                                     : Screen.isSmall(context) ? 70 : 80),
                         width: Screen.width(context,
                             percentage: Screen.isTablet(context) &&
                                     Screen.isLandscape(context)
-                                ? 43.5
+                                ? 42
                                 : Screen.isTablet(context)
                                     ? 90
                                     : Screen.isSmall(context) ? 70 : 80),
@@ -253,49 +254,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
               ),
         widget.isReview
             ? Container()
-            : Container(
-                width: Screen.width(context),
-                color: Theme.of(context).primaryColorDark,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: OutlineButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        borderSide: BorderSide(color: Color(0xFF777777)),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        child: Body(
-                          "Pass",
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: OutlineButton(
-                        onPressed: () {
-                          if (isTapped) {
-                            saveAnswer();
-                          } else {
-                            Util.showToast(context, "Please tap the picture!");
-                          }
-                        },
-                        borderSide: BorderSide(color: Color(0xFF777777)),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        child: Body(
-                          "Save",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            : ActivityPassSaveBar(onTap: saveAnswer),
       ],
     );
   }
@@ -329,7 +288,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
       // print("dY " + tapPos.dy.toString());
 
 // print("height " + Screen.height(context).toString());
-// print("width " + Screen.width(context).toString());
+ print("width " + Screen.width(context).toString());
     });
   }
 
