@@ -90,7 +90,6 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                 : Screen.isSmall(context) ? 14 : 16,
           ),
         ),
-        
       ],
     );
   }
@@ -106,7 +105,9 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
           child: widget.isReview
               ? Body(
                   "Your Answer:",
-                  size: Screen.isTablet(context) ? 30.0 : 0,
+                  size: Screen.isTablet(context)
+                ? 30.0
+                : Screen.isSmall(context) ? 14 : 16,
                 )
               : null,
         ),
@@ -117,18 +118,32 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
             ? Stack(
                 fit: StackFit.loose,
                 children: <Widget>[
-                  Container(
-                    height: Screen.width(context),
-                    width: Screen.width(context),
+                  Center(
                     child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: FileImage(
-                            File(
-                              Env.getResourcePath(widget.activity.image.path),
+                      height: Screen.width(context,
+                          percentage: Screen.isTablet(context) &&
+                                  Screen.isLandscape(context)
+                              ? 43.5
+                              : Screen.isTablet(context)
+                                  ? 90
+                                  : Screen.isSmall(context) ? 70 : 80),
+                      width: Screen.width(context,
+                          percentage: Screen.isTablet(context) &&
+                                  Screen.isLandscape(context)
+                              ? 43.5
+                              : Screen.isTablet(context)
+                                  ? 90
+                                  : Screen.isSmall(context) ? 70 : 80),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: FileImage(
+                              File(
+                                Env.getResourcePath(widget.activity.image.path),
+                              ),
                             ),
+                            fit: BoxFit.cover,
                           ),
-                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
@@ -182,13 +197,19 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                       child: Container(
                         key: _keyImage,
                         height: Screen.width(context,
-                            percentage: Screen.isTablet(context)&& Screen.isLandscape(context)
-                                ? 40 : Screen.isTablet(context)  ? 90 
-                                : Screen.isSmall(context) ? 70 : 80),
+                            percentage: Screen.isTablet(context) &&
+                                    Screen.isLandscape(context)
+                                ? 43.5
+                                : Screen.isTablet(context)
+                                    ? 90
+                                    : Screen.isSmall(context) ? 70 : 80),
                         width: Screen.width(context,
-                            percentage: Screen.isTablet(context)
-                                ? 90
-                                : Screen.isSmall(context) ? 70 : 80),
+                            percentage: Screen.isTablet(context) &&
+                                    Screen.isLandscape(context)
+                                ? 43.5
+                                : Screen.isTablet(context)
+                                    ? 90
+                                    : Screen.isSmall(context) ? 70 : 80),
                         child: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
@@ -277,7 +298,6 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
               ),
       ],
     );
-    
   }
 
   @override
@@ -299,6 +319,17 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
       posX = tapPos.dx - (Screen.height(context, percentage: 10) / 2);
       posY = tapPos.dy -
           (_getPositions() + (Screen.height(context, percentage: 10) / 2));
+      // posX = tapPos.dy - (Screen.height(context, percentage: 10) / 2);
+      // posY = tapPos.dx -
+      //     (_getPositions() - (Screen.height(context, percentage: 10) / 2));
+
+      // print("X " + posX.toString());
+      // print("dX " + tapPos.dx.toString());
+      // print("Y " + posY.toString());
+      // print("dY " + tapPos.dy.toString());
+
+// print("height " + Screen.height(context).toString());
+// print("width " + Screen.width(context).toString());
     });
   }
 
@@ -308,6 +339,8 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
         _keyImage.currentContext.findRenderObject();
     final imagePos = renderBoxImage.localToGlobal(Offset.zero);
 
+//  print("IMAGE POS Y " + imagePos.dx.toString());
+//       print("IMAGE POS X " + imagePos.dy.toString());
     return imagePos.dy;
   }
 
