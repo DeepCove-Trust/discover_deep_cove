@@ -1,2 +1,0 @@
-create issue for landscape point
-save btn not working

@@ -92,15 +92,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 //Qr reader section
   ///Uses the camera to scan a qr code
   Future<void> scan() async {
-    handleMessage("029793");
-    // try {
-    //   String qrString = await BarcodeScanner.scan();
+    try {
+      String qrString = await BarcodeScanner.scan();
 
-    //   handleMessage(qrString);
-    // } on PlatformException catch (e) {
-    //   if (e.code == BarcodeScanner.CameraAccessDenied) {
-    //   } else {}
-    // } on FormatException {} catch (e) {}
+      handleMessage(qrString);
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
+      } else {}
+    } on FormatException {} catch (e) {}
   }
 
   void navigateToActivity(Activity activity, bool isReview) {
