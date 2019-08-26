@@ -55,7 +55,7 @@ class _CountActivityViewState extends State<CountActivityView> {
           ),
           child: Body(
             widget.activity.description,
-            size: Screen.isTablet(context) ? 30.0 : 0,
+            size: Screen.isTablet(context) ? 30 : null,
           ),
         ),
         SizedBox(
@@ -71,7 +71,7 @@ class _CountActivityViewState extends State<CountActivityView> {
           ),
           child: Body(
             widget.activity.task,
-            size: Screen.isTablet(context) ? 30.0 : 0,
+            size: Screen.isTablet(context) ? 30 : null,
           ),
         ),
         Padding(
@@ -100,7 +100,7 @@ class _CountActivityViewState extends State<CountActivityView> {
           child: widget.isReview
               ? Body(
                   "You Counted:",
-                  size: Screen.isTablet(context) ? 30.0 : 0,
+                  size: Screen.isTablet(context) ? 30 : null,
                 )
               : SizedBox(
                   height: Screen.height(context, percentage: 5.0),

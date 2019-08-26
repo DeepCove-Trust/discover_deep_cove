@@ -53,9 +53,7 @@ class Tile extends StatelessWidget {
                     if (subheading != null)
                       SizedBox(height: 10), //
                     if (subheading != null)
-                      Body(
-                        subheading,
-                      ),
+                      Body(subheading),
                   ],
                 ),
               ),

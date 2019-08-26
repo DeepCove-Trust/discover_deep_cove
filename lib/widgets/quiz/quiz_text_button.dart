@@ -16,9 +16,7 @@ class QuizTextButton extends StatelessWidget {
         width: Screen.width(context, percentage: 40.0),
         height: Screen.height(context, percentage: 13.5),
         child: Center(
-          child: Heading(
-            text,
-          ),
+          child: Heading(text),
         ),
         decoration: new BoxDecoration(
           border: new Border.all(

@@ -24,7 +24,6 @@ class TextAnswerActivityView extends StatefulWidget {
 class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
   final controller = TextEditingController();
 
-
   @override
   void dispose() {
     super.dispose();
@@ -56,9 +55,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: widget.isReview
-                      ? Body(
-                          "You Answered:",
-                        )
+                      ? Body("You Answered:")
                       : SizedBox(
                           height: Screen.height(context, percentage: 2.5),
                         ),
@@ -103,7 +100,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                 widget.isReview
                     ? Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child:EditAnswer(),
+                        child: EditAnswer(),
                       )
                     : Container(),
               ],
@@ -111,7 +108,9 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
           ),
         ],
       ),
-      bottomNavigationBar: widget.isReview ? BottomBackButton() :  ActivityPassSaveBar(onTap: () => saveAnswer()),
+      bottomNavigationBar: widget.isReview
+          ? BottomBackButton()
+          : ActivityPassSaveBar(onTap: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }

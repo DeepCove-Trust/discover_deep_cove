@@ -75,7 +75,7 @@ class QuizResult extends StatelessWidget {
         ),
         Body(
           "Quiz Completed!",
-          size: Screen.isTablet(context) ? 40 : 0,
+          size: Screen.isTablet(context) ? 40 : null,
         ),
         SizedBox(
           height: Screen.height(context, percentage: 5.0),
@@ -100,7 +100,7 @@ class QuizResult extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Body(
                 "Your score:",
-                size: Screen.isTablet(context) ? 40 : 0,
+                size: Screen.isTablet(context) ? 40 : null,
               ),
             ),
             Heading(
@@ -110,14 +110,14 @@ class QuizResult extends StatelessWidget {
             isHighscore
                 ? Body(
                     "New Highscore!",
-                    size: Screen.isTablet(context) ? 40 : 0,
+                    size: Screen.isTablet(context) ? 40 : null,
                   )
                 : Container(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Body(
                 setMessage(),
-                size: Screen.isTablet(context) ? 40 : 0,
+                size: Screen.isTablet(context) ? 40 : null,
               ),
             ),
           ],

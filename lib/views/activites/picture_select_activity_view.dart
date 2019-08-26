@@ -63,11 +63,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
             padding: const EdgeInsets.fromLTRB(40, 30, 40, 30),
             child: Column(
               children: <Widget>[
-                widget.isReview
-                    ? Body(
-                        "You Answered:",
-                      )
-                    : Container(),
+                widget.isReview ? Body("You Answered:") : Container(),
                 Heading(!widget.isReview
                     ? widget.activity.imageOptions[photoIndex].name
                     : widget.activity.selectedPicture.name),
@@ -140,7 +136,9 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
               : Container(),
         ],
       ),
-      bottomNavigationBar: widget.isReview ? BottomBackButton() :  ActivityPassSaveBar(onTap: () => saveAnswer()),
+      bottomNavigationBar: widget.isReview
+          ? BottomBackButton()
+          : ActivityPassSaveBar(onTap: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }

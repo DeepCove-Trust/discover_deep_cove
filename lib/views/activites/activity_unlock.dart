@@ -47,7 +47,7 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
                   horizontal: Screen.width(context) <= 350 ? 20 : 50),
               child: Body(
                 "Example QR code.",
-                size: Screen.width(context) <= 600 ? 0 : 30,
+                size: Screen.width(context) > 600 ? 30 : null,
               ),
             ),
             Padding(

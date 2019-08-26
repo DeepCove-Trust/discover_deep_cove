@@ -39,10 +39,7 @@ class SmallTile extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 8),
                 color: Color.fromRGBO(0, 0, 0, 0.75),
-                child: SubHeading(
-                  title,
-                  
-                ),
+                child: SubHeading(title),
               ),
             )
           ],

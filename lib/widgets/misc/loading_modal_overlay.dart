@@ -10,7 +10,7 @@ class LoadingModalOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          body: Stack(
+      body: Stack(
         children: <Widget>[
           Opacity(
             opacity: 0.9,
@@ -25,9 +25,7 @@ class LoadingModalOverlay extends StatelessWidget {
               children: <Widget>[
                 icon ?? CircularProgressIndicator(),
                 SizedBox(height: 50),
-                Body(
-                  loadingMessage,
-                ),
+                Body(loadingMessage),
               ],
             ),
           ),

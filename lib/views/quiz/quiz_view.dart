@@ -74,7 +74,9 @@ class QuizViewState extends State<QuizView> {
       appBar: questionIndex < widget.quiz.questions.length
           ? AppBar(
               brightness: Brightness.dark,
-              title: Screen.width(context) <= 600 ? SubHeading(widget.quiz.title) : Heading(widget.quiz.title),
+              title: Screen.width(context) <= 600
+                  ? SubHeading(widget.quiz.title)
+                  : Heading(widget.quiz.title),
               centerTitle: true,
               leading: Container(),
               actions: [

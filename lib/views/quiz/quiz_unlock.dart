@@ -113,7 +113,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                       "Your teacher will give you codes to unlock quizzes.",
                     )
                   : Heading(
-                      "Your teacher will give you codes to unlock quizzes.",
+                      "Your teacher will give you codes to unlock quizzes."
                     ),
             ),
             Padding(

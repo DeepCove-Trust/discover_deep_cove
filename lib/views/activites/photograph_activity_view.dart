@@ -106,9 +106,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
           widget.isReview
               ? Column(
                   children: <Widget>[
-                    Body(
-                      "Your photo:",
-                    ),
+                    Body("Your photo:"),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Container(
@@ -150,9 +148,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                                   textAlign: TextAlign.center,
                                 );
                               } else {
-                                return Body(
-                                  'You have not taken a photo yet.'
-                                );
+                                return Body('You have not taken a photo yet.');
                               }
                           }
                         },
@@ -169,7 +165,9 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
               : Container(),
         ],
       ),
-      bottomNavigationBar: widget.isReview ? BottomBackButton() :  ActivityPassSaveBar(onTap: () => saveAnswer()),
+      bottomNavigationBar: widget.isReview
+          ? BottomBackButton()
+          : ActivityPassSaveBar(onTap: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
       floatingActionButton: widget.isReview
           ? Container()

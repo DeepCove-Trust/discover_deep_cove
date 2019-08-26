@@ -8,7 +8,7 @@ class Heading extends StatelessWidget {
 
   ///Returns a custom [Text] widget for accessing headline theme
   ///and has an optional alignment property.
-  Heading(this.text, {this.align = TextAlign.center, this.size = 0});
+  Heading(this.text, {this.align = TextAlign.center, this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class Heading extends StatelessWidget {
       text,
       overflow: TextOverflow.fade,
       style: TextStyle(
-        fontSize: size == 0 ? Screen.isSmall(context) ? 25 : 30 : size,
+        fontSize: size ?? Screen.isSmall(context) ? 25 : 30,
         color: Colors.white,
       ),
       textAlign: align,
