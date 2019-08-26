@@ -2,6 +2,7 @@ import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
+import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -179,54 +180,6 @@ class _CountActivityViewState extends State<CountActivityView> {
                   ],
                 ),
               ),
-        !widget.isReview ? Expanded(child: Container()) : Container(),
-        widget.isReview
-            ? Container()
-            : Container(
-                width: Screen.width(context),
-                color: Theme.of(context).primaryColorDark,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: OutlineButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        borderSide: BorderSide(
-                          color: HexColor("FF777777"),
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        child: Body(
-                          'Pass',
-                          size: Screen.isTablet(context)
-                              ? 30
-                              : Screen.isSmall(context) ? 16 : 20,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: OutlineButton(
-                        onPressed: () => saveAnswer(),
-                        borderSide: BorderSide(
-                          color: HexColor("FF777777"),
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        child: Body(
-                          "Save",
-                          size: Screen.isTablet(context)
-                              ? 30
-                              : Screen.isSmall(context) ? 16 : 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
         widget.isReview
             ? Padding(
                 padding: EdgeInsets.only(
@@ -254,7 +207,7 @@ class _CountActivityViewState extends State<CountActivityView> {
     return Scaffold(
         appBar: ActivityAppBar(widget.activity.title),
         body: buildContent(),
-        bottomNavigationBar: widget.isReview ? BottomBackButton() : null,
+      bottomNavigationBar: widget.isReview ? BottomBackButton() :  ActivityPassSaveBar(onTap: () => saveAnswer()),
         backgroundColor: Theme.of(context).backgroundColor);
   }
 

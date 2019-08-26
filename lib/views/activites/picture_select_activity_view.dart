@@ -137,49 +137,9 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                   child: EditAnswer(),
                 )
               : Container(),
-          Expanded(child: Container()),
-          widget.isReview
-              ? Container()
-              : Container(
-                  width: Screen.width(context),
-                  color: Theme.of(context).primaryColorDark,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: OutlineButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          borderSide: BorderSide(color: Color(0xFF777777)),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          child: Body(
-                            "Pass",
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: OutlineButton(
-                          onPressed: () => saveAnswer(),
-                          borderSide: BorderSide(color: Color(0xFF777777)),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          child: Body(
-                            "Save",
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
         ],
       ),
-      bottomNavigationBar: widget.isReview ? BottomBackButton() : null,
+      bottomNavigationBar: widget.isReview ? BottomBackButton() :  ActivityPassSaveBar(onTap: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }

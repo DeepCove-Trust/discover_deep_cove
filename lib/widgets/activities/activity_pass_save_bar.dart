@@ -18,7 +18,13 @@ class ActivityPassSaveBar extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.symmetric(horizontal: Screen.width(context) - Screen.width(context,
+                            percentage: Screen.isTablet(context) &&
+                                    Screen.isLandscape(context)
+                                ? 97.5
+                                : Screen.isTablet(context)
+                                    ? 94
+                                    : Screen.isSmall(context) ? 85 : 90), vertical: 8.0,),
                         child: OutlineButton(
                           onPressed: () => Navigator.of(context).pop(),
                           borderSide: BorderSide(
@@ -36,7 +42,13 @@ class ActivityPassSaveBar extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.symmetric(horizontal: Screen.width(context) - Screen.width(context,
+                            percentage: Screen.isTablet(context) &&
+                                    Screen.isLandscape(context)
+                                ? 97.5
+                                : Screen.isTablet(context)
+                                    ? 95
+                                    : Screen.isSmall(context) ? 85 : 90), vertical: 8.0,),
                         child: OutlineButton(
                           onPressed: () => onTap,
                           borderSide: BorderSide(

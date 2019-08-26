@@ -2,6 +2,7 @@ import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
+import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -108,60 +109,9 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
               ],
             ),
           ),
-          widget.isReview
-              ? Container()
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Container(
-                      width: Screen.width(context),
-                      color: Theme.of(context).primaryColorDark,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: OutlineButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              borderSide: BorderSide(color: Color(0xFF777777)),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              child: Body(
-                                "Pass",
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: OutlineButton(
-                              onPressed: () {
-                                if (controller.text.isNotEmpty) {
-                                  saveAnswer();
-                                } else {
-                                  Util.showToast(context,
-                                      "Please write down your answer!");
-                                }
-                              },
-                              borderSide: BorderSide(color: Color(0xFF777777)),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              child: Body(
-                                "Save",
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                )
         ],
       ),
-      bottomNavigationBar: widget.isReview ? BottomBackButton() : null,
+      bottomNavigationBar: widget.isReview ? BottomBackButton() :  ActivityPassSaveBar(onTap: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }
