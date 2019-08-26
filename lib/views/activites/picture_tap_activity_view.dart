@@ -73,9 +73,9 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
             vertical: Screen.height(context, percentage: 2.5),
           ),
           child: Body(
-            widget.activity.description,
+            " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,",
             size: Screen.isTablet(context)
-                ? 30.0
+                ? 25.0
                 : Screen.isSmall(context) ? 14 : 16,
           ),
         ),
@@ -87,7 +87,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
           child: Body(
             widget.activity.task,
             size: Screen.isTablet(context)
-                ? 30.0
+                ? 25.0
                 : Screen.isSmall(context) ? 14 : 16,
           ),
         ),
@@ -101,20 +101,17 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.symmetric(
-            vertical: Screen.height(context, percentage: 1.25),
+            vertical: 0,
           ),
           child: widget.isReview
               ? Body(
                   "Your Answer:",
                   size: Screen.isTablet(context)
-                ? 30.0
+                ? 25.0
                 : Screen.isSmall(context) ? 14 : 16,
                 )
               : null,
         ),
-        // Expanded(
-        //   child: Container(),
-        // ),
         widget.isReview
             ? Stack(
                 fit: StackFit.loose,
@@ -124,16 +121,16 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                       height: Screen.width(context,
                           percentage: Screen.isTablet(context) &&
                                   Screen.isLandscape(context)
-                              ? 43.5
+                              ? 45
                               : Screen.isTablet(context)
                                   ? 90
                                   : Screen.isSmall(context) ? 70 : 80),
                       width: Screen.width(context,
                           percentage: Screen.isTablet(context) &&
                                   Screen.isLandscape(context)
-                              ? 43.5
+                              ? 45
                               : Screen.isTablet(context)
-                                  ? 90
+                                  ? 85
                                   : Screen.isSmall(context) ? 70 : 80),
                       child: Container(
                         decoration: BoxDecoration(
@@ -200,16 +197,16 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                         height: Screen.width(context,
                             percentage: Screen.isTablet(context) &&
                                     Screen.isLandscape(context)
-                                ? 42
+                                ? 45
                                 : Screen.isTablet(context)
-                                    ? 90
+                                    ? 85
                                     : Screen.isSmall(context) ? 70 : 80),
                         width: Screen.width(context,
                             percentage: Screen.isTablet(context) &&
                                     Screen.isLandscape(context)
-                                ? 42
+                                ? 45
                                 : Screen.isTablet(context)
-                                    ? 90
+                                    ? 85
                                     : Screen.isSmall(context) ? 70 : 80),
                         child: Container(
                           decoration: BoxDecoration(
@@ -272,20 +269,25 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     setState(() {
       isTapped = true;
       tapPos = referenceBox.globalToLocal(details.globalPosition);
-      posX = tapPos.dx - (Screen.height(context, percentage: 10) / 2);
-      posY = tapPos.dy -
+      if(Screen.isPortrait(context)){
+        posX = tapPos.dx - (Screen.height(context, percentage: 10) / 2);
+        posY = tapPos.dy -
           (_getPositions() + (Screen.height(context, percentage: 10) / 2));
-      // posX = tapPos.dy - (Screen.height(context, percentage: 10) / 2);
-      // posY = tapPos.dx -
-      //     (_getPositions() - (Screen.height(context, percentage: 10) / 2));
+      }else if(Screen.isLandscape(context)){
+        posX = tapPos.dy - (Screen.height(context, percentage: 10) / 2);
+        posY = tapPos.dx -
+          (_getPositions() - (Screen.height(context, percentage: 10) / 2));
+      }
+      
+      
 
       // print("X " + posX.toString());
       // print("dX " + tapPos.dx.toString());
       // print("Y " + posY.toString());
       // print("dY " + tapPos.dy.toString());
 
-// print("height " + Screen.height(context).toString());
- print("width " + Screen.width(context).toString());
+      // print("height " + Screen.height(context).toString());
+      //print("width " + Screen.width(context).toString());
     });
   }
 
@@ -295,8 +297,8 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
         _keyImage.currentContext.findRenderObject();
     final imagePos = renderBoxImage.localToGlobal(Offset.zero);
 
-//  print("IMAGE POS Y " + imagePos.dx.toString());
-//       print("IMAGE POS X " + imagePos.dy.toString());
+    //print("IMAGE POS Y " + imagePos.dx.toString());
+    //print("IMAGE POS X " + imagePos.dy.toString());
     return imagePos.dy;
   }
 
