@@ -252,9 +252,6 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                       : Container(),
                 ],
               ),
-        widget.isReview
-            ? Container()
-            : ActivityPassSaveBar(onTap: saveAnswer),
       ],
     );
   }
@@ -264,7 +261,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     return Scaffold(
       appBar: ActivityAppBar(widget.activity.title),
       body: buildContent(),
-      bottomNavigationBar: widget.isReview ? BottomBackButton() : null,
+      bottomNavigationBar: widget.isReview ? BottomBackButton() :  ActivityPassSaveBar(onTap: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }
