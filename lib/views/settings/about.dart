@@ -19,9 +19,7 @@ class About extends StatelessWidget {
                   padding: EdgeInsets.symmetric(
                     vertical: setYPadding(context),
                   ),
-                  child: Heading(
-                    "About the trust",
-                  ),
+                  child: Heading("About the trust"),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
@@ -55,9 +53,8 @@ class About extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),                  
-                  child: Body("https://www.doc.govt.nz"),
-                ),
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Body("https://www.doc.govt.nz")),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     vertical: setYPadding(context),

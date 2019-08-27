@@ -1,4 +1,3 @@
-import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -6,13 +5,17 @@ import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
 
-enum UnlockStatus { success, alreadyUnlocked, failure }
-
-class ActivityUnlock extends StatelessWidget {
-  final TextEditingController textController = TextEditingController();
+class ActivityUnlock extends StatefulWidget {
   final void Function(String code) onCodeEntry;
 
   ActivityUnlock({@required this.onCodeEntry});
+
+  @override
+  _ActivityUnlockState createState() => _ActivityUnlockState();
+}
+
+class _ActivityUnlockState extends State<ActivityUnlock> {
+  final TextEditingController textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class ActivityUnlock extends StatelessWidget {
 
   void verifyCode(BuildContext context) async {
     Navigator.of(context).pop();
-    onCodeEntry(textController.text);
+    widget.onCodeEntry(textController.text);
   }
 
   getBottomHalf(BuildContext context) {
@@ -44,7 +47,7 @@ class ActivityUnlock extends StatelessWidget {
                   horizontal: Screen.width(context) <= 350 ? 20 : 50),
               child: Body(
                 "Example QR code.",
-                size: Screen.width(context) <= 600 ? 0 : 30,
+                size: Screen.width(context) > 600 ? 30 : null,
               ),
             ),
             Padding(

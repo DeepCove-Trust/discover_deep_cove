@@ -29,19 +29,16 @@ class _QuizIndexState extends State<QuizIndex> {
 
   @override
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
       appBar: AppBar(
         leading: Container(),
-        title: Heading(
-          'Deep Cove Trivia',
-        ),
+        title: Heading('Deep Cove Trivia'),
         centerTitle: true,
         actions: <Widget>[
           FlatButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/quizUnlock', arguments: refreshData);
+              Navigator.pushNamed(context, '/quizUnlock',
+                  arguments: refreshData);
             },
             color: Colors.transparent,
             padding: EdgeInsets.only(top: 7.0),

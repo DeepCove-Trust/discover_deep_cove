@@ -4,6 +4,7 @@ import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
+import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -62,11 +63,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
             padding: const EdgeInsets.fromLTRB(40, 30, 40, 30),
             child: Column(
               children: <Widget>[
-                widget.isReview
-                    ? Body(
-                        "You Answered:",
-                      )
-                    : Container(),
+                widget.isReview ? Body("You Answered:") : Container(),
                 Heading(!widget.isReview
                     ? widget.activity.imageOptions[photoIndex].name
                     : widget.activity.selectedPicture.name),
@@ -137,49 +134,11 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                   child: EditAnswer(),
                 )
               : Container(),
-          Expanded(child: Container()),
-          widget.isReview
-              ? Container()
-              : Container(
-                  width: Screen.width(context),
-                  color: Theme.of(context).primaryColorDark,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: OutlineButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          borderSide: BorderSide(color: Color(0xFF777777)),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          child: Body(
-                            "Pass",
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: OutlineButton(
-                          onPressed: () => saveAnswer(),
-                          borderSide: BorderSide(color: Color(0xFF777777)),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          child: Body(
-                            "Save",
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
         ],
       ),
-      bottomNavigationBar: widget.isReview ? BottomBackButton() : null,
+      bottomNavigationBar: widget.isReview
+          ? BottomBackButton()
+          : ActivityPassSaveBar(onTap: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }

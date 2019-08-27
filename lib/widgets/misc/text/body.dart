@@ -8,7 +8,7 @@ class Body extends StatelessWidget {
 
   ///Returns a custom [Text] widget for accessing body1 theme
   ///and has an optional alignment property.
-  Body(this.text, {this.align = TextAlign.center, this.size = 0});
+  Body(this.text, {this.align = TextAlign.center, this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class Body extends StatelessWidget {
       text,
       overflow: TextOverflow.fade,
       style: TextStyle(
-        fontSize: size == 0 ? Screen.isSmall(context) ? 16 : 20 : size,
+        fontSize: size ?? (Screen.isSmall(context) ? 16 : 20),
         color: Colors.white,
       ),
       textAlign: align,

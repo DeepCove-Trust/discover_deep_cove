@@ -1,12 +1,11 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
-import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 enum UnlockStatus { success, alreadyUnlocked, failure }
 
@@ -23,37 +22,6 @@ class QuizUnlock extends StatefulWidget {
 class _QuizUnlockState extends State<QuizUnlock> {
   TextEditingController textController = TextEditingController();
   List<Quiz> quizzes;
-
-  //ScrollController scrollController = ScrollController();
-  // KeyboardVisibilityNotification _keyboardVisibility =
-  //     new KeyboardVisibilityNotification();
-  // int _keyboardVisibilitySubscriberId;
-  // bool _keyboardState;
-
-  // @protected
-  // void initState() {
-  //   super.initState();
-
-  //   _keyboardState = _keyboardVisibility.isKeyboardVisible;
-
-  //   _keyboardVisibilitySubscriberId = _keyboardVisibility.addNewListener(
-  //     onChange: (bool visible) {
-  //       print(visible);
-  //       scrollView();
-  //     },
-  //   );
-  // }
-
-  // void scrollView() {
-  //   var scrollPosition = scrollController.position;
-  //   print("scrolled");
-
-  //   scrollController.animateTo(
-  //     scrollPosition.maxScrollExtent,
-  //     duration: Duration(milliseconds: 200),
-  //     curve: Curves.easeOut,
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +113,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                       "Your teacher will give you codes to unlock quizzes.",
                     )
                   : Heading(
-                      "Your teacher will give you codes to unlock quizzes.",
+                      "Your teacher will give you codes to unlock quizzes."
                     ),
             ),
             Padding(

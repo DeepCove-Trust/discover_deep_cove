@@ -75,7 +75,6 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
                 widget.isCorrect == true
                     ? "Correct! ${widget.answer} is the right answer"
                     : "Wrong! You selected ${widget.guess} the correct answer is ${widget.answer}",
-                
               ),
             ),
             SizedBox(
@@ -84,10 +83,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
             Container(
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: Body(
-                  "Tap to proceed",
-                  
-                ),
+                child: Body("Tap to proceed"),
               ),
               decoration: new BoxDecoration(
                 border: new Border.all(

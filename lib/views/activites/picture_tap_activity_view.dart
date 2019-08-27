@@ -6,11 +6,11 @@ import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
+import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
 
 class PictureTapActivityView extends StatefulWidget {
   final Activity activity;
@@ -44,178 +44,223 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: ActivityAppBar(widget.activity.title),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
-            child: Text(widget.activity.description),
+  buildContent() {
+    return (Screen.isTablet(context) && Screen.isLandscape(context))
+        ? GridView.count(
+            crossAxisCount: 2,
+            children: [
+              getTopHalf(),
+              getBottomHalf(),
+            ],
+          )
+        : Column(
+            children: [
+              getTopHalf(),
+              Flexible(
+                child: getBottomHalf(),
+              ),
+            ],
+          );
+  }
+
+  getTopHalf() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Screen.width(context, percentage: 5),
+            vertical: Screen.height(context, percentage: 2.5),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
-            child: Text(widget.activity.task),
+          child: Body(
+            widget.activity.description,
+            size: Screen.isTablet(context)
+                ? 25.0
+                : Screen.isSmall(context) ? 14 : 16,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-            child: widget.isReview
-                ? Body(
-                    "Your Answer:",
-                  )
-                : null,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Screen.width(context, percentage: 5),
+            vertical: Screen.height(context, percentage: 1.25),
           ),
-          widget.isReview
-              ? Stack(
-                  fit: StackFit.loose,
-                  children: <Widget>[
-                    Container(
-                      height: Screen.height(context, percentage: 51.58),
+          child: Body(
+            widget.activity.task,
+            size: Screen.isTablet(context)
+                ? 25.0
+                : Screen.isSmall(context) ? 14 : 16,
+          ),
+        ),
+      ],
+    );
+  }
+
+  getBottomHalf() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: 0,
+          ),
+          child: widget.isReview
+              ? Body(
+                  "Your Answer:",
+                  size: Screen.isTablet(context)
+                      ? 25.0
+                      : Screen.isSmall(context) ? 14 : 16,
+                )
+              : null,
+        ),
+        widget.isReview
+            ? Stack(
+                fit: StackFit.loose,
+                children: <Widget>[
+                  Center(
+                    child: Container(
+                      height: Screen.width(context,
+                          percentage: Screen.isTablet(context) &&
+                                  Screen.isLandscape(context)
+                              ? 45
+                              : Screen.isTablet(context)
+                                  ? 90
+                                  : Screen.isSmall(context) ? 70 : 80),
+                      width: Screen.width(context,
+                          percentage: Screen.isTablet(context) &&
+                                  Screen.isLandscape(context)
+                              ? 45
+                              : Screen.isTablet(context)
+                                  ? 85
+                                  : Screen.isSmall(context) ? 70 : 80),
                       child: Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: FileImage(File(Env.getResourcePath(
-                                widget.activity.image.path))),
+                            image: FileImage(
+                              File(
+                                Env.getResourcePath(widget.activity.image.path),
+                              ),
+                            ),
                             fit: BoxFit.cover,
                           ),
                         ),
                       ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Container(
-                          color: Color.fromARGB(190, 0, 0, 0),
-                          height: Screen.height(context, percentage: 5.0),
-                          width: Screen.width(context),
-                          child: Center(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: EditAnswer(),
-                            ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        color: Color.fromARGB(190, 0, 0, 0),
+                        height: Screen.height(context, percentage: 5.0),
+                        width: Screen.width(context),
+                        child: Center(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: EditAnswer(),
                           ),
                         ),
-                      ],
-                    ),
-                    Positioned(
-                      top: widget.activity.userYCoord,
-                      left: widget.activity.userXCoord,
-                      child: Center(
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    top: widget.activity.userYCoord,
+                    left: widget.activity.userXCoord,
+                    child: Center(
+                      child: Container(
+                        width: Screen.height(context, percentage: 10),
+                        height: Screen.height(context, percentage: 10),
                         child: Container(
-                          width: 100.0,
-                          height: 100.0,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0x80FF5026),
-                              border: Border.all(
-                                color: setTransparentColor(),
-                                width: 3.0,
-                                style: BorderStyle.solid,
-                              ),
-                              shape: BoxShape.circle,
+                          decoration: BoxDecoration(
+                            color: HexColor("80FF5026"),
+                            border: Border.all(
+                              color: setTransparentColor(),
+                              width: 3.0,
+                              style: BorderStyle.solid,
                             ),
+                            shape: BoxShape.circle,
                           ),
                         ),
                       ),
                     ),
-                  ],
-                )
-              : Stack(
-                  fit: StackFit.loose,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTapDown: _handleTap,
+                  ),
+                ],
+              )
+            : Stack(
+                fit: StackFit.loose,
+                children: <Widget>[
+                  GestureDetector(
+                    onTapDown: _handleTap,
+                    child: Center(
                       child: Container(
                         key: _keyImage,
-                        height: Screen.height(context, percentage: 51.58),
+                        height: Screen.width(context,
+                            percentage: Screen.isTablet(context) &&
+                                    Screen.isLandscape(context)
+                                ? 45
+                                : Screen.isTablet(context)
+                                    ? 85
+                                    : Screen.isSmall(context) ? 70 : 80),
+                        width: Screen.width(context,
+                            percentage: Screen.isTablet(context) &&
+                                    Screen.isLandscape(context)
+                                ? 45
+                                : Screen.isTablet(context)
+                                    ? 85
+                                    : Screen.isSmall(context) ? 70 : 80),
                         child: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: FileImage(File(Env.getResourcePath(
-                                  widget.activity.image.path))),
+                              image: FileImage(
+                                File(
+                                  Env.getResourcePath(
+                                      widget.activity.image.path),
+                                ),
+                              ),
                               fit: BoxFit.cover,
                             ),
                           ),
                         ),
                       ),
                     ),
-                    isTapped
-                        ? Positioned(
-                            top: posY,
-                            left: posX,
-                            child: Center(
+                  ),
+                  isTapped
+                      ? Positioned(
+                          top: posY,
+                          left: posX,
+                          child: Center(
+                            child: Container(
+                              width: Screen.height(context, percentage: 10),
+                              height: Screen.height(context, percentage: 10),
                               child: Container(
-                                width: 100.0,
-                                height: 100.0,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Color(0x80FF5026),
-                                    border: Border.all(
-                                      color: setTransparentColor(),
-                                      width: 3.0,
-                                      style: BorderStyle.solid,
-                                    ),
-                                    shape: BoxShape.circle,
+                                decoration: BoxDecoration(
+                                  color: HexColor("80FF5026"),
+                                  border: Border.all(
+                                    color: setTransparentColor(),
+                                    width: 3.0,
+                                    style: BorderStyle.solid,
                                   ),
+                                  shape: BoxShape.circle,
                                 ),
                               ),
                             ),
-                          )
-                        : Container(),
-                  ],
-                ),
-          Expanded(child: Container()),
-          widget.isReview
-              ? Container()
-              : Container(
-                  width: Screen.width(context),
-                  color: Theme.of(context).primaryColorDark,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: OutlineButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          borderSide: BorderSide(color: Color(0xFF777777)),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
                           ),
-                          child: Body(
-                            "Pass",
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: OutlineButton(
-                          onPressed: () {
-                            if (isTapped) {
-                              saveAnswer();
-                            } else {
-                              Util.showToast(
-                                  context, "Please tap the picture!");
-                            }
-                          },
-                          borderSide: BorderSide(color: Color(0xFF777777)),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          child: Body(
-                            "Save",
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-        ],
-      ),
-      bottomNavigationBar: widget.isReview ? BottomBackButton() : null,
+                        )
+                      : Container(),
+                ],
+              ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: ActivityAppBar(widget.activity.title),
+      body: buildContent(),
+      bottomNavigationBar: widget.isReview
+          ? BottomBackButton()
+          : ActivityPassSaveBar(onTap: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }
@@ -226,8 +271,23 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     setState(() {
       isTapped = true;
       tapPos = referenceBox.globalToLocal(details.globalPosition);
-      posX = tapPos.dx - 50;
-      posY = tapPos.dy - (_getPositions() + 50);
+      if (Screen.isPortrait(context)) {
+        posX = tapPos.dx - (Screen.height(context, percentage: 10) / 2);
+        posY = tapPos.dy -
+            (_getPositions() + (Screen.height(context, percentage: 10) / 2));
+      } else if (Screen.isLandscape(context)) {
+        posX = tapPos.dy - (Screen.height(context, percentage: 10) / 2);
+        posY = tapPos.dx -
+            (_getPositions() - (Screen.height(context, percentage: 10) / 2));
+      }
+
+      // print("X " + posX.toString());
+      // print("dX " + tapPos.dx.toString());
+      // print("Y " + posY.toString());
+      // print("dY " + tapPos.dy.toString());
+
+      // print("height " + Screen.height(context).toString());
+      //print("width " + Screen.width(context).toString());
     });
   }
 
@@ -237,6 +297,8 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
         _keyImage.currentContext.findRenderObject();
     final imagePos = renderBoxImage.localToGlobal(Offset.zero);
 
+    //print("IMAGE POS Y " + imagePos.dx.toString());
+    //print("IMAGE POS X " + imagePos.dy.toString());
     return imagePos.dy;
   }
 
