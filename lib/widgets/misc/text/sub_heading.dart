@@ -16,7 +16,7 @@ class SubHeading extends StatelessWidget {
       text,
       overflow: TextOverflow.fade,
       style: TextStyle(
-        fontSize: size ?? Screen.isSmall(context) ? 20 : 25,
+        fontSize: size ?? (Screen.isSmall(context) ? 20 : 25),
         color: Colors.white,
       ),
       textAlign: align,

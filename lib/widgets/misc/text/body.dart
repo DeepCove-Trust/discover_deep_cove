@@ -16,7 +16,7 @@ class Body extends StatelessWidget {
       text,
       overflow: TextOverflow.fade,
       style: TextStyle(
-        fontSize: size ?? Screen.isSmall(context) ? 16 : 20,
+        fontSize: size ?? (Screen.isSmall(context) ? 16 : 20),
         color: Colors.white,
       ),
       textAlign: align,
