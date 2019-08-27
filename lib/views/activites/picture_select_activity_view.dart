@@ -115,11 +115,16 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.height(context, percentage: 5),
-            vertical: Screen.height(context, percentage: 2.5),
+            vertical: Screen.height(context, percentage: 1.25),
           ),
           child: Column(
             children: <Widget>[
-              widget.isReview ? Body("You Answered:") : Container(),
+              widget.isReview
+                  ? Body(
+                      "You Answered:",
+                      size: Screen.isTablet(context) ? 30 : null,
+                    )
+                  : Container(),
               Body(
                 !widget.isReview
                     ? widget.activity.imageOptions[photoIndex].name
@@ -146,8 +151,20 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                   Column(
                     children: <Widget>[
                       Container(
-                        height: Screen.width(context, percentage: 75.0),
-                        width: Screen.width(context, percentage: 75.0),
+                        height: Screen.width(context,
+                            percentage: Screen.isTablet(context) &&
+                                    Screen.isLandscape(context)
+                                ? 45
+                                : Screen.isTablet(context)
+                                    ? 75
+                                    : Screen.isSmall(context) ? 70 : 80),
+                        width: Screen.width(context,
+                            percentage: Screen.isTablet(context) &&
+                                    Screen.isLandscape(context)
+                                ? 45
+                                : Screen.isTablet(context)
+                                    ? 75
+                                    : Screen.isSmall(context) ? 70 : 80),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           image: DecorationImage(
