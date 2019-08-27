@@ -99,7 +99,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-       Container(
+        Container(
           child: widget.isReview
               ? Body(
                   "Your Answer:",
