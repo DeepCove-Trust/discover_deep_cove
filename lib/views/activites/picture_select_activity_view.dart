@@ -46,136 +46,173 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ActivityAppBar(widget.activity.title),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: Screen.width(context, percentage: 5),
-              vertical: Screen.height(context, percentage: 2.5),
-            ),
-            child: Body(
-              widget.activity.description,
-              size: Screen.isTablet(context) ? 30 : null,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: Screen.width(context, percentage: 5),
-              vertical: Screen.height(context, percentage: 2.5),
-            ),
-            child: Body(
-              widget.activity.task,
-              size: Screen.isTablet(context) ? 30 : null,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: Screen.width(context, percentage: 5),
-              vertical: Screen.height(context, percentage: 2.5),
-            ),
-            child: Divider(
-              color: HexColor("FFFFFFFF"),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: Screen.height(context, percentage: 5), vertical: Screen.height(context, percentage: 2.5)),
-            child: Column(
-              children: <Widget>[
-                widget.isReview ? Body("You Answered:") : Container(),
-                Body(
-                  !widget.isReview
-                      ? widget.activity.imageOptions[photoIndex].name
-                      : widget.activity.selectedPicture.name,
-                  size: Screen.isTablet(context) ? 30 : null,
-                ),
-              ],
-            ),
-          ),
-          !widget.isReview
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.chevronLeft,
-                        color: Colors.white,
-                        size: Screen.isTablet(context) ? Screen.height(context, percentage: 5): Screen.height(context, percentage: 2.5),
-                      ),
-                      onPressed: previousImage,
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          height: Screen.width(context, percentage: 75.0),
-                          width: Screen.width(context, percentage: 75.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                              image: FileImage(
-                                File(
-                                  Env.getResourcePath(widget
-                                      .activity.imageOptions[photoIndex].path),
-                                ),
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: Screen.height(
-                              context,
-                              percentage: 2.5,
-                            ),
-                          ),
-                          child: Container(
-                            child: SelectedPhoto(
-                              numberOfDots: widget.activity.imageOptions.length,
-                              photoIndex: photoIndex,
-                              context: context,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.chevronRight,
-                        color: Colors.white,
-                        size: Screen.isTablet(context) ? Screen.height(context, percentage: 5): Screen.height(context, percentage: 2.5),
-                      ),
-                      onPressed: nextImage,
-                    ),
-                  ],
-                )
-              : Container(
-                  height: Screen.width(context, percentage: 75.0),
-                  width: Screen.width(context, percentage: 75.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      image: FileImage(
-                        File(
-                          Env.getResourcePath(
-                              widget.activity.selectedPicture.path),
-                        ),
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-          widget.isReview
-              ? Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: EditAnswer(),
-                )
-              : Container(),
-        ],
-      ),
+      body: buildContent(),
       bottomNavigationBar: widget.isReview
           ? BottomBackButton()
           : ActivityPassSaveBar(onTap: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
+    );
+  }
+
+  buildContent() {
+    return (Screen.isTablet(context) && Screen.isLandscape(context))
+        ? GridView.count(
+            crossAxisCount: 2,
+            children: [
+              getTopHalf(),
+              getBottomHalf(),
+            ],
+          )
+        : Column(
+            children: [
+              getTopHalf(),
+              getBottomHalf(),
+            ],
+          );
+  }
+
+  getTopHalf() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Screen.width(context, percentage: 5),
+            vertical: Screen.height(context, percentage: 2.5),
+          ),
+          child: Body(
+            widget.activity.description,
+            size: Screen.isTablet(context) ? 30 : null,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Screen.width(context, percentage: 5),
+            vertical: Screen.height(context, percentage: 2.5),
+          ),
+          child: Body(
+            widget.activity.task,
+            size: Screen.isTablet(context) ? 30 : null,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Screen.width(context, percentage: 5),
+            vertical: Screen.height(context, percentage: 2.5),
+          ),
+          child: Divider(
+            color: HexColor("FFFFFFFF"),
+          ),
+        ),
+      ],
+    );
+  }
+
+  getBottomHalf() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Screen.height(context, percentage: 5),
+            vertical: Screen.height(context, percentage: 2.5),
+          ),
+          child: Column(
+            children: <Widget>[
+              widget.isReview ? Body("You Answered:") : Container(),
+              Body(
+                !widget.isReview
+                    ? widget.activity.imageOptions[photoIndex].name
+                    : widget.activity.selectedPicture.name,
+                size: Screen.isTablet(context) ? 30 : null,
+              ),
+            ],
+          ),
+        ),
+        !widget.isReview
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(
+                      FontAwesomeIcons.chevronLeft,
+                      color: Colors.white,
+                      size: Screen.isTablet(context)
+                          ? Screen.height(context, percentage: 5)
+                          : Screen.height(context, percentage: 2.5),
+                    ),
+                    onPressed: previousImage,
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        height: Screen.width(context, percentage: 75.0),
+                        width: Screen.width(context, percentage: 75.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            image: FileImage(
+                              File(
+                                Env.getResourcePath(widget
+                                    .activity.imageOptions[photoIndex].path),
+                              ),
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: Screen.height(
+                            context,
+                            percentage: 2.5,
+                          ),
+                        ),
+                        child: Container(
+                          child: SelectedPhoto(
+                            numberOfDots: widget.activity.imageOptions.length,
+                            photoIndex: photoIndex,
+                            context: context,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      FontAwesomeIcons.chevronRight,
+                      color: Colors.white,
+                      size: Screen.isTablet(context)
+                          ? Screen.height(context, percentage: 5)
+                          : Screen.height(context, percentage: 2.5),
+                    ),
+                    onPressed: nextImage,
+                  ),
+                ],
+              )
+            : Container(
+                height: Screen.width(context, percentage: 75.0),
+                width: Screen.width(context, percentage: 75.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    image: FileImage(
+                      File(
+                        Env.getResourcePath(
+                            widget.activity.selectedPicture.path),
+                      ),
+                    ),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+        widget.isReview
+            ? Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: EditAnswer(),
+              )
+            : Container(),
+      ],
     );
   }
 
