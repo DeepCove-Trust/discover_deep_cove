@@ -63,21 +63,22 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset('assets/splash_logo.png'),
-          Column(
-            children: [
-              icon ?? CircularProgressIndicator(),
-              SizedBox(
-                height: Screen.height(context, percentage: 10),
-              ),
-              Body(text),
-            ],
-          )
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Image.asset('assets/splash_logo.png'),
+            Column(
+              children: [
+                icon ?? CircularProgressIndicator(),
+                SizedBox(
+                  height: Screen.height(context, percentage: 10),
+                ),
+                Body(text),
+              ],
+            )
+          ],
+        ),
       ),
       backgroundColor: Theme.of(context).primaryColorDark,
     );
