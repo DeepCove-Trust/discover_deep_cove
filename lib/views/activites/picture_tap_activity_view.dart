@@ -73,7 +73,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
             vertical: Screen.height(context, percentage: 2.5),
           ),
           child: Body(
-            " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,",
+            widget.activity.description,
             size: Screen.isTablet(context)
                 ? 25.0
                 : Screen.isSmall(context) ? 14 : 16,
@@ -107,8 +107,8 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
               ? Body(
                   "Your Answer:",
                   size: Screen.isTablet(context)
-                ? 25.0
-                : Screen.isSmall(context) ? 14 : 16,
+                      ? 25.0
+                      : Screen.isSmall(context) ? 14 : 16,
                 )
               : null,
         ),
@@ -258,7 +258,9 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     return Scaffold(
       appBar: ActivityAppBar(widget.activity.title),
       body: buildContent(),
-      bottomNavigationBar: widget.isReview ? BottomBackButton() :  ActivityPassSaveBar(onTap: () => saveAnswer()),
+      bottomNavigationBar: widget.isReview
+          ? BottomBackButton()
+          : ActivityPassSaveBar(onTap: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }
@@ -269,17 +271,15 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     setState(() {
       isTapped = true;
       tapPos = referenceBox.globalToLocal(details.globalPosition);
-      if(Screen.isPortrait(context)){
+      if (Screen.isPortrait(context)) {
         posX = tapPos.dx - (Screen.height(context, percentage: 10) / 2);
         posY = tapPos.dy -
-          (_getPositions() + (Screen.height(context, percentage: 10) / 2));
-      }else if(Screen.isLandscape(context)){
+            (_getPositions() + (Screen.height(context, percentage: 10) / 2));
+      } else if (Screen.isLandscape(context)) {
         posX = tapPos.dy - (Screen.height(context, percentage: 10) / 2);
         posY = tapPos.dx -
-          (_getPositions() - (Screen.height(context, percentage: 10) / 2));
+            (_getPositions() - (Screen.height(context, percentage: 10) / 2));
       }
-      
-      
 
       // print("X " + posX.toString());
       // print("dX " + tapPos.dx.toString());
