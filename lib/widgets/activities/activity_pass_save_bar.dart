@@ -50,7 +50,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                                     ? 92.5
                                     : Screen.isSmall(context) ? 85 : 90), 12.0, ),
                         child: OutlineButton(
-                          onPressed: () => onTap,
+                          onPressed: onTap,
                           borderSide: BorderSide(
                             color: HexColor("FF777777"),
                           ),
