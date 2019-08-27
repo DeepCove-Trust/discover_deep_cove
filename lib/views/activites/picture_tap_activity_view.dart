@@ -99,10 +99,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: 0,
-          ),
+       Container(
           child: widget.isReview
               ? Body(
                   "Your Answer:",
@@ -123,15 +120,15 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                                   Screen.isLandscape(context)
                               ? 45
                               : Screen.isTablet(context)
-                                  ? 90
-                                  : Screen.isSmall(context) ? 70 : 80),
+                                  ? 85
+                                  : Screen.isSmall(context) ? 75 : 80),
                       width: Screen.width(context,
                           percentage: Screen.isTablet(context) &&
                                   Screen.isLandscape(context)
                               ? 45
                               : Screen.isTablet(context)
                                   ? 85
-                                  : Screen.isSmall(context) ? 70 : 80),
+                                  : Screen.isSmall(context) ? 75 : 80),
                       child: Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -200,14 +197,14 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                                 ? 45
                                 : Screen.isTablet(context)
                                     ? 85
-                                    : Screen.isSmall(context) ? 70 : 80),
+                                    : Screen.isSmall(context) ? 75 : 80),
                         width: Screen.width(context,
                             percentage: Screen.isTablet(context) &&
                                     Screen.isLandscape(context)
                                 ? 45
                                 : Screen.isTablet(context)
                                     ? 85
-                                    : Screen.isSmall(context) ? 70 : 80),
+                                    : Screen.isSmall(context) ? 75 : 80),
                         child: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
