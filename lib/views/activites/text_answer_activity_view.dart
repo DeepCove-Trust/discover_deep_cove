@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
@@ -37,81 +38,139 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
-                  child: Text(widget.activity.description),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
-                  child: Text(widget.activity.task),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: Divider(color: Color(0xFF777777)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: widget.isReview
-                      ? Body("You Answered:")
-                      : SizedBox(
-                          height: Screen.height(context, percentage: 2.5),
-                        ),
-                ),
-                widget.isReview
-                    ? Container(
-                        width: Screen.width(context, percentage: 87.5),
-                        height: Screen.height(context, percentage: 38.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 1.0,
-                              color: Theme.of(context).primaryColor),
-                          borderRadius: BorderRadius.all(Radius.circular(5.0) //
-                              ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Body(
-                            widget.activity.userText,
-                            align: TextAlign.left,
-                          ),
-                        ),
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: Container(
-                          width: Screen.width(context, percentage: 87.5),
-                          height: Screen.height(context, percentage: 38.0),
-                          color: Colors.white,
-                          child: TextField(
-                            keyboardType: TextInputType.multiline,
-                            maxLines: 10,
-                            style: TextStyle(color: Colors.black),
-                            controller: controller,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.all(8.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                widget.isReview
-                    ? Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: EditAnswer(),
-                      )
-                    : Container(),
-              ],
-            ),
-          ),
+          buildContent(),
         ],
       ),
       bottomNavigationBar: widget.isReview
           ? BottomBackButton()
           : ActivityPassSaveBar(onTap: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
+    );
+  }
+
+  buildContent() {
+    return (Screen.isTablet(context) && Screen.isLandscape(context))
+        ? GridView.count(
+            crossAxisCount: 2,
+            children: [
+              getTopHalf(),
+              getBottomHalf(),
+            ],
+          )
+        : SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                getTopHalf(),
+                getBottomHalf(),
+              ],
+            ),
+          );
+  }
+
+  getTopHalf() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Screen.width(context, percentage: 2.5),
+            vertical: Screen.height(context, percentage: 5.0),
+          ),
+          child: Body(
+            widget.activity.description,
+            size: Screen.isTablet(context) ? 30 : null,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Screen.width(context, percentage: 2.5),
+            vertical: Screen.height(context, percentage: 5.0),
+          ),
+          child: Body(
+            widget.activity.task,
+            size: Screen.isTablet(context) ? 30 : null,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Screen.width(context, percentage: 5),
+          ),
+          child: Divider(
+            color: HexColor("FF777777"),
+          ),
+        ),
+      ],
+    );
+  }
+
+  getBottomHalf() {
+    return Padding(
+      padding: EdgeInsets.only(
+        right: Screen.width(context, percentage: 2.5),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: widget.isReview
+                ? Body(
+                    "You Answered:",
+                    size: Screen.isTablet(context) ? 30 : null,
+                  )
+                : SizedBox(
+                    height: Screen.height(context, percentage: 2.5),
+                  ),
+          ),
+          Column(
+            children: <Widget>[
+              widget.isReview
+                  ? Container(
+                      width: Screen.width(context, percentage: 87.5),
+                      height: Screen.height(context, percentage: 38.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1.0, color: Theme.of(context).primaryColor),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0) //
+                            ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Body(
+                          widget.activity.userText,
+                          align: TextAlign.left,
+                        ),
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Container(
+                        width: Screen.width(context, percentage: 87.5),
+                        height: Screen.height(context, percentage: 60.0),
+                        color: Colors.white,
+                        child: TextField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 10,
+                          style: TextStyle(color: Colors.black),
+                          controller: controller,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.all(8.0),
+                          ),
+                        ),
+                      ),
+                    ),
+            ],
+          ),
+          widget.isReview
+              ? Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: EditAnswer(),
+                )
+              : Container(),
+        ],
+      ),
     );
   }
 
