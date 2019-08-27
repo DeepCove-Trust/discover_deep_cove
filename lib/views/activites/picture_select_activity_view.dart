@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
@@ -48,25 +49,45 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
       body: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(40, 5, 40, 20),
-            child: Text(widget.activity.description),
+            padding: EdgeInsets.symmetric(
+              horizontal: Screen.width(context, percentage: 5),
+              vertical: Screen.height(context, percentage: 2.5),
+            ),
+            child: Body(
+              widget.activity.description,
+              size: Screen.isTablet(context) ? 30 : null,
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(40, 0, 40, 20),
-            child: Text(widget.activity.task),
+            padding: EdgeInsets.symmetric(
+              horizontal: Screen.width(context, percentage: 5),
+              vertical: Screen.height(context, percentage: 2.5),
+            ),
+            child: Body(
+              widget.activity.task,
+              size: Screen.isTablet(context) ? 30 : null,
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Divider(color: Color(0xFF777777)),
+            padding: EdgeInsets.symmetric(
+              horizontal: Screen.width(context, percentage: 5),
+              vertical: Screen.height(context, percentage: 2.5),
+            ),
+            child: Divider(
+              color: HexColor("FFFFFFFF"),
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(40, 30, 40, 30),
+            padding: EdgeInsets.symmetric(horizontal: Screen.height(context, percentage: 5), vertical: Screen.height(context, percentage: 2.5)),
             child: Column(
               children: <Widget>[
                 widget.isReview ? Body("You Answered:") : Container(),
-                Heading(!widget.isReview
-                    ? widget.activity.imageOptions[photoIndex].name
-                    : widget.activity.selectedPicture.name),
+                Body(
+                  !widget.isReview
+                      ? widget.activity.imageOptions[photoIndex].name
+                      : widget.activity.selectedPicture.name,
+                  size: Screen.isTablet(context) ? 30 : null,
+                ),
               ],
             ),
           ),
@@ -78,30 +99,40 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                       icon: Icon(
                         FontAwesomeIcons.chevronLeft,
                         color: Colors.white,
+                        size: Screen.isTablet(context) ? Screen.height(context, percentage: 5): Screen.height(context, percentage: 2.5),
                       ),
                       onPressed: previousImage,
-                      color: Colors.white,
                     ),
                     Column(
                       children: <Widget>[
                         Container(
-                          height: Screen.height(context, percentage: 38.68),
+                          height: Screen.width(context, percentage: 75.0),
                           width: Screen.width(context, percentage: 75.0),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
+                            borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: FileImage(File(Env.getResourcePath(widget
-                                  .activity.imageOptions[photoIndex].path))),
+                              image: FileImage(
+                                File(
+                                  Env.getResourcePath(widget
+                                      .activity.imageOptions[photoIndex].path),
+                                ),
+                              ),
                               fit: BoxFit.cover,
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20),
+                          padding: EdgeInsets.only(
+                            top: Screen.height(
+                              context,
+                              percentage: 2.5,
+                            ),
+                          ),
                           child: Container(
                             child: SelectedPhoto(
                               numberOfDots: widget.activity.imageOptions.length,
                               photoIndex: photoIndex,
+                              context: context,
                             ),
                           ),
                         ),
@@ -111,19 +142,24 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                       icon: Icon(
                         FontAwesomeIcons.chevronRight,
                         color: Colors.white,
+                        size: Screen.isTablet(context) ? Screen.height(context, percentage: 5): Screen.height(context, percentage: 2.5),
                       ),
                       onPressed: nextImage,
                     ),
                   ],
                 )
               : Container(
-                  height: Screen.height(context, percentage: 38.68),
+                  height: Screen.width(context, percentage: 75.0),
                   width: Screen.width(context, percentage: 75.0),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
-                      image: FileImage(File(Env.getResourcePath(
-                          widget.activity.selectedPicture.path))),
+                      image: FileImage(
+                        File(
+                          Env.getResourcePath(
+                              widget.activity.selectedPicture.path),
+                        ),
+                      ),
                       fit: BoxFit.cover,
                     ),
                   ),
