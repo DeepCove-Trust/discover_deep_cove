@@ -78,7 +78,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.width(context, percentage: 5),
-            vertical: Screen.height(context, percentage: 2.5),
+            vertical: Screen.height(context, percentage: 1.25),
           ),
           child: Body(
             widget.activity.description,
@@ -88,7 +88,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.width(context, percentage: 5),
-            vertical: Screen.height(context, percentage: 2.5),
+            vertical: Screen.height(context, percentage: 1.25),
           ),
           child: Body(
             widget.activity.task,
@@ -98,7 +98,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.width(context, percentage: 5),
-            vertical: Screen.height(context, percentage: 2.5),
+            vertical: Screen.height(context, percentage: 1.25),
           ),
           child: Divider(
             color: HexColor("FFFFFFFF"),
@@ -156,15 +156,15 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                                     Screen.isLandscape(context)
                                 ? 45
                                 : Screen.isTablet(context)
-                                    ? 75
-                                    : Screen.isSmall(context) ? 70 : 80),
+                                    ? 70
+                                    : Screen.isSmall(context) ? 55 : 65),
                         width: Screen.width(context,
                             percentage: Screen.isTablet(context) &&
                                     Screen.isLandscape(context)
                                 ? 45
                                 : Screen.isTablet(context)
-                                    ? 75
-                                    : Screen.isSmall(context) ? 70 : 80),
+                                    ? 70
+                                    : Screen.isSmall(context) ? 55 : 65),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           image: DecorationImage(
@@ -208,8 +208,20 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                 ],
               )
             : Container(
-                height: Screen.width(context, percentage: 75.0),
-                width: Screen.width(context, percentage: 75.0),
+                height: Screen.width(context,
+                    percentage:
+                        Screen.isTablet(context) && Screen.isLandscape(context)
+                            ? 30
+                            : Screen.isTablet(context)
+                                ? 65
+                                : Screen.isSmall(context) ? 50 : 60),
+                width: Screen.width(context,
+                    percentage:
+                        Screen.isTablet(context) && Screen.isLandscape(context)
+                            ? 30
+                            : Screen.isTablet(context)
+                                ? 65
+                                : Screen.isSmall(context) ? 50 : 60),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
