@@ -154,14 +154,14 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                         height: Screen.width(context,
                             percentage: Screen.isTablet(context) &&
                                     Screen.isLandscape(context)
-                                ? 45
+                                ? 35
                                 : Screen.isTablet(context)
                                     ? 70
                                     : Screen.isSmall(context) ? 55 : 65),
                         width: Screen.width(context,
                             percentage: Screen.isTablet(context) &&
                                     Screen.isLandscape(context)
-                                ? 45
+                                ? 35
                                 : Screen.isTablet(context)
                                     ? 70
                                     : Screen.isSmall(context) ? 55 : 65),
