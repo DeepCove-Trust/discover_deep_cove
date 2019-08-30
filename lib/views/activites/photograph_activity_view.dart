@@ -30,16 +30,20 @@ class PhotographActivityView extends StatefulWidget {
 
 class _PhotographActivityViewState extends State<PhotographActivityView> {
   File _imageFile;
-  dynamic _pickImageError;
   String _retrieveDataError;
 
   void _onImageButtonPressed(ImageSource source) async {
     try {
       _imageFile = await ImagePicker.pickImage(source: source);
+      setState(() {});
     } catch (e) {
-      _pickImageError = e;
+      print('pick_image threw an error:');
+      print(e.toString());
+
+      // Display toast to the user
+      Util.showToast(
+          context, 'There was an error taking the photo, please try again');
     }
-    setState(() {});
   }
 
   Widget _previewImage() {
@@ -49,16 +53,8 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
     }
     if (_imageFile != null) {
       return Image.file(_imageFile);
-    } else if (_pickImageError != null) {
-      return Text(
-        'Pick image error: $_pickImageError',
-        textAlign: TextAlign.center,
-      );
     } else {
-      return const Text(
-        'You have not taken a photo yet.',
-        textAlign: TextAlign.center,
-      );
+      return const Text('You have not taken a photo yet.');
     }
   }
 
