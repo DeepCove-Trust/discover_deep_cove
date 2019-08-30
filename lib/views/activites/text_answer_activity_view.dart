@@ -94,14 +94,14 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
             size: Screen.isTablet(context) ? 30 : null,
           ),
         ),
-        Padding(
+        Screen.isPortrait(context) ? Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.width(context, percentage: 5),
           ),
           child: Divider(
             color: HexColor("FF777777"),
           ),
-        ),
+        ) : Container(),
       ],
     );
   }

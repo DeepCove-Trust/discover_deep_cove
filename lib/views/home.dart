@@ -94,7 +94,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Future<void> scan() async {
     try {
       String qrString = await BarcodeScanner.scan();
-
       handleMessage(qrString);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {

@@ -86,14 +86,14 @@ class _CountActivityViewState extends State<CountActivityView> {
             size: Screen.isTablet(context) ? 30 : null,
           ),
         ),
-        Padding(
+        Screen.isPortrait(context) ? Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.height(context, percentage: 5.0),
           ),
           child: Divider(
             color: HexColor("FF777777"),
           ),
-        ),
+        ) : Container(),
       ],
     );
   }

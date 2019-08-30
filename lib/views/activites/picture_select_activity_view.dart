@@ -94,7 +94,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
             size: Screen.isTablet(context) ? 30 : null,
           ),
         ),
-        Padding(
+        Screen.isPortrait(context) ? Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.width(context, percentage: 5),
             vertical: Screen.height(context, percentage: 1.25),
@@ -102,7 +102,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
           child: Divider(
             color: HexColor("FFFFFFFF"),
           ),
-        ),
+        ) : Container(),
       ],
     );
   }
