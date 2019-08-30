@@ -87,7 +87,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.width(context, percentage: 2.5),
-            vertical: Screen.height(context, percentage: 5.0),
+            vertical: Screen.height(context, percentage: 2.5),
           ),
           child: Body(
             widget.activity.task,

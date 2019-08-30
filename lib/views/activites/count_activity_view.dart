@@ -102,11 +102,7 @@ class _CountActivityViewState extends State<CountActivityView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        widget.isReview && Screen.isLandscape(context)
-            ? SizedBox(
-                height: Screen.height(context, percentage: 40.0),
-              )
-            : Container(),
+        
         Padding(
           padding: EdgeInsets.all(12.0),
           child: widget.isReview
@@ -127,7 +123,7 @@ class _CountActivityViewState extends State<CountActivityView> {
         widget.isReview
             ? Container(
                 width: Screen.width(context),
-                height: Screen.height(context, percentage: 10.0),
+                height: Screen.height(context, percentage: Screen.isLandscape(context) ? 15.0 : 10.0),
                 color: Theme.of(context).primaryColor,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
