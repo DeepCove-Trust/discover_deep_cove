@@ -36,46 +36,24 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
     widget.onCodeEntry(textController.text);
   }
 
-  getBottomHalf(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: Screen.width(context) <= 350 ? 20 : 50),
-              child: Body(
-                "Example QR code.",
-                size: Screen.width(context) > 600 ? 30 : null,
-              ),
+  buildContent(BuildContext context) {
+    return (Screen.isTablet(context) && !Screen.isPortrait(context))
+        ? GridView.count(
+            crossAxisCount: 2,
+            children: [
+              getBottomHalf(context),
+              getTopHalf(context),
+            ],
+          )
+        : SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                getTopHalf(context),
+                getBottomHalf(context),
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: Screen.height(context, percentage: 2),
-                  horizontal: Screen.width(context) <= 350 ? 20 : 50),
-              child: Container(
-                width: Screen.width(context,
-                    percentage: Screen.width(context) <= 350
-                        ? 50
-                        : !Screen.isPortrait(context) ? 40 : 60),
-                height: Screen.width(context,
-                    percentage: Screen.width(context) <= 350
-                        ? 50
-                        : !Screen.isPortrait(context) ? 40 : 60),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  image: DecorationImage(
-                    image: AssetImage('assets/invalidQRcode.png'),
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
+          );
   }
 
   getTopHalf(BuildContext context) {
@@ -156,23 +134,45 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
     );
   }
 
-  buildContent(BuildContext context) {
-    return (Screen.isTablet(context) && !Screen.isPortrait(context))
-        ? GridView.count(
-            crossAxisCount: 2,
-            children: [
-              getBottomHalf(context),
-              getTopHalf(context),
-            ],
-          )
-        : SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                getTopHalf(context),
-                getBottomHalf(context),
-              ],
+  getBottomHalf(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: Screen.width(context) <= 350 ? 20 : 50),
+              child: Body(
+                "Example QR code.",
+                size: Screen.width(context) > 600 ? 30 : null,
+              ),
             ),
-          );
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: Screen.height(context, percentage: 2),
+                  horizontal: Screen.width(context) <= 350 ? 20 : 50),
+              child: Container(
+                width: Screen.width(context,
+                    percentage: Screen.width(context) <= 350
+                        ? 50
+                        : !Screen.isPortrait(context) ? 40 : 60),
+                height: Screen.width(context,
+                    percentage: Screen.width(context) <= 350
+                        ? 50
+                        : !Screen.isPortrait(context) ? 40 : 60),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  image: DecorationImage(
+                    image: AssetImage('assets/invalidQRcode.png'),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
