@@ -130,14 +130,18 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                                   ? 85
                                   : Screen.isSmall(context) ? 75 : 80),
                       child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: FileImage(
-                              File(
-                                Env.getResourcePath(widget.activity.image.path),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: FileImage(
+                                File(
+                                  Env.getResourcePath(
+                                    widget.activity.image.path,
+                                  ),
+                                ),
                               ),
+                              fit: BoxFit.cover,
                             ),
-                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
@@ -271,15 +275,36 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
       tapPos = referenceBox.globalToLocal(details.globalPosition);
 
       double radius = (Screen.height(context, percentage: 10) / 2);
+      double imageWidth = Screen.width(context,
+              percentage: Screen.isPortrait(context) ? 50 : 100) -
+          (_getImagePositions().dy / 2);
 
-      posX = 0 + (tapPos.dx - _getImagePositions().dx) - radius + (Screen.width(context, percentage:  Screen.isPortrait(context) ? 15 : 5) / 2);
-      posY = 0 + (tapPos.dy - _getImagePositions().dy) - radius;
-    });
+      double percentX =
+          (tapPos.dx - radius - _getImagePositions().dx) / imageWidth;
+      double percentY =
+          (tapPos.dy - radius - _getImagePositions().dy) / imageWidth;
 
-     print("X " + posX.toString());
-      print("dX " + tapPos.dx.toString());
+      // posX = 0 +
+      //   (tapPos.dx - _getImagePositions().dx) -
+      //   radius +
+      //   (Screen.width(context,
+      //           percentage: Screen.isPortrait(context) ? 15 : 5) /
+      //       2);
+      //posY = 0 + (tapPos.dy - _getImagePositions().dy) - radius;
+      posX = (_getImagePositions().dx + imageWidth) * percentX;
+      posY = (_getImagePositions().dy + imageWidth) * percentY;
+
+      print("");
+      //Circle cords
+      print("X " + posX.toString());
       print("Y " + posY.toString());
-      print("dY " + tapPos.dy.toString());
+      //Pos of tap on screen
+      print("tX " + tapPos.dx.toString());
+      print("tY " + tapPos.dy.toString());
+      //Image pos on screen
+      print("tX " + _getImagePositions().dx.toString());
+      print("tY " + _getImagePositions().dy.toString());
+    });
   }
 
   ///returns a [offset] this contains the x and y positions of the image
