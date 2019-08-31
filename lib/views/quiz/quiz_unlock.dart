@@ -21,19 +21,23 @@ class QuizUnlock extends StatefulWidget {
 ///Allows the user to unlock a [quiz]
 class _QuizUnlockState extends State<QuizUnlock> {
   TextEditingController textController = TextEditingController();
+  FocusNode _textFieldFocus = new FocusNode();
   List<Quiz> quizzes;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          buildContent(),
-        ],
+    return GestureDetector(
+      onTap: () => _textFieldFocus.unfocus(),
+      child: Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            buildContent(),
+          ],
+        ),
+        backgroundColor: Theme.of(context).backgroundColor,
+        bottomNavigationBar: BottomBackButton(),
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: BottomBackButton(),
     );
   }
 
@@ -113,8 +117,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                       "Your teacher will give you codes to unlock quizzes.",
                     )
                   : Heading(
-                      "Your teacher will give you codes to unlock quizzes."
-                    ),
+                      "Your teacher will give you codes to unlock quizzes."),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -207,7 +210,9 @@ class _QuizUnlockState extends State<QuizUnlock> {
                       ),
                       color: Colors.white,
                       child: TextField(
+                        focusNode: _textFieldFocus,
                         controller: textController,
+                        keyboardType: TextInputType.number,
                         style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           hintText: 'Enter code...',

@@ -16,18 +16,22 @@ class ActivityUnlock extends StatefulWidget {
 
 class _ActivityUnlockState extends State<ActivityUnlock> {
   final TextEditingController textController = TextEditingController();
+  FocusNode _textFieldFocus = new FocusNode();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          buildContent(context),
-        ],
+    return GestureDetector(
+      onTap: () => _textFieldFocus.unfocus(),
+      child: Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            buildContent(context),
+          ],
+        ),
+        backgroundColor: Theme.of(context).backgroundColor,
+        bottomNavigationBar: BottomBackButton(),
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: BottomBackButton(),
     );
   }
 
@@ -95,7 +99,9 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
                       ),
                       color: Colors.white,
                       child: TextField(
+                        focusNode: _textFieldFocus,
                         controller: textController,
+                        keyboardType: TextInputType.number,
                         style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           hintText: 'Enter code...',
