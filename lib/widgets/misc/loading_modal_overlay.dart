@@ -1,4 +1,4 @@
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
 
 class LoadingModalOverlay extends StatelessWidget {
@@ -25,7 +25,7 @@ class LoadingModalOverlay extends StatelessWidget {
               children: <Widget>[
                 icon ?? CircularProgressIndicator(),
                 SizedBox(height: 50),
-                Body(loadingMessage),
+                BodyText(loadingMessage),
               ],
             ),
           ),

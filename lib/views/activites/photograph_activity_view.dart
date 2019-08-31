@@ -8,7 +8,7 @@ import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
 import 'package:flutter/material.dart';
@@ -106,7 +106,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
           widget.isReview
               ? Column(
                   children: <Widget>[
-                    Body("Your photo:"),
+                    BodyText("Your photo:"),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Container(
@@ -136,7 +136,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                           switch (snapshot.connectionState) {
                             case ConnectionState.none:
                             case ConnectionState.waiting:
-                              return Body(
+                              return BodyText(
                                 'You have not taken a photo yet.',
                               );
                             case ConnectionState.done:
@@ -148,7 +148,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                                   textAlign: TextAlign.center,
                                 );
                               } else {
-                                return Body('You have not taken a photo yet.');
+                                return BodyText('You have not taken a photo yet.');
                               }
                           }
                         },

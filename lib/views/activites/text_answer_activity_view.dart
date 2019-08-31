@@ -5,7 +5,7 @@ import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
 
 class TextAnswerActivityView extends StatefulWidget {
@@ -80,7 +80,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
             horizontal: Screen.width(context, percentage: 2.5),
             vertical: Screen.height(context, percentage: 5.0),
           ),
-          child: Body(
+          child: BodyText(
             widget.activity.description,
             size: Screen.isTablet(context) ? 30 : null,
           ),
@@ -90,7 +90,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
             horizontal: Screen.width(context, percentage: 2.5),
             vertical: Screen.height(context, percentage: 5.0),
           ),
-          child: Body(
+          child: BodyText(
             widget.activity.task,
             size: Screen.isTablet(context) ? 30 : null,
           ),
@@ -118,7 +118,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: widget.isReview
-                ? Body(
+                ? BodyText(
                     "You Answered:",
                     size: Screen.isTablet(context) ? 30 : null,
                   )
@@ -143,7 +143,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Body(
+                        child: BodyText(
                           widget.activity.userText,
                           align: TextAlign.left,
                           size: Screen.isTablet(context) ? 30 : null,

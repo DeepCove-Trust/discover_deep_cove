@@ -3,7 +3,7 @@ import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
 
@@ -113,7 +113,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                       percentage: Screen.isSmall(context) ? 2 : 5),
                   horizontal: Screen.isSmall(context) ? 20 : 50),
               child: Screen.width(context) <= 600
-                  ? Body(
+                  ? BodyText(
                       "Your teacher will give you codes to unlock quizzes.",
                     )
                   : Heading(

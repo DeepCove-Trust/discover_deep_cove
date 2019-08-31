@@ -1,7 +1,7 @@
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
 
@@ -149,7 +149,7 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: Screen.width(context) <= 350 ? 20 : 50),
-              child: Body(
+              child: BodyText(
                 "Example QR code.",
                 size: Screen.width(context) > 600 ? 30 : null,
               ),
