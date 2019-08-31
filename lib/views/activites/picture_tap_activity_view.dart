@@ -212,7 +212,8 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                                 image: FileImage(
                                   File(
                                     Env.getResourcePath(
-                                        widget.activity.image.path),
+                                      widget.activity.image.path,
+                                    ),
                                   ),
                                 ),
                                 fit: BoxFit.cover,
@@ -227,20 +228,18 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                       ? Positioned(
                           top: posY,
                           left: posX,
-                          child: Center(
+                          child: Container(
+                            width: Screen.height(context, percentage: 10),
+                            height: Screen.height(context, percentage: 10),
                             child: Container(
-                              width: Screen.height(context, percentage: 10),
-                              height: Screen.height(context, percentage: 10),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: HexColor("80FF5026"),
-                                  border: Border.all(
-                                    color: setTransparentColor(),
-                                    width: 3.0,
-                                    style: BorderStyle.solid,
-                                  ),
-                                  shape: BoxShape.circle,
+                              decoration: BoxDecoration(
+                                color: HexColor("80FF5026"),
+                                border: Border.all(
+                                  color: setTransparentColor(),
+                                  width: 3.0,
+                                  style: BorderStyle.solid,
                                 ),
+                                shape: BoxShape.circle,
                               ),
                             ),
                           ),
@@ -273,9 +272,14 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
 
       double radius = (Screen.height(context, percentage: 10) / 2);
 
-      posX = 0 + (tapPos.dx - _getImagePositions().dx) - radius;
+      posX = 0 + (tapPos.dx - _getImagePositions().dx) - radius + (Screen.width(context, percentage:  Screen.isPortrait(context) ? 15 : 5) / 2);
       posY = 0 + (tapPos.dy - _getImagePositions().dy) - radius;
     });
+
+     print("X " + posX.toString());
+      print("dX " + tapPos.dx.toString());
+      print("Y " + posY.toString());
+      print("dY " + tapPos.dy.toString());
   }
 
   ///returns a [offset] this contains the x and y positions of the image
@@ -283,7 +287,6 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     final RenderBox renderBoxImage =
         _keyImage.currentContext.findRenderObject();
     final imagePos = renderBoxImage.localToGlobal(Offset.zero);
-
     return imagePos;
   }
 
