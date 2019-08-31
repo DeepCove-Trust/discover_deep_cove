@@ -186,24 +186,24 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
             : Stack(
                 fit: StackFit.loose,
                 children: <Widget>[
-                  Container(
-                    height: Screen.width(context,
-                        percentage: Screen.isTablet(context) &&
-                                Screen.isLandscape(context)
-                            ? 45
-                            : Screen.isTablet(context)
-                                ? 85
-                                : Screen.isSmall(context) ? 75 : 80),
-                    width: Screen.width(context,
-                        percentage: Screen.isTablet(context) &&
-                                Screen.isLandscape(context)
-                            ? 45
-                            : Screen.isTablet(context)
-                                ? 85
-                                : Screen.isSmall(context) ? 75 : 80),
-                    child: GestureDetector(
-                      onTapDown: _handleTap,
-                      child: Center(
+                  Center(
+                    child: Container(
+                      height: Screen.width(context,
+                          percentage: Screen.isTablet(context) &&
+                                  Screen.isLandscape(context)
+                              ? 45
+                              : Screen.isTablet(context)
+                                  ? 85
+                                  : Screen.isSmall(context) ? 75 : 80),
+                      width: Screen.width(context,
+                          percentage: Screen.isTablet(context) &&
+                                  Screen.isLandscape(context)
+                              ? 45
+                              : Screen.isTablet(context)
+                                  ? 85
+                                  : Screen.isSmall(context) ? 75 : 80),
+                      child: GestureDetector(
+                        onTapDown: _handleTap,
                         child: Container(
                           key: _keyImage,
                           child: Container(
@@ -283,7 +283,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     final RenderBox renderBoxImage =
         _keyImage.currentContext.findRenderObject();
     final imagePos = renderBoxImage.localToGlobal(Offset.zero);
-    
+
     return imagePos;
   }
 
