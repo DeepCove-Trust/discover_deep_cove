@@ -275,24 +275,24 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
       tapPos = referenceBox.globalToLocal(details.globalPosition);
 
       double radius = (Screen.height(context, percentage: 10) / 2);
-      double imageWidth = Screen.width(context,
-              percentage: Screen.isPortrait(context) ? 50 : 100) -
-          (_getImagePositions().dy / 2);
+      // double imageWidth = Screen.width(context,
+      //         percentage: Screen.isPortrait(context) ? 50 : 100) -
+      //     (_getImagePositions().dy / 2);
 
-      double percentX =
-          (tapPos.dx - radius - _getImagePositions().dx) / imageWidth;
-      double percentY =
-          (tapPos.dy - radius - _getImagePositions().dy) / imageWidth;
+      // double percentX =
+      //     (tapPos.dx - radius - _getImagePositions().dx) / imageWidth;
+      // double percentY =
+      //     (tapPos.dy - radius - _getImagePositions().dy) / imageWidth;
 
-      // posX = 0 +
-      //   (tapPos.dx - _getImagePositions().dx) -
-      //   radius +
-      //   (Screen.width(context,
-      //           percentage: Screen.isPortrait(context) ? 15 : 5) /
-      //       2);
-      //posY = 0 + (tapPos.dy - _getImagePositions().dy) - radius;
-      posX = (_getImagePositions().dx + imageWidth) * percentX;
-      posY = (_getImagePositions().dy + imageWidth) * percentY;
+      posX = 0 +
+        (tapPos.dx - _getImagePositions().dx) -
+        radius +
+        (Screen.width(context,
+                percentage: Screen.isPortrait(context) ? 15 : 5) /
+            2);
+      posY = 0 + (tapPos.dy - _getImagePositions().dy) - radius;
+      // posX = (_getImagePositions().dx + imageWidth) * percentX;
+      // posY = (_getImagePositions().dy + imageWidth) * percentY;
 
       print("");
       //Circle cords
@@ -304,6 +304,9 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
       //Image pos on screen
       print("tX " + _getImagePositions().dx.toString());
       print("tY " + _getImagePositions().dy.toString());
+
+      // print("%X " + percentX.toString());
+      // print("%Y " + percentY.toString());
     });
   }
 
