@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
@@ -185,9 +186,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
             ],
           ),
           Divider(color: Colors.white, height: 50),
-          //TODO Correct db ref and wrap in loop
-          //TODO figure out a way to hide show top border depending if there is more than one nugget
-          // FactNugget(path: , title: , text: ,),
+          getNuggets(),
           Padding(
             padding: EdgeInsets.all(
               Screen.width(context, percentage: 1.25),
@@ -200,5 +199,15 @@ class _FactFileDetailsState extends State<FactFileDetails> {
         ],
       ),
     );
+  }
+
+  getNuggets() {
+    return widget.entry.nuggets.map((nugget) {
+      return FactNugget(
+        path: nugget.image != null ? nugget.image.path : null,
+        name: nugget.name,
+        text: nugget.text,
+      );
+    });
   }
 }
