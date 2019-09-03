@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 
 class FactNugget extends StatelessWidget {
   final String path;
-  final String title;
+  final String name;
   final String text;
 
-  FactNugget({this.path, this.text, this.title});
+  FactNugget({this.path, this.text, this.name});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -40,29 +40,31 @@ class FactNugget extends StatelessWidget {
           ),
           child: Column(
             children: <Widget>[
-              Container(
-                height: Screen.width(context, percentage: 40),
-                width: Screen.width(context, percentage: 40),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: FileImage(
-                      File(
-                        Env.getResourcePath(
-                          path,
+              path != null
+                  ? Container(
+                      height: Screen.width(context, percentage: 40),
+                      width: Screen.width(context, percentage: 40),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: FileImage(
+                            File(
+                              Env.getResourcePath(
+                                path,
+                              ),
+                            ),
+                          ),
+                          fit: BoxFit.cover,
                         ),
                       ),
-                    ),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
+                    )
+                  : Container(),
               Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: Screen.width(context, percentage: 5),
                 ),
                 child: SubHeading(
-                  title,
+                  name,
                   size: Screen.isTablet(context) ? 30 : null,
                 ),
               ),
