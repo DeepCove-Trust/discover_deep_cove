@@ -7,6 +7,7 @@ import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
@@ -240,7 +241,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
             ],
           ),
           Divider(color: Colors.white, height: 50),
-          Body(
+          BodyText(
             widget.entry.bodyText,
             align: TextAlign.justify,
           ),
