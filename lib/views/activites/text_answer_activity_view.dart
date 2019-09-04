@@ -42,8 +42,10 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
         ],
       ),
       bottomNavigationBar: widget.isReview
-          ? BottomBackButton()
-          : ActivityPassSaveBar(onTap: () => saveAnswer()),
+          ? BottomBackButton(isReview: widget.isReview)
+          : ActivityPassSaveBar(
+              onTap: () => saveAnswer(),
+            ),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }
@@ -85,21 +87,21 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.width(context, percentage: 2.5),
-            vertical: Screen.height(context, percentage: 5.0),
+            vertical: Screen.height(context, percentage: 2.5),
           ),
           child: Body(
             widget.activity.task,
             size: Screen.isTablet(context) ? 30 : null,
           ),
         ),
-        Padding(
+        Screen.isPortrait(context) ? Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.width(context, percentage: 5),
           ),
           child: Divider(
             color: HexColor("FF777777"),
           ),
-        ),
+        ) : Container(),
       ],
     );
   }
@@ -128,7 +130,10 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
               widget.isReview
                   ? Container(
                       width: Screen.width(context, percentage: 87.5),
-                        height: Screen.height(context, percentage: Screen.isTablet(context) ? 45.0 : Screen.isSmall(context) ? 30.0 : 38.0),
+                      height: Screen.height(context,
+                          percentage: Screen.isTablet(context)
+                              ? 45.0
+                              : Screen.isSmall(context) ? 30.0 : 38.0),
                       decoration: BoxDecoration(
                         border: Border.all(
                             width: 1.0, color: Theme.of(context).primaryColor),
@@ -148,7 +153,10 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                       borderRadius: BorderRadius.circular(10.0),
                       child: Container(
                         width: Screen.width(context, percentage: 87.5),
-                        height: Screen.height(context, percentage: Screen.isTablet(context) ? 45.0 : Screen.isSmall(context) ? 30.0 : 38.0),
+                        height: Screen.height(context,
+                            percentage: Screen.isTablet(context)
+                                ? 45.0
+                                : Screen.isSmall(context) ? 30.0 : 38.0),
                         color: Colors.white,
                         child: TextField(
                           keyboardType: TextInputType.multiline,
@@ -164,12 +172,6 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                     ),
             ],
           ),
-          widget.isReview
-              ? Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: EditAnswer(),
-                )
-              : Container(),
         ],
       ),
     );
