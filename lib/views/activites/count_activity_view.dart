@@ -6,6 +6,7 @@ import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dar
 import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -24,6 +25,19 @@ class CountActivityView extends StatefulWidget {
 
 class _CountActivityViewState extends State<CountActivityView> {
   int count = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: ActivityAppBar(widget.activity.title),
+        body: buildContent(),
+        bottomNavigationBar: widget.isReview
+            ? BottomBackButton(isReview: widget.isReview)
+            : ActivityPassSaveBar(
+                onTap: () => saveAnswer(),
+              ),
+        backgroundColor: Theme.of(context).backgroundColor);
+  }
 
   buildContent() {
     return (Screen.isTablet(context) && Screen.isLandscape(context))
@@ -74,14 +88,14 @@ class _CountActivityViewState extends State<CountActivityView> {
             size: Screen.isTablet(context) ? 30 : null,
           ),
         ),
-        Padding(
+        Screen.isPortrait(context) ? Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.height(context, percentage: 5.0),
           ),
           child: Divider(
             color: HexColor("FF777777"),
           ),
-        ),
+        ) : Container(),
       ],
     );
   }
@@ -90,11 +104,7 @@ class _CountActivityViewState extends State<CountActivityView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        widget.isReview && Screen.isLandscape(context)
-            ? SizedBox(
-                height: Screen.height(context, percentage: 40.0),
-              )
-            : Container(),
+        
         Padding(
           padding: EdgeInsets.all(12.0),
           child: widget.isReview
@@ -115,7 +125,7 @@ class _CountActivityViewState extends State<CountActivityView> {
         widget.isReview
             ? Container(
                 width: Screen.width(context),
-                height: Screen.height(context, percentage: 10.0),
+                height: Screen.height(context, percentage: Screen.isLandscape(context) ? 15.0 : 10.0),
                 color: Theme.of(context).primaryColor,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -180,35 +190,8 @@ class _CountActivityViewState extends State<CountActivityView> {
                   ],
                 ),
               ),
-        widget.isReview
-            ? Padding(
-                padding: EdgeInsets.only(
-                  left: Screen.width(context, percentage: 2.5),
-                  right: Screen.width(context, percentage: 2.5),
-                  top: Screen.height(context, percentage: 5.0),
-                  bottom: Screen.height(context, percentage: 2.0),
-                ),
-                child: Column(
-                  mainAxisAlignment: Screen.isLandscape(context)
-                      ? MainAxisAlignment.center
-                      : MainAxisAlignment.end,
-                  children: <Widget>[
-                    EditAnswer(),
-                  ],
-                ),
-              )
-            : Container(),
       ],
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: ActivityAppBar(widget.activity.title),
-        body: buildContent(),
-      bottomNavigationBar: widget.isReview ? BottomBackButton() :  ActivityPassSaveBar(onTap: () => saveAnswer()),
-        backgroundColor: Theme.of(context).backgroundColor);
   }
 
   void saveAnswer() async {

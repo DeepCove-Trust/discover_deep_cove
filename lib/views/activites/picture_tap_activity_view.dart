@@ -4,10 +4,8 @@ import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
-import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +40,20 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: ActivityAppBar(widget.activity.title),
+      body: buildContent(),
+      bottomNavigationBar: widget.isReview
+          ? BottomBackButton(isReview: widget.isReview)
+          : ActivityPassSaveBar(
+              onTap: () => saveAnswer(),
+            ),
+      backgroundColor: Theme.of(context).backgroundColor,
+    );
   }
 
   buildContent() {
@@ -143,23 +155,6 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                       ),
                     ),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        color: Color.fromARGB(190, 0, 0, 0),
-                        height: Screen.height(context, percentage: 5.0),
-                        width: Screen.width(context),
-                        child: Center(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: EditAnswer(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   Positioned(
                     top: widget.activity.userYCoord,
                     left: widget.activity.userXCoord,
@@ -247,18 +242,6 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                 ],
               ),
       ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: ActivityAppBar(widget.activity.title),
-      body: buildContent(),
-      bottomNavigationBar: widget.isReview
-          ? BottomBackButton()
-          : ActivityPassSaveBar(onTap: () => saveAnswer()),
-      backgroundColor: Theme.of(context).backgroundColor,
     );
   }
 

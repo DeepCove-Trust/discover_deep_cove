@@ -48,6 +48,13 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
             : ActivityPassSaveBar(onTap: () => saveAnswer()),
         backgroundColor: Theme.of(context).backgroundColor,
       ),
+
+      bottomNavigationBar: widget.isReview
+          ? BottomBackButton(isReview: widget.isReview)
+          : ActivityPassSaveBar(
+              onTap: () => saveAnswer(),
+            ),
+      backgroundColor: Theme.of(context).backgroundColor,
     );
   }
 
@@ -88,21 +95,21 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.width(context, percentage: 2.5),
-            vertical: Screen.height(context, percentage: 5.0),
+            vertical: Screen.height(context, percentage: 2.5),
           ),
           child: BodyText(
             widget.activity.task,
             size: Screen.isTablet(context) ? 30 : null,
           ),
         ),
-        Padding(
+        Screen.isPortrait(context) ? Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.width(context, percentage: 5),
           ),
           child: Divider(
             color: HexColor("FF777777"),
           ),
-        ),
+        ) : Container(),
       ],
     );
   }
@@ -175,12 +182,6 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                     ),
             ],
           ),
-          widget.isReview
-              ? Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: EditAnswer(),
-                )
-              : Container(),
         ],
       ),
     );
