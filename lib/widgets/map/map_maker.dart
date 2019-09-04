@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
+import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
@@ -85,7 +86,12 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
                 stream: trackStream,
                 initialData: currentTrack.name,
                 builder: (context, snapshot) {
-                  return Heading(snapshot.hasData ? snapshot.data : '');
+                  return SubHeading(
+                    snapshot.hasData ? snapshot.data : '',
+                    size: Screen.isTablet(context)
+                        ? 30
+                        : Screen.isSmall(context) ? 16 : null,
+                  );
                 },
               ),
               centerTitle: true,
