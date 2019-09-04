@@ -101,7 +101,7 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
                       child: TextField(
                         focusNode: _textFieldFocus,
                         controller: textController,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.phone,
                         style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           hintText: 'Enter code...',
