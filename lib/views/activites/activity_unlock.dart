@@ -1,7 +1,7 @@
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
 
@@ -16,18 +16,22 @@ class ActivityUnlock extends StatefulWidget {
 
 class _ActivityUnlockState extends State<ActivityUnlock> {
   final TextEditingController textController = TextEditingController();
+  FocusNode _textFieldFocus = new FocusNode();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          buildContent(context),
-        ],
+    return GestureDetector(
+      onTap: () => _textFieldFocus.unfocus(),
+      child: Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            buildContent(context),
+          ],
+        ),
+        backgroundColor: Theme.of(context).backgroundColor,
+        bottomNavigationBar: BottomBackButton(),
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: BottomBackButton(),
     );
   }
 
@@ -95,7 +99,9 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
                       ),
                       color: Colors.white,
                       child: TextField(
+                        focusNode: _textFieldFocus,
                         controller: textController,
+                        keyboardType: TextInputType.phone,
                         style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           hintText: 'Enter code...',
@@ -143,7 +149,7 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: Screen.width(context) <= 350 ? 20 : 50),
-              child: Body(
+              child: BodyText(
                 "Example QR code.",
                 size: Screen.width(context) > 600 ? 30 : null,
               ),

@@ -7,6 +7,7 @@ import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/activities/selected_photo.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body.dart';
@@ -79,7 +80,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
             horizontal: Screen.width(context, percentage: 5),
             vertical: Screen.height(context, percentage: 1.25),
           ),
-          child: Body(
+          child: BodyText(
             widget.activity.description,
             size: Screen.isTablet(context) ? 30 : null,
           ),
@@ -89,7 +90,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
             horizontal: Screen.width(context, percentage: 5),
             vertical: Screen.height(context, percentage: 1.25),
           ),
-          child: Body(
+          child: BodyText(
             widget.activity.task,
             size: Screen.isTablet(context) ? 30 : null,
           ),
@@ -119,12 +120,12 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
           child: Column(
             children: <Widget>[
               widget.isReview
-                  ? Body(
+                  ? BodyText(
                       "You Answered:",
                       size: Screen.isTablet(context) ? 30 : null,
                     )
                   : Container(),
-              Body(
+              BodyText(
                 !widget.isReview
                     ? widget.activity.imageOptions[photoIndex].name
                     : widget.activity.selectedPicture.name,

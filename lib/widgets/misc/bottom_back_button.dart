@@ -2,7 +2,7 @@ import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
 import 'package:flutter/material.dart';
 
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 
 class BottomBackButton extends StatelessWidget {
   final bool isReview;
