@@ -27,6 +27,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
   AudioPlayer player = AudioPlayer();
   Color pronounceColor = Colors.white;
   Color listenColor = Colors.white;
+  bool _isButtonDisabled = false;
 
   StreamSubscription _playerCompleteSubscription;
 
@@ -49,6 +50,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
 
   void _onComplete() {
     setState(() {
+      _isButtonDisabled = false;
       pronounceColor = Colors.white;
       listenColor = Colors.white;
     });
@@ -126,6 +128,22 @@ class _FactFileDetailsState extends State<FactFileDetails> {
     return images;
   }
 
+  playPronounce() {
+    setState(() => pronounceColor = Theme.of(context).primaryColor);
+    _isButtonDisabled = true;
+
+    return player.play(Env.getResourcePath(widget.entry.pronounceAudio.path),
+        isLocal: true);
+  }
+
+  playListen() {
+    setState(() => listenColor = Theme.of(context).primaryColor);
+    _isButtonDisabled = true;
+
+    return player.play(Env.getResourcePath(widget.entry.listenAudio.path),
+        isLocal: true);
+  }
+
   getContent() {
     return Container(
       padding: EdgeInsets.all(15),
@@ -171,14 +189,8 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                         ),
                       ],
                     ),
-                    onPressed: () {
-                      setState(() =>
-                          pronounceColor = Theme.of(context).primaryColor);
-
-                      return player.play(
-                          Env.getResourcePath(widget.entry.pronounceAudio.path),
-                          isLocal: true);
-                    },
+                    onPressed:
+                        _isButtonDisabled ? () {} : () => playPronounce(),
                     borderSide: BorderSide(
                       color: pronounceColor,
                       width: 1.5,
@@ -218,14 +230,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                         ),
                       ],
                     ),
-                    onPressed: () {
-                      setState(
-                          () => listenColor = Theme.of(context).primaryColor);
-
-                      return player.play(
-                          Env.getResourcePath(widget.entry.listenAudio.path),
-                          isLocal: true);
-                    },
+                    onPressed: _isButtonDisabled ? () {} : () => playListen(),
                     borderSide: BorderSide(
                       color: listenColor,
                       width: 1.5,
