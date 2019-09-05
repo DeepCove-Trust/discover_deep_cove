@@ -22,10 +22,6 @@ class FactNugget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border(
-            top: BorderSide(
-              color: Theme.of(context).primaryColor,
-              width: 1.5,
-            ),
             bottom: BorderSide(
               color: Theme.of(context).primaryColor,
               width: 1.5,
