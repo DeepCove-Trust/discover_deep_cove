@@ -74,9 +74,12 @@ class QuizViewState extends State<QuizView> {
       appBar: questionIndex < widget.quiz.questions.length
           ? AppBar(
               brightness: Brightness.dark,
-              title: Screen.width(context) <= 600
-                  ? SubHeading(widget.quiz.title)
-                  : Heading(widget.quiz.title),
+              title: SubHeading(
+                widget.quiz.title,
+                size: Screen.isTablet(context)
+                    ? 30
+                    : Screen.isSmall(context) ? 16 : null,
+              ),
               centerTitle: true,
               leading: Container(),
               actions: [
@@ -85,6 +88,9 @@ class QuizViewState extends State<QuizView> {
                     padding: EdgeInsets.all(12.0),
                     child: SubHeading(
                       '${questionIndex + 1}/${widget.quiz.questions.length}',
+                      size: Screen.isTablet(context)
+                          ? 30
+                          : Screen.isSmall(context) ? 16 : null,
                     ),
                   ),
                 )
