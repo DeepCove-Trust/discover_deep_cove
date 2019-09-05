@@ -199,8 +199,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                         ),
                       ],
                     ),
-                    onPressed:
-                        _isButtonDisabled ? () {} : () => playPronounce(),
+                    onPressed: _isButtonDisabled ? null : playPronounce,
                     borderSide: BorderSide(
                       color: pronounceColor,
                       width: 1.5,
@@ -240,7 +239,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                         ),
                       ],
                     ),
-                    onPressed: _isButtonDisabled ? () {} : () => playListen(),
+                    onPressed: _isButtonDisabled ? null : playListen,
                     borderSide: BorderSide(
                       color: listenColor,
                       width: 1.5,
@@ -250,7 +249,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
             ],
           ),
           Divider(color: Colors.white, height: 50),
-          getNuggets(),
+          Column(children: getNuggets()),
           Padding(
             padding: EdgeInsets.all(
               Screen.width(context, percentage: 1.25),
@@ -272,6 +271,6 @@ class _FactFileDetailsState extends State<FactFileDetails> {
         name: nugget.name,
         text: nugget.text,
       );
-    });
+    }).toList();
   }
 }
