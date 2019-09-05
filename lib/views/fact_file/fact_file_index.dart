@@ -4,7 +4,7 @@ import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart'
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/fact_file/fact_file_tab.dart';
 import 'package:flutter/material.dart';
 
@@ -59,7 +59,7 @@ class _FactFileIndexState extends State<FactFileIndex>
         width: Screen.width(context) /
             (categories.length > 2 ? 3 : categories.length),
         // Todo: better way?
-        child: Body(c.name),
+        child: BodyText(c.name),
       );
     }).toList();
   }

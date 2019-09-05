@@ -4,13 +4,13 @@ import 'dart:io';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -106,7 +106,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
           widget.isReview
               ? Column(
                   children: <Widget>[
-                    Body("Your photo:"),
+                    BodyText("Your photo:"),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Container(
@@ -136,7 +136,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                           switch (snapshot.connectionState) {
                             case ConnectionState.none:
                             case ConnectionState.waiting:
-                              return Body(
+                              return BodyText(
                                 'You have not taken a photo yet.',
                               );
                             case ConnectionState.done:
@@ -148,7 +148,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                                   textAlign: TextAlign.center,
                                 );
                               } else {
-                                return Body('You have not taken a photo yet.');
+                                return BodyText('You have not taken a photo yet.');
                               }
                           }
                         },
@@ -157,17 +157,11 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                   ),
                 ),
           Expanded(child: Container()),
-          widget.isReview
-              ? Padding(
-                  padding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 0.0),
-                  child: EditAnswer(),
-                )
-              : Container(),
         ],
       ),
       bottomNavigationBar: widget.isReview
-          ? BottomBackButton()
-          : ActivityPassSaveBar(onTap: () => saveAnswer()),
+          ? BottomBackButton(isReview: widget.isReview)
+          : ActivityPassSaveBar(onTap: () => saveAnswer(),),
       backgroundColor: Theme.of(context).backgroundColor,
       floatingActionButton: widget.isReview
           ? Container()

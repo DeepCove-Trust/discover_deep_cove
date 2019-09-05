@@ -2,6 +2,7 @@ import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -32,7 +33,12 @@ class _QuizIndexState extends State<QuizIndex> {
     return Scaffold(
       appBar: AppBar(
         leading: Container(),
-        title: Heading('Deep Cove Trivia'),
+        title: SubHeading(
+          'Deep Cove Trivia',
+          size: Screen.isTablet(context)
+              ? 30
+              : Screen.isSmall(context) ? 16 : null,
+        ),
         centerTitle: true,
         actions: <Widget>[
           FlatButton(

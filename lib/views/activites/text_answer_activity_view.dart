@@ -1,12 +1,11 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
 
 class TextAnswerActivityView extends StatefulWidget {
@@ -24,6 +23,7 @@ class TextAnswerActivityView extends StatefulWidget {
 
 class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
   final controller = TextEditingController();
+  FocusNode _textFieldFocus = new FocusNode();
 
   @override
   void dispose() {
@@ -33,17 +33,27 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: ActivityAppBar(widget.activity.title),
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          buildContent(),
-        ],
+    return GestureDetector(
+      onTap: () => _textFieldFocus.unfocus(),
+      child: Scaffold(
+        appBar: ActivityAppBar(widget.activity.title),
+        body: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            buildContent(),
+          ],
+        ),
+        bottomNavigationBar: widget.isReview
+            ? BottomBackButton()
+            : ActivityPassSaveBar(onTap: () => saveAnswer()),
+        backgroundColor: Theme.of(context).backgroundColor,
       ),
+
       bottomNavigationBar: widget.isReview
-          ? BottomBackButton()
-          : ActivityPassSaveBar(onTap: () => saveAnswer()),
+          ? BottomBackButton(isReview: widget.isReview)
+          : ActivityPassSaveBar(
+              onTap: () => saveAnswer(),
+            ),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }
@@ -77,7 +87,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
             horizontal: Screen.width(context, percentage: 2.5),
             vertical: Screen.height(context, percentage: 5.0),
           ),
-          child: Body(
+          child: BodyText(
             widget.activity.description,
             size: Screen.isTablet(context) ? 30 : null,
           ),
@@ -85,21 +95,21 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.width(context, percentage: 2.5),
-            vertical: Screen.height(context, percentage: 5.0),
+            vertical: Screen.height(context, percentage: 2.5),
           ),
-          child: Body(
+          child: BodyText(
             widget.activity.task,
             size: Screen.isTablet(context) ? 30 : null,
           ),
         ),
-        Padding(
+        Screen.isPortrait(context) ? Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Screen.width(context, percentage: 5),
           ),
           child: Divider(
             color: HexColor("FF777777"),
           ),
-        ),
+        ) : Container(),
       ],
     );
   }
@@ -115,7 +125,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: widget.isReview
-                ? Body(
+                ? BodyText(
                     "You Answered:",
                     size: Screen.isTablet(context) ? 30 : null,
                   )
@@ -128,7 +138,10 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
               widget.isReview
                   ? Container(
                       width: Screen.width(context, percentage: 87.5),
-                        height: Screen.height(context, percentage: Screen.isTablet(context) ? 45.0 : Screen.isSmall(context) ? 30.0 : 38.0),
+                      height: Screen.height(context,
+                          percentage: Screen.isTablet(context)
+                              ? 45.0
+                              : Screen.isSmall(context) ? 30.0 : 38.0),
                       decoration: BoxDecoration(
                         border: Border.all(
                             width: 1.0, color: Theme.of(context).primaryColor),
@@ -137,7 +150,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Body(
+                        child: BodyText(
                           widget.activity.userText,
                           align: TextAlign.left,
                           size: Screen.isTablet(context) ? 30 : null,
@@ -148,10 +161,15 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                       borderRadius: BorderRadius.circular(10.0),
                       child: Container(
                         width: Screen.width(context, percentage: 87.5),
-                        height: Screen.height(context, percentage: Screen.isTablet(context) ? 45.0 : Screen.isSmall(context) ? 30.0 : 38.0),
+                        height: Screen.height(context,
+                            percentage: Screen.isTablet(context)
+                                ? 45.0
+                                : Screen.isSmall(context) ? 30.0 : 38.0),
                         color: Colors.white,
                         child: TextField(
+                          focusNode: _textFieldFocus,
                           keyboardType: TextInputType.multiline,
+                          textCapitalization: TextCapitalization.sentences,
                           maxLines: 10,
                           style: TextStyle(color: Colors.black),
                           controller: controller,
@@ -164,12 +182,6 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                     ),
             ],
           ),
-          widget.isReview
-              ? Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: EditAnswer(),
-                )
-              : Container(),
         ],
       ),
     );
