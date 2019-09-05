@@ -4,12 +4,13 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
+import 'package:discover_deep_cove/widgets/fact_file/nuggets/fact_nugget.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
@@ -122,9 +123,15 @@ class _FactFileDetailsState extends State<FactFileDetails> {
   Future<List<Image>> loadImages() async {
     List<Image> images = List<Image>();
     for (MediaFile media in widget.entry.galleryImages) {
-      ImageProvider provider = FileImage(File(Env.getResourcePath(media.path)));
+      ImageProvider provider = FileImage(
+        File(
+          Env.getResourcePath(media.path),
+        ),
+      );
       await precacheImage(provider, context);
-      images.add(Image(image: provider));
+      images.add(
+        Image(image: provider),
+      );
     }
     return images;
   }
@@ -147,7 +154,9 @@ class _FactFileDetailsState extends State<FactFileDetails> {
 
   getContent() {
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: EdgeInsets.all(
+        Screen.width(context, percentage: 2),
+      ),
       child: Column(
         children: [
           Heading(widget.entry.primaryName),
@@ -241,13 +250,28 @@ class _FactFileDetailsState extends State<FactFileDetails> {
             ],
           ),
           Divider(color: Colors.white, height: 50),
-          BodyText(
-            widget.entry.bodyText,
-            align: TextAlign.justify,
+          getNuggets(),
+          Padding(
+            padding: EdgeInsets.all(
+              Screen.width(context, percentage: 1.25),
+            ),
+            child: BodyText(
+              widget.entry.bodyText,
+              align: TextAlign.justify,
+            ),
           ),
-          // Todo: Incorporate nuggets
         ],
       ),
     );
+  }
+
+  getNuggets() {
+    return widget.entry.nuggets.map((nugget) {
+      return FactNugget(
+        path: nugget.image != null ? nugget.image.path : null,
+        name: nugget.name,
+        text: nugget.text,
+      );
+    });
   }
 }
