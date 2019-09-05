@@ -6,11 +6,9 @@ import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
-import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/activities/selected_photo.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
