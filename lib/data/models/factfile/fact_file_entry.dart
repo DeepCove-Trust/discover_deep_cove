@@ -127,12 +127,22 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
   }
 
   Future<FactFileEntry> _preloadExtras(FactFileEntry entry) async {
+    entry = await preload(entry);
+
     entry.category = await factFileCategoryBean.find(entry.categoryId);
+
     entry.mainImage = await mediaFileBean.find(entry.mainImageId);
+
     if (entry.pronounceAudioId != null)
       entry.pronounceAudio = await mediaFileBean.find(entry.pronounceAudioId);
+
     if (entry.listenAudioId != null)
       entry.listenAudio = await mediaFileBean.find(entry.listenAudioId);
+
+    for(FactFileNugget nugget in entry.nuggets){
+      nugget = await factFileNuggetBean.preloadImage(nugget);
+    }
+
     return entry;
   }
 }
