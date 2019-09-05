@@ -16,16 +16,12 @@ class FactNugget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        top: Screen.width(context, percentage: 2),
-        bottom: Screen.width(context, percentage: 3),
+        top: Screen.width(context, percentage: 1.5),
+        bottom: Screen.width(context, percentage: 2.5),
       ),
       child: Container(
         decoration: BoxDecoration(
           border: Border(
-            top: BorderSide(
-              color: Theme.of(context).primaryColor,
-              width: 1.5,
-            ),
             bottom: BorderSide(
               color: Theme.of(context).primaryColor,
               width: 1.5,
@@ -42,8 +38,8 @@ class FactNugget extends StatelessWidget {
             children: <Widget>[
               path != null
                   ? Container(
-                      height: Screen.width(context, percentage: 40),
-                      width: Screen.width(context, percentage: 40),
+                      height: Screen.width(context, percentage: Screen.isPortrait(context) ? 40 : 30),
+                      width: Screen.width(context, percentage:  Screen.isPortrait(context) ? 40 : 30),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
@@ -65,12 +61,13 @@ class FactNugget extends StatelessWidget {
                 ),
                 child: SubHeading(
                   name,
-                  size: Screen.isTablet(context) ? 30 : null,
+                  size: Screen.isTablet(context) ? 45 : null,
                 ),
               ),
               BodyText(
                 text,
                 align: TextAlign.justify,
+                size: Screen.isTablet(context) ? 30 : null,
               ),
             ],
           ),

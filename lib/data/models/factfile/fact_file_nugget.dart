@@ -62,5 +62,10 @@ class FactFileNuggetBean extends Bean<FactFileNugget> with _FactFileNuggetBean {
 
   MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
 
+  Future<FactFileNugget> preloadImage(FactFileNugget nugget) async {
+    nugget.image = await mediaFileBean.find(nugget.imageId);
+    return nugget;
+  }
+
   final String tableName = 'fact_file_nuggets';
 }
