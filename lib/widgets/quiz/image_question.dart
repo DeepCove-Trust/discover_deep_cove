@@ -1,9 +1,10 @@
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_grid.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_image_button.dart';
 import 'package:flutter/material.dart';
@@ -21,19 +22,50 @@ class ImageQuestion extends StatefulWidget {
 
 class _ImageQuestionState extends State<ImageQuestion> {
   AudioPlayer player = AudioPlayer();
+  Color playingColor = Colors.white;
   bool get hasAudio => widget.question.audio != null;
+  StreamSubscription _playerCompleteSubscription;
   double height;
 
   void playAudio() {
+    setState(() => playingColor = Theme.of(context).primaryColor);
     player.play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
+      _onComplete();
+    });
+  }
+
+  @override
+  void dispose() {
+    player.stop();
+
+    _playerCompleteSubscription?.cancel();
+    super.dispose();
+  }
+
+  void _onComplete() {
+    setState(() => playingColor = Colors.white);
   }
 
   Widget buildAudioButton() {
     return OutlineButton.icon(
       onPressed: () => playAudio(),
-      label: BodyText('Listen'),
-      borderSide: BorderSide(color: Colors.white, width: 0.5),
-      icon: Icon(FontAwesomeIcons.music, color: Colors.white),
+      label: Text(
+        'Listen',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: playingColor,
+          fontSize: (Screen.isSmall(context) ? 16 : 20),
+        ),
+      ),
+      borderSide: BorderSide(color: playingColor, width: 1.5),
+      icon: Icon(FontAwesomeIcons.music, color: playingColor),
     );
   }
 
