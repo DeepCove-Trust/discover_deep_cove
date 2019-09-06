@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
@@ -98,13 +97,32 @@ class _FactFileDetailsState extends State<FactFileDetails> {
             height: Screen.width(context),
             child: Hero(
               tag: widget.entry.id,
-              child: Carousel(
-                autoplay: true,
-                images: snapshot.data,
-                autoplayDuration: Duration(seconds: 5),
-                dotBgColor: Color.fromRGBO(0, 0, 0, 0.5),
-                animationCurve: Curves.fastOutSlowIn,
-                animationDuration: Duration(milliseconds: 1000),
+              child: Stack(
+                fit: StackFit.loose,
+                children: <Widget>[
+                  Carousel(
+                    autoplay: true,
+                    images: snapshot.data,
+                    autoplayDuration: Duration(seconds: 5),
+                    dotBgColor: Color.fromRGBO(0, 0, 0, 0.5),
+                    animationCurve: Curves.fastOutSlowIn,
+                    animationDuration: Duration(milliseconds: 1000),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           );
