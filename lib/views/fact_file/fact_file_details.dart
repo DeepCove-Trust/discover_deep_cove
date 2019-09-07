@@ -9,6 +9,7 @@ import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/fact_file/nuggets/fact_nugget.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
@@ -108,19 +109,10 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                     animationCurve: Curves.fastOutSlowIn,
                     animationDuration: Duration(milliseconds: 1000),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            
-                          ],
-                        ),
-                      ),
-                    ],
+                  //TODO find out a way to change image source based on which image is displayed
+                  ImageSource(
+                    isCopyright: true,
+                    source: "Owner 2109",
                   ),
                 ],
               ),
