@@ -1,19 +1,18 @@
 import 'dart:io';
 
+import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 
 class SmallTile extends StatelessWidget {
   final String title;
-  final String imagePath;
+  final MediaFile image;
   final Object heroTag;
   final VoidCallback onTap;
 
   SmallTile(
-      {@required this.title,
-      @required this.imagePath,
-      this.onTap,
-      this.heroTag});
+      {@required this.title, @required this.image, this.onTap, this.heroTag});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,11 @@ class SmallTile extends StatelessWidget {
                 child: c,
               ),
               tag: heroTag,
-              child: Image.file(File(imagePath)),
+              child: Image.file(
+                File(
+                  Env.getResourcePath(image.path),
+                ),
+              ),
             ),
             SizedBox(
               width: double.infinity,
@@ -41,7 +44,7 @@ class SmallTile extends StatelessWidget {
                 color: Color.fromRGBO(0, 0, 0, 0.75),
                 child: SubHeading(title),
               ),
-            )
+            ),
           ],
         ),
       ),

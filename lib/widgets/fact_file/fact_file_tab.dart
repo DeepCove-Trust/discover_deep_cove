@@ -1,5 +1,4 @@
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
-import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/fact_file/fact_file_tile.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,7 @@ class _FactFileTabState extends State<FactFileTab> {
       return SmallTile(
         title: entry.primaryName,
         heroTag: entry.id,
-        imagePath: Env.getResourcePath(entry.mainImage.path),
+        image: entry.mainImage,
         onTap: () => handleTap(entry),
       );
     }).toList();
