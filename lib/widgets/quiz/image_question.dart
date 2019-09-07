@@ -68,6 +68,19 @@ class _ImageQuestionState extends State<ImageQuestion> {
       icon: Icon(FontAwesomeIcons.music, color: playingColor),
     );
   }
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          height = constraints.maxHeight;
+          return buildContent();
+        },
+      ),
+      backgroundColor: Theme.of(context).backgroundColor,
+    );
+  }
 
   buildContent() {
     return (Screen.isTablet(context) && !Screen.isPortrait(context))
@@ -92,21 +105,6 @@ class _ImageQuestionState extends State<ImageQuestion> {
               answerComponent(),
             ],
           );
-  }
-
-  answerComponent() {
-    return Expanded(
-      child: Container(
-        color: Theme.of(context).backgroundColor,
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CustomGrid(children: widget.answers),
-          ],
-        ),
-      ),
-    );
   }
 
   questionComponent() {
@@ -151,16 +149,18 @@ class _ImageQuestionState extends State<ImageQuestion> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          height = constraints.maxHeight;
-          return buildContent();
-        },
+  answerComponent() {
+    return Expanded(
+      child: Container(
+        color: Theme.of(context).backgroundColor,
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CustomGrid(children: widget.answers),
+          ],
+        ),
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
     );
   }
 }
