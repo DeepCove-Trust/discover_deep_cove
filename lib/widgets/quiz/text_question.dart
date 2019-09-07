@@ -59,15 +59,28 @@ class _TextQuestionState extends State<TextQuestion> {
     return OutlineButton.icon(
       onPressed: () => playAudio(),
       label: Text(
-                          'Listen',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: playingColor,
-                            fontSize: (Screen.isSmall(context) ? 16 : 20),
-                          ),
-                        ),
+        'Listen',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: playingColor,
+          fontSize: (Screen.isSmall(context) ? 16 : 20),
+        ),
+      ),
       borderSide: BorderSide(color: playingColor, width: 1.5),
       icon: Icon(FontAwesomeIcons.music, color: playingColor),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        height = constraints.maxHeight;
+        return Scaffold(
+          body: buildContent(),
+          backgroundColor: Theme.of(context).backgroundColor,
+        );
+      },
     );
   }
 
@@ -96,21 +109,6 @@ class _TextQuestionState extends State<TextQuestion> {
               answerComponent(),
             ],
           );
-  }
-
-  answerComponent() {
-    return Expanded(
-      child: Container(
-        color: Theme.of(context).backgroundColor,
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          CustomGrid(
-            children: widget.answers,
-            showAsColumn: Screen.isLandscape(context),
-          ),
-        ]),
-      ),
-    );
   }
 
   questionComponent() {
@@ -162,18 +160,18 @@ class _TextQuestionState extends State<TextQuestion> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        height = constraints.maxHeight;
-        return Scaffold(
-          body: buildContent(),
-          backgroundColor: Theme.of(context).backgroundColor,
-        );
-      },
+  answerComponent() {
+    return Expanded(
+      child: Container(
+        color: Theme.of(context).backgroundColor,
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          CustomGrid(
+            children: widget.answers,
+            showAsColumn: Screen.isLandscape(context),
+          ),
+        ]),
+      ),
     );
   }
 }
-
-class _playerCompleteSubscription {}
