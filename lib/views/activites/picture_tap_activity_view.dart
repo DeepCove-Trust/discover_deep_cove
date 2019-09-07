@@ -4,6 +4,7 @@ import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -176,6 +177,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                       ),
                     ),
                   ),
+                  // widget.activity.image.source != null ? ImageSource(isCopyright: widget.activity.image.showCopyright, widget.activity.image.source) : Container(),
                 ],
               )
             : Stack(
@@ -239,6 +241,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                           ),
                         )
                       : Container(),
+                      // widget.activity.image.source != null ? ImageSource(isCopyright: widget.activity.image.showCopyright, widget.activity.image.source) : Container(),
                 ],
               ),
       ],
