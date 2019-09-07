@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:flutter/material.dart';
 
 class QuizImageButton extends StatelessWidget {
@@ -38,19 +39,18 @@ class QuizImageButton extends StatelessWidget {
                     ),
                   ),
                 ),
-                text != null
-                    ? Column(
+                    Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           Container(
                             color: Color.fromARGB(190, 0, 0, 0),
-                            height: Screen.height(context, percentage: 5),
+                            height: Screen.height(context, percentage: Screen.isPortrait(context) && text == null ? 2.5 : 5),
                             width: Screen.width(context),
                             child: Center(
                               child: Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text(
+                                child: text != null ? Text(
                                   text,
                                   style: TextStyle(
                                       color: Colors.white,
@@ -60,13 +60,13 @@ class QuizImageButton extends StatelessWidget {
                                   softWrap: false,
                                   maxLines: 1,
                                   overflow: TextOverflow.fade,
-                                ),
+                                ) : Container(),
                               ),
                             ),
                           ),
                         ],
-                      )
-                    : Container(),
+                      ),
+                    // image.source != null ? ImageSource(isCopyright: image.showCopyright, image.source) : Container(), 
               ],
             ),
           ),
