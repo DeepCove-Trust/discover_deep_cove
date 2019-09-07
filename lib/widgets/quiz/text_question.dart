@@ -6,6 +6,7 @@ import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_grid.dart';
+import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_text_button.dart';
 import 'package:flutter/material.dart';
@@ -153,6 +154,7 @@ class _TextQuestionState extends State<TextQuestion> {
                   ),
                 ],
               ),
+             // image.source != null ? ImageSource(isCopyright: image.showCopyright, image.source) : Container(),
             ],
           ),
         ),
