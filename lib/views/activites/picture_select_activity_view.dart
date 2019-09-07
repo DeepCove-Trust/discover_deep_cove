@@ -47,7 +47,9 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
       body: buildContent(),
       bottomNavigationBar: widget.isReview
           ? BottomBackButton(isReview: widget.isReview)
-          : ActivityPassSaveBar(onTap: () => saveAnswer(),),
+          : ActivityPassSaveBar(
+              onTap: () => saveAnswer(),
+            ),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }
@@ -93,15 +95,17 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
             size: Screen.isTablet(context) ? 30 : null,
           ),
         ),
-        Screen.isPortrait(context) ? Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Screen.width(context, percentage: 5),
-            vertical: Screen.height(context, percentage: 1.25),
-          ),
-          child: Divider(
-            color: HexColor("FFFFFFFF"),
-          ),
-        ) : Container(),
+        Screen.isPortrait(context)
+            ? Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Screen.width(context, percentage: 5),
+                  vertical: Screen.height(context, percentage: 1.25),
+                ),
+                child: Divider(
+                  color: HexColor("FFFFFFFF"),
+                ),
+              )
+            : Container(),
       ],
     );
   }
