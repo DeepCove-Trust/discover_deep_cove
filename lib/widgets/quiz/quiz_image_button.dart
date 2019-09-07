@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/image_source.dart';
@@ -7,18 +8,22 @@ import 'package:flutter/material.dart';
 
 class QuizImageButton extends StatelessWidget {
   final VoidCallback onTap;
-  final String imagePath;
+  final MediaFile image;
   final String text;
 
-  const QuizImageButton({this.onTap, this.imagePath, this.text});
+  const QuizImageButton({this.onTap, this.image, this.text});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: Screen.isPortrait(context) ? Screen.width(context, percentage: 45) : Screen.height(context, percentage: 40),
-        height: Screen.isPortrait(context) ? Screen.width(context, percentage: 45) : Screen.height(context, percentage: 40),
+        width: Screen.isPortrait(context)
+            ? Screen.width(context, percentage: 45)
+            : Screen.height(context, percentage: 40),
+        height: Screen.isPortrait(context)
+            ? Screen.width(context, percentage: 45)
+            : Screen.height(context, percentage: 40),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
           child: Container(
@@ -34,23 +39,30 @@ class QuizImageButton extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: FileImage(File(Env.getResourcePath(imagePath))),
+                      image: FileImage(
+                        File(
+                          Env.getResourcePath(image.path),
+                        ),
+                      ),
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Container(
-                            color: Color.fromARGB(190, 0, 0, 0),
-                            height: Screen.height(context, percentage: Screen.isPortrait(context) && text == null ? 2.5 : 5),
-                            width: Screen.width(context),
-                            child: Center(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: text != null ? Text(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Container(
+                      color: Color.fromARGB(190, 0, 0, 0),
+                      height: Screen.height(context,
+                          percentage: Screen.isPortrait(context) && text == null
+                              ? 2.5
+                              : 5),
+                      width: Screen.width(context),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: text != null
+                              ? Text(
                                   text,
                                   style: TextStyle(
                                       color: Colors.white,
@@ -60,13 +72,14 @@ class QuizImageButton extends StatelessWidget {
                                   softWrap: false,
                                   maxLines: 1,
                                   overflow: TextOverflow.fade,
-                                ) : Container(),
-                              ),
-                            ),
-                          ),
-                        ],
+                                )
+                              : Container(),
+                        ),
                       ),
-                    // image.source != null ? ImageSource(isCopyright: image.showCopyright, image.source) : Container(), 
+                    ),
+                  ],
+                ),
+                // image.source != null ? ImageSource(isCopyright: image.showCopyright, image.source) : Container(),
               ],
             ),
           ),
