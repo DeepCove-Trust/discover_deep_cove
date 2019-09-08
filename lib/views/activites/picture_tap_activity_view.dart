@@ -6,9 +6,8 @@ import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
-import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
 
 class PictureTapActivityView extends StatefulWidget {
@@ -43,6 +42,20 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     super.initState();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: ActivityAppBar(widget.activity.title),
+      body: buildContent(),
+      bottomNavigationBar: widget.isReview
+          ? BottomBackButton(isReview: widget.isReview)
+          : ActivityPassSaveBar(
+              onTapSave: () => saveAnswer(),
+            ),
+      backgroundColor: Theme.of(context).backgroundColor,
+    );
+  }
+
   buildContent() {
     return (Screen.isTablet(context) && Screen.isLandscape(context))
         ? GridView.count(
@@ -71,7 +84,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
             horizontal: Screen.width(context, percentage: 5),
             vertical: Screen.height(context, percentage: 2.5),
           ),
-          child: Body(
+          child: BodyText(
             widget.activity.description,
             size: Screen.isTablet(context)
                 ? 25.0
@@ -83,7 +96,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
             horizontal: Screen.width(context, percentage: 5),
             vertical: Screen.height(context, percentage: 1.25),
           ),
-          child: Body(
+          child: BodyText(
             widget.activity.task,
             size: Screen.isTablet(context)
                 ? 25.0
@@ -100,7 +113,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
       children: <Widget>[
         Container(
           child: widget.isReview
-              ? Body(
+              ? BodyText(
                   "Your Answer:",
                   size: Screen.isTablet(context)
                       ? 25.0
@@ -141,23 +154,6 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                         ),
                       ),
                     ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        color: Color.fromARGB(190, 0, 0, 0),
-                        height: Screen.height(context, percentage: 5.0),
-                        width: Screen.width(context),
-                        child: Center(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: EditAnswer(),
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                   Positioned(
                     top: widget.activity.userYCoord,
@@ -246,18 +242,6 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                 ],
               ),
       ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: ActivityAppBar(widget.activity.title),
-      body: buildContent(),
-      bottomNavigationBar: widget.isReview
-          ? BottomBackButton()
-          : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
-      backgroundColor: Theme.of(context).backgroundColor,
     );
   }
 

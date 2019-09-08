@@ -1,14 +1,14 @@
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:flutter/material.dart';
 
-class Body extends StatelessWidget {
+class BodyText extends StatelessWidget {
   final String text;
   final TextAlign align;
   final double size;
 
   ///Returns a custom [Text] widget for accessing body1 theme
   ///and has an optional alignment property.
-  Body(this.text, {this.align = TextAlign.center, this.size});
+  BodyText(this.text, {this.align = TextAlign.center, this.size});
 
   @override
   Widget build(BuildContext context) {

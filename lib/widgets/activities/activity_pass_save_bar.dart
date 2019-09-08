@@ -1,6 +1,6 @@
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
 
 class ActivityPassSaveBar extends StatelessWidget {
@@ -33,7 +33,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
-                child: Body(
+                child: BodyText(
                   'Pass',
                   size: Screen.width(context) >= 600
                       ? 30
@@ -56,7 +56,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
-                child: Body(
+                child: BodyText(
                   "Save",
                   size: Screen.width(context) >= 600
                       ? 30

@@ -1,5 +1,5 @@
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +73,7 @@ class QuizResult extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        Body(
+        BodyText(
           "Quiz Completed!",
           size: Screen.isTablet(context) ? 40 : null,
         ),
@@ -98,7 +98,7 @@ class QuizResult extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
-              child: Body(
+              child: BodyText(
                 "Your score:",
                 size: Screen.isTablet(context) ? 40 : null,
               ),
@@ -108,14 +108,14 @@ class QuizResult extends StatelessWidget {
               size: Screen.isSmall(context) ? 40 : 100,
             ),
             isHighscore
-                ? Body(
+                ? BodyText(
                     "New Highscore!",
                     size: Screen.isTablet(context) ? 40 : null,
                   )
                 : Container(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Body(
+              child: BodyText(
                 setMessage(),
                 size: Screen.isTablet(context) ? 40 : null,
               ),

@@ -9,9 +9,9 @@ import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -46,7 +46,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
     String filepath = widget.activity.userPhoto?.path;
     if (filepath == null) {
       print('Error loading stored image.');
-      return Body('There was an error loading your image...');
+      return BodyText('There was an error loading your image...');
     }
     await precacheImage(
         FileImage(File(Env.getResourcePath(filepath))), context);
@@ -74,7 +74,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
         children: [
           Icon(Icons.camera_alt, size: Screen.isSmall(context) ? 100 : 150, color: Colors.white30),
           SizedBox(height: 10,),
-          Body('Take a photo to begin...')
+          BodyText('Take a photo to begin...')
         ],
       ),
     );
@@ -93,7 +93,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
               children: <Widget>[
                 CircularProgressIndicator(),
                 SizedBox(height: 12),
-                Body('Loading image...')
+                BodyText('Loading image...')
               ],
             );
           } else if (snapshot.hasData) {
@@ -119,11 +119,11 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
-            child: Body(widget.activity.description),
+            child: BodyText(widget.activity.description),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(40, 0, 40, 20),
-            child: Body(widget.activity.task),
+            child: BodyText(widget.activity.task),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40),

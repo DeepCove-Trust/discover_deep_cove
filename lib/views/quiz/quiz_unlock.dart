@@ -3,7 +3,7 @@ import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
 
@@ -21,19 +21,23 @@ class QuizUnlock extends StatefulWidget {
 ///Allows the user to unlock a [quiz]
 class _QuizUnlockState extends State<QuizUnlock> {
   TextEditingController textController = TextEditingController();
+  FocusNode _textFieldFocus = new FocusNode();
   List<Quiz> quizzes;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          buildContent(),
-        ],
+    return GestureDetector(
+      onTap: () => _textFieldFocus.unfocus(),
+      child: Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            buildContent(),
+          ],
+        ),
+        backgroundColor: Theme.of(context).backgroundColor,
+        bottomNavigationBar: BottomBackButton(),
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: BottomBackButton(),
     );
   }
 
@@ -109,12 +113,11 @@ class _QuizUnlockState extends State<QuizUnlock> {
                       percentage: Screen.isSmall(context) ? 2 : 5),
                   horizontal: Screen.isSmall(context) ? 20 : 50),
               child: Screen.width(context) <= 600
-                  ? Body(
+                  ? BodyText(
                       "Your teacher will give you codes to unlock quizzes.",
                     )
                   : Heading(
-                      "Your teacher will give you codes to unlock quizzes."
-                    ),
+                      "Your teacher will give you codes to unlock quizzes."),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -207,7 +210,9 @@ class _QuizUnlockState extends State<QuizUnlock> {
                       ),
                       color: Colors.white,
                       child: TextField(
+                        focusNode: _textFieldFocus,
                         controller: textController,
+                        keyboardType: TextInputType.number,
                         style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           hintText: 'Enter code...',

@@ -1,5 +1,5 @@
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class About extends StatelessWidget {
                   padding: EdgeInsets.symmetric(
                     horizontal: setXPadding(context),
                   ),
-                  child: Body(
+                  child: BodyText(
                     "The Deep Cove Outdoor Education Trust is a non-profit "
                     "organisation that was established in 1971. The Deep Cove Hostel "
                     "is a 50 bed building, and was established for the purpose of "
@@ -45,7 +45,7 @@ class About extends StatelessWidget {
                   padding: EdgeInsets.symmetric(
                     horizontal: setXPadding(context),
                   ),
-                  child: Body(
+                  child: BodyText(
                     "The trust and developers would like to give a special thank you to "
                     "the Department of Conservation and the Te Reo Department of SIT for "
                     "providing information and recordings used within this app.",
@@ -54,7 +54,7 @@ class About extends StatelessWidget {
                 ),
                 Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Body("https://www.doc.govt.nz")),
+                    child: BodyText("https://www.doc.govt.nz")),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     vertical: setYPadding(context),
@@ -65,7 +65,7 @@ class About extends StatelessWidget {
                   padding: EdgeInsets.symmetric(
                     horizontal: setXPadding(context),
                   ),
-                  child: Body(
+                  child: BodyText(
                     "This app was developed by Mitchell Quarrie,"
                     " Samuel Jackson and Samuel Grant",
                     align: TextAlign.left,

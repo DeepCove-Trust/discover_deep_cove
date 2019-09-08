@@ -1,13 +1,16 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/fact_file/nuggets/fact_nugget.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +27,36 @@ class FactFileDetails extends StatefulWidget {
 
 class _FactFileDetailsState extends State<FactFileDetails> {
   AudioPlayer player = AudioPlayer();
+  Color pronounceColor = Colors.white;
+  Color listenColor = Colors.white;
+  bool _isButtonDisabled = false;
+
+  StreamSubscription _playerCompleteSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
+      _onComplete();
+    });
+  }
+
+  @override
+  void dispose() {
+    player.stop();
+
+    _playerCompleteSubscription?.cancel();
+    super.dispose();
+  }
+
+  void _onComplete() {
+    setState(() {
+      _isButtonDisabled = false;
+      pronounceColor = Colors.white;
+      listenColor = Colors.white;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,16 +123,40 @@ class _FactFileDetailsState extends State<FactFileDetails> {
   Future<List<Image>> loadImages() async {
     List<Image> images = List<Image>();
     for (MediaFile media in widget.entry.galleryImages) {
-      ImageProvider provider = FileImage(File(Env.getResourcePath(media.path)));
+      ImageProvider provider = FileImage(
+        File(
+          Env.getResourcePath(media.path),
+        ),
+      );
       await precacheImage(provider, context);
-      images.add(Image(image: provider));
+      images.add(
+        Image(image: provider),
+      );
     }
     return images;
   }
 
+  playPronounce() {
+    setState(() => pronounceColor = Theme.of(context).primaryColor);
+    _isButtonDisabled = true;
+
+    return player.play(Env.getResourcePath(widget.entry.pronounceAudio.path),
+        isLocal: true);
+  }
+
+  playListen() {
+    setState(() => listenColor = Theme.of(context).primaryColor);
+    _isButtonDisabled = true;
+
+    return player.play(Env.getResourcePath(widget.entry.listenAudio.path),
+        isLocal: true);
+  }
+
   getContent() {
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: EdgeInsets.all(
+        Screen.width(context, percentage: 2),
+      ),
       child: Column(
         children: [
           Heading(widget.entry.primaryName),
@@ -128,17 +185,25 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                       children: <Widget>[
                         Icon(
                           FontAwesomeIcons.music,
-                          color: Colors.white,
+                          color: pronounceColor,
                           size: Screen.isSmall(context) ? 16 : 24,
                         ),
                         SizedBox(height: 10),
-                        Body('Pronounce'),
+                        Text(
+                          'Pronounce',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: pronounceColor,
+                            fontSize: (Screen.isSmall(context) ? 16 : 20),
+                          ),
+                        ),
                       ],
                     ),
-                    onPressed: () => player.play(
-                        Env.getResourcePath(widget.entry.pronounceAudio.path),
-                        isLocal: true),
-                    borderSide: BorderSide(color: Colors.white),
+                    onPressed: _isButtonDisabled ? null : playPronounce,
+                    borderSide: BorderSide(
+                      color: pronounceColor,
+                      width: 1.5,
+                    ),
                   ),
                 ),
               if (widget.entry.listenAudio != null)
@@ -160,29 +225,52 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                       children: <Widget>[
                         Icon(
                           FontAwesomeIcons.volumeUp,
-                          color: Colors.white,
+                          color: listenColor,
                           size: Screen.isSmall(context) ? 16 : 24,
                         ),
                         SizedBox(height: 10),
-                        Body('Listen'),
+                        Text(
+                          'Listen',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: listenColor,
+                            fontSize: (Screen.isSmall(context) ? 16 : 20),
+                          ),
+                        ),
                       ],
                     ),
-                    onPressed: () => player.play(
-                        Env.getResourcePath(widget.entry.listenAudio.path),
-                        isLocal: true),
-                    borderSide: BorderSide(color: Colors.white),
+                    onPressed: _isButtonDisabled ? null : playListen,
+                    borderSide: BorderSide(
+                      color: listenColor,
+                      width: 1.5,
+                    ),
                   ),
                 )
             ],
           ),
           Divider(color: Colors.white, height: 50),
-          Body(
-            widget.entry.bodyText,
-            align: TextAlign.justify,
+          Column(children: getNuggets()),
+          Padding(
+            padding: EdgeInsets.all(
+              Screen.width(context, percentage: 1.25),
+            ),
+            child: BodyText(
+              widget.entry.bodyText,
+              align: TextAlign.justify,
+            ),
           ),
-          // Todo: Incorporate nuggets
         ],
       ),
     );
+  }
+
+  getNuggets() {
+    return widget.entry.nuggets.map((nugget) {
+      return FactNugget(
+        path: nugget.image != null ? nugget.image.path : null,
+        name: nugget.name,
+        text: nugget.text,
+      );
+    }).toList();
   }
 }

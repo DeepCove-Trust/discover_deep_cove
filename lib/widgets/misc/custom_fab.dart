@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 
 class CustomFab extends StatelessWidget {
   final IconData icon;
@@ -19,7 +19,7 @@ class CustomFab extends StatelessWidget {
       ),
       label: Padding(
         padding: const EdgeInsets.fromLTRB(4.0, 2.0, 8.0, 2.0),
-        child: Body(text),
+        child: BodyText(text),
       ),
       onPressed: onPressed,
       heroTag: null,
