@@ -257,7 +257,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
       body: buildContent(),
       bottomNavigationBar: widget.isReview
           ? BottomBackButton()
-          : ActivityPassSaveBar(onTap: () => saveAnswer()),
+          : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }

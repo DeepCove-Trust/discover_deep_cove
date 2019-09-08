@@ -207,7 +207,9 @@ class _CountActivityViewState extends State<CountActivityView> {
     return Scaffold(
         appBar: ActivityAppBar(widget.activity.title),
         body: buildContent(),
-      bottomNavigationBar: widget.isReview ? BottomBackButton() :  ActivityPassSaveBar(onTap: () => saveAnswer()),
+        bottomNavigationBar: widget.isReview
+            ? BottomBackButton()
+            : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
         backgroundColor: Theme.of(context).backgroundColor);
   }
 
