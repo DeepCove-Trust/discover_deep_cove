@@ -19,7 +19,6 @@ class FactFileEntry {
       {@required this.id,
       @required this.categoryId,
       @required this.primaryName,
-      @required this.cardText,
       @required this.bodyText});
 
   @PrimaryKey()
@@ -33,9 +32,6 @@ class FactFileEntry {
 
   @Column(isNullable: true)
   String altName;
-
-  @Column()
-  String cardText;
 
   @Column()
   String bodyText;

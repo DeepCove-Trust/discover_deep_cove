@@ -11,7 +11,6 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
   final categoryId = IntField('category_id');
   final primaryName = StrField('primary_name');
   final altName = StrField('alt_name');
-  final cardText = StrField('card_text');
   final bodyText = StrField('body_text');
   final mainImageId = IntField('main_image_id');
   final pronounceAudioId = IntField('pronounce_audio_id');
@@ -22,7 +21,6 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         categoryId.name: categoryId,
         primaryName.name: primaryName,
         altName.name: altName,
-        cardText.name: cardText,
         bodyText.name: bodyText,
         mainImageId.name: mainImageId,
         pronounceAudioId.name: pronounceAudioId,
@@ -34,7 +32,6 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     model.categoryId = adapter.parseValue(map['category_id']);
     model.primaryName = adapter.parseValue(map['primary_name']);
     model.altName = adapter.parseValue(map['alt_name']);
-    model.cardText = adapter.parseValue(map['card_text']);
     model.bodyText = adapter.parseValue(map['body_text']);
     model.mainImageId = adapter.parseValue(map['main_image_id']);
     model.pronounceAudioId = adapter.parseValue(map['pronounce_audio_id']);
@@ -52,7 +49,6 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
       ret.add(categoryId.set(model.categoryId));
       ret.add(primaryName.set(model.primaryName));
       ret.add(altName.set(model.altName));
-      ret.add(cardText.set(model.cardText));
       ret.add(bodyText.set(model.bodyText));
       ret.add(mainImageId.set(model.mainImageId));
       ret.add(pronounceAudioId.set(model.pronounceAudioId));
@@ -64,7 +60,6 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
       if (only.contains(primaryName.name))
         ret.add(primaryName.set(model.primaryName));
       if (only.contains(altName.name)) ret.add(altName.set(model.altName));
-      if (only.contains(cardText.name)) ret.add(cardText.set(model.cardText));
       if (only.contains(bodyText.name)) ret.add(bodyText.set(model.bodyText));
       if (only.contains(mainImageId.name))
         ret.add(mainImageId.set(model.mainImageId));
@@ -84,9 +79,6 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
       }
       if (model.altName != null) {
         ret.add(altName.set(model.altName));
-      }
-      if (model.cardText != null) {
-        ret.add(cardText.set(model.cardText));
       }
       if (model.bodyText != null) {
         ret.add(bodyText.set(model.bodyText));
@@ -114,7 +106,6 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         isNullable: false);
     st.addStr(primaryName.name, isNullable: false);
     st.addStr(altName.name, isNullable: true);
-    st.addStr(cardText.name, isNullable: false);
     st.addStr(bodyText.name, isNullable: false);
     st.addInt(mainImageId.name,
         foreignTable: mediaFileBean.tableName,
