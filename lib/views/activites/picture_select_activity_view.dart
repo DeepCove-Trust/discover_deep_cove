@@ -46,8 +46,8 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
       appBar: ActivityAppBar(widget.activity.title),
       body: buildContent(),
       bottomNavigationBar: widget.isReview
-          ? BottomBackButton(isReview: widget.isReview)
-          : ActivityPassSaveBar(onTap: () => saveAnswer(),),
+          ? BottomBackButton()
+          : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }

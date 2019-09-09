@@ -1,6 +1,7 @@
 import 'dart:io' show File, Directory;
 
 import 'package:archive/archive.dart' show ZipDecoder, Archive, ArchiveFile;
+import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' show Response;
 import 'package:meta/meta.dart' show required;
@@ -62,5 +63,12 @@ class Util {
       backgroundColor: Theme.of(context).primaryColor,
       textColor: Colors.black,
     );
+  }
+
+  /// Generates a file name by adding a time-based string to the end,
+  /// and adding the correct file extension based on supplied type.
+  static String getAntiCollisionName(String name, MediaFileType type) {
+    String suffix = DateTime.now().millisecondsSinceEpoch.toString();
+    return name.replaceAll(' ', '_') + '_' + suffix + '.' + type.toString();
   }
 }

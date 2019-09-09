@@ -32,7 +32,7 @@ class _CountActivityViewState extends State<CountActivityView> {
         bottomNavigationBar: widget.isReview
             ? BottomBackButton(isReview: widget.isReview)
             : ActivityPassSaveBar(
-                onTap: () => saveAnswer(),
+                onTapSave: () => saveAnswer(),
               ),
         backgroundColor: Theme.of(context).backgroundColor);
   }
