@@ -30,6 +30,7 @@ class _FactFileDetailsState extends State<FactFileDetails> {
   Color pronounceColor = Colors.white;
   Color listenColor = Colors.white;
   bool _isButtonDisabled = false;
+  int _currentImage = 0;
 
   StreamSubscription _playerCompleteSubscription;
 
@@ -108,12 +109,14 @@ class _FactFileDetailsState extends State<FactFileDetails> {
                     dotBgColor: Color.fromRGBO(0, 0, 0, 0.5),
                     animationCurve: Curves.fastOutSlowIn,
                     animationDuration: Duration(milliseconds: 1000),
+                    onImageChange: (prev, next) {
+                      setState(() => _currentImage = next);
+                    },
                   ),
-                  //TODO find out a way to change image source based on which image is displayed
-                  ImageSource(
+                  image.source == null ? ImageSource(
                     isCopyright: true,
-                    source: "Owner 2109",
-                  ),
+                    source: widget.entry.galleryImages[_currentImage].name,
+                  ) : Container(),
                 ],
               ),
             ),
