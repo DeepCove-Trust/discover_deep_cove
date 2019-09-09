@@ -33,12 +33,16 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
     List<SetColumn> ret = [];
 
     if (only == null && !onlyNonNull) {
-      ret.add(id.set(model.id));
+      if (model.id != null) {
+        ret.add(id.set(model.id));
+      }
       ret.add(fileType.set(model.fileType));
       ret.add(name.set(model.name));
       ret.add(path.set(model.path));
     } else if (only != null) {
-      if (only.contains(id.name)) ret.add(id.set(model.id));
+      if (model.id != null) {
+        if (only.contains(id.name)) ret.add(id.set(model.id));
+      }
       if (only.contains(fileType.name)) ret.add(fileType.set(model.fileType));
       if (only.contains(name.name)) ret.add(name.set(model.name));
       if (only.contains(path.name)) ret.add(path.set(model.path));
@@ -62,7 +66,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
 
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
-    st.addInt(id.name, primary: true, isNullable: false);
+    st.addInt(id.name, primary: true, autoIncrement: true, isNullable: false);
     st.addInt(fileType.name, isNullable: false);
     st.addStr(name.name, isNullable: false);
     st.addStr(path.name, isNullable: false);
@@ -74,12 +78,13 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       bool onlyNonNull = false,
       Set<String> only}) async {
     final Insert insert = inserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull))
+        .id(id.name);
     var retId = await adapter.insert(insert);
     if (cascade) {
       MediaFile newModel;
       if (model.mainImageEntries != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.mainImageEntries
             .forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         for (final child in model.mainImageEntries) {
@@ -87,7 +92,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         }
       }
       if (model.listenEntries != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.listenEntries
             .forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         for (final child in model.listenEntries) {
@@ -95,7 +100,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         }
       }
       if (model.pronunciationEntries != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.pronunciationEntries
             .forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         for (final child in model.pronunciationEntries) {
@@ -103,14 +108,14 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         }
       }
       if (model.galleryImageEntries != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         for (final child in model.galleryImageEntries) {
           await factFileEntryBean.insert(child, cascade: cascade);
           await factFileEntryImageBean.attach(newModel, child);
         }
       }
       if (model.nuggets != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.nuggets
             .forEach((x) => factFileNuggetBean.associateMediaFile(x, newModel));
         for (final child in model.nuggets) {
@@ -118,7 +123,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         }
       }
       if (model.activities != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.activities
             .forEach((x) => activityBean.associateMediaFile(x, newModel));
         for (final child in model.activities) {
@@ -126,21 +131,21 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         }
       }
       if (model.multiSelectActivities != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         for (final child in model.multiSelectActivities) {
           await activityBean.insert(child, cascade: cascade);
           await activityImageBean.attach(newModel, child);
         }
       }
       if (model.quizzes != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.quizzes.forEach((x) => quizBean.associateMediaFile(x, newModel));
         for (final child in model.quizzes) {
           await quizBean.insert(child, cascade: cascade);
         }
       }
       if (model.quizQuestions != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.quizQuestions
             .forEach((x) => quizQuestionBean.associateMediaFile(x, newModel));
         for (final child in model.quizQuestions) {
@@ -148,7 +153,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         }
       }
       if (model.quizAnswers != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.quizAnswers
             .forEach((x) => quizAnswerBean.associateMediaFile(x, newModel));
         for (final child in model.quizAnswers) {
@@ -186,12 +191,13 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       Set<String> only,
       bool onlyNonNull = false}) async {
     final Upsert upsert = upserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull))
+        .id(id.name);
     var retId = await adapter.upsert(upsert);
     if (cascade) {
       MediaFile newModel;
       if (model.mainImageEntries != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.mainImageEntries
             .forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         for (final child in model.mainImageEntries) {
@@ -199,7 +205,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         }
       }
       if (model.listenEntries != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.listenEntries
             .forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         for (final child in model.listenEntries) {
@@ -207,7 +213,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         }
       }
       if (model.pronunciationEntries != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.pronunciationEntries
             .forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         for (final child in model.pronunciationEntries) {
@@ -215,14 +221,14 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         }
       }
       if (model.galleryImageEntries != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         for (final child in model.galleryImageEntries) {
           await factFileEntryBean.upsert(child, cascade: cascade);
           await factFileEntryImageBean.attach(newModel, child, upsert: true);
         }
       }
       if (model.nuggets != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.nuggets
             .forEach((x) => factFileNuggetBean.associateMediaFile(x, newModel));
         for (final child in model.nuggets) {
@@ -230,7 +236,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         }
       }
       if (model.activities != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.activities
             .forEach((x) => activityBean.associateMediaFile(x, newModel));
         for (final child in model.activities) {
@@ -238,21 +244,21 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         }
       }
       if (model.multiSelectActivities != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         for (final child in model.multiSelectActivities) {
           await activityBean.upsert(child, cascade: cascade);
           await activityImageBean.attach(newModel, child, upsert: true);
         }
       }
       if (model.quizzes != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.quizzes.forEach((x) => quizBean.associateMediaFile(x, newModel));
         for (final child in model.quizzes) {
           await quizBean.upsert(child, cascade: cascade);
         }
       }
       if (model.quizQuestions != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.quizQuestions
             .forEach((x) => quizQuestionBean.associateMediaFile(x, newModel));
         for (final child in model.quizQuestions) {
@@ -260,7 +266,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         }
       }
       if (model.quizAnswers != null) {
-        newModel ??= await find(model.id);
+        newModel ??= await find(retId);
         model.quizAnswers
             .forEach((x) => quizAnswerBean.associateMediaFile(x, newModel));
         for (final child in model.quizAnswers) {

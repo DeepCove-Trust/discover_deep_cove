@@ -3,7 +3,10 @@ import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/image_handler.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
@@ -11,7 +14,6 @@ import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 
 class PhotographActivityView extends StatefulWidget {
   final Activity activity;
@@ -27,149 +29,131 @@ class PhotographActivityView extends StatefulWidget {
 }
 
 class _PhotographActivityViewState extends State<PhotographActivityView> {
-  File _imageFile;
-  dynamic _pickImageError;
-  String _retrieveDataError;
+  File _image;
 
-  void _onImageButtonPressed(ImageSource source) async {
+  void _onImageButtonPressed(BuildContext context) async {
     try {
-      _imageFile = await ImagePicker.pickImage(source: source);
-    } catch (e) {
-      _pickImageError = e;
+      File _pickedImage = await ImageHandler.captureImage(context: context);
+
+      setState(() => _image = _pickedImage);
+    } catch (ex, stacktrace) {
+      print("Exception thrown: " + ex.toString());
+      print(stacktrace.toString());
     }
-    setState(() {});
   }
 
-  Widget _previewImage() {
-    final Text retrieveError = _getRetrieveErrorWidget();
-    if (retrieveError != null) {
-      return retrieveError;
+  Future<Widget> _getSavedPhoto() async {
+    String filepath = widget.activity.userPhoto?.path;
+    if (filepath == null) {
+      print('Error loading stored image.');
+      return BodyText('There was an error loading your image...');
     }
-    if (_imageFile != null) {
-      return Image.file(_imageFile);
-    } else if (_pickImageError != null) {
-      return Text(
-        'Pick image error: $_pickImageError',
-        textAlign: TextAlign.center,
-      );
+    await precacheImage(
+        FileImage(File(Env.getResourcePath(filepath))), context);
+
+    return Image.file(File(Env.getResourcePath(filepath)));
+  }
+
+  Future<Widget> _getPreview() async {
+    if (_image != null) {
+      await precacheImage(FileImage(_image), context);
+      return Image.file(_image);
     } else {
-      return const Text(
-        'You have not taken a photo yet.',
-        textAlign: TextAlign.center,
-      );
+      return _getNoPhotoWidget();
     }
   }
 
-  Future<void> retrieveLostData() async {
-    final LostDataResponse response = await ImagePicker.retrieveLostData();
-    if (response.isEmpty) {
-      return;
-    }
-    if (response.file != null) {
-      setState(() {
-        _imageFile = response.file;
-      });
-    } else {
-      _retrieveDataError = response.exception.code;
-    }
+  Widget _getNoPhotoWidget() {
+    return Container(
+      margin: EdgeInsets.only(bottom: 24),
+      decoration: BoxDecoration(border: Border.all(color: Colors.white30)),
+      width: Screen.width(context,
+          percentage: Screen.isPortrait(context) ? 90 : 45),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.camera_alt, size: Screen.isSmall(context) ? 100 : 150, color: Colors.white30),
+          SizedBox(height: 10,),
+          BodyText('Take a photo to begin...')
+        ],
+      ),
+    );
   }
 
-  Text _getRetrieveErrorWidget() {
-    if (_retrieveDataError != null) {
-      final Text result = Text(_retrieveDataError);
-      _retrieveDataError = null;
-      return result;
-    }
-    return null;
+  Widget _getCenterChild() {
+    print('getCenterChild');
+    return FutureBuilder(
+        future: widget.isReview ? _getSavedPhoto() : _getPreview(),
+        builder: (context, snapshot) {
+          print(snapshot.connectionState.toString());
+          if (snapshot.connectionState == ConnectionState.active ||
+              snapshot.connectionState == ConnectionState.waiting) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                CircularProgressIndicator(),
+                SizedBox(height: 12),
+                BodyText('Loading image...')
+              ],
+            );
+          } else if (snapshot.hasData) {
+            return snapshot.data;
+          } else {
+            return Container();
+          }
+        });
   }
 
   @override
   Widget build(BuildContext context) {
+    String imagePath = Env.getResourcePath(widget.activity.userPhoto?.path);
+
+    print("Image path:");
+    print(imagePath);
+    print("Picture " +
+        (File(imagePath).existsSync() ? "exists" : "does not exist"));
+
     return Scaffold(
       appBar: ActivityAppBar(widget.activity.title),
       body: Column(
-        children: <Widget>[
+        children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
-            child: Text(widget.activity.description),
+            child: BodyText(widget.activity.description),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(40, 0, 40, 20),
-            child: Text(widget.activity.task),
+            child: BodyText(widget.activity.task),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Divider(color: Color(0xFF777777)),
           ),
-          widget.isReview
-              ? Column(
-                  children: <Widget>[
-                    BodyText("Your photo:"),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Container(
-                        height: Screen.height(context, percentage: 45.2),
-                        width: Screen.width(context, percentage: 87.5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                            image: FileImage(
-                              File(widget.activity.userPhoto.path),
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              : Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 20, 40, 10),
-                  child: Column(
-                    children: <Widget>[
-                      FutureBuilder<void>(
-                        future: retrieveLostData(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<void> snapshot) {
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.none:
-                            case ConnectionState.waiting:
-                              return BodyText(
-                                'You have not taken a photo yet.',
-                              );
-                            case ConnectionState.done:
-                              return _previewImage();
-                            default:
-                              if (snapshot.hasError) {
-                                return Text(
-                                  'Pick image error: ${snapshot.error}}',
-                                  textAlign: TextAlign.center,
-                                );
-                              } else {
-                                return BodyText('You have not taken a photo yet.');
-                              }
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-          Expanded(child: Container()),
+          Expanded(
+            child: Center(
+                child: Padding(
+              padding: EdgeInsets.all(8),
+              child: _getCenterChild(),
+            )),
+          )
         ],
       ),
       bottomNavigationBar: widget.isReview
-          ? BottomBackButton(isReview: widget.isReview)
-          : ActivityPassSaveBar(onTap: () => saveAnswer(),),
+          ? BottomBackButton()
+          : ActivityPassSaveBar(
+              onTapSave: _image != null ? () => saveAnswer() : null,
+              onTapPass: () => cancelAnswer(),
+            ),
       backgroundColor: Theme.of(context).backgroundColor,
       floatingActionButton: widget.isReview
           ? Container()
           : Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(0.0),
               child: CustomFab(
                 icon: FontAwesomeIcons.camera,
                 text: "I see it!",
                 onPressed: () {
-                  _onImageButtonPressed(ImageSource.camera);
+                  _onImageButtonPressed(context);
                 },
               ),
             ),
@@ -177,19 +161,45 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
     );
   }
 
+  void cancelAnswer() async {
+    // We need to delete the temp picture if one was taken
+    if (_image != null && await _image.exists()) {
+      await _image.delete();
+    }
+    Navigator.pop(context);
+  }
+
   void saveAnswer() async {
-    // Todo: save the image properly
+    // Generate path to store photo at - use activity title in the file name
+    // along with a collision resistant suffix.
+    try {
+      // Determine directory and filename to store new image
+      Directory directory = Directory(Env.getResourcePath('user_photos'));
+      String filename =
+          Util.getAntiCollisionName(widget.activity.title, MediaFileType.jpg);
 
-    MediaFile image = MediaFile.create(
-      name: '' /* todo */,
-      path: _imageFile.path,
-      fileType: (MediaFileType.jpg.index),
-    );
-    var id = await MediaFileBean.of(context).insert(image);
-    image = await MediaFileBean.of(context).find(id);
+      // Save the image to the users photos directory, and delete temp image
+      ImageHandler.saveImage(
+          tempImage: _image, directory: directory, name: filename);
 
-    widget.activity.userPhotoId = image.id;
-    await ActivityBean.of(context).update(widget.activity);
-    Navigator.of(context).pop();
+      // Add a database record for the new image
+      MediaFile image = MediaFile.create(
+        name: filename,
+        path: 'user_photos/$filename',
+        fileType: MediaFileType.jpg.index,
+      );
+      var id = await MediaFileBean.of(context).insert(image);
+
+      // Update the activity with the new user image
+      widget.activity.userPhotoId = id;
+      widget.activity.userPhoto = image;
+      await ActivityBean.of(context).update(widget.activity);
+
+      // Return to the map
+      Navigator.of(context).pop();
+    } catch (ex, stacktrace) {
+      print("Error saving photo: " + ex.toString());
+      print(stacktrace.toString());
+    }
   }
 }

@@ -4,9 +4,10 @@ import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
 
 class ActivityPassSaveBar extends StatelessWidget {
-  final VoidCallback onTap;
+  final VoidCallback onTapSave;
+  final VoidCallback onTapPass;
 
-  ActivityPassSaveBar({this.onTap});
+  ActivityPassSaveBar({@required this.onTapSave, this.onTapPass});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                 12.0,
               ),
               child: OutlineButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: this.onTapPass ?? () => Navigator.of(context).pop(),
                 borderSide: BorderSide(
                   color: HexColor("FF777777"),
                 ),
@@ -48,7 +49,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                 12.0,
               ),
               child: OutlineButton(
-                onPressed: onTap,
+                onPressed: onTapSave,
                 borderSide: BorderSide(
                   color: HexColor("FF777777"),
                 ),

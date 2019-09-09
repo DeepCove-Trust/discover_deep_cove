@@ -187,139 +187,147 @@ class SyncProvider {
   /// and scores will be retained for unmodified quizzes/activities.
   static Future<bool> _rebuildDatabase(Map<String, dynamic> data) async {
     // Below code causes new database file to be created if it doesn't exist.
-    SqfliteAdapter adapter = await DB.instance.adapter;
+    try {
+      SqfliteAdapter adapter = await DB.instance.adapter;
 
-    MediaFileBean mediaFileBean = MediaFileBean(adapter);
-    await mediaFileBean.drop();
-    await mediaFileBean.createTable();
-    for (Map<String, dynamic> map in data['mediaFiles']) {
-      mediaFileBean.insert(mediaFileBean.fromMap(map));
-    }
-
-    FactFileCategoryBean factFileCategoryBean = FactFileCategoryBean(adapter);
-    await factFileCategoryBean.drop();
-    await factFileCategoryBean.createTable();
-    for (Map<String, dynamic> map in data['factFileCategories']) {
-      await factFileCategoryBean.insert(factFileCategoryBean.fromMap(map));
-    }
-
-    FactFileEntryBean factFileEntryBean = FactFileEntryBean(adapter);
-    await factFileEntryBean.drop();
-    await factFileEntryBean.createTable();
-    for (Map<String, dynamic> map in data['factFileEntries']) {
-      await factFileEntryBean.insert(factFileEntryBean.fromMap(map));
-    }
-
-    FactFileEntryImageBean factFileEntryImageBean =
-        FactFileEntryImageBean(adapter);
-    await factFileEntryImageBean.drop();
-    await factFileEntryImageBean.createTable();
-    for (Map<String, dynamic> map in data['factFileEntryImages']) {
-      await factFileEntryImageBean.insert(factFileEntryImageBean.fromMap(map));
-    }
-
-    FactFileNuggetBean factFileNuggetBean = FactFileNuggetBean(adapter);
-    await factFileNuggetBean.drop();
-    await factFileNuggetBean.createTable();
-    for (Map<String, dynamic> map in data['factFileNuggets']) {
-      await factFileNuggetBean.insert(factFileNuggetBean.fromMap(map));
-    }
-
-    TrackBean trackBean = TrackBean(adapter);
-    await trackBean.drop();
-    await trackBean.createTable();
-    for (Map<String, dynamic> map in data['tracks']) {
-      await trackBean.insert(trackBean.fromMap(map));
-    }
-
-    // Only replace activity if it has been modified.
-    // This means user inputs will be retained where appropriate.
-    ActivityBean activityBean = ActivityBean(adapter);
-    await activityBean.createTable(ifNotExists: true);
-    for (Map<String, dynamic> map in data['activities']) {
-      // The activity retrieved from the CMS.
-      Activity newActivity = activityBean.fromMap(map);
-      newActivity.informationActivityUnlocked = false;
-
-      // The activity already in the database.
-      Activity oldActivity = await activityBean.find(newActivity.id);
-
-      // If the new activity doesn't exist, create it.
-      if (oldActivity == null) {
-        await activityBean.insert(newActivity);
-        print("Activity created");
-        continue;
+      MediaFileBean mediaFileBean = MediaFileBean(adapter);
+      await mediaFileBean.drop(); // Todo: Don't drop user images
+      await mediaFileBean.createTable();
+      for (Map<String, dynamic> map in data['mediaFiles']) {
+        mediaFileBean.insert(mediaFileBean.fromMap(map));
       }
 
-      // If the activity has been modified, replace it with the newer
-      // version.
-      if (oldActivity.lastModified.isBefore(newActivity.lastModified)) {
-        await activityBean.remove(newActivity.id);
-        await activityBean.insert(newActivity);
-        print("Activity updated");
-        continue;
+      FactFileCategoryBean factFileCategoryBean = FactFileCategoryBean(adapter);
+      await factFileCategoryBean.drop();
+      await factFileCategoryBean.createTable();
+      for (Map<String, dynamic> map in data['factFileCategories']) {
+        await factFileCategoryBean.insert(factFileCategoryBean.fromMap(map));
       }
 
-      print("Activity unmodified");
-    }
-
-    ActivityImageBean activityImageBean = ActivityImageBean(adapter);
-    await activityImageBean.drop();
-    await activityImageBean.createTable();
-    for (Map<String, dynamic> map in data['activityImages']) {
-      await activityImageBean.insert(activityImageBean.fromMap(map));
-    }
-
-    QuizBean quizBean = QuizBean(adapter);
-    await quizBean.createTable(ifNotExists: true);
-    for (Map<String, dynamic> map in data['quizzes']) {
-      Quiz newQuiz = quizBean.fromMap(map);
-      newQuiz.highScore = 0;
-      newQuiz.attempts = 0;
-      newQuiz.unlocked = map['unlock_code'] == null;
-      Quiz oldQuiz = await quizBean.find(newQuiz.id);
-
-      // Insert new quiz if it doesn't already exist in database.
-      if (oldQuiz == null) {
-        quizBean.insert(newQuiz);
-        print("Quiz inserted");
-        continue;
+      FactFileEntryBean factFileEntryBean = FactFileEntryBean(adapter);
+      await factFileEntryBean.drop();
+      await factFileEntryBean.createTable();
+      for (Map<String, dynamic> map in data['factFileEntries']) {
+        await factFileEntryBean.insert(factFileEntryBean.fromMap(map));
       }
 
-      // Replace quiz if the CMS provided a newer version.
-      // This will remove user scores for this quiz.
-      if (oldQuiz.lastModified.isBefore(newQuiz.lastModified)) {
-        await quizBean.remove(newQuiz.id);
-        await quizBean.insert(newQuiz);
-        print("Quiz updated.");
-        continue;
+      FactFileEntryImageBean factFileEntryImageBean =
+      FactFileEntryImageBean(adapter);
+      await factFileEntryImageBean.drop();
+      await factFileEntryImageBean.createTable();
+      for (Map<String, dynamic> map in data['factFileEntryImages']) {
+        await factFileEntryImageBean.insert(
+            factFileEntryImageBean.fromMap(map));
       }
 
-      print("Quiz unmodified");
-    }
+      FactFileNuggetBean factFileNuggetBean = FactFileNuggetBean(adapter);
+      await factFileNuggetBean.drop();
+      await factFileNuggetBean.createTable();
+      for (Map<String, dynamic> map in data['factFileNuggets']) {
+        await factFileNuggetBean.insert(factFileNuggetBean.fromMap(map));
+      }
 
-    QuizQuestionBean quizQuestionBean = QuizQuestionBean(adapter);
-    await quizQuestionBean.drop();
-    await quizQuestionBean.createTable();
-    for (Map<String, dynamic> map in data['quizQuestions']) {
-      await quizQuestionBean.insert(quizQuestionBean.fromMap(map));
-    }
+      TrackBean trackBean = TrackBean(adapter);
+      await trackBean.drop();
+      await trackBean.createTable();
+      for (Map<String, dynamic> map in data['tracks']) {
+        await trackBean.insert(trackBean.fromMap(map));
+      }
 
-    QuizAnswerBean quizAnswerBean = QuizAnswerBean(adapter);
-    await quizAnswerBean.drop();
-    await quizAnswerBean.createTable();
-    for (Map<String, dynamic> map in data['quizAnswers']) {
-      await quizAnswerBean.insert(quizAnswerBean.fromMap(map));
-    }
+      // Only replace activity if it has been modified.
+      // This means user inputs will be retained where appropriate.
+      ActivityBean activityBean = ActivityBean(adapter);
+      await activityBean.createTable(ifNotExists: true);
+      for (Map<String, dynamic> map in data['activities']) {
+        // The activity retrieved from the CMS.
+        Activity newActivity = activityBean.fromMap(map);
+        newActivity.informationActivityUnlocked = false;
 
-    ConfigBean configBean = ConfigBean(adapter);
-    await configBean.drop();
-    await configBean.createTable();
-    for (Map<String, dynamic> map in data['config']) {
-      await configBean.insert(configBean.fromMap(map));
-    }
+        // The activity already in the database.
+        Activity oldActivity = await activityBean.find(newActivity.id);
 
-    return true;
+        // If the new activity doesn't exist, create it.
+        if (oldActivity == null) {
+          await activityBean.insert(newActivity);
+          print("Activity created");
+          continue;
+        }
+
+        // If the activity has been modified, replace it with the newer
+        // version.
+        if (oldActivity.lastModified.isBefore(newActivity.lastModified)) {
+          await activityBean.remove(newActivity.id);
+          await activityBean.insert(newActivity);
+          print("Activity updated");
+          continue;
+        }
+
+        print("Activity unmodified");
+      }
+
+      ActivityImageBean activityImageBean = ActivityImageBean(adapter);
+      await activityImageBean.drop();
+      await activityImageBean.createTable();
+      for (Map<String, dynamic> map in data['activityImages']) {
+        await activityImageBean.insert(activityImageBean.fromMap(map));
+      }
+
+      QuizBean quizBean = QuizBean(adapter);
+      await quizBean.createTable(ifNotExists: true);
+      for (Map<String, dynamic> map in data['quizzes']) {
+        Quiz newQuiz = quizBean.fromMap(map);
+        newQuiz.highScore = 0;
+        newQuiz.attempts = 0;
+        newQuiz.unlocked = map['unlock_code'] == null;
+        Quiz oldQuiz = await quizBean.find(newQuiz.id);
+
+        // Insert new quiz if it doesn't already exist in database.
+        if (oldQuiz == null) {
+          quizBean.insert(newQuiz);
+          print("Quiz inserted");
+          continue;
+        }
+
+        // Replace quiz if the CMS provided a newer version.
+        // This will remove user scores for this quiz.
+        if (oldQuiz.lastModified.isBefore(newQuiz.lastModified)) {
+          await quizBean.remove(newQuiz.id);
+          await quizBean.insert(newQuiz);
+          print("Quiz updated.");
+          continue;
+        }
+
+        print("Quiz unmodified");
+      }
+
+      QuizQuestionBean quizQuestionBean = QuizQuestionBean(adapter);
+      await quizQuestionBean.drop();
+      await quizQuestionBean.createTable();
+      for (Map<String, dynamic> map in data['quizQuestions']) {
+        await quizQuestionBean.insert(quizQuestionBean.fromMap(map));
+      }
+
+      QuizAnswerBean quizAnswerBean = QuizAnswerBean(adapter);
+      await quizAnswerBean.drop();
+      await quizAnswerBean.createTable();
+      for (Map<String, dynamic> map in data['quizAnswers']) {
+        await quizAnswerBean.insert(quizAnswerBean.fromMap(map));
+      }
+
+      ConfigBean configBean = ConfigBean(adapter);
+      await configBean.drop();
+      await configBean.createTable();
+      for (Map<String, dynamic> map in data['config']) {
+        await configBean.insert(configBean.fromMap(map));
+      }
+
+      return true;
+    }
+    catch(ex){
+      print('Exception thrown during database rebuild:');
+      print(ex.toString());
+      return false;
+    }
 
     // TODO: Gotta be a better way of doing this without so much repeated code
   }

@@ -44,7 +44,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
         ),
         bottomNavigationBar: widget.isReview
             ? BottomBackButton()
-            : ActivityPassSaveBar(onTap: () => saveAnswer()),
+            : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
         backgroundColor: Theme.of(context).backgroundColor,
     ));
   }
