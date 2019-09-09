@@ -137,9 +137,9 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       backgroundColor: Theme.of(context).backgroundColor,
       floatingActionButton: widget.isReview
           ? Container()
-          : Padding(
+          : Align(alignment: Alignment.bottomCenter, child:Padding(
               padding: EdgeInsets.only(
-                top: Screen.height(context, percentage: Screen.isLandscape(context) ? 9.25 : 5.5),
+                bottom: 8,
               ),
               child: CustomFab(
                 icon: FontAwesomeIcons.camera,
@@ -149,6 +149,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                 },
               ),
             ),
+          ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
