@@ -74,7 +74,10 @@ class _SplashState extends State<Splash> {
                 SizedBox(
                   height: Screen.height(context, percentage: 10),
                 ),
-                BodyText(text),
+                BodyText(
+                  text,
+                  size: Screen.isTablet(context) ? 30 : null,
+                ),
               ],
             )
           ],
