@@ -46,7 +46,10 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
     String filepath = widget.activity.userPhoto?.path;
     if (filepath == null) {
       print('Error loading stored image.');
-      return BodyText('There was an error loading your image...');
+      return BodyText(
+        'There was an error loading your image...',
+        size: Screen.isTablet(context) ? 30 : null,
+      );
     }
     await precacheImage(
         FileImage(File(Env.getResourcePath(filepath))), context);
@@ -72,9 +75,15 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.camera_alt, size: Screen.isSmall(context) ? 100 : 150, color: Colors.white30),
-          SizedBox(height: 10,),
-          BodyText('Take a photo to begin...')
+          Icon(Icons.camera_alt,
+              size: Screen.isSmall(context) ? 100 : 150, color: Colors.white30),
+          SizedBox(
+            height: 10,
+          ),
+          BodyText(
+            'Take a photo to begin...',
+            size: Screen.isTablet(context) ? 30 : null,
+          ),
         ],
       ),
     );
@@ -93,7 +102,10 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
               children: <Widget>[
                 CircularProgressIndicator(),
                 SizedBox(height: 12),
-                BodyText('Loading image...')
+                BodyText(
+                  'Loading image...',
+                  size: Screen.isTablet(context) ? 30 : null,
+                ),
               ],
             );
           } else if (snapshot.hasData) {
@@ -118,23 +130,36 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
-            child: BodyText(widget.activity.description),
+            padding: EdgeInsets.fromLTRB(
+              Screen.width(context, percentage: 5),
+              Screen.height(context, percentage: 2.5),
+              Screen.width(context, percentage: 5),
+              Screen.height(context, percentage: 2.5),
+            ),
+            child: BodyText(
+              widget.activity.description,
+              size: Screen.isTablet(context) ? 30 : null,
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(40, 0, 40, 20),
-            child: BodyText(widget.activity.task),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Divider(color: Color(0xFF777777)),
+            padding: EdgeInsets.fromLTRB(
+              Screen.width(context, percentage: 5),
+              0,
+              Screen.width(context, percentage: 5),
+              Screen.height(context, percentage: 2.5),
+            ),
+            child: BodyText(
+              widget.activity.task,
+              size: Screen.isTablet(context) ? 30 : null,
+            ),
           ),
           Expanded(
             child: Center(
-                child: Padding(
-              padding: EdgeInsets.all(8),
-              child: _getCenterChild(),
-            )),
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: _getCenterChild(),
+              ),
+            ),
           )
         ],
       ),
@@ -148,7 +173,9 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       floatingActionButton: widget.isReview
           ? Container()
           : Padding(
-              padding: const EdgeInsets.all(0.0),
+              padding: EdgeInsets.only(
+                top: Screen.height(context, percentage: 5.5),
+              ),
               child: CustomFab(
                 icon: FontAwesomeIcons.camera,
                 text: "I see it!",
