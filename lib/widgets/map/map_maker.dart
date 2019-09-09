@@ -221,7 +221,9 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
   ///Changes the trackTitle which is displayed on the AppBar
   ///and pans the map to the first marker within that set
   void changeTrack({bool increase}) async {
-    await Future.delayed(Duration(milliseconds: 100));
+    await Future.delayed(
+      Duration(milliseconds: 100),
+    );
 
     currentTrackNum = increase
         ? (currentTrackNum + 1) % tracks.length
@@ -233,6 +235,11 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
 
   void animateToActivity(int activityId) async {
     Activity activity = await ActivityBean.of(context).find(activityId);
+
+    if(activity.trackId != currentTrack.id) currentTrackNum = tracks[activity.trackId - 1].id;
+    
+    trackStreamController.sink.add(currentTrack.name);
+
     animatedMove(latLng: activity.latLng, zoom: 18.0);
   }
 }
