@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
@@ -27,7 +28,12 @@ class _CountActivityViewState extends State<CountActivityView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: ActivityAppBar(widget.activity.title),
+        appBar: ActivityAppBar(
+          widget.activity.title,
+          widget.activity.factFileId != null
+              ? () => displayFactFile(widget.activity.factFileId)
+              : null,
+        ),
         body: buildContent(),
         bottomNavigationBar: widget.isReview
             ? BottomBackButton(isReview: widget.isReview)
@@ -86,14 +92,16 @@ class _CountActivityViewState extends State<CountActivityView> {
             size: Screen.isTablet(context) ? 30 : null,
           ),
         ),
-        Screen.isPortrait(context) ? Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Screen.height(context, percentage: 5.0),
-          ),
-          child: Divider(
-            color: HexColor("FF777777"),
-          ),
-        ) : Container(),
+        Screen.isPortrait(context)
+            ? Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Screen.height(context, percentage: 5.0),
+                ),
+                child: Divider(
+                  color: HexColor("FF777777"),
+                ),
+              )
+            : Container(),
       ],
     );
   }
@@ -102,7 +110,6 @@ class _CountActivityViewState extends State<CountActivityView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        
         Padding(
           padding: EdgeInsets.all(12.0),
           child: widget.isReview
@@ -123,7 +130,8 @@ class _CountActivityViewState extends State<CountActivityView> {
         widget.isReview
             ? Container(
                 width: Screen.width(context),
-                height: Screen.height(context, percentage: Screen.isLandscape(context) ? 15.0 : 10.0),
+                height: Screen.height(context,
+                    percentage: Screen.isLandscape(context) ? 15.0 : 10.0),
                 color: Theme.of(context).primaryColor,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -196,5 +204,14 @@ class _CountActivityViewState extends State<CountActivityView> {
     widget.activity.userCount = count;
     await ActivityBean.of(context).update(widget.activity);
     Navigator.of(context).pop();
+  }
+
+  displayFactFile(int factFileId) {
+    //FactFileEntry entry = 
+
+    Navigator.of(context).pushNamed(
+      '/factFileDetails',
+      arguments: entry,
+    );
   }
 }
