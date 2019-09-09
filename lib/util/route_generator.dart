@@ -100,6 +100,13 @@ class RouteGenerator {
                   activity: aArgs.activity, isReview: aArgs.isReview),
             );
           }
+          if (aArgs.activity.activityType == ActivityType.informational) {
+            return MaterialPageRoute(
+            builder: (_) => FactFileDetails(
+              //entry: aArgs.activity.fac
+            ),
+          );
+          }
         }
         return _errorRoute();
 
