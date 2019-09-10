@@ -43,7 +43,12 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ActivityAppBar(widget.activity.title),
+     appBar: ActivityAppBar(
+          widget.activity.title,
+          widget.activity.factFileId != null
+              ? () => displayFactFile(widget.activity.factFileId)
+              : null,
+        ),
       body: buildContent(),
       bottomNavigationBar: widget.isReview
           ? BottomBackButton()
@@ -242,5 +247,13 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
         widget.activity.imageOptions[photoIndex].id;
     await ActivityBean.of(context).update(widget.activity);
     Navigator.of(context).pop();
+  }
+
+  displayFactFile(int factFileId) {
+
+    Navigator.of(context).pushNamed(
+      '/factFileDetails',
+      arguments: factFileId,
+    );
   }
 }

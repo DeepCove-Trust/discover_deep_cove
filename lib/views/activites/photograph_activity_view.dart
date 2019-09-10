@@ -114,7 +114,12 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
         (File(imagePath).existsSync() ? "exists" : "does not exist"));
 
     return Scaffold(
-      appBar: ActivityAppBar(widget.activity.title),
+      appBar: ActivityAppBar(
+          widget.activity.title,
+          widget.activity.factFileId != null
+              ? () => displayFactFile(widget.activity.factFileId)
+              : null,
+        ),
       body: Column(
         children: [
           Padding(
@@ -201,5 +206,13 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       print("Error saving photo: " + ex.toString());
       print(stacktrace.toString());
     }
+  }
+
+  displayFactFile(int factFileId) {
+
+    Navigator.of(context).pushNamed(
+      '/factFileDetails',
+      arguments: factFileId,
+    );
   }
 }

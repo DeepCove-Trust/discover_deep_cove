@@ -207,11 +207,10 @@ class _CountActivityViewState extends State<CountActivityView> {
   }
 
   displayFactFile(int factFileId) {
-    //FactFileEntry entry = 
 
     Navigator.of(context).pushNamed(
       '/factFileDetails',
-      arguments: entry,
+      arguments: factFileId,
     );
   }
 }

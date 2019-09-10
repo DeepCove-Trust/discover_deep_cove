@@ -35,7 +35,12 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
     return GestureDetector(
       onTap: () => _textFieldFocus.unfocus(),
       child: Scaffold(
-        appBar: ActivityAppBar(widget.activity.title),
+        appBar: ActivityAppBar(
+          widget.activity.title,
+          widget.activity.factFileId != null
+              ? () => displayFactFile(widget.activity.factFileId)
+              : null,
+        ),
         body: Stack(
           fit: StackFit.expand,
           children: <Widget>[
@@ -182,5 +187,13 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
     widget.activity.userText = controller.text;
     await ActivityBean.of(context).update(widget.activity);
     Navigator.of(context).pop();
+  }
+
+  displayFactFile(int factFileId) {
+
+    Navigator.of(context).pushNamed(
+      '/factFileDetails',
+      arguments: factFileId,
+    );
   }
 }
