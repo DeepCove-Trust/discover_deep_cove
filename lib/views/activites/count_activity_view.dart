@@ -30,7 +30,7 @@ class _CountActivityViewState extends State<CountActivityView> {
     return Scaffold(
         appBar: ActivityAppBar(
           text: widget.activity.title,
-          onTap : widget.activity.factFileId != null
+          onTap: widget.activity.factFileId != null
               ? () => displayFactFile(widget.activity.factFileId)
               : null,
         ),
@@ -206,11 +206,10 @@ class _CountActivityViewState extends State<CountActivityView> {
     Navigator.of(context).pop();
   }
 
-  displayFactFile(int factFileId) {
-
+  displayFactFile(int factFileId) async {
     Navigator.of(context).pushNamed(
       '/factFileDetails',
-      arguments: factFileId,
+      arguments: await FactFileEntryBean.of(context).findAndPreload(factFileId),
     );
   }
 }

@@ -19,13 +19,13 @@ class ActivityAppBar extends StatelessWidget with PreferredSizeWidget {
             Screen.isTablet(context) ? 30 : Screen.isSmall(context) ? 16 : null,
       ),
       actions: <Widget>[
-        onTap == null
+        onTap != null
             ? IconButton(
                 icon: Icon(
                   FontAwesomeIcons.book,
                   color: Colors.white,
                 ),
-                onPressed: () => onTap,
+                onPressed: () => onTap(),
               )
             : Container(),
       ],

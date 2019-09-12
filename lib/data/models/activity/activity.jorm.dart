@@ -201,7 +201,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     st.addDateTime(lastModified.name, isNullable: false);
     st.addInt(trackId.name,
         foreignTable: trackBean.tableName, foreignCol: 'id', isNullable: false);
-    st.addInt(factFileId.name, isNullable: false);
+    st.addInt(factFileId.name, isNullable: true);
     st.addInt(_activityType.name, isNullable: false);
     st.addStr(qrCode.name, isNullable: false);
     st.addDouble(xCoord.name, isNullable: false);

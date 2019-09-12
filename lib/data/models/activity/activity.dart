@@ -27,7 +27,7 @@ class Activity {
   @BelongsTo(TrackBean)
   int trackId;
 
-  @Column()
+  @Column(isNullable: true)
   int factFileId;
 
   @Column(name: 'activityType')

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/image_handler.dart';
@@ -291,11 +292,11 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
     }
   }
 
-  displayFactFile(int factFileId) {
+  displayFactFile(int factFileId) async {
 
     Navigator.of(context).pushNamed(
       '/factFileDetails',
-      arguments: factFileId,
+      arguments: await FactFileEntryBean.of(context).findAndPreload(factFileId),
     );
   }
 }

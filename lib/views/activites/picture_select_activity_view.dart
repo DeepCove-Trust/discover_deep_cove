@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
@@ -43,12 +44,12 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: ActivityAppBar(
-          text: widget.activity.title,
-          onTap: widget.activity.factFileId != null
-              ? () => displayFactFile(widget.activity.factFileId)
-              : null,
-        ),
+      appBar: ActivityAppBar(
+        text: widget.activity.title,
+        onTap: widget.activity.factFileId != null
+            ? () => displayFactFile(widget.activity.factFileId)
+            : null,
+      ),
       body: buildContent(),
       bottomNavigationBar: widget.isReview
           ? BottomBackButton()
@@ -98,15 +99,17 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
             size: Screen.isTablet(context) ? 30 : null,
           ),
         ),
-        Screen.isPortrait(context) ? Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Screen.width(context, percentage: 5),
-            vertical: Screen.height(context, percentage: 1.25),
-          ),
-          child: Divider(
-            color: HexColor("FFFFFFFF"),
-          ),
-        ) : Container(),
+        Screen.isPortrait(context)
+            ? Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Screen.width(context, percentage: 5),
+                  vertical: Screen.height(context, percentage: 1.25),
+                ),
+                child: Divider(
+                  color: HexColor("FFFFFFFF"),
+                ),
+              )
+            : Container(),
       ],
     );
   }
@@ -249,11 +252,10 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
     Navigator.of(context).pop();
   }
 
-  displayFactFile(int factFileId) {
-
+  displayFactFile(int factFileId) async {
     Navigator.of(context).pushNamed(
       '/factFileDetails',
-      arguments: factFileId,
+      arguments: await FactFileEntryBean.of(context).findAndPreload(factFileId),
     );
   }
 }
