@@ -46,7 +46,10 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
     String filepath = widget.activity.userPhoto?.path;
     if (filepath == null) {
       print('Error loading stored image.');
-      return BodyText('There was an error loading your image...');
+      return BodyText(
+        'There was an error loading your image...',
+        size: Screen.isTablet(context) ? 30 : null,
+      );
     }
     await precacheImage(
         FileImage(File(Env.getResourcePath(filepath))), context);
@@ -72,9 +75,15 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.camera_alt, size: Screen.isSmall(context) ? 100 : 150, color: Colors.white30),
-          SizedBox(height: 10,),
-          BodyText('Take a photo to begin...')
+          Icon(Icons.camera_alt,
+              size: Screen.isSmall(context) ? 100 : 150, color: Colors.white30),
+          SizedBox(
+            height: 10,
+          ),
+          BodyText(
+            'Take a photo to begin...',
+            size: Screen.isTablet(context) ? 30 : null,
+          ),
         ],
       ),
     );
@@ -93,7 +102,10 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
               children: <Widget>[
                 CircularProgressIndicator(),
                 SizedBox(height: 12),
-                BodyText('Loading image...')
+                BodyText(
+                  'Loading image...',
+                  size: Screen.isTablet(context) ? 30 : null,
+                ),
               ],
             );
           } else if (snapshot.hasData) {
@@ -152,8 +164,10 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       backgroundColor: Theme.of(context).backgroundColor,
       floatingActionButton: widget.isReview
           ? Container()
-          : Padding(
-              padding: const EdgeInsets.all(0.0),
+          : Align(alignment: Alignment.bottomCenter, child:Padding(
+              padding: EdgeInsets.only(
+                bottom: 8,
+              ),
               child: CustomFab(
                 icon: FontAwesomeIcons.camera,
                 text: "I see it!",
@@ -162,7 +176,76 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                 },
               ),
             ),
+          ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  buildContent() {
+    return Center(
+      child: (Screen.isTablet(context) && Screen.isLandscape(context))
+          ? GridView.count(
+              crossAxisCount: 2,
+              children: [
+                getTopHalf(),
+                getBottomHalf(),
+              ],
+            )
+          : Column(
+              children: [
+                getTopHalf(),
+                Flexible(
+                  child: getBottomHalf(),
+                ),
+              ],
+            ),
+    );
+  }
+
+  getTopHalf() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(
+            Screen.width(context, percentage: 5),
+            Screen.height(context, percentage: 2.5),
+            Screen.width(context, percentage: 5),
+            Screen.height(context, percentage: 2.5),
+          ),
+          child: BodyText(
+            widget.activity.description,
+            size: Screen.isTablet(context) ? 30 : null,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(
+            Screen.width(context, percentage: 5),
+            0,
+            Screen.width(context, percentage: 5),
+            Screen.height(context, percentage: 2.5),
+          ),
+          child: BodyText(
+            widget.activity.task,
+            size: Screen.isTablet(context) ? 30 : null,
+          ),
+        ),
+      ],
+    );
+  }
+
+  getBottomHalf() {
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: _getCenterChild(),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
