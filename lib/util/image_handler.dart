@@ -13,13 +13,13 @@ class ImageHandler {
       ImageSource source = ImageSource.camera,
       double maxWidth = 2048,
       double maxHeight,
-      int imageQuality}) async {
+      }) async {
     try {
       return await ImagePicker.pickImage(
-          source: ImageSource.camera,
-          maxWidth: maxWidth,
-          maxHeight: maxHeight,
-          imageQuality: imageQuality);
+        source: ImageSource.camera,
+        maxWidth: maxWidth,
+        maxHeight: maxHeight,
+      );
     } catch (ex, stacktrace) {
       print("Error capturing image: ${ex.toString()}");
       print(stacktrace.toString());
@@ -34,7 +34,6 @@ class ImageHandler {
     @required Directory directory,
     @required String name,
   }) async {
-
     try {
       // Ensure the user photos directory exists
       await directory.create(recursive: true);
@@ -50,8 +49,7 @@ class ImageHandler {
       print('Temporary image deleted');
 
       return true;
-    }
-    catch(ex, stacktrace){
+    } catch (ex, stacktrace) {
       print('Error saving image: ${ex.toString()}');
       print(stacktrace.toString());
       return false;
