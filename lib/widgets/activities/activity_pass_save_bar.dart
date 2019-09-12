@@ -23,7 +23,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                 Screen.width(context, percentage: 3),
                 8.0,
                 0,
-                12.0,
+                8.0,
               ),
               child: OutlineButton(
                 onPressed: this.onTapPass ?? () => Navigator.of(context).pop(),
@@ -35,9 +35,9 @@ class ActivityPassSaveBar extends StatelessWidget {
                 ),
                 child: BodyText(
                   'Pass',
-                  size: Screen.width(context) >= 600
+                  size: Screen.isTablet(context)
                       ? 30
-                      : Screen.width(context) <= 350 ? 16 : 20,
+                      : Screen.isSmall(context) ? 14 : 20,
                 ),
               ),
             ),
@@ -46,7 +46,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                 0,
                 8.0,
                 Screen.width(context, percentage: 3),
-                12.0,
+                8.0,
               ),
               child: OutlineButton(
                 onPressed: onTapSave,
