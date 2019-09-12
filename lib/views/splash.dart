@@ -51,7 +51,9 @@ class _SplashState extends State<Splash> {
             text = 'An error occurred.\n\nPlease try again later.'; //
             icon = Icon(Icons.error_outline, color: Colors.red, size: 50);
           });
-          await Future.delayed(Duration(seconds: 2));
+          await Future.delayed(
+            Duration(seconds: 2),
+          );
           exit(0);
         }
       } else {
@@ -74,7 +76,10 @@ class _SplashState extends State<Splash> {
                 SizedBox(
                   height: Screen.height(context, percentage: 10),
                 ),
-                BodyText(text),
+                BodyText(
+                  text,
+                  size: Screen.isTablet(context) ? 30 : null,
+                ),
               ],
             )
           ],
