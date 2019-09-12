@@ -7,7 +7,7 @@ class ActivityAppBar extends StatelessWidget with PreferredSizeWidget {
   final String text;
   final VoidCallback onTap;
 
-  ActivityAppBar(this.text, this.onTap);
+  ActivityAppBar({this.text, this.onTap});
 
   @override
   Widget build(BuildContext context) {

@@ -127,8 +127,8 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
 
     return Scaffold(
       appBar: ActivityAppBar(
-          widget.activity.title,
-          widget.activity.factFileId != null
+          text: widget.activity.title,
+          onTap: widget.activity.factFileId != null
               ? () => displayFactFile(widget.activity.factFileId)
               : null,
         ),

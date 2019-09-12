@@ -10,6 +10,7 @@ abstract class _ActivityBean implements Bean<Activity> {
   final id = IntField('id');
   final lastModified = DateTimeField('last_modified');
   final trackId = IntField('track_id');
+  final factFileId = IntField('fact_file_id');
   final _activityType = IntField('activity_type');
   final qrCode = StrField('qr_code');
   final xCoord = DoubleField('x_coord');
@@ -31,6 +32,7 @@ abstract class _ActivityBean implements Bean<Activity> {
         id.name: id,
         lastModified.name: lastModified,
         trackId.name: trackId,
+        factFileId.name: factFileId,
         _activityType.name: _activityType,
         qrCode.name: qrCode,
         xCoord.name: xCoord,
@@ -52,6 +54,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     model.id = adapter.parseValue(map['id']);
     model.lastModified = adapter.parseValue(map['last_modified']);
     model.trackId = adapter.parseValue(map['track_id']);
+    model.factFileId = adapter.parseValue(map['fact_file_id']);
     model._activityType = adapter.parseValue(map['activity_type']);
     model.qrCode = adapter.parseValue(map['qr_code']);
     model.xCoord = adapter.parseValue(map['x_coord']);
@@ -80,6 +83,7 @@ abstract class _ActivityBean implements Bean<Activity> {
       ret.add(id.set(model.id));
       ret.add(lastModified.set(model.lastModified));
       ret.add(trackId.set(model.trackId));
+      ret.add(factFileId.set(model.factFileId));
       ret.add(_activityType.set(model._activityType));
       ret.add(qrCode.set(model.qrCode));
       ret.add(xCoord.set(model.xCoord));
@@ -101,6 +105,8 @@ abstract class _ActivityBean implements Bean<Activity> {
       if (only.contains(lastModified.name))
         ret.add(lastModified.set(model.lastModified));
       if (only.contains(trackId.name)) ret.add(trackId.set(model.trackId));
+      if (only.contains(factFileId.name))
+        ret.add(factFileId.set(model.factFileId));
       if (only.contains(_activityType.name))
         ret.add(_activityType.set(model._activityType));
       if (only.contains(qrCode.name)) ret.add(qrCode.set(model.qrCode));
@@ -134,6 +140,9 @@ abstract class _ActivityBean implements Bean<Activity> {
       }
       if (model.trackId != null) {
         ret.add(trackId.set(model.trackId));
+      }
+      if (model.factFileId != null) {
+        ret.add(factFileId.set(model.factFileId));
       }
       if (model._activityType != null) {
         ret.add(_activityType.set(model._activityType));
@@ -192,6 +201,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     st.addDateTime(lastModified.name, isNullable: false);
     st.addInt(trackId.name,
         foreignTable: trackBean.tableName, foreignCol: 'id', isNullable: false);
+    st.addInt(factFileId.name, isNullable: false);
     st.addInt(_activityType.name, isNullable: false);
     st.addStr(qrCode.name, isNullable: false);
     st.addDouble(xCoord.name, isNullable: false);

@@ -36,8 +36,8 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
       onTap: () => _textFieldFocus.unfocus(),
       child: Scaffold(
         appBar: ActivityAppBar(
-          widget.activity.title,
-          widget.activity.factFileId != null
+          text: widget.activity.title,
+          onTap: widget.activity.factFileId != null
               ? () => displayFactFile(widget.activity.factFileId)
               : null,
         ),

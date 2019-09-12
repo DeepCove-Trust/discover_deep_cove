@@ -44,8 +44,8 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
   Widget build(BuildContext context) {
     return Scaffold(
      appBar: ActivityAppBar(
-          widget.activity.title,
-          widget.activity.factFileId != null
+          text: widget.activity.title,
+          onTap: widget.activity.factFileId != null
               ? () => displayFactFile(widget.activity.factFileId)
               : null,
         ),

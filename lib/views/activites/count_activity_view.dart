@@ -29,8 +29,8 @@ class _CountActivityViewState extends State<CountActivityView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: ActivityAppBar(
-          widget.activity.title,
-          widget.activity.factFileId != null
+          text: widget.activity.title,
+          onTap : widget.activity.factFileId != null
               ? () => displayFactFile(widget.activity.factFileId)
               : null,
         ),
