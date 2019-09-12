@@ -60,7 +60,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     pages.add(QuizIndex());
     pages.add(Settings(
       onProgressUpdate: setLoadingModal,
-      onCodeEntry: (code) => handleMessage(code),
+      onCodeEntry: (code) => handleScanResult(code),
     ));
     currentPage = pages[Page.Map.index];
   }
@@ -94,7 +94,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Future<void> scan() async {
     try {
       String qrString = await BarcodeScanner.scan();
-      handleMessage(qrString);
+
+      handleScanResult(qrString);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
       } else {}
@@ -113,7 +114,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   ///Receives the result of the scan and determines what action to take
-  void handleMessage(String qrString) async {
+  void handleScanResult(String qrString) async {
     List<Activity> activities = await ActivityBean.of(context).getAll();
     Activity activity;
 

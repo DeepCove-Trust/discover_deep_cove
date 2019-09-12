@@ -39,7 +39,7 @@ class MediaFile {
       @required this.path,
       this.name});
 
-  @PrimaryKey()
+  @PrimaryKey(auto: true)
   int id;
 
   /// TODO: Persist as a [MediaFileType] enum when Jaguar supports it.
