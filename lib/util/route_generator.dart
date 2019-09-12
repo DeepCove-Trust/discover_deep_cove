@@ -32,11 +32,11 @@ class RouteGenerator {
 
       //Fact file routes
       case '/factFileDetails':
-        if (args is FactFileEntry) {
-          final FactFileEntry args = settings.arguments;
+        if (args is int) {
+          final int args = settings.arguments;
           return MaterialPageRoute(
             builder: (_) => FactFileDetails(
-              entry: args,
+              entryId: args,
             ),
           );
         }
@@ -69,6 +69,14 @@ class RouteGenerator {
       case '/activity':
         ActivityScreenArgs aArgs = args as ActivityScreenArgs;
         if (aArgs != null) {
+          if (aArgs.activity.activityType == ActivityType.informational) {
+            return MaterialPageRoute(builder: (_) {
+              // Set info activity to unlocked
+              aArgs.activity.informationActivityUnlocked = true;
+              ActivityBean.of(_).update(aArgs.activity);
+              return FactFileDetails(entryId: aArgs.activity.factFileId);
+            });
+          }
           if (aArgs.activity.activityType == ActivityType.countActivity) {
             return MaterialPageRoute(
               builder: (_) => CountActivityView(
@@ -112,7 +120,9 @@ class RouteGenerator {
 
       case '/activityUnlock':
         return MaterialPageRoute(
-          builder: (_) => ActivityUnlock(onCodeEntry: args,),
+          builder: (_) => ActivityUnlock(
+            onCodeEntry: args,
+          ),
         );
 
       default:
