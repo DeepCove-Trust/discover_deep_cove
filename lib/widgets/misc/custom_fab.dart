@@ -1,3 +1,4 @@
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 
@@ -12,18 +13,21 @@ class CustomFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton.extended(
-      icon: Padding(
-        padding: const EdgeInsets.fromLTRB(8.0, 0, 4.0, 0),
-        child: Icon(icon),
+    return Transform.scale(
+      scale: Screen.isSmall(context) ? 0.75 : 1,
+          child: FloatingActionButton.extended(
+        icon: Padding(
+          padding: const EdgeInsets.fromLTRB(8.0, 0, 4.0, 0),
+          child: Icon(icon),
+        ),
+        label: Padding(
+          padding: const EdgeInsets.fromLTRB(4.0, 2.0, 8.0, 2.0),
+          child: BodyText(text,size:  Screen.isSmall(context) ? 14 : null,),
+        ),
+        onPressed: onPressed,
+        heroTag: null,
+        backgroundColor: Theme.of(context).accentColor,
       ),
-      label: Padding(
-        padding: const EdgeInsets.fromLTRB(4.0, 2.0, 8.0, 2.0),
-        child: BodyText(text),
-      ),
-      onPressed: onPressed,
-      heroTag: null,
-      backgroundColor: Theme.of(context).accentColor,
     );
   }
 }
