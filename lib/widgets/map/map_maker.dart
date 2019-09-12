@@ -236,7 +236,7 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
   void animateToActivity(int activityId) async {
     Activity activity = await ActivityBean.of(context).find(activityId);
 
-    if(activity.trackId != currentTrack.id) currentTrackNum = tracks[activity.trackId - 1].id;
+    if(activity.trackId != currentTrack.id) currentTrackNum = tracks.indexWhere((track) => track.id == activity.trackId);
     
     trackStreamController.sink.add(currentTrack.name);
 
