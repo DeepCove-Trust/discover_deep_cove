@@ -19,7 +19,8 @@ class TextOnlyQuestion extends StatefulWidget {
   _TextOnlyQuestionState createState() => _TextOnlyQuestionState();
 }
 
-class _TextOnlyQuestionState extends State<TextOnlyQuestion> {
+class _TextOnlyQuestionState extends State<TextOnlyQuestion>
+    with WidgetsBindingObserver {
   AudioPlayer player = AudioPlayer();
   Color playingColor = Colors.white;
   bool get hasAudio => widget.question.audio != null;
@@ -36,6 +37,7 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion> {
   void initState() {
     super.initState();
 
+    WidgetsBinding.instance.addObserver(this);
     _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
       _onComplete();
     });
@@ -43,10 +45,18 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     player.stop();
 
     _playerCompleteSubscription?.cancel();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.paused) player.stop();
   }
 
   void _onComplete() {
@@ -57,13 +67,13 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion> {
     return OutlineButton.icon(
       onPressed: () => playAudio(),
       label: Text(
-                          'Listen',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: playingColor,
-                            fontSize: (Screen.isSmall(context) ? 16 : 20),
-                          ),
-                        ),
+        'Listen',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: playingColor,
+          fontSize: (Screen.isSmall(context) ? 16 : 20),
+        ),
+      ),
       borderSide: BorderSide(color: playingColor, width: 1.5),
       icon: Icon(FontAwesomeIcons.music, color: playingColor),
     );

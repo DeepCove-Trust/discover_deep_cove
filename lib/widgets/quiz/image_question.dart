@@ -20,7 +20,8 @@ class ImageQuestion extends StatefulWidget {
   _ImageQuestionState createState() => _ImageQuestionState();
 }
 
-class _ImageQuestionState extends State<ImageQuestion> {
+class _ImageQuestionState extends State<ImageQuestion>
+    with WidgetsBindingObserver {
   AudioPlayer player = AudioPlayer();
   Color playingColor = Colors.white;
   bool get hasAudio => widget.question.audio != null;
@@ -36,6 +37,7 @@ class _ImageQuestionState extends State<ImageQuestion> {
   void initState() {
     super.initState();
 
+    WidgetsBinding.instance.addObserver(this);
     _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
       _onComplete();
     });
@@ -43,10 +45,18 @@ class _ImageQuestionState extends State<ImageQuestion> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     player.stop();
 
     _playerCompleteSubscription?.cancel();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.paused) player.stop();
   }
 
   void _onComplete() {
