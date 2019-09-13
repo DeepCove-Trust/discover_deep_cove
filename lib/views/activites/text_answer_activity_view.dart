@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
@@ -33,20 +34,25 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _textFieldFocus.unfocus(),
-      child: Scaffold(
-        appBar: ActivityAppBar(widget.activity.title),
-        body: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            buildContent(),
-          ],
-        ),
-        bottomNavigationBar: widget.isReview
-            ? BottomBackButton()
-            : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
-        backgroundColor: Theme.of(context).backgroundColor,
-    ));
+        onTap: () => _textFieldFocus.unfocus(),
+        child: Scaffold(
+          appBar: ActivityAppBar(
+            text: widget.activity.title,
+            onTap: widget.activity.factFileId != null
+                ? () => displayFactFile(widget.activity.factFileId)
+                : null,
+          ),
+          body: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              buildContent(),
+            ],
+          ),
+          bottomNavigationBar: widget.isReview
+              ? BottomBackButton()
+              : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
+          backgroundColor: Theme.of(context).backgroundColor,
+        ));
   }
 
   buildContent() {
@@ -93,14 +99,16 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
             size: Screen.isTablet(context) ? 30 : null,
           ),
         ),
-        Screen.isPortrait(context) ? Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Screen.width(context, percentage: 5),
-          ),
-          child: Divider(
-            color: HexColor("FF777777"),
-          ),
-        ) : Container(),
+        Screen.isPortrait(context)
+            ? Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Screen.width(context, percentage: 5),
+                ),
+                child: Divider(
+                  color: HexColor("FF777777"),
+                ),
+              )
+            : Container(),
       ],
     );
   }
@@ -182,5 +190,12 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
     widget.activity.userText = controller.text;
     await ActivityBean.of(context).update(widget.activity);
     Navigator.of(context).pop();
+  }
+
+  displayFactFile(int factFileId) async {
+    Navigator.of(context).pushNamed(
+      '/factFileDetails',
+      arguments: await FactFileEntryBean.of(context).findAndPreload(factFileId),
+    );
   }
 }

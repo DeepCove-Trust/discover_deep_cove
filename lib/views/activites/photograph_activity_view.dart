@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/image_handler.dart';
@@ -126,8 +127,35 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
         (File(imagePath).existsSync() ? "exists" : "does not exist"));
 
     return Scaffold(
-      appBar: ActivityAppBar(widget.activity.title),
-      body: buildContent(),
+      appBar: ActivityAppBar(
+          text: widget.activity.title,
+          onTap: widget.activity.factFileId != null
+              ? () => displayFactFile(widget.activity.factFileId)
+              : null,
+        ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
+            child: BodyText(widget.activity.description),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(40, 0, 40, 20),
+            child: BodyText(widget.activity.task),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: Divider(color: Color(0xFF777777)),
+          ),
+          Expanded(
+            child: Center(
+                child: Padding(
+              padding: EdgeInsets.all(8),
+              child: _getCenterChild(),
+            )),
+          )
+        ],
+      ),
       bottomNavigationBar: widget.isReview
           ? BottomBackButton()
           : ActivityPassSaveBar(
@@ -262,5 +290,13 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       print("Error saving photo: " + ex.toString());
       print(stacktrace.toString());
     }
+  }
+
+  displayFactFile(int factFileId) async {
+
+    Navigator.of(context).pushNamed(
+      '/factFileDetails',
+      arguments: await FactFileEntryBean.of(context).findAndPreload(factFileId),
+    );
   }
 }

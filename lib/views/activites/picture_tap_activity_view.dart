@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
@@ -46,7 +47,12 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ActivityAppBar(widget.activity.title),
+      appBar: ActivityAppBar(
+        text: widget.activity.title,
+        onTap: widget.activity.factFileId != null
+            ? () => displayFactFile(widget.activity.factFileId)
+            : null,
+      ),
       body: buildContent(),
       bottomNavigationBar: widget.isReview
           ? BottomBackButton(isReview: widget.isReview)
@@ -327,5 +333,12 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     widget.activity.userYCoord = posY;
     await ActivityBean.of(context).update(widget.activity);
     Navigator.of(context).pop();
+  }
+
+  displayFactFile(int factFileId) async {
+    Navigator.of(context).pushNamed(
+      '/factFileDetails',
+      arguments: await FactFileEntryBean.of(context).findAndPreload(factFileId),
+    );
   }
 }
