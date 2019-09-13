@@ -56,7 +56,12 @@ class _ImageQuestionState extends State<ImageQuestion>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
-    if (state == AppLifecycleState.paused) player.stop();
+    if (state == AppLifecycleState.paused) {
+      setState(() {
+        playingColor = Colors.white;
+      });
+      player.stop();
+    }
   }
 
   void _onComplete() {
