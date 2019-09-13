@@ -58,7 +58,14 @@ class _FactFileDetailsState extends State<FactFileDetails>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
-    if (state == AppLifecycleState.paused) player.stop();
+    if (state == AppLifecycleState.paused) {
+      setState(() {
+        _isButtonDisabled = false;
+        pronounceColor = Colors.white;
+        listenColor = Colors.white;
+      });
+      player.stop();
+    }
   }
 
   void _onComplete() {
