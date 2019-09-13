@@ -22,7 +22,8 @@ class TextQuestion extends StatefulWidget {
   _TextQuestionState createState() => _TextQuestionState();
 }
 
-class _TextQuestionState extends State<TextQuestion> {
+class _TextQuestionState extends State<TextQuestion>
+    with WidgetsBindingObserver {
   AudioPlayer player = AudioPlayer();
   Color playingColor = Colors.white;
   double height;
@@ -39,6 +40,7 @@ class _TextQuestionState extends State<TextQuestion> {
   void initState() {
     super.initState();
 
+    WidgetsBinding.instance.addObserver(this);
     _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
       _onComplete();
     });
@@ -46,10 +48,23 @@ class _TextQuestionState extends State<TextQuestion> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     player.stop();
 
     _playerCompleteSubscription?.cancel();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.paused) {
+      setState(() {
+        playingColor = Colors.white;
+      });
+      player.stop();
+    }
   }
 
   void _onComplete() {
