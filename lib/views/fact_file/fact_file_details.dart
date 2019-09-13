@@ -25,8 +25,8 @@ class FactFileDetails extends StatefulWidget {
   State<StatefulWidget> createState() => _FactFileDetailsState();
 }
 
-class _FactFileDetailsState extends State<FactFileDetails> {
-  FactFileEntry entry;
+class _FactFileDetailsState extends State<FactFileDetails>
+    with WidgetsBindingObserver {
   AudioPlayer player = AudioPlayer();
   Color pronounceColor = Colors.white;
   Color listenColor = Colors.white;
@@ -37,6 +37,8 @@ class _FactFileDetailsState extends State<FactFileDetails> {
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addObserver(this);
 
     _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
       _onComplete();
@@ -49,10 +51,25 @@ class _FactFileDetailsState extends State<FactFileDetails> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     player.stop();
 
     _playerCompleteSubscription?.cancel();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.paused) {
+      setState(() {
+        _isButtonDisabled = false;
+        pronounceColor = Colors.white;
+        listenColor = Colors.white;
+      });
+      player.stop();
+    }
   }
 
   void _onComplete() {
