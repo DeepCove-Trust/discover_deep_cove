@@ -100,13 +100,21 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
             body: FlutterMap(
               mapController: widget.mapController,
               options: MapOptions(
-                center: /*center ?? */ Env.defaultMapCenter,
+                center: center ?? Env.defaultMapCenter,
                 minZoom: Env.mapMinZoom,
                 maxZoom: Env.mapMaxZoom,
                 zoom: zoom ?? Env.mapDefaultZoom,
                 swPanBoundary: Env.swPanBoundary,
                 nePanBoundary: Env.nePanBoundary,
                 plugins: [MarkerClusterPlugin()],
+                onPositionChanged: (mapPosition, hasGesture, isGesture) {
+                  if (mapPosition.center != Env.defaultMapCenter) {
+                    setState(() {
+                      center = mapPosition.center;
+                      zoom = mapPosition.zoom;
+                    });
+                  }
+                },
               ),
               layers: [
                 _buildTileLayerOptions(),
@@ -236,8 +244,10 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
   void animateToActivity(int activityId) async {
     Activity activity = await ActivityBean.of(context).find(activityId);
 
-    if(activity.trackId != currentTrack.id) currentTrackNum = tracks.indexWhere((track) => track.id == activity.trackId);
-    
+    if (activity.trackId != currentTrack.id)
+      currentTrackNum =
+          tracks.indexWhere((track) => track.id == activity.trackId);
+
     trackStreamController.sink.add(currentTrack.name);
 
     animatedMove(latLng: activity.latLng, zoom: 18.0);
