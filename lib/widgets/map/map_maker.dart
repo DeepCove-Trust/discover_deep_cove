@@ -19,19 +19,25 @@ class MapMaker extends StatefulWidget {
     @required this.context,
     @required this.onMarkerTap,
     @required this.animationStream,
+    @required this.mapCenter,
+    @required this.zoom,
+    @required this.mapState,
   });
 
   final Function(Activity) onMarkerTap;
   final MapController mapController;
   final Stream<int> animationStream;
   final BuildContext context;
+  final LatLng mapCenter;
+  final double zoom;
+  final void Function(LatLng position, double zoom) mapState;
 
   @override
   State createState() => _MapMakerState();
 }
 
 class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
-  LatLng center;
+  LatLng mapCenter;
   double zoom;
   List<Track> tracks;
   int currentTrackNum;
@@ -51,6 +57,11 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
     });
     currentTrackNum = 0;
     loadTracks();
+    mapCenter = widget.mapCenter;
+    zoom = widget.zoom;
+
+    print("MAP MAKER: state recieved from HOME position: ${widget.mapCenter} and zoom: ${widget.zoom}");
+    print("MAP MAKER: state from ENV position: ${Env.defaultMapCenter} and zoom: ${Env.mapDefaultZoom}");
   }
 
   @override
@@ -100,7 +111,7 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
             body: FlutterMap(
               mapController: widget.mapController,
               options: MapOptions(
-                center: center ?? Env.defaultMapCenter,
+                center: mapCenter ?? Env.defaultMapCenter,
                 minZoom: Env.mapMinZoom,
                 maxZoom: Env.mapMaxZoom,
                 zoom: zoom ?? Env.mapDefaultZoom,
@@ -110,8 +121,10 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
                 onPositionChanged: (mapPosition, hasGesture, isGesture) {
                   if (mapPosition.center != Env.defaultMapCenter) {
                     setState(() {
-                      center = mapPosition.center;
+                      mapCenter = mapPosition.center;
                       zoom = mapPosition.zoom;
+
+                      widget.mapState(mapCenter, zoom);
                     });
                   }
                 },
