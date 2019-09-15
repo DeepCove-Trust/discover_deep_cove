@@ -1,0 +1,148 @@
+import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/views/activites/activity_screen_args.dart';
+import 'package:discover_deep_cove/views/activites/activity_unlock.dart';
+import 'package:discover_deep_cove/views/activites/count_activity_view.dart';
+import 'package:discover_deep_cove/views/activites/photograph_activity_view.dart';
+import 'package:discover_deep_cove/views/activites/picture_select_activity_view.dart';
+import 'package:discover_deep_cove/views/activites/picture_tap_activity_view.dart';
+import 'package:discover_deep_cove/views/activites/text_answer_activity_view.dart';
+import 'package:discover_deep_cove/views/fact_file/fact_file_details.dart';
+import 'package:discover_deep_cove/views/home.dart';
+import 'package:discover_deep_cove/views/quiz/quiz_unlock.dart';
+import 'package:discover_deep_cove/views/quiz/quiz_view.dart';
+import 'package:discover_deep_cove/views/settings/about.dart';
+import 'package:discover_deep_cove/views/splash.dart';
+import 'package:flutter/material.dart';
+
+class RouteGenerator {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    var args = settings.arguments;
+
+    switch (settings.name) {
+      case '/':
+        return MaterialPageRoute(builder: (_) => Home());
+
+      case '/splash':
+        return MaterialPageRoute(builder: (_) => Splash());
+
+      case '/about':
+        return MaterialPageRoute(builder: (_) => About());
+
+      //Fact file routes
+      case '/factFileDetails':
+        if (args is int) {
+          final int args = settings.arguments;
+          return MaterialPageRoute(
+            builder: (_) => FactFileDetails(
+              entryId: args,
+            ),
+          );
+        }
+
+        return _errorRoute();
+
+      //Quiz routes
+      case '/quizUnlock':
+        if (args is VoidCallback) {
+          return MaterialPageRoute(
+            builder: (_) => QuizUnlock(
+              refreshCallback: args,
+            ),
+          );
+        }
+        return _errorRoute();
+
+      case '/quizQuestions':
+        if (args is Quiz) {
+          return MaterialPageRoute(
+            builder: (_) => QuizView(
+              quiz: args,
+            ),
+          );
+        }
+
+        return _errorRoute();
+
+      //Activity routes
+      case '/activity':
+        ActivityScreenArgs aArgs = args as ActivityScreenArgs;
+        if (aArgs != null) {
+          if (aArgs.activity.activityType == ActivityType.informational) {
+            return MaterialPageRoute(builder: (_) {
+              // Set info activity to unlocked
+              aArgs.activity.informationActivityUnlocked = true;
+              ActivityBean.of(_).update(aArgs.activity);
+              return FactFileDetails(entryId: aArgs.activity.factFileId);
+            });
+          }
+          if (aArgs.activity.activityType == ActivityType.countActivity) {
+            return MaterialPageRoute(
+              builder: (_) => CountActivityView(
+                  activity: aArgs.activity, isReview: aArgs.isReview),
+            );
+          }
+          if (aArgs.activity.activityType == ActivityType.photographActivity) {
+            return MaterialPageRoute(
+              builder: (_) => PhotographActivityView(
+                  activity: aArgs.activity, isReview: aArgs.isReview),
+            );
+          }
+          if (aArgs.activity.activityType ==
+              ActivityType.pictureSelectActivity) {
+            return MaterialPageRoute(
+              builder: (_) => PictureSelectActivityView(
+                  activity: aArgs.activity, isReview: aArgs.isReview),
+            );
+          }
+          if (aArgs.activity.activityType == ActivityType.pictureTapActivity) {
+            return MaterialPageRoute(
+              builder: (_) => PictureTapActivityView(
+                  activity: aArgs.activity, isReview: aArgs.isReview),
+            );
+          }
+          if (aArgs.activity.activityType == ActivityType.textAnswerActivity) {
+            return MaterialPageRoute(
+              builder: (_) => TextAnswerActivityView(
+                  activity: aArgs.activity, isReview: aArgs.isReview),
+            );
+          }
+          if (aArgs.activity.activityType == ActivityType.informational) {
+            return MaterialPageRoute(
+            builder: (_) => FactFileDetails(
+              //entry: aArgs.activity.factFileId
+            ),
+          );
+          }
+        }
+        return _errorRoute();
+
+      case '/activityUnlock':
+        return MaterialPageRoute(
+          builder: (_) => ActivityUnlock(
+            onCodeEntry: args,
+          ),
+        );
+
+      default:
+        return _errorRoute();
+    }
+  }
+
+  static Route<dynamic> _errorRoute() {
+    return MaterialPageRoute(builder: (_) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Error'),
+        ),
+        body: Center(
+          child: Text(
+            'ERROR',
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+      );
+    });
+  }
+}

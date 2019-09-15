@@ -11,14 +11,39 @@ description: Guided walk application for visitors to Deep Cove.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.0.5+6
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+
+  # Database related packages
+  sqflite: ^1.1.5                     # MIT
+  jaguar_orm: ^2.2.6                  # BSD
+  jaguar_query_sqflite: ^2.2.9        # BSD
+
+  # Map related packages
+  flutter_map: ^0.5.6
+  flutter_map_marker_cluster: ^0.2.1  # BSD
+
+  # Misc
+  http: ^0.12.0+2                     # BSD
+  archive: ^2.0.8                     # Apache 2.0
+  path_provider: ^1.1.0               # BSD
+  flutter_dotenv: ^2.0.1              # MIT
+  permission_handler: ^3.0.1          # MIT
+  barcode_scan: ^1.0.0                # MIT
+  font_awesome_flutter: ^8.4.0        # MIT
+  audioplayers: ^0.13.1               # MIT
+  carousel_pro: ^1.0.0                # MIT
+  toast: ^0.1.4                       # MIT
+  image_picker: ^0.6.0+15             # Apache 2.0
+  flutter_launcher_icons: ^0.7.2+1    # MIT
+  url_launcher: ^5.1.2                # BSD
+  keyboard_visibility: ^0.5.6         # MIT
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -27,6 +52,16 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  build_runner: ^1.1.0      #BSD    -   1.4.0 available but not supported by Jaguar at this time
+  jaguar_orm_gen: ^2.2.27   #BSD
+
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "assets/icon/icon.png"
+
+
 
 
 # For information on the generic Dart part of this file, see the
@@ -44,6 +79,13 @@ flutter:
   # assets:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
+  assets:
+    - .env
+    - assets/icon/icon.png
+    - assets/splash_logo.png
+    - assets/peaks.png
+    - assets/map.mbtiles
+    - assets/invalidQRcode.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
