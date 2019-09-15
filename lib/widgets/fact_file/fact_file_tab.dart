@@ -22,8 +22,8 @@ class _FactFileTabState extends State<FactFileTab> {
       return SmallTile(
         title: entry.primaryName,
         heroTag: entry.id,
-        image: entry.mainImage,
-        onTap: () => handleTap(entry),
+        imagePath: Env.getResourcePath(entry.mainImage.path),
+        onTap: () => handleTap(entry.id),
       );
     }).toList();
   }
@@ -51,10 +51,10 @@ class _FactFileTabState extends State<FactFileTab> {
     );
   }
 
-  handleTap(FactFileEntry entry) {
+  handleTap(int entryId) {
     Navigator.of(context).pushNamed(
       '/factFileDetails',
-      arguments: entry,
+      arguments: entryId,
     );
   }
 }
