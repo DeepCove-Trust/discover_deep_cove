@@ -22,7 +22,8 @@ class MapMaker extends StatefulWidget {
     @required this.mapCenter,
     @required this.zoom,
     @required this.mapState,
-  });
+    Key key,
+  }) : super(key: key);
 
   final Function(Activity) onMarkerTap;
   final MapController mapController;
@@ -37,12 +38,14 @@ class MapMaker extends StatefulWidget {
 }
 
 class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
-  LatLng mapCenter;
-  double zoom;
+  // LatLng mapCenter;
+  // double zoom;
   List<Track> tracks;
   int currentTrackNum;
   StreamController<String> trackStreamController;
   Stream<String> trackStream;
+
+  MapState state;
 
   Track get currentTrack => tracks[currentTrackNum];
 
@@ -57,11 +60,13 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
     });
     currentTrackNum = 0;
     loadTracks();
-    mapCenter = widget.mapCenter;
-    zoom = widget.zoom;
+    // mapCenter = widget.mapCenter;
+    // zoom = widget.zoom;
 
-    print("MAP MAKER: state recieved from HOME position: ${widget.mapCenter} and zoom: ${widget.zoom}");
-    print("MAP MAKER: state from ENV position: ${Env.defaultMapCenter} and zoom: ${Env.mapDefaultZoom}");
+    state = PageStorage.of(context).readState(context) ??  MapState(center: Env.mapDefaultCenter, zoom: Env.mapDefaultZoom);
+
+    // print("MAP MAKER: state recieved from HOME position: ${widget.mapCenter} and zoom: ${widget.zoom}");
+    // print("MAP MAKER: state from ENV position: ${Env.defaultMapCenter} and zoom: ${Env.mapDefaultZoom}");
   }
 
   @override
@@ -111,20 +116,28 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
             body: FlutterMap(
               mapController: widget.mapController,
               options: MapOptions(
-                center: mapCenter ?? Env.defaultMapCenter,
+                center: state.center,
                 minZoom: Env.mapMinZoom,
                 maxZoom: Env.mapMaxZoom,
-                zoom: zoom ?? Env.mapDefaultZoom,
+                zoom: state.zoom,
                 swPanBoundary: Env.swPanBoundary,
                 nePanBoundary: Env.nePanBoundary,
                 plugins: [MarkerClusterPlugin()],
                 onPositionChanged: (mapPosition, hasGesture, isGesture) {
-                  if (mapPosition.center != Env.defaultMapCenter) {
+                  if (mapPosition.center != Env.mapDefaultCenter) {
                     setState(() {
-                      mapCenter = mapPosition.center;
-                      zoom = mapPosition.zoom;
+                      // mapCenter = mapPosition.center;
+                      // zoom = mapPosition.zoom;
 
-                      widget.mapState(mapCenter, zoom);
+                      PageStorage.of(context).writeState(
+                        context,
+                        MapState(
+                          center: mapPosition.center,
+                          zoom: mapPosition.zoom,
+                        ),
+                      );
+
+                      // widget.mapState(mapCenter, zoom);
                     });
                   }
                 },
@@ -265,4 +278,11 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
 
     animatedMove(latLng: activity.latLng, zoom: 18.0);
   }
+}
+
+class MapState {
+  LatLng center;
+  double zoom;
+
+  MapState({this.center, this.zoom});
 }

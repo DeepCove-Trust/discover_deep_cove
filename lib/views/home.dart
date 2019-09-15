@@ -40,6 +40,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget currentPage;
   List<Widget> pages = List<Widget>();
 
+  final PageStorageBucket bucket = PageStorageBucket();
+
   MapController mapController;
 
   @override
@@ -59,6 +61,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       mapCenter: mapPosition,
       zoom: zoomLevel,
       mapState: _updateMapState,
+      key: PageStorageKey('Map Maker'),
     )); // placeholder
     pages.add(QuizIndex());
     pages.add(Settings(
@@ -67,7 +70,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     ));
     currentPage = pages[Page.Map.index];
 
-     print("HOME: State before update position: $mapPosition and  $zoomLevel");
+    //print("HOME: State before update position: $mapPosition and  $zoomLevel");
   }
 
   @override
@@ -77,14 +80,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   _updateMapState(LatLng position, double zoom) {
-    print("HOME: State from map position: $position and  $zoom");
+    // print("HOME: State from map position: $position and  $zoom");
 
-    setState(() {
-      mapPosition = position;
-      zoomLevel = zoom;
-    });
+    // setState(() {
+    //   mapPosition = position;
+    //   zoomLevel = zoom;
+    // });
 
-    print("HOME: State after update position: $mapPosition and  $zoomLevel");
+    // print("HOME: State after update position: $mapPosition and  $zoomLevel");
   }
 
   void handleMarkerTap(Activity activity) async {
@@ -169,52 +172,59 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   List<Widget> _buildPage() {
     List<Widget> contents = List<Widget>();
 
-    contents.add(Scaffold(
-      body: currentPage,
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          // sets the background color of the `BottomNavigationBar`
-          canvasColor: Color(0xFF262626),
-          // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-          primaryColor: Color(0xFFFF5026),
-          textTheme: Theme.of(context).textTheme.copyWith(
-                caption: TextStyle(color: Colors.white),
-              ),
-        ), // sets the inactive color of the `BottomNavigationBar`
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          onTap: (int index) {
-            index == 1
-                ? scan()
-                : setState(() {
-                    currentPage = pages[index];
-                  });
-          },
-          currentIndex: pageIndex(currentPage),
-          items: [
-            _buildNavItem(title: 'Learn', icon: FontAwesomeIcons.book),
-            _buildNavItem(title: 'Scan', icon: FontAwesomeIcons.qrcode),
-            _buildNavItem(title: 'Map', icon: FontAwesomeIcons.map),
-            _buildNavItem(title: 'Quiz', icon: FontAwesomeIcons.question),
-            _buildNavItem(title: 'More', icon: FontAwesomeIcons.ellipsisV),
-          ],
+    contents.add(
+      Scaffold(
+        body: PageStorage(
+          child: currentPage,
+          bucket: bucket,
         ),
+        bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+            // sets the background color of the `BottomNavigationBar`
+            canvasColor: Color(0xFF262626),
+            // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+            primaryColor: Color(0xFFFF5026),
+            textTheme: Theme.of(context).textTheme.copyWith(
+                  caption: TextStyle(color: Colors.white),
+                ),
+          ), // sets the inactive color of the `BottomNavigationBar`
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            onTap: (int index) {
+              index == 1
+                  ? scan()
+                  : setState(() {
+                      currentPage = pages[index];
+                    });
+            },
+            currentIndex: pageIndex(currentPage),
+            items: [
+              _buildNavItem(title: 'Learn', icon: FontAwesomeIcons.book),
+              _buildNavItem(title: 'Scan', icon: FontAwesomeIcons.qrcode),
+              _buildNavItem(title: 'Map', icon: FontAwesomeIcons.map),
+              _buildNavItem(title: 'Quiz', icon: FontAwesomeIcons.question),
+              _buildNavItem(title: 'More', icon: FontAwesomeIcons.ellipsisV),
+            ],
+          ),
+        ),
+        floatingActionButton: pageIs(Page.Map)
+            ? CustomFab(
+                icon: FontAwesomeIcons.qrcode,
+                text: "Scan",
+                onPressed: () => scan(),
+              )
+            : null,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
-      floatingActionButton: pageIs(Page.Map)
-          ? CustomFab(
-              icon: FontAwesomeIcons.qrcode,
-              text: "Scan",
-              onPressed: () => scan(),
-            )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    ));
+    );
 
     if (_isLoading) {
-      contents.add(LoadingModalOverlay(
-        loadingMessage: _loadingMessage,
-        icon: _loadingIcon,
-      ));
+      contents.add(
+        LoadingModalOverlay(
+          loadingMessage: _loadingMessage,
+          icon: _loadingIcon,
+        ),
+      );
     }
 
     return contents;
