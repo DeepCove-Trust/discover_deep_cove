@@ -143,6 +143,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
     activity = await ActivityBean.of(context).preloadRelationships(activity);
 
+    if (activity.activityType == ActivityType.informational &&
+        !activity.isCompleted()) activity.informationActivityUnlocked = true;
+
     if (pageIs(Page.Map)) {
       mapAnimateController.sink.add(activity.id);
     }

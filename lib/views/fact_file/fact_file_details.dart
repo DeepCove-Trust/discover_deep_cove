@@ -17,9 +17,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FactFileDetails extends StatefulWidget {
-  final FactFileEntry entry;
+  final int entryId;
 
-  FactFileDetails({@required this.entry}) : assert(entry != null);
+  FactFileDetails({@required this.entryId}) : assert(entryId != null);
 
   @override
   State<StatefulWidget> createState() => _FactFileDetailsState();
@@ -43,6 +43,10 @@ class _FactFileDetailsState extends State<FactFileDetails>
     _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
       _onComplete();
     });
+  }
+
+  Future<void> loadData() async {
+    entry = await FactFileEntryBean.of(context).findAndPreload(widget.entryId);
   }
 
   @override
@@ -78,11 +82,18 @@ class _FactFileDetailsState extends State<FactFileDetails>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: buildContent(),
-      bottomNavigationBar: BottomBackButton(),
-    );
+    return FutureBuilder(future: loadData(), builder: (context, snapshot) {
+      if(snapshot.connectionState == ConnectionState.done){
+        return Scaffold(
+          backgroundColor: Theme.of(context).backgroundColor,
+          body: buildContent(),
+          bottomNavigationBar: BottomBackButton(),
+        );
+      }
+      else {
+        return Center(child: CircularProgressIndicator());
+      }
+    });
   }
 
   buildContent() {
@@ -115,7 +126,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
             width: Screen.width(context),
             height: Screen.width(context),
             child: Hero(
-              tag: widget.entry.id,
+              tag: entry.id,
               child: Carousel(
                 autoplay: true,
                 images: snapshot.data,
@@ -140,7 +151,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
   // This future won't return until all images have been pre-cached.
   Future<List<Image>> loadImages() async {
     List<Image> images = List<Image>();
-    for (MediaFile media in widget.entry.galleryImages) {
+    for (MediaFile media in entry.galleryImages) {
       ImageProvider provider = FileImage(
         File(
           Env.getResourcePath(media.path),
@@ -158,7 +169,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
     setState(() => pronounceColor = Theme.of(context).primaryColor);
     _isButtonDisabled = true;
 
-    return player.play(Env.getResourcePath(widget.entry.pronounceAudio.path),
+    return player.play(Env.getResourcePath(entry.pronounceAudio.path),
         isLocal: true);
   }
 
@@ -166,7 +177,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
     setState(() => listenColor = Theme.of(context).primaryColor);
     _isButtonDisabled = true;
 
-    return player.play(Env.getResourcePath(widget.entry.listenAudio.path),
+    return player.play(Env.getResourcePath(entry.listenAudio.path),
         isLocal: true);
   }
 
@@ -177,14 +188,14 @@ class _FactFileDetailsState extends State<FactFileDetails>
       ),
       child: Column(
         children: [
-          Heading(widget.entry.primaryName),
+          Heading(entry.primaryName),
           SizedBox(height: Screen.height(context, percentage: 1.56)),
-          SubHeading(widget.entry.altName),
+          SubHeading(entry.altName),
           Divider(color: Colors.white, height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              if (widget.entry.pronounceAudio != null)
+              if (entry.pronounceAudio != null)
                 SizedBox(
                   width: Screen.width(
                         context,
@@ -224,7 +235,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
                     ),
                   ),
                 ),
-              if (widget.entry.listenAudio != null)
+              if (entry.listenAudio != null)
                 SizedBox(
                   width: Screen.width(
                         context,
@@ -273,7 +284,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
               Screen.width(context, percentage: 1.25),
             ),
             child: BodyText(
-              widget.entry.bodyText,
+              entry.bodyText,
               align: TextAlign.justify,
             ),
           ),
@@ -283,7 +294,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
   }
 
   getNuggets() {
-    return widget.entry.nuggets.map((nugget) {
+    return entry.nuggets.map((nugget) {
       return FactNugget(
         path: nugget.image != null ? nugget.image.path : null,
         name: nugget.name,
