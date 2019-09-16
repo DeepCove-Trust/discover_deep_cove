@@ -32,6 +32,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
   Color listenColor = Colors.white;
   bool _isButtonDisabled = false;
   int _currentImage = 0;
+  FactFileEntry entry;
 
   StreamSubscription _playerCompleteSubscription;
 
