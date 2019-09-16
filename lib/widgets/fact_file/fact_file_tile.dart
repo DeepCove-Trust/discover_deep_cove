@@ -46,7 +46,12 @@ class SmallTile extends StatelessWidget {
                 child: SubHeading(title),
               ),
             ),
-            // image.source != null ? ImageSource(isCopyright: image.showCopyright, image.source) : Container(),  
+            image.source != null
+                ? ImageSource(
+                    isCopyright: image.showCopyright,
+                    source: image.source,
+                  )
+                : Container(),
           ],
         ),
       ),
