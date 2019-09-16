@@ -31,7 +31,8 @@ class _FactFileDetailsState extends State<FactFileDetails>
   Color pronounceColor = Colors.white;
   Color listenColor = Colors.white;
   bool _isButtonDisabled = false;
-  int _currentImage = 0;
+  Stream<int> imageIdStream;
+  StreamController<int> imageIdStreamController;
   FactFileEntry entry;
 
   StreamSubscription _playerCompleteSubscription;
@@ -41,6 +42,9 @@ class _FactFileDetailsState extends State<FactFileDetails>
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
+
+    imageIdStreamController = StreamController();
+    imageIdStream = imageIdStreamController.stream;
 
     _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
       _onComplete();
@@ -56,6 +60,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
     WidgetsBinding.instance.removeObserver(this);
     player.stop();
 
+    imageIdStreamController.close();
     _playerCompleteSubscription?.cancel();
     super.dispose();
   }
@@ -141,16 +146,31 @@ class _FactFileDetailsState extends State<FactFileDetails>
                     animationCurve: Curves.fastOutSlowIn,
                     animationDuration: Duration(milliseconds: 1000),
                     onImageChange: (prev, next) {
-                    
-                      _currentImage = next;
+                      imageIdStreamController.sink.add(next);
                     },
                   ),
-                  entry.galleryImages[_currentImage].source != null
-                      ? ImageSource(
-                          isCopyright: entry.galleryImages[_currentImage].showCopyright,
-                          source: entry.galleryImages[_currentImage].source,
-                        )
-                      : Container(),
+                  StreamBuilder(
+                    stream: imageIdStream,
+                    initialData: 0,
+                    builder: (context, snapshot) {
+                      return entry
+                                  .galleryImages[
+                                      snapshot.hasData ? snapshot.data : 0]
+                                  .source !=
+                              null
+                          ? ImageSource(
+                              isCopyright: entry
+                                  .galleryImages[
+                                      snapshot.hasData ? snapshot.data : 0]
+                                  .showCopyright,
+                              source: entry
+                                  .galleryImages[
+                                      snapshot.hasData ? snapshot.data : 0]
+                                  .source,
+                            )
+                          : Container();
+                    },
+                  ),
                 ],
               ),
             ),
@@ -165,8 +185,6 @@ class _FactFileDetailsState extends State<FactFileDetails>
       },
     );
   }
-
-  void updateImageIndex(int id) => setState(() => _currentImage = id);
 
   // This future won't return until all images have been pre-cached.
   Future<List<Image>> loadImages() async {
