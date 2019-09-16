@@ -132,20 +132,24 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                 children: <Widget>[
                   Center(
                     child: Container(
-                      height: Screen.width(context,
-                          percentage: Screen.isTablet(context) &&
-                                  Screen.isLandscape(context)
-                              ? 45
-                              : Screen.isTablet(context)
-                                  ? 85
-                                  : Screen.isSmall(context) ? 75 : 80),
-                      width: Screen.width(context,
-                          percentage: Screen.isTablet(context) &&
-                                  Screen.isLandscape(context)
-                              ? 45
-                              : Screen.isTablet(context)
-                                  ? 85
-                                  : Screen.isSmall(context) ? 75 : 80),
+                      height: Screen.width(
+                        context,
+                        percentage: Screen.isTablet(context) &&
+                                Screen.isLandscape(context)
+                            ? 45
+                            : Screen.isTablet(context)
+                                ? 85
+                                : Screen.isSmall(context) ? 75 : 80,
+                      ),
+                      width: Screen.width(
+                        context,
+                        percentage: Screen.isTablet(context) &&
+                                Screen.isLandscape(context)
+                            ? 45
+                            : Screen.isTablet(context)
+                                ? 85
+                                : Screen.isSmall(context) ? 75 : 80,
+                      ),
                       child: Container(
                         child: Container(
                           decoration: BoxDecoration(
