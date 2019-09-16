@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:flutter/material.dart';
 
 class QuizImageButton extends StatelessWidget {
@@ -79,7 +78,6 @@ class QuizImageButton extends StatelessWidget {
                     ),
                   ],
                 ) : Container(),
-                // image.source != null ? ImageSource(isCopyright: image.showCopyright, image.source) : Container(),
               ],
             ),
           ),
