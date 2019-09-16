@@ -161,7 +161,7 @@ class _TextQuestionState extends State<TextQuestion>
                       children: [
                         SubHeading(
                           widget.question.text,
-                          size: Screen.isTablet(context) ? 30 : 0,
+                          size: Screen.isTablet(context) ? 30 : null,
                         ),
                         if (hasAudio) buildAudioButton(),
                       ],
@@ -169,7 +169,15 @@ class _TextQuestionState extends State<TextQuestion>
                   ),
                 ],
               ),
-             // image.source != null ? ImageSource(isCopyright: image.showCopyright, image.source) : Container(),
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: widget.question.image.source != null
+                    ? ImageSource(
+                        isCopyright: widget.question.image.showCopyright,
+                        source: widget.question.image.source,
+                      )
+                    : Container(),
+              ),
             ],
           ),
         ),
