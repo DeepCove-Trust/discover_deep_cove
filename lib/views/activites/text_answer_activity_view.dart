@@ -195,7 +195,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
   displayFactFile(int factFileId) async {
     Navigator.of(context).pushNamed(
       '/factFileDetails',
-      arguments: await FactFileEntryBean.of(context).findAndPreload(factFileId),
+      arguments: factFileId,
     );
   }
 }

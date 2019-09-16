@@ -111,7 +111,7 @@ class RouteGenerator {
           if (aArgs.activity.activityType == ActivityType.informational) {
             return MaterialPageRoute(
             builder: (_) => FactFileDetails(
-              //entry: aArgs.activity.factFileId
+              entryId: aArgs.activity.factFileId
             ),
           );
           }
