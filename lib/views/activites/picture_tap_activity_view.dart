@@ -304,7 +304,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   displayFactFile(int factFileId) async {
     Navigator.of(context).pushNamed(
       '/factFileDetails',
-      arguments: await FactFileEntryBean.of(context).findAndPreload(factFileId),
+      arguments: factFileId,
     );
   }
 }

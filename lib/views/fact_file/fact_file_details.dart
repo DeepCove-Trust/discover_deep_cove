@@ -31,6 +31,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
   Color pronounceColor = Colors.white;
   Color listenColor = Colors.white;
   bool _isButtonDisabled = false;
+  FactFileEntry entry;
 
   StreamSubscription _playerCompleteSubscription;
 
