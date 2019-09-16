@@ -252,21 +252,23 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   }
 
   double _getImageDimension() {
-    return Screen.width(context,
-        percentage: Screen.isTablet(context) && Screen.isLandscape(context)
-            ? 45
-            : Screen.isTablet(context)
-                ? 85
-                : Screen.isSmall(context) ? 75 : 80);
+    return Screen.width(
+      context,
+      percentage: Screen.isTablet(context) && Screen.isLandscape(context)
+          ? 45
+          : Screen.isTablet(context) ? 85 : Screen.isSmall(context) ? 75 : 80,
+    );
   }
 
   double _getXOffset() {
-    return Screen.width(context,
-        percentage: Screen.isTablet(context) && Screen.isLandscape(context)
-            ? 0.8
-            : Screen.isTablet(context)
-                ? -0.5
-                : Screen.isSmall(context) ? -2.5 : 0);
+    return Screen.width(
+      context,
+      percentage: Screen.isTablet(context) && Screen.isLandscape(context)
+          ? 0.8
+          : Screen.isTablet(context)
+              ? -0.5
+              : Screen.isSmall(context) ? -2.5 : 0,
+    );
   }
 
   void _handleDrag(DragUpdateDetails details) {
@@ -291,7 +293,8 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   }
 
   double _getYPos(yVal) {
-    return yVal * _getImageDimension() - Screen.height(context, percentage: 4.5);
+    return yVal * _getImageDimension() -
+        Screen.height(context, percentage: 4.5);
   }
 
   ///returns a [offset] this contains the x and y positions of the image
