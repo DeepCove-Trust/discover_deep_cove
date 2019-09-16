@@ -193,22 +193,12 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                 children: <Widget>[
                   Center(
                     child: Container(
-                      height: Screen.width(context,
-                          percentage: Screen.isTablet(context) &&
-                                  Screen.isLandscape(context)
-                              ? 45
-                              : Screen.isTablet(context)
-                                  ? 85
-                                  : Screen.isSmall(context) ? 75 : 80),
-                      width: Screen.width(context,
-                          percentage: Screen.isTablet(context) &&
-                                  Screen.isLandscape(context)
-                              ? 45
-                              : Screen.isTablet(context)
-                                  ? 85
-                                  : Screen.isSmall(context) ? 75 : 80),
+                      height: _getImageDimension(),
+                      width: _getImageDimension(),
                       child: GestureDetector(
                         onTapDown: _handleTap,
+                        onHorizontalDragUpdate: _handleDrag,
+                        onVerticalDragUpdate: _handleDrag,
                         child: Container(
                           key: _keyImage,
                           child: Container(
@@ -231,20 +221,25 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                   ),
                   isTapped
                       ? Positioned(
-                          top: posY,
-                          left: posX,
-                          child: Container(
-                            width: Screen.height(context, percentage: 10),
-                            height: Screen.height(context, percentage: 10),
+                          top: _getYPos(),
+                          left: _getXPos(),
+                          child: GestureDetector(
+                            onHorizontalDragUpdate: _handleDrag,
+                            onVerticalDragUpdate: _handleDrag,
+                            onTapDown: _handleTap,
                             child: Container(
-                              decoration: BoxDecoration(
-                                color: HexColor("80FF5026"),
-                                border: Border.all(
-                                  color: setTransparentColor(),
-                                  width: 3.0,
-                                  style: BorderStyle.solid,
+                              width: Screen.height(context, percentage: 10),
+                              height: Screen.height(context, percentage: 10),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: HexColor("80FF5026"),
+                                  border: Border.all(
+                                    color: setTransparentColor(),
+                                    width: 3.0,
+                                    style: BorderStyle.solid,
+                                  ),
+                                  shape: BoxShape.circle,
                                 ),
-                                shape: BoxShape.circle,
                               ),
                             ),
                           ),
@@ -256,32 +251,55 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     );
   }
 
-  ///This updates the circle co-ords on the image
+  double _getImageDimension() {
+    return Screen.width(context,
+        percentage: Screen.isTablet(context) && Screen.isLandscape(context)
+            ? 45
+            : Screen.isTablet(context)
+                ? 85
+                : Screen.isSmall(context) ? 75 : 80);
+  }
+
+  double _getXOffset() {
+    return Screen.width(context,
+        percentage: Screen.isTablet(context) && Screen.isLandscape(context)
+            ? 0.8
+            : Screen.isTablet(context)
+                ? -0.5
+                : Screen.isSmall(context) ? -2.5 : 0);
+  }
+
+  void _handleDrag(DragUpdateDetails details) {
+    _placeMarker(details.globalPosition);
+  }
+
   void _handleTap(TapDownDetails details) {
+    _placeMarker(details.globalPosition);
+  }
+
+  ///This updates the circle co-ords on the image
+  void _placeMarker(Offset position) {
     final RenderBox referenceBox = context.findRenderObject();
     setState(() {
       isTapped = true;
-      tapPos = referenceBox.globalToLocal(details.globalPosition);
+      tapPos = referenceBox.globalToLocal(position);
 
-      double radius = (Screen.height(context, percentage: 10) / 2);
-      // double imageWidth = Screen.width(context,
-      //         percentage: Screen.isPortrait(context) ? 50 : 100) -
-      //     (_getImagePositions().dy / 2);
+      double radius = Screen.height(context, percentage: 5);
 
-      // double percentX =
-      //     (tapPos.dx - radius - _getImagePositions().dx) / imageWidth;
-      // double percentY =
-      //     (tapPos.dy - radius - _getImagePositions().dy) / imageWidth;
+      double imageX = _getImagePositions().dx;
+      double imageY = _getImagePositions().dy;
 
-      posX = 0 +
-        (tapPos.dx - _getImagePositions().dx) -
-        radius +
-        (Screen.width(context,
-                percentage: Screen.isPortrait(context) ? 15 : 5) /
-            2);
-      posY = 0 + (tapPos.dy - _getImagePositions().dy) - radius;
-      // posX = (_getImagePositions().dx + imageWidth) * percentX;
-      // posY = (_getImagePositions().dy + imageWidth) * percentY;
+      double pixelPosX = position.dx - imageX;
+      double pixelPosY = position.dy - imageY;
+
+      double imageWidth = _getImageDimension();
+      double imageHeight = imageWidth;
+
+      double percentPosX = pixelPosX / imageWidth;
+      double percentPosY = pixelPosY / imageHeight;
+
+      posX = percentPosX;
+      posY = percentPosY;
 
       print("");
       //Circle cords
@@ -297,6 +315,22 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
       // print("%X " + percentX.toString());
       // print("%Y " + percentY.toString());
     });
+  }
+
+  double _getXPos() {
+    print("posX: $posX");
+    print("imagePosX: ${_getImagePositions().dx}");
+    print("imageWidth: ${_getImageDimension()}");
+    double pos = posX * _getImageDimension() - _getXOffset();
+    print("X Pos: " + pos.toString());
+    return pos;
+  }
+
+  double _getYPos() {
+    double pos =
+        posY * _getImageDimension() - Screen.height(context, percentage: 4.5);
+    print("Y Pos: " + pos.toString());
+    return pos;
   }
 
   ///returns a [offset] this contains the x and y positions of the image
