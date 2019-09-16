@@ -206,7 +206,9 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                                           ? 70
                                           : Screen.isSmall(context) ? 55 : 65,
                                 ),
-                                child: widget.activity.image.source == null
+                                child: widget.activity.imageOptions[photoIndex]
+                                            .source ==
+                                        null
                                     ? Center(
                                         child: ImageSource(
                                           isCopyright: widget
@@ -284,11 +286,12 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                             : Screen.isTablet(context)
                                 ? 70
                                 : Screen.isSmall(context) ? 55 : 65),
-                    child: widget.activity.image.source != null
+                    child: widget.activity.selectedPicture.source != null
                         ? Center(
                             child: ImageSource(
-                              isCopyright: widget.activity.image.showCopyright,
-                              source: widget.activity.image.source,
+                              isCopyright:
+                                  widget.activity.selectedPicture.showCopyright,
+                              source: widget.activity.selectedPicture.source,
                             ),
                           )
                         : Container(),
