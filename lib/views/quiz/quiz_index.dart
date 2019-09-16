@@ -1,7 +1,5 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_tile.dart';
 import 'package:flutter/material.dart';
@@ -104,8 +102,7 @@ class _QuizIndexState extends State<QuizIndex> {
         subheading: quiz.attempts > 0
             ? 'High Score: ${quiz.highScore}/${quiz.questions.length} | Attempts: ${quiz.attempts}'
             : 'Not yet attempted',
-        imagePath:
-            quiz.image != null ? Env.getResourcePath(quiz.image.path) : null,
+        image: quiz.image != null ? quiz.image : null ,
       );
     }).toList();
   }
