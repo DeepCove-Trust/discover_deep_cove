@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:latlong/latlong.dart';
 import 'package:toast/toast.dart';
 
 enum Page { FactFile, Scan, Map, Quiz, Settings }
@@ -54,7 +53,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       context: context,
       animationStream: mapAnimateController.stream.asBroadcastStream(), // todo
       onMarkerTap: handleMarkerTap,
-       key: PageStorageKey('Map Maker'),
+      key: PageStorageKey('Map Maker'),
     )); // placeholder
     pages.add(QuizIndex());
     pages.add(Settings(
