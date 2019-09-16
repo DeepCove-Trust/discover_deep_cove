@@ -128,7 +128,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
             width: Screen.width(context),
             height: Screen.width(context),
             child: Hero(
-              tag: widget.entry.id,
+              tag: entry.id,
               child: Stack(
                 fit: StackFit.loose,
                 children: <Widget>[
@@ -143,9 +143,9 @@ class _FactFileDetailsState extends State<FactFileDetails>
                       setState(() => _currentImage = next);
                     },
                   ),
-                  image.source == null ? ImageSource(
+                  entry.galleryImages[_currentImage].source == null ? ImageSource(
                     isCopyright: true,
-                    source: widget.entry.galleryImages[_currentImage].name,
+                    source: entry.galleryImages[_currentImage].name,
                   ) : Container(),
                 ],
               ),
