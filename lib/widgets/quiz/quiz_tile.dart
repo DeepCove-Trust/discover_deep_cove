@@ -59,15 +59,22 @@ class Tile extends StatelessWidget {
                     SubHeading(
                       title,
                     ),
-                    if (subheading != null)
-                      SizedBox(height: 10), //
-                    if (subheading != null)
-                      BodyText(subheading),
+                    if (subheading != null) SizedBox(height: 10),
+                    if (subheading != null) BodyText(subheading),
+                    if (image.source != null) SizedBox(height: 15),
                   ],
                 ),
               ),
             ),
-            // image.source != null ? ImageSource(isCopyright: image.showCopyright, image.source) : Container(),
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: image.source != null
+                  ? ImageSource(
+                      isCopyright: image.showCopyright,
+                      source: image.source,
+                    )
+                  : Container(),
+            ),
           ],
         ),
       ),
