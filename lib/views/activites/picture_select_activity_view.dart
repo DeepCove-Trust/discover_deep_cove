@@ -162,24 +162,24 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                           Column(
                             children: <Widget>[
                               Container(
-                                height: Screen.width(context,
-                                    percentage: Screen.isTablet(context) &&
-                                            Screen.isLandscape(context)
-                                        ? 35
-                                        : Screen.isTablet(context)
-                                            ? 70
-                                            : Screen.isSmall(context)
-                                                ? 55
-                                                : 65),
-                                width: Screen.width(context,
-                                    percentage: Screen.isTablet(context) &&
-                                            Screen.isLandscape(context)
-                                        ? 35
-                                        : Screen.isTablet(context)
-                                            ? 70
-                                            : Screen.isSmall(context)
-                                                ? 55
-                                                : 65),
+                                height: Screen.width(
+                                  context,
+                                  percentage: Screen.isTablet(context) &&
+                                          Screen.isLandscape(context)
+                                      ? 35
+                                      : Screen.isTablet(context)
+                                          ? 70
+                                          : Screen.isSmall(context) ? 55 : 65,
+                                ),
+                                width: Screen.width(
+                                  context,
+                                  percentage: Screen.isTablet(context) &&
+                                          Screen.isLandscape(context)
+                                      ? 35
+                                      : Screen.isTablet(context)
+                                          ? 70
+                                          : Screen.isSmall(context) ? 55 : 65,
+                                ),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
@@ -197,22 +197,23 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                                 height: Screen.height(context,
                                     percentage:
                                         Screen.isPortrait(context) ? 2.9 : 5),
-                                width: Screen.width(context,
-                                    percentage: Screen.isTablet(context) &&
-                                            Screen.isLandscape(context)
-                                        ? 35
-                                        : Screen.isTablet(context)
-                                            ? 70
-                                            : Screen.isSmall(context)
-                                                ? 55
-                                                : 65),
-                                child: Center(
-                                  child: ImageSource(
-                                    isCopyright:
-                                        widget.activity.image.showCopyright,
-                                    source: widget.activity.image.source,
-                                  ),
+                                width: Screen.width(
+                                  context,
+                                  percentage: Screen.isTablet(context) &&
+                                          Screen.isLandscape(context)
+                                      ? 35
+                                      : Screen.isTablet(context)
+                                          ? 70
+                                          : Screen.isSmall(context) ? 55 : 65,
                                 ),
+                                child: widget.activity.image.source == null
+                                    ? Center(
+                                        child: ImageSource(
+                                          isCopyright: widget.activity.imageOptions[photoIndex].showCopyright,
+                                          source: widget.activity.imageOptions[photoIndex].source,
+                                        ),
+                                      )
+                                    : Container(),
                               ),
                             ],
                           ),
@@ -279,10 +280,14 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                             : Screen.isTablet(context)
                                 ? 70
                                 : Screen.isSmall(context) ? 55 : 65),
-                    child: ImageSource(
-                      isCopyright: true,
-                      source: widget.activity.selectedPicture.name,
-                    ),
+                    child: widget.activity.image.source != null
+                        ? Center(
+                            child: ImageSource(
+                              isCopyright: widget.activity.image.showCopyright,
+                              source: widget.activity.image.source,
+                            ),
+                          )
+                        : Container(),
                   ),
                 ],
               ),
