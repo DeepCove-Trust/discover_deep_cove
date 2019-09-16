@@ -25,7 +25,6 @@ class PictureTapActivityView extends StatefulWidget {
 }
 
 class _PictureTapActivityViewState extends State<PictureTapActivityView> {
-  Offset tapPos;
   Color transparentAccent;
   bool isTapped = false;
   double posY = 0;
@@ -166,13 +165,14 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                     ),
                   ),
                   Positioned(
-                    top: widget.activity.userYCoord,
-                    left: widget.activity.userXCoord,
+                    top: _getYPos(widget.activity.userYCoord),
+                    left: _getXPos(widget.activity.userXCoord),
                     child: Center(
                       child: Container(
                         width: Screen.height(context, percentage: 10),
                         height: Screen.height(context, percentage: 10),
                         child: Container(
+                          key: _keyImage,
                           decoration: BoxDecoration(
                             color: HexColor("80FF5026"),
                             border: Border.all(
@@ -221,8 +221,8 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                   ),
                   isTapped
                       ? Positioned(
-                          top: _getYPos(),
-                          left: _getXPos(),
+                          top: _getYPos(posY),
+                          left: _getXPos(posX),
                           child: GestureDetector(
                             onHorizontalDragUpdate: _handleDrag,
                             onVerticalDragUpdate: _handleDrag,
@@ -279,58 +279,19 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
 
   ///This updates the circle co-ords on the image
   void _placeMarker(Offset position) {
-    final RenderBox referenceBox = context.findRenderObject();
     setState(() {
       isTapped = true;
-      tapPos = referenceBox.globalToLocal(position);
-
-      double radius = Screen.height(context, percentage: 5);
-
-      double imageX = _getImagePositions().dx;
-      double imageY = _getImagePositions().dy;
-
-      double pixelPosX = position.dx - imageX;
-      double pixelPosY = position.dy - imageY;
-
-      double imageWidth = _getImageDimension();
-      double imageHeight = imageWidth;
-
-      double percentPosX = pixelPosX / imageWidth;
-      double percentPosY = pixelPosY / imageHeight;
-
-      posX = percentPosX;
-      posY = percentPosY;
-
-      print("");
-      //Circle cords
-      print("X " + posX.toString());
-      print("Y " + posY.toString());
-      //Pos of tap on screen
-      print("tX " + tapPos.dx.toString());
-      print("tY " + tapPos.dy.toString());
-      //Image pos on screen
-      print("tX " + _getImagePositions().dx.toString());
-      print("tY " + _getImagePositions().dy.toString());
-
-      // print("%X " + percentX.toString());
-      // print("%Y " + percentY.toString());
+      posX = (position.dx - _getImagePositions().dx) / _getImageDimension();
+      posY = (position.dy - _getImagePositions().dy) / _getImageDimension();
     });
   }
 
-  double _getXPos() {
-    print("posX: $posX");
-    print("imagePosX: ${_getImagePositions().dx}");
-    print("imageWidth: ${_getImageDimension()}");
-    double pos = posX * _getImageDimension() - _getXOffset();
-    print("X Pos: " + pos.toString());
-    return pos;
+  double _getXPos(xVal) {
+    return xVal * _getImageDimension() - _getXOffset();
   }
 
-  double _getYPos() {
-    double pos =
-        posY * _getImageDimension() - Screen.height(context, percentage: 4.5);
-    print("Y Pos: " + pos.toString());
-    return pos;
+  double _getYPos(yVal) {
+    return yVal * _getImageDimension() - Screen.height(context, percentage: 4.5);
   }
 
   ///returns a [offset] this contains the x and y positions of the image
