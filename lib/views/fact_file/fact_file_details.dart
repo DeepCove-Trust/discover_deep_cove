@@ -84,18 +84,19 @@ class _FactFileDetailsState extends State<FactFileDetails>
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(future: loadData(), builder: (context, snapshot) {
-      if(snapshot.connectionState == ConnectionState.done){
-        return Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          body: buildContent(),
-          bottomNavigationBar: BottomBackButton(),
-        );
-      }
-      else {
-        return Center(child: CircularProgressIndicator());
-      }
-    });
+    return FutureBuilder(
+        future: loadData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Scaffold(
+              backgroundColor: Theme.of(context).backgroundColor,
+              body: buildContent(),
+              bottomNavigationBar: BottomBackButton(),
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        });
   }
 
   buildContent() {
@@ -143,10 +144,12 @@ class _FactFileDetailsState extends State<FactFileDetails>
                       setState(() => _currentImage = next);
                     },
                   ),
-                  entry.galleryImages[_currentImage].source == null ? ImageSource(
-                    isCopyright: true,
-                    source: entry.galleryImages[_currentImage].name,
-                  ) : Container(),
+                  entry.galleryImages[_currentImage].source == null
+                      ? ImageSource(
+                          isCopyright: true,
+                          source: entry.galleryImages[_currentImage].name,
+                        )
+                      : Container(),
                 ],
               ),
             ),
