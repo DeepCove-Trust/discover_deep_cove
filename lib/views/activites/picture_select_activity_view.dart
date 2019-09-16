@@ -263,7 +263,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                 ],
               )
             : Stack(
-               alignment: AlignmentDirectional.bottomEnd,
+                alignment: AlignmentDirectional.bottomEnd,
                 children: <Widget>[
                   Column(
                     children: <Widget>[
@@ -297,38 +297,29 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                       ),
                     ],
                   ),
-                    widget.activity.imageOptions[photoIndex]
-                                              .source !=
-                                          null
-                                      ? Container(
-                                          color: Color.fromRGBO(0, 0, 0, 0.75),
-                                          width: Screen.width(
-                                            context,
-                                            percentage: Screen.isTablet(
-                                                        context) &&
-                                                    Screen.isLandscape(context)
-                                                ? 35
-                                                : Screen.isTablet(context)
-                                                    ? 70
-                                                    : Screen.isSmall(context)
-                                                        ? 55
-                                                        : 65,
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(2.0),
-                                            child: ImageSource(
-                                              isCopyright: widget
-                                                  .activity
-                                                  .imageOptions[photoIndex]
-                                                  .showCopyright,
-                                              source: widget
-                                                  .activity
-                                                  .imageOptions[photoIndex]
-                                                  .source,
-                                            ),
-                                          ),
-                                        )
-                                      : Container(),
+                  widget.activity.imageOptions[photoIndex].source != null
+                      ? Container(
+                          color: Color.fromRGBO(0, 0, 0, 0.75),
+                          width: Screen.width(
+                            context,
+                            percentage: Screen.isTablet(context) &&
+                                    Screen.isLandscape(context)
+                                ? 35
+                                : Screen.isTablet(context)
+                                    ? 70
+                                    : Screen.isSmall(context) ? 55 : 65,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: ImageSource(
+                              isCopyright: widget.activity
+                                  .imageOptions[photoIndex].showCopyright,
+                              source: widget
+                                  .activity.imageOptions[photoIndex].source,
+                            ),
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
       ],
