@@ -293,10 +293,9 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
   }
 
   displayFactFile(int factFileId) async {
-
     Navigator.of(context).pushNamed(
       '/factFileDetails',
-      arguments: await FactFileEntryBean.of(context).findAndPreload(factFileId),
+      arguments: factFileId,
     );
   }
 }
