@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 
 class SmallTile extends StatelessWidget {
   final String title;
-  final MediaFile image;
+  final String imagePath;
   final Object heroTag;
   final VoidCallback onTap;
 
   SmallTile(
-      {@required this.title, @required this.image, this.onTap, this.heroTag});
+      {@required this.title, @required this.imagePath, this.onTap, this.heroTag});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class SmallTile extends StatelessWidget {
               tag: heroTag,
               child: Image.file(
                 File(
-                  Env.getResourcePath(image.path),
+                  Env.getResourcePath(imagePath),
                 ),
               ),
             ),

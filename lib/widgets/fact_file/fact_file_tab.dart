@@ -23,7 +23,7 @@ class _FactFileTabState extends State<FactFileTab> {
       return SmallTile(
         title: entry.primaryName,
         heroTag: entry.id,
-        image: entry.mainImage,
+        imagePath: Env.getResourcePath(entry.mainImage.path),
         onTap: () => handleTap(entry.id),
       );
     }).toList();
