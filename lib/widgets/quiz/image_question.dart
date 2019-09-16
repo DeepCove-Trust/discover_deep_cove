@@ -83,7 +83,7 @@ class _ImageQuestionState extends State<ImageQuestion>
       icon: Icon(FontAwesomeIcons.music, color: playingColor),
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,7 +147,10 @@ class _ImageQuestionState extends State<ImageQuestion>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SubHeading(widget.question.text),
+                  SubHeading(
+                    widget.question.text,
+                    size: Screen.isTablet(context) ? 30 : null,
+                  ),
                   if (hasAudio)
                     Padding(
                       padding: EdgeInsets.only(
