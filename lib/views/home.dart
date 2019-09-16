@@ -30,10 +30,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   String _loadingMessage;
   Icon _loadingIcon;
 
-  // State of map position / zoom level
-  LatLng mapPosition;
-  double zoomLevel;
-
   // Stream controller to tell map when to animate
   StreamController<int> mapAnimateController;
 
@@ -58,10 +54,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       context: context,
       animationStream: mapAnimateController.stream.asBroadcastStream(), // todo
       onMarkerTap: handleMarkerTap,
-      mapCenter: mapPosition,
-      zoom: zoomLevel,
-      mapState: _updateMapState,
-      key: PageStorageKey('Map Maker'),
+       key: PageStorageKey('Map Maker'),
     )); // placeholder
     pages.add(QuizIndex());
     pages.add(Settings(
@@ -69,25 +62,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       onCodeEntry: (code) => handleScanResult(code),
     ));
     currentPage = pages[Page.Map.index];
-
-    //print("HOME: State before update position: $mapPosition and  $zoomLevel");
   }
 
   @override
   void dispose() {
     super.dispose();
     mapAnimateController.close();
-  }
-
-  _updateMapState(LatLng position, double zoom) {
-    // print("HOME: State from map position: $position and  $zoom");
-
-    // setState(() {
-    //   mapPosition = position;
-    //   zoomLevel = zoom;
-    // });
-
-    // print("HOME: State after update position: $mapPosition and  $zoomLevel");
   }
 
   void handleMarkerTap(Activity activity) async {

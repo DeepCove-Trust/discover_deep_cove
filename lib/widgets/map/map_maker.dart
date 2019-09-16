@@ -19,9 +19,6 @@ class MapMaker extends StatefulWidget {
     @required this.context,
     @required this.onMarkerTap,
     @required this.animationStream,
-    @required this.mapCenter,
-    @required this.zoom,
-    @required this.mapState,
     Key key,
   }) : super(key: key);
 
@@ -29,9 +26,6 @@ class MapMaker extends StatefulWidget {
   final MapController mapController;
   final Stream<int> animationStream;
   final BuildContext context;
-  final LatLng mapCenter;
-  final double zoom;
-  final void Function(LatLng position, double zoom) mapState;
 
   @override
   State createState() => _MapMakerState();
@@ -60,13 +54,6 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
     });
     currentTrackNum = 0;
     loadTracks();
-    // mapCenter = widget.mapCenter;
-    // zoom = widget.zoom;
-
-    state = PageStorage.of(context).readState(context) ??  MapState(center: Env.mapDefaultCenter, zoom: Env.mapDefaultZoom);
-
-    // print("MAP MAKER: state recieved from HOME position: ${widget.mapCenter} and zoom: ${widget.zoom}");
-    // print("MAP MAKER: state from ENV position: ${Env.defaultMapCenter} and zoom: ${Env.mapDefaultZoom}");
   }
 
   @override
@@ -78,6 +65,18 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
   Future<void> loadTracks() async {
     tracks = await TrackBean.of(context).getAllAndPreload();
     setState(() => tracks);
+  }
+
+  void _onAfterBuild(BuildContext context, LatLng center, double zoom) {
+    setState(() {
+      PageStorage.of(context).writeState(
+        context,
+        MapState(
+          center: center,
+          zoom: zoom,
+        ),
+      );
+    });
   }
 
   @override
@@ -116,29 +115,24 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
             body: FlutterMap(
               mapController: widget.mapController,
               options: MapOptions(
-                center: state.center,
+                center: PageStorage.of(context).readState(context) != null
+                    ? (PageStorage.of(context).readState(context) as MapState)
+                        .center
+                    : Env.mapDefaultCenter,
                 minZoom: Env.mapMinZoom,
                 maxZoom: Env.mapMaxZoom,
-                zoom: state.zoom,
+                zoom: PageStorage.of(context).readState(context) != null
+                    ? (PageStorage.of(context).readState(context) as MapState)
+                        .zoom
+                    : Env.mapDefaultZoom,
                 swPanBoundary: Env.swPanBoundary,
                 nePanBoundary: Env.nePanBoundary,
                 plugins: [MarkerClusterPlugin()],
                 onPositionChanged: (mapPosition, hasGesture, isGesture) {
                   if (mapPosition.center != Env.mapDefaultCenter) {
-                    setState(() {
-                      // mapCenter = mapPosition.center;
-                      // zoom = mapPosition.zoom;
-
-                      PageStorage.of(context).writeState(
-                        context,
-                        MapState(
-                          center: mapPosition.center,
-                          zoom: mapPosition.zoom,
-                        ),
-                      );
-
-                      // widget.mapState(mapCenter, zoom);
-                    });
+                    WidgetsBinding.instance.addPostFrameCallback((_) =>
+                        _onAfterBuild(
+                            context, mapPosition.center, mapPosition.zoom));
                   }
                 },
               ),
