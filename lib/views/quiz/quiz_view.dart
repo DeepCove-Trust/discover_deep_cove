@@ -156,7 +156,7 @@ class QuizViewState extends State<QuizView> {
         ? currentQuestion.answers.map((answer) {
             return QuizImageButton(
               onTap: () => handleAnswer(answer.id),
-              imagePath: answer.image.path,
+              image: answer.image,
               text: answer.text,
             );
           }).toList()

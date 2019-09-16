@@ -4,12 +4,12 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/fact_file/nuggets/fact_nugget.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
@@ -31,6 +31,8 @@ class _FactFileDetailsState extends State<FactFileDetails>
   Color pronounceColor = Colors.white;
   Color listenColor = Colors.white;
   bool _isButtonDisabled = false;
+  Stream<int> imageIdStream;
+  StreamController<int> imageIdStreamController;
   FactFileEntry entry;
 
   StreamSubscription _playerCompleteSubscription;
@@ -40,6 +42,9 @@ class _FactFileDetailsState extends State<FactFileDetails>
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
+
+    imageIdStreamController = StreamController();
+    imageIdStream = imageIdStreamController.stream.asBroadcastStream();
 
     _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
       _onComplete();
@@ -55,6 +60,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
     WidgetsBinding.instance.removeObserver(this);
     player.stop();
 
+    imageIdStreamController.close();
     _playerCompleteSubscription?.cancel();
     super.dispose();
   }
@@ -83,18 +89,19 @@ class _FactFileDetailsState extends State<FactFileDetails>
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(future: loadData(), builder: (context, snapshot) {
-      if(snapshot.connectionState == ConnectionState.done){
-        return Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          body: buildContent(),
-          bottomNavigationBar: BottomBackButton(),
-        );
-      }
-      else {
-        return Center(child: CircularProgressIndicator());
-      }
-    });
+    return FutureBuilder(
+        future: loadData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Scaffold(
+              backgroundColor: Theme.of(context).backgroundColor,
+              body: buildContent(),
+              bottomNavigationBar: BottomBackButton(),
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        });
   }
 
   buildContent() {
@@ -128,13 +135,43 @@ class _FactFileDetailsState extends State<FactFileDetails>
             height: Screen.width(context),
             child: Hero(
               tag: entry.id,
-              child: Carousel(
-                autoplay: true,
-                images: snapshot.data,
-                autoplayDuration: Duration(seconds: 5),
-                dotBgColor: Color.fromRGBO(0, 0, 0, 0.5),
-                animationCurve: Curves.fastOutSlowIn,
-                animationDuration: Duration(milliseconds: 1000),
+              child: Stack(
+                fit: StackFit.loose,
+                children: <Widget>[
+                  Carousel(
+                    autoplay: true,
+                    images: snapshot.data,
+                    autoplayDuration: Duration(seconds: 5),
+                    dotBgColor: Color.fromRGBO(0, 0, 0, 0.5),
+                    animationCurve: Curves.fastOutSlowIn,
+                    animationDuration: Duration(milliseconds: 1000),
+                    onImageChange: (prev, next) {
+                      imageIdStreamController.sink.add(next);
+                    },
+                  ),
+                  StreamBuilder(
+                    stream: imageIdStream,
+                    initialData: 0,
+                    builder: (context, snapshot) {
+                      return entry
+                                  .galleryImages[
+                                      snapshot.hasData ? snapshot.data : 0]
+                                  .source !=
+                              null
+                          ? ImageSource(
+                              isCopyright: entry
+                                  .galleryImages[
+                                      snapshot.hasData ? snapshot.data : 0]
+                                  .showCopyright,
+                              source: entry
+                                  .galleryImages[
+                                      snapshot.hasData ? snapshot.data : 0]
+                                  .source,
+                            )
+                          : Container();
+                    },
+                  ),
+                ],
               ),
             ),
           );

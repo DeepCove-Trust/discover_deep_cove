@@ -5,6 +5,7 @@ import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -166,7 +167,27 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                           ),
                         ),
                       ),
-                    ),
+                      widget.activity.image.source == null
+                          ? Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: Screen.width(
+                                  context,
+                                  percentage: Screen.isTablet(context) &&
+                                          Screen.isLandscape(context)
+                                      ? 2.5
+                                      : Screen.isTablet(context)
+                                          ? 7.5
+                                          : Screen.isSmall(context) ? 12.5 : 10,
+                                ),
+                              ),
+                              child: ImageSource(
+                                isCopyright:
+                                    widget.activity.image.showCopyright,
+                                source: widget.activity.image.source,
+                              ),
+                            )
+                          : Container(),
+                    ],
                   ),
                   Positioned(
                     top: _getYPos(widget.activity.userYCoord),
@@ -220,7 +241,27 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                             ),
                           ),
                         ),
-                      ),
+                        widget.activity.image.source != null
+                          ? Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: Screen.width(
+                                  context,
+                                  percentage: Screen.isTablet(context) &&
+                                          Screen.isLandscape(context)
+                                      ? 2.5
+                                      : Screen.isTablet(context)
+                                          ? 7.5
+                                          : Screen.isSmall(context) ? 12.5 : 10,
+                                ),
+                              ),
+                              child: ImageSource(
+                                isCopyright:
+                                    widget.activity.image.showCopyright,
+                                source: widget.activity.image.source,
+                              ),
+                            )
+                          : Container(),
+                      ],
                     ),
                   ),
                   isTapped

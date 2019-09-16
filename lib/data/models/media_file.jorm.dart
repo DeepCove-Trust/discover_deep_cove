@@ -11,12 +11,16 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   final fileType = IntField('file_type');
   final name = StrField('name');
   final path = StrField('path');
+  final source = StrField('source');
+  final showCopyright = BoolField('show_copyright');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
         fileType.name: fileType,
         name.name: name,
         path.name: path,
+        source.name: source,
+        showCopyright.name: showCopyright,
       };
   MediaFile fromMap(Map map) {
     MediaFile model = MediaFile();
@@ -24,6 +28,8 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
     model.fileType = adapter.parseValue(map['file_type']);
     model.name = adapter.parseValue(map['name']);
     model.path = adapter.parseValue(map['path']);
+    model.source = adapter.parseValue(map['source']);
+    model.showCopyright = adapter.parseValue(map['show_copyright']);
 
     return model;
   }
@@ -39,6 +45,8 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       ret.add(fileType.set(model.fileType));
       ret.add(name.set(model.name));
       ret.add(path.set(model.path));
+      ret.add(source.set(model.source));
+      ret.add(showCopyright.set(model.showCopyright));
     } else if (only != null) {
       if (model.id != null) {
         if (only.contains(id.name)) ret.add(id.set(model.id));
@@ -46,6 +54,9 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       if (only.contains(fileType.name)) ret.add(fileType.set(model.fileType));
       if (only.contains(name.name)) ret.add(name.set(model.name));
       if (only.contains(path.name)) ret.add(path.set(model.path));
+      if (only.contains(source.name)) ret.add(source.set(model.source));
+      if (only.contains(showCopyright.name))
+        ret.add(showCopyright.set(model.showCopyright));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
@@ -59,6 +70,12 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       if (model.path != null) {
         ret.add(path.set(model.path));
       }
+      if (model.source != null) {
+        ret.add(source.set(model.source));
+      }
+      if (model.showCopyright != null) {
+        ret.add(showCopyright.set(model.showCopyright));
+      }
     }
 
     return ret;
@@ -70,6 +87,8 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
     st.addInt(fileType.name, isNullable: false);
     st.addStr(name.name, isNullable: false);
     st.addStr(path.name, isNullable: false);
+    st.addStr(source.name, isNullable: true);
+    st.addBool(showCopyright.name, isNullable: false);
     return adapter.createTable(st);
   }
 

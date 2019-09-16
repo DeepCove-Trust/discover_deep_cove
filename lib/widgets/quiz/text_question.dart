@@ -6,6 +6,7 @@ import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_grid.dart';
+import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_text_button.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +87,19 @@ class _TextQuestionState extends State<TextQuestion>
     );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        height = constraints.maxHeight;
+        return Scaffold(
+          body: buildContent(),
+          backgroundColor: Theme.of(context).backgroundColor,
+        );
+      },
+    );
+  }
+
   buildContent() {
     return (Screen.isTablet(context) && !Screen.isPortrait(context))
         ? GridView.count(
@@ -111,21 +125,6 @@ class _TextQuestionState extends State<TextQuestion>
               answerComponent(),
             ],
           );
-  }
-
-  answerComponent() {
-    return Expanded(
-      child: Container(
-        color: Theme.of(context).backgroundColor,
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          CustomGrid(
-            children: widget.answers,
-            showAsColumn: Screen.isLandscape(context),
-          ),
-        ]),
-      ),
-    );
   }
 
   questionComponent() {
@@ -162,13 +161,22 @@ class _TextQuestionState extends State<TextQuestion>
                       children: [
                         SubHeading(
                           widget.question.text,
-                          size: Screen.isTablet(context) ? 30 : 0,
+                          size: Screen.isTablet(context) ? 30 : null,
                         ),
                         if (hasAudio) buildAudioButton(),
                       ],
                     ),
                   ),
                 ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: widget.question.image.source != null
+                    ? ImageSource(
+                        isCopyright: widget.question.image.showCopyright,
+                        source: widget.question.image.source,
+                      )
+                    : Container(),
               ),
             ],
           ),
@@ -177,18 +185,18 @@ class _TextQuestionState extends State<TextQuestion>
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        height = constraints.maxHeight;
-        return Scaffold(
-          body: buildContent(),
-          backgroundColor: Theme.of(context).backgroundColor,
-        );
-      },
+  answerComponent() {
+    return Expanded(
+      child: Container(
+        color: Theme.of(context).backgroundColor,
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          CustomGrid(
+            children: widget.answers,
+            showAsColumn: Screen.isLandscape(context),
+          ),
+        ]),
+      ),
     );
   }
 }
-
-class _playerCompleteSubscription {}

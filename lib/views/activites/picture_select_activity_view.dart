@@ -7,6 +7,7 @@ import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
+import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/activities/selected_photo.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -52,7 +53,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
       ),
       body: buildContent(),
       bottomNavigationBar: widget.isReview
-          ? BottomBackButton()
+          ? BottomBackButton(isReview: widget.isReview)
           : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
@@ -156,41 +157,89 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                   ),
                   Column(
                     children: <Widget>[
-                      Container(
-                        height: Screen.width(context,
-                            percentage: Screen.isTablet(context) &&
-                                    Screen.isLandscape(context)
-                                ? 35
-                                : Screen.isTablet(context)
-                                    ? 70
-                                    : Screen.isSmall(context) ? 55 : 65),
-                        width: Screen.width(context,
-                            percentage: Screen.isTablet(context) &&
-                                    Screen.isLandscape(context)
-                                ? 35
-                                : Screen.isTablet(context)
-                                    ? 70
-                                    : Screen.isSmall(context) ? 55 : 65),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: FileImage(
-                              File(
-                                Env.getResourcePath(widget
-                                    .activity.imageOptions[photoIndex].path),
+                      Stack(
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              Stack(
+                                alignment: AlignmentDirectional.bottomEnd,
+                                children: <Widget>[
+                                  Container(
+                                    height: Screen.width(
+                                      context,
+                                      percentage: Screen.isTablet(context) &&
+                                              Screen.isLandscape(context)
+                                          ? 35
+                                          : Screen.isTablet(context)
+                                              ? 70
+                                              : Screen.isSmall(context)
+                                                  ? 55
+                                                  : 65,
+                                    ),
+                                    width: Screen.width(
+                                      context,
+                                      percentage: Screen.isTablet(context) &&
+                                              Screen.isLandscape(context)
+                                          ? 35
+                                          : Screen.isTablet(context)
+                                              ? 70
+                                              : Screen.isSmall(context)
+                                                  ? 55
+                                                  : 65,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                        image: FileImage(
+                                          File(
+                                            Env.getResourcePath(widget.activity
+                                                .imageOptions[photoIndex].path),
+                                          ),
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  widget.activity.imageOptions[photoIndex]
+                                              .source !=
+                                          null
+                                      ? Container(
+                                          color: Color.fromRGBO(0, 0, 0, 0.75),
+                                          width: Screen.width(
+                                            context,
+                                            percentage: Screen.isTablet(
+                                                        context) &&
+                                                    Screen.isLandscape(context)
+                                                ? 35
+                                                : Screen.isTablet(context)
+                                                    ? 70
+                                                    : Screen.isSmall(context)
+                                                        ? 55
+                                                        : 65,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(2.0),
+                                            child: ImageSource(
+                                              isCopyright: widget
+                                                  .activity
+                                                  .imageOptions[photoIndex]
+                                                  .showCopyright,
+                                              source: widget
+                                                  .activity
+                                                  .imageOptions[photoIndex]
+                                                  .source,
+                                            ),
+                                          ),
+                                        )
+                                      : Container(),
+                                ],
                               ),
-                            ),
-                            fit: BoxFit.cover,
+                            ],
                           ),
-                        ),
+                        ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(
-                          top: Screen.height(
-                            context,
-                            percentage: 2.5,
-                          ),
-                        ),
+                        padding: const EdgeInsets.all(8.0),
                         child: Container(
                           child: SelectedPhoto(
                             numberOfDots: widget.activity.imageOptions.length,
@@ -213,33 +262,65 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                   ),
                 ],
               )
-            : Container(
-                height: Screen.width(context,
-                    percentage:
-                        Screen.isTablet(context) && Screen.isLandscape(context)
-                            ? 30
-                            : Screen.isTablet(context)
-                                ? 65
-                                : Screen.isSmall(context) ? 50 : 60),
-                width: Screen.width(context,
-                    percentage:
-                        Screen.isTablet(context) && Screen.isLandscape(context)
-                            ? 30
-                            : Screen.isTablet(context)
-                                ? 65
-                                : Screen.isSmall(context) ? 50 : 60),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: FileImage(
-                      File(
-                        Env.getResourcePath(
-                            widget.activity.selectedPicture.path),
+            : Stack(
+                alignment: AlignmentDirectional.bottomEnd,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        height: Screen.width(context,
+                            percentage: Screen.isTablet(context) &&
+                                    Screen.isLandscape(context)
+                                ? 35
+                                : Screen.isTablet(context)
+                                    ? 70
+                                    : Screen.isSmall(context) ? 55 : 65),
+                        width: Screen.width(context,
+                            percentage: Screen.isTablet(context) &&
+                                    Screen.isLandscape(context)
+                                ? 35
+                                : Screen.isTablet(context)
+                                    ? 70
+                                    : Screen.isSmall(context) ? 55 : 65),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            image: FileImage(
+                              File(
+                                Env.getResourcePath(
+                                    widget.activity.selectedPicture.path),
+                              ),
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                    ),
-                    fit: BoxFit.cover,
+                    ],
                   ),
-                ),
+                  widget.activity.imageOptions[photoIndex].source != null
+                      ? Container(
+                          color: Color.fromRGBO(0, 0, 0, 0.75),
+                          width: Screen.width(
+                            context,
+                            percentage: Screen.isTablet(context) &&
+                                    Screen.isLandscape(context)
+                                ? 35
+                                : Screen.isTablet(context)
+                                    ? 70
+                                    : Screen.isSmall(context) ? 55 : 65,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: ImageSource(
+                              isCopyright: widget.activity
+                                  .imageOptions[photoIndex].showCopyright,
+                              source: widget
+                                  .activity.imageOptions[photoIndex].source,
+                            ),
+                          ),
+                        )
+                      : Container(),
+                ],
               ),
       ],
     );
