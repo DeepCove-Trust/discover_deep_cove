@@ -141,13 +141,14 @@ class _FactFileDetailsState extends State<FactFileDetails>
                     animationCurve: Curves.fastOutSlowIn,
                     animationDuration: Duration(milliseconds: 1000),
                     onImageChange: (prev, next) {
-                      setState(() => _currentImage = next);
+                    
+                      _currentImage = next;
                     },
                   ),
-                  entry.galleryImages[_currentImage].source == null
+                  entry.galleryImages[_currentImage].source != null
                       ? ImageSource(
-                          isCopyright: true,
-                          source: entry.galleryImages[_currentImage].name,
+                          isCopyright: entry.galleryImages[_currentImage].showCopyright,
+                          source: entry.galleryImages[_currentImage].source,
                         )
                       : Container(),
                 ],
@@ -164,6 +165,8 @@ class _FactFileDetailsState extends State<FactFileDetails>
       },
     );
   }
+
+  void updateImageIndex(int id) => setState(() => _currentImage = id);
 
   // This future won't return until all images have been pre-cached.
   Future<List<Image>> loadImages() async {
