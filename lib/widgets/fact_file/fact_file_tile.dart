@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 
@@ -46,12 +45,6 @@ class SmallTile extends StatelessWidget {
                 child: SubHeading(title),
               ),
             ),
-            image.source != null
-                ? ImageSource(
-                    isCopyright: image.showCopyright,
-                    source: image.source,
-                  )
-                : Container(),
           ],
         ),
       ),
