@@ -26,7 +26,6 @@ class PictureTapActivityView extends StatefulWidget {
 }
 
 class _PictureTapActivityViewState extends State<PictureTapActivityView> {
-  Offset tapPos;
   Color transparentAccent;
   bool isTapped = false;
   double posY = 0;
@@ -35,7 +34,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   GlobalKey _keyImage = GlobalKey();
 
   _afterLayout(_) {
-    _getPositions();
+    _getImagePositions();
   }
 
   @override
@@ -132,35 +131,38 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
             ? Stack(
                 fit: StackFit.loose,
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Center(
+                  Center(
+                    child: Container(
+                      height: Screen.width(
+                        context,
+                        percentage: Screen.isTablet(context) &&
+                                Screen.isLandscape(context)
+                            ? 45
+                            : Screen.isTablet(context)
+                                ? 85
+                                : Screen.isSmall(context) ? 75 : 80,
+                      ),
+                      width: Screen.width(
+                        context,
+                        percentage: Screen.isTablet(context) &&
+                                Screen.isLandscape(context)
+                            ? 45
+                            : Screen.isTablet(context)
+                                ? 85
+                                : Screen.isSmall(context) ? 75 : 80,
+                      ),
+                      child: Container(
                         child: Container(
-                          height: Screen.width(context,
-                              percentage: Screen.isTablet(context) &&
-                                      Screen.isLandscape(context)
-                                  ? 45
-                                  : Screen.isTablet(context)
-                                      ? 85
-                                      : Screen.isSmall(context) ? 75 : 80),
-                          width: Screen.width(context,
-                              percentage: Screen.isTablet(context) &&
-                                      Screen.isLandscape(context)
-                                  ? 45
-                                  : Screen.isTablet(context)
-                                      ? 85
-                                      : Screen.isSmall(context) ? 75 : 80),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: FileImage(
-                                  File(
-                                    Env.getResourcePath(
-                                        widget.activity.image.path),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: FileImage(
+                                File(
+                                  Env.getResourcePath(
+                                    widget.activity.image.path,
                                   ),
                                 ),
-                                fit: BoxFit.cover,
                               ),
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -188,13 +190,14 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                     ],
                   ),
                   Positioned(
-                    top: widget.activity.userYCoord,
-                    left: widget.activity.userXCoord,
+                    top: _getYPos(widget.activity.userYCoord),
+                    left: _getXPos(widget.activity.userXCoord),
                     child: Center(
                       child: Container(
                         width: Screen.height(context, percentage: 10),
                         height: Screen.height(context, percentage: 10),
                         child: Container(
+                          key: _keyImage,
                           decoration: BoxDecoration(
                             color: HexColor("80FF5026"),
                             border: Border.all(
@@ -213,38 +216,27 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
             : Stack(
                 fit: StackFit.loose,
                 children: <Widget>[
-                  GestureDetector(
-                    onTapDown: _handleTap,
-                    child: Column(
-                      children: <Widget>[
-                        Center(
+                  Center(
+                    child: Container(
+                      height: _getImageDimension(),
+                      width: _getImageDimension(),
+                      child: GestureDetector(
+                        onTapDown: _handleTap,
+                        onHorizontalDragUpdate: _handleDrag,
+                        onVerticalDragUpdate: _handleDrag,
+                        child: Container(
+                          key: _keyImage,
                           child: Container(
-                            key: _keyImage,
-                            height: Screen.width(context,
-                                percentage: Screen.isTablet(context) &&
-                                        Screen.isLandscape(context)
-                                    ? 45
-                                    : Screen.isTablet(context)
-                                        ? 85
-                                        : Screen.isSmall(context) ? 75 : 80),
-                            width: Screen.width(context,
-                                percentage: Screen.isTablet(context) &&
-                                        Screen.isLandscape(context)
-                                    ? 45
-                                    : Screen.isTablet(context)
-                                        ? 85
-                                        : Screen.isSmall(context) ? 75 : 80),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: FileImage(
-                                    File(
-                                      Env.getResourcePath(
-                                          widget.activity.image.path),
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: FileImage(
+                                  File(
+                                    Env.getResourcePath(
+                                      widget.activity.image.path,
                                     ),
                                   ),
-                                  fit: BoxFit.cover,
                                 ),
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
@@ -274,9 +266,12 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                   ),
                   isTapped
                       ? Positioned(
-                          top: posY,
-                          left: posX,
-                          child: Center(
+                          top: _getYPos(posY),
+                          left: _getXPos(posX),
+                          child: GestureDetector(
+                            onHorizontalDragUpdate: _handleDrag,
+                            onVerticalDragUpdate: _handleDrag,
+                            onTapDown: _handleTap,
                             child: Container(
                               width: Screen.height(context, percentage: 10),
                               height: Screen.height(context, percentage: 10),
@@ -301,41 +296,58 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     );
   }
 
-  ///This updates the circle co-ords on the image
+  double _getImageDimension() {
+    return Screen.width(
+      context,
+      percentage: Screen.isTablet(context) && Screen.isLandscape(context)
+          ? 45
+          : Screen.isTablet(context) ? 85 : Screen.isSmall(context) ? 75 : 80,
+    );
+  }
+
+  double _getXOffset() {
+    return Screen.width(
+      context,
+      percentage: Screen.isTablet(context) && Screen.isLandscape(context)
+          ? 0.8
+          : Screen.isTablet(context)
+              ? -0.5
+              : Screen.isSmall(context) ? -2.5 : 0,
+    );
+  }
+
+  void _handleDrag(DragUpdateDetails details) {
+    _placeMarker(details.globalPosition);
+  }
+
   void _handleTap(TapDownDetails details) {
-    final RenderBox referenceBox = context.findRenderObject();
+    _placeMarker(details.globalPosition);
+  }
+
+  ///This updates the circle co-ords on the image
+  void _placeMarker(Offset position) {
     setState(() {
       isTapped = true;
-      tapPos = referenceBox.globalToLocal(details.globalPosition);
-      if (Screen.isPortrait(context)) {
-        posX = tapPos.dx - (Screen.height(context, percentage: 10) / 2);
-        posY = tapPos.dy -
-            (_getPositions() + (Screen.height(context, percentage: 10) / 2));
-      } else if (Screen.isLandscape(context)) {
-        posX = tapPos.dy - (Screen.height(context, percentage: 10) / 2);
-        posY = tapPos.dx -
-            (_getPositions() - (Screen.height(context, percentage: 10) / 2));
-      }
-
-      // print("X " + posX.toString());
-      // print("dX " + tapPos.dx.toString());
-      // print("Y " + posY.toString());
-      // print("dY " + tapPos.dy.toString());
-
-      // print("height " + Screen.height(context).toString());
-      //print("width " + Screen.width(context).toString());
+      posX = (position.dx - _getImagePositions().dx) / _getImageDimension();
+      posY = (position.dy - _getImagePositions().dy) / _getImageDimension();
     });
   }
 
-  ///returns a [double] this is the y pos of the image
-  double _getPositions() {
+  double _getXPos(xVal) {
+    return xVal * _getImageDimension() - _getXOffset();
+  }
+
+  double _getYPos(yVal) {
+    return yVal * _getImageDimension() -
+        Screen.height(context, percentage: 4.5);
+  }
+
+  ///returns a [offset] this contains the x and y positions of the image
+  Offset _getImagePositions() {
     final RenderBox renderBoxImage =
         _keyImage.currentContext.findRenderObject();
     final imagePos = renderBoxImage.localToGlobal(Offset.zero);
-
-    //print("IMAGE POS Y " + imagePos.dx.toString());
-    //print("IMAGE POS X " + imagePos.dy.toString());
-    return imagePos.dy;
+    return imagePos;
   }
 
   ///Updates the transparency value of the accent color

@@ -8,9 +8,6 @@ class Screen {
   static double height(BuildContext context, {double percentage = 100}) =>
       MediaQuery.of(context).size.height / 100 * percentage;
 
-  static Orientation orientation(BuildContext context) =>
-      MediaQuery.of(context).orientation;
-
   static setOrientations(BuildContext context) => Screen.isTablet(context)
       ? SystemChrome.setPreferredOrientations([
           DeviceOrientation.portraitUp,
@@ -20,10 +17,10 @@ class Screen {
       : SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   static bool isPortrait(BuildContext context) =>
-      Screen.orientation(context) == Orientation.portrait;
+      MediaQuery.of(context).orientation == Orientation.portrait;
 
   static bool isLandscape(BuildContext context) =>
-      Screen.orientation(context) == Orientation.landscape;
+      MediaQuery.of(context).orientation == Orientation.landscape;
 
   static bool isTablet(BuildContext context) =>
       MediaQuery.of(context).size.width >= 600;
