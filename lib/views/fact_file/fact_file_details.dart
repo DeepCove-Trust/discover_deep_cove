@@ -44,7 +44,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
     WidgetsBinding.instance.addObserver(this);
 
     imageIdStreamController = StreamController();
-    imageIdStream = imageIdStreamController.stream;
+    imageIdStream = imageIdStreamController.stream.asBroadcastStream();
 
     _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
       _onComplete();
