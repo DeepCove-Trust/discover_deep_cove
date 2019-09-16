@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +11,10 @@ import 'package:flutter/material.dart';
 class Tile extends StatelessWidget {
   final String title;
   final String subheading;
-  final String imagePath;
+  final MediaFile image;
   final VoidCallback onTap;
 
-  Tile({@required this.title, this.subheading, this.imagePath, this.onTap});
+  Tile({@required this.title, this.subheading, this.image, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +22,15 @@ class Tile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          image: imagePath != null
+          image: image != null
               ? DecorationImage(
-                  image: FileImage(File(imagePath)), fit: BoxFit.cover)
+                  image: FileImage(
+                    File(
+                      Env.getResourcePath(image.path),
+                    ),
+                  ),
+                  fit: BoxFit.cover,
+                )
               : null,
           boxShadow: [
             BoxShadow(color: Colors.black, offset: Offset(5, 5), blurRadius: 5),
@@ -30,7 +39,7 @@ class Tile extends StatelessWidget {
         child: Stack(
           alignment: AlignmentDirectional.bottomCenter,
           children: [
-            if (imagePath != null)
+            if (image != null)
               Hero(
                 tag: title,
                 child: Container(
@@ -50,13 +59,21 @@ class Tile extends StatelessWidget {
                     SubHeading(
                       title,
                     ),
-                    if (subheading != null)
-                      SizedBox(height: 10), //
-                    if (subheading != null)
-                      BodyText(subheading),
+                    if (subheading != null) SizedBox(height: 10),
+                    if (subheading != null) BodyText(subheading),
+                    if (image.source != null) SizedBox(height: 15),
                   ],
                 ),
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: image.source != null
+                  ? ImageSource(
+                      isCopyright: image.showCopyright,
+                      source: image.source,
+                    )
+                  : Container(),
             ),
           ],
         ),

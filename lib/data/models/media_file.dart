@@ -55,6 +55,14 @@ class MediaFile {
   @Column()
   String path;
 
+  /// String to display for image attribution
+  @Column(isNullable: true)
+  String source;
+
+  /// Whether to display copyright symbol next to source
+  @Column()
+  bool showCopyright;
+
   /// List of the entries that use this media file as their main image.
   /// TODO: Should these be using @BelongsTo.many() ???
   @HasMany(FactFileEntryBean)

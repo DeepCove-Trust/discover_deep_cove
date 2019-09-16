@@ -5,6 +5,7 @@ import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -131,35 +132,60 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
             ? Stack(
                 fit: StackFit.loose,
                 children: <Widget>[
-                  Center(
-                    child: Container(
-                      height: Screen.width(context,
-                          percentage: Screen.isTablet(context) &&
-                                  Screen.isLandscape(context)
-                              ? 45
-                              : Screen.isTablet(context)
-                                  ? 85
-                                  : Screen.isSmall(context) ? 75 : 80),
-                      width: Screen.width(context,
-                          percentage: Screen.isTablet(context) &&
-                                  Screen.isLandscape(context)
-                              ? 45
-                              : Screen.isTablet(context)
-                                  ? 85
-                                  : Screen.isSmall(context) ? 75 : 80),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: FileImage(
-                              File(
-                                Env.getResourcePath(widget.activity.image.path),
+                  Column(
+                    children: <Widget>[
+                      Center(
+                        child: Container(
+                          height: Screen.width(context,
+                              percentage: Screen.isTablet(context) &&
+                                      Screen.isLandscape(context)
+                                  ? 45
+                                  : Screen.isTablet(context)
+                                      ? 85
+                                      : Screen.isSmall(context) ? 75 : 80),
+                          width: Screen.width(context,
+                              percentage: Screen.isTablet(context) &&
+                                      Screen.isLandscape(context)
+                                  ? 45
+                                  : Screen.isTablet(context)
+                                      ? 85
+                                      : Screen.isSmall(context) ? 75 : 80),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: FileImage(
+                                  File(
+                                    Env.getResourcePath(
+                                        widget.activity.image.path),
+                                  ),
+                                ),
+                                fit: BoxFit.cover,
                               ),
                             ),
-                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                    ),
+                      widget.activity.image.source == null
+                          ? Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: Screen.width(
+                                  context,
+                                  percentage: Screen.isTablet(context) &&
+                                          Screen.isLandscape(context)
+                                      ? 2.5
+                                      : Screen.isTablet(context)
+                                          ? 7.5
+                                          : Screen.isSmall(context) ? 12.5 : 10,
+                                ),
+                              ),
+                              child: ImageSource(
+                                isCopyright:
+                                    widget.activity.image.showCopyright,
+                                source: widget.activity.image.source,
+                              ),
+                            )
+                          : Container(),
+                    ],
                   ),
                   Positioned(
                     top: widget.activity.userYCoord,
@@ -189,37 +215,61 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                 children: <Widget>[
                   GestureDetector(
                     onTapDown: _handleTap,
-                    child: Center(
-                      child: Container(
-                        key: _keyImage,
-                        height: Screen.width(context,
-                            percentage: Screen.isTablet(context) &&
-                                    Screen.isLandscape(context)
-                                ? 45
-                                : Screen.isTablet(context)
-                                    ? 85
-                                    : Screen.isSmall(context) ? 75 : 80),
-                        width: Screen.width(context,
-                            percentage: Screen.isTablet(context) &&
-                                    Screen.isLandscape(context)
-                                ? 45
-                                : Screen.isTablet(context)
-                                    ? 85
-                                    : Screen.isSmall(context) ? 75 : 80),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: FileImage(
-                                File(
-                                  Env.getResourcePath(
-                                      widget.activity.image.path),
+                    child: Column(
+                      children: <Widget>[
+                        Center(
+                          child: Container(
+                            key: _keyImage,
+                            height: Screen.width(context,
+                                percentage: Screen.isTablet(context) &&
+                                        Screen.isLandscape(context)
+                                    ? 45
+                                    : Screen.isTablet(context)
+                                        ? 85
+                                        : Screen.isSmall(context) ? 75 : 80),
+                            width: Screen.width(context,
+                                percentage: Screen.isTablet(context) &&
+                                        Screen.isLandscape(context)
+                                    ? 45
+                                    : Screen.isTablet(context)
+                                        ? 85
+                                        : Screen.isSmall(context) ? 75 : 80),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: FileImage(
+                                    File(
+                                      Env.getResourcePath(
+                                          widget.activity.image.path),
+                                    ),
+                                  ),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
-                      ),
+                        widget.activity.image.source != null
+                          ? Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: Screen.width(
+                                  context,
+                                  percentage: Screen.isTablet(context) &&
+                                          Screen.isLandscape(context)
+                                      ? 2.5
+                                      : Screen.isTablet(context)
+                                          ? 7.5
+                                          : Screen.isSmall(context) ? 12.5 : 10,
+                                ),
+                              ),
+                              child: ImageSource(
+                                isCopyright:
+                                    widget.activity.image.showCopyright,
+                                source: widget.activity.image.source,
+                              ),
+                            )
+                          : Container(),
+                      ],
                     ),
                   ),
                   isTapped
