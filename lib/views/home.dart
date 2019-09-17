@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:latlong/latlong.dart';
 import 'package:toast/toast.dart';
 
 enum Page { FactFile, Scan, Map, Quiz, Settings }
@@ -30,15 +29,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   String _loadingMessage;
   Icon _loadingIcon;
 
-  // State of map position / zoom level
-  LatLng mapPosition;
-  int zoomLevel;
-
   // Stream controller to tell map when to animate
   StreamController<int> mapAnimateController;
 
   Widget currentPage;
   List<Widget> pages = List<Widget>();
+
+  final PageStorageBucket bucket = PageStorageBucket();
 
   MapController mapController;
 
@@ -56,6 +53,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       context: context,
       animationStream: mapAnimateController.stream.asBroadcastStream(), // todo
       onMarkerTap: handleMarkerTap,
+      key: PageStorageKey('Map Maker'),
     )); // placeholder
     pages.add(QuizIndex());
     pages.add(Settings(
@@ -153,52 +151,59 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   List<Widget> _buildPage() {
     List<Widget> contents = List<Widget>();
 
-    contents.add(Scaffold(
-      body: currentPage,
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          // sets the background color of the `BottomNavigationBar`
-          canvasColor: Color(0xFF262626),
-          // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-          primaryColor: Color(0xFFFF5026),
-          textTheme: Theme.of(context).textTheme.copyWith(
-                caption: TextStyle(color: Colors.white),
-              ),
-        ), // sets the inactive color of the `BottomNavigationBar`
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          onTap: (int index) {
-            index == 1
-                ? scan()
-                : setState(() {
-                    currentPage = pages[index];
-                  });
-          },
-          currentIndex: pageIndex(currentPage),
-          items: [
-            _buildNavItem(title: 'Learn', icon: FontAwesomeIcons.book),
-            _buildNavItem(title: 'Scan', icon: FontAwesomeIcons.qrcode),
-            _buildNavItem(title: 'Map', icon: FontAwesomeIcons.map),
-            _buildNavItem(title: 'Quiz', icon: FontAwesomeIcons.question),
-            _buildNavItem(title: 'More', icon: FontAwesomeIcons.ellipsisV),
-          ],
+    contents.add(
+      Scaffold(
+        body: PageStorage(
+          child: currentPage,
+          bucket: bucket,
         ),
+        bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+            // sets the background color of the `BottomNavigationBar`
+            canvasColor: Color(0xFF262626),
+            // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+            primaryColor: Color(0xFFFF5026),
+            textTheme: Theme.of(context).textTheme.copyWith(
+                  caption: TextStyle(color: Colors.white),
+                ),
+          ), // sets the inactive color of the `BottomNavigationBar`
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            onTap: (int index) {
+              index == 1
+                  ? scan()
+                  : setState(() {
+                      currentPage = pages[index];
+                    });
+            },
+            currentIndex: pageIndex(currentPage),
+            items: [
+              _buildNavItem(title: 'Learn', icon: FontAwesomeIcons.book),
+              _buildNavItem(title: 'Scan', icon: FontAwesomeIcons.qrcode),
+              _buildNavItem(title: 'Map', icon: FontAwesomeIcons.map),
+              _buildNavItem(title: 'Quiz', icon: FontAwesomeIcons.question),
+              _buildNavItem(title: 'More', icon: FontAwesomeIcons.ellipsisV),
+            ],
+          ),
+        ),
+        floatingActionButton: pageIs(Page.Map)
+            ? CustomFab(
+                icon: FontAwesomeIcons.qrcode,
+                text: "Scan",
+                onPressed: () => scan(),
+              )
+            : null,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
-      floatingActionButton: pageIs(Page.Map)
-          ? CustomFab(
-              icon: FontAwesomeIcons.qrcode,
-              text: "Scan",
-              onPressed: () => scan(),
-            )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    ));
+    );
 
     if (_isLoading) {
-      contents.add(LoadingModalOverlay(
-        loadingMessage: _loadingMessage,
-        icon: _loadingIcon,
-      ));
+      contents.add(
+        LoadingModalOverlay(
+          loadingMessage: _loadingMessage,
+          icon: _loadingIcon,
+        ),
+      );
     }
 
     return contents;

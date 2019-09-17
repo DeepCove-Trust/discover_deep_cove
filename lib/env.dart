@@ -90,7 +90,7 @@ class Env {
         double.parse(DotEnv().env['nePanBoundaryLong']),
       );
 
-  static LatLng get defaultMapCenter => LatLng(
+  static LatLng get mapDefaultCenter => LatLng(
         double.parse(DotEnv().env['defaultCenterLat']),
         double.parse(DotEnv().env['defaultCenterLong']),
       );
