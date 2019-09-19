@@ -139,6 +139,9 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
       nugget = await factFileNuggetBean.preloadImage(nugget);
     }
 
+    // Sort nuggets by order index
+    entry.nuggets.sort((a,b) => a.orderIndex - b.orderIndex);
+
     return entry;
   }
 }
