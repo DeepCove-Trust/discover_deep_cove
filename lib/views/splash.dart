@@ -45,7 +45,7 @@ class _SplashState extends State<Splash> {
             icon = Icon(Icons.check, color: Colors.green, size: 50);
           });
           await Future.delayed(Duration(seconds: 2));
-          Navigator.of(context).popAndPushNamed('/');
+          Navigator.of(context).pop();
         } else {
           setState(() {
             text = 'An error occurred.\n\nPlease try again later.'; //
