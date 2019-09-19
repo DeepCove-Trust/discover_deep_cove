@@ -167,28 +167,27 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                           ),
                         ),
                       ),
-                      widget.activity.image.source == null
-                          ? Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: Screen.width(
-                                  context,
-                                  percentage: Screen.isTablet(context) &&
-                                          Screen.isLandscape(context)
-                                      ? 2.5
-                                      : Screen.isTablet(context)
-                                          ? 7.5
-                                          : Screen.isSmall(context) ? 12.5 : 10,
-                                ),
-                              ),
-                              child: ImageSource(
-                                isCopyright:
-                                    widget.activity.image.showCopyright,
-                                source: widget.activity.image.source,
-                              ),
-                            )
-                          : Container(),
-                    ],
+                    ),
                   ),
+                  widget.activity.image.source != null
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Screen.width(
+                              context,
+                              percentage: Screen.isTablet(context) &&
+                                      Screen.isLandscape(context)
+                                  ? 2.5
+                                  : Screen.isTablet(context)
+                                      ? 7.5
+                                      : Screen.isSmall(context) ? 12.5 : 10,
+                            ),
+                          ),
+                          child: ImageSource(
+                            isCopyright: widget.activity.image.showCopyright,
+                            source: widget.activity.image.source,
+                          ),
+                        )
+                      : Container(),
                   Positioned(
                     top: _getYPos(widget.activity.userYCoord),
                     left: _getXPos(widget.activity.userXCoord),
@@ -241,29 +240,28 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                             ),
                           ),
                         ),
-                        widget.activity.image.source != null
-                          ? Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: Screen.width(
-                                  context,
-                                  percentage: Screen.isTablet(context) &&
-                                          Screen.isLandscape(context)
-                                      ? 2.5
-                                      : Screen.isTablet(context)
-                                          ? 7.5
-                                          : Screen.isSmall(context) ? 12.5 : 10,
-                                ),
-                              ),
-                              child: ImageSource(
-                                isCopyright:
-                                    widget.activity.image.showCopyright,
-                                source: widget.activity.image.source,
-                              ),
-                            )
-                          : Container(),
-                      ],
+                      ),
                     ),
                   ),
+                  widget.activity.image.source != null
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Screen.width(
+                              context,
+                              percentage: Screen.isTablet(context) &&
+                                      Screen.isLandscape(context)
+                                  ? 2.5
+                                  : Screen.isTablet(context)
+                                      ? 7.5
+                                      : Screen.isSmall(context) ? 12.5 : 10,
+                            ),
+                          ),
+                          child: ImageSource(
+                            isCopyright: widget.activity.image.showCopyright,
+                            source: widget.activity.image.source,
+                          ),
+                        )
+                      : Container(),
                   isTapped
                       ? Positioned(
                           top: _getYPos(posY),
