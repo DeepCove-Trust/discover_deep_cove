@@ -92,7 +92,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
     return FutureBuilder(
         future: loadData(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.connectionState == ConnectionState.done || entry != null) {
             return Scaffold(
               backgroundColor: Theme.of(context).backgroundColor,
               body: buildContent(),
