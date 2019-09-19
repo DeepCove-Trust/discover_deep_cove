@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'activity_images.dart';
+part of 'activity_image.dart';
 
 // **************************************************************************
 // BeanGenerator

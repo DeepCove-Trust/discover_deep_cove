@@ -1,5 +1,5 @@
 import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/activity/activity_images.dart';
+import 'package:discover_deep_cove/data/models/activity/activity_image.dart';
 import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:flutter/material.dart' show BuildContext;
@@ -40,10 +40,10 @@ class Activity {
   String qrCode;
 
   @Column()
-  double xCoord;
+  double coordX;
 
   @Column()
-  double yCoord;
+  double coordY;
 
   @Column()
   String title;
@@ -70,10 +70,10 @@ class Activity {
   bool informationActivityUnlocked;
 
   @Column(isNullable: true)
-  double userXCoord;
+  double userCoordX;
 
   @Column(isNullable: true)
-  double userYCoord;
+  double userCoordY;
 
   @Column(isNullable: true)
   int userCount;
@@ -94,7 +94,7 @@ class Activity {
   MediaFile userPhoto; // Todo: preload this
 
   @IgnoreColumn()
-  LatLng get latLng => LatLng(yCoord, xCoord);
+  LatLng get latLng => LatLng(coordY, coordX);
 
   bool isCompleted() {
     switch (activityType) {
@@ -102,7 +102,7 @@ class Activity {
         return selectedPictureId != null;
         break;
       case ActivityType.pictureTapActivity:
-        return userXCoord != null && userYCoord != null;
+        return userCoordX != null && userCoordY != null;
         break;
       case ActivityType.countActivity:
         return userCount != null;
@@ -125,8 +125,8 @@ class Activity {
     userPhotoId = null;
     userPhoto = null;
     userCount = null;
-    userYCoord = null;
-    userXCoord = null;
+    userCoordY = null;
+    userCoordX = null;
     userText = null;
     selectedPictureId = null;
     selectedPicture = null;

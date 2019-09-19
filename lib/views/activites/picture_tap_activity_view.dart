@@ -189,8 +189,8 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                         )
                       : Container(),
                   Positioned(
-                    top: _getYPos(widget.activity.userYCoord),
-                    left: _getXPos(widget.activity.userXCoord),
+                    top: _getYPos(widget.activity.userCoordY),
+                    left: _getXPos(widget.activity.userCoordX),
                     child: Center(
                       child: Container(
                         width: Screen.height(context, percentage: 10),
@@ -355,8 +355,8 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   }
 
   void saveAnswer() async {
-    widget.activity.userXCoord = posX;
-    widget.activity.userYCoord = posY;
+    widget.activity.userCoordX = posX;
+    widget.activity.userCoordY = posY;
     await ActivityBean.of(context).update(widget.activity);
     Navigator.of(context).pop();
   }
