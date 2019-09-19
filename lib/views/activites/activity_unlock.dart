@@ -36,6 +36,7 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
   }
 
   void verifyCode(BuildContext context) async {
+    await Future.delayed(Duration(seconds: 1));
     Navigator.of(context).pop();
     widget.onCodeEntry(textController.text);
   }
