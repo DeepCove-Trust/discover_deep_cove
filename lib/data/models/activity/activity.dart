@@ -92,7 +92,7 @@ class Activity {
   MediaFile selectedPicture; // Todo: preload this
 
   @IgnoreColumn()
-  MediaFile userPhoto; // Todo: preload this
+  UserPhoto userPhoto; // Todo: preload this
 
   @IgnoreColumn()
   LatLng get latLng => LatLng(coordY, coordX);
@@ -169,7 +169,7 @@ class ActivityBean extends Bean<Activity> with _ActivityBean {
     }
 
     if (activity.userPhotoId != null) {
-      activity.userPhoto = await mediaFileBean.find(activity.userPhotoId);
+      activity.userPhoto = await userPhotoBean.find(activity.userPhotoId);
     }
 
     if (activity.selectedPictureId != null) {

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:discover_deep_cove/data/models/user_photo.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/image_handler.dart';
 import 'package:discover_deep_cove/util/screen.dart';
@@ -272,12 +273,10 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
           tempImage: _image, directory: directory, name: filename);
 
       // Add a database record for the new image
-      MediaFile image = MediaFile.create(
-        name: filename,
+      UserPhoto image = UserPhoto.create(
         path: 'user_photos/$filename',
-        fileType: MediaFileType.jpg.index,
       );
-      var id = await MediaFileBean.of(context).insert(image);
+      var id = await UserPhotoBean.of(context).insert(image);
 
       // Update the activity with the new user image
       widget.activity.userPhotoId = id;
