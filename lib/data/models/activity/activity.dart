@@ -2,6 +2,7 @@ import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/models/activity/activity_image.dart';
 import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:discover_deep_cove/data/models/user_photo.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:latlong/latlong.dart' show LatLng;
@@ -59,7 +60,7 @@ class Activity {
   int imageId;
 
   /// The image that the user took for this activity.
-  @BelongsTo(MediaFileBean, isNullable: true)
+  @BelongsTo(UserPhotoBean, isNullable: true)
   int userPhotoId;
 
   /// The selected picture for a picture select activity.
@@ -153,6 +154,10 @@ class ActivityBean extends Bean<Activity> with _ActivityBean {
   MediaFileBean _mediaFileBean;
 
   MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
+
+  UserPhotoBean _userPhotoBean;
+
+  UserPhotoBean get userPhotoBean => _userPhotoBean ?? UserPhotoBean(adapter);
 
   final String tableName = 'activities';
 

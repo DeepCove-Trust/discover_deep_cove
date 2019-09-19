@@ -39,7 +39,7 @@ class MediaFile {
       @required this.path,
       this.name});
 
-  @PrimaryKey(auto: true)
+  @PrimaryKey()
   int id;
 
   /// TODO: Persist as a [MediaFileType] enum when Jaguar supports it.
@@ -115,15 +115,15 @@ class MediaFileBean extends Bean<MediaFile> with _MediaFileBean {
         super(adapter);
 
   MediaFileBean.of(BuildContext context)
-      : factFileNuggetBean = FactFileNuggetBean(DatabaseAdapter.of(context)),
-        factFileEntryBean = FactFileEntryBean(DatabaseAdapter.of(context)),
+      : factFileNuggetBean = FactFileNuggetBean.of(context),
+        factFileEntryBean = FactFileEntryBean.of(context),
         factFileEntryImageBean =
-            FactFileEntryImageBean(DatabaseAdapter.of(context)),
-        activityBean = ActivityBean(DatabaseAdapter.of(context)),
-        activityImageBean = ActivityImageBean(DatabaseAdapter.of(context)),
+            FactFileEntryImageBean.of(context),
+        activityBean = ActivityBean.of(context),
+        activityImageBean = ActivityImageBean.of(context),
         quizBean = QuizBean(DatabaseAdapter.of(context)),
-        quizQuestionBean = QuizQuestionBean(DatabaseAdapter.of(context)),
-        quizAnswerBean = QuizAnswerBean(DatabaseAdapter.of(context)),
+        quizQuestionBean = QuizQuestionBean.of(context),
+        quizAnswerBean = QuizAnswerBean.of(context),
         super(DatabaseAdapter.of(context));
 
   final FactFileNuggetBean factFileNuggetBean;

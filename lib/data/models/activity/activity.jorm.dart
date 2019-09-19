@@ -214,7 +214,7 @@ abstract class _ActivityBean implements Bean<Activity> {
         foreignCol: 'id',
         isNullable: true);
     st.addInt(userPhotoId.name,
-        foreignTable: mediaFileBean.tableName,
+        foreignTable: userPhotoBean.tableName,
         foreignCol: 'id',
         isNullable: true);
     st.addInt(selectedPictureId.name,
@@ -427,12 +427,10 @@ abstract class _ActivityBean implements Bean<Activity> {
     child.trackId = parent.id;
   }
 
-  Future<List<Activity>> findByMediaFile(
-      int imageId, int userPhotoId, int selectedPictureId,
+  Future<List<Activity>> findByMediaFile(int imageId, int selectedPictureId,
       {bool preload = false, bool cascade = false}) async {
     final Find find = finder
         .where(this.imageId.eq(imageId))
-        .where(this.userPhotoId.eq(userPhotoId))
         .where(this.selectedPictureId.eq(selectedPictureId));
     final List<Activity> models = await findMany(find);
     if (preload) {
@@ -447,9 +445,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (MediaFile model in models) {
-      find.or(this.imageId.eq(model.id) &
-          this.userPhotoId.eq(model.id) &
-          this.selectedPictureId.eq(model.id));
+      find.or(this.imageId.eq(model.id) & this.selectedPictureId.eq(model.id));
     }
     final List<Activity> retModels = await findMany(find);
     if (preload) {
@@ -458,19 +454,50 @@ abstract class _ActivityBean implements Bean<Activity> {
     return retModels;
   }
 
-  Future<int> removeByMediaFile(
-      int imageId, int userPhotoId, int selectedPictureId) async {
+  Future<int> removeByMediaFile(int imageId, int selectedPictureId) async {
     final Remove rm = remover
         .where(this.imageId.eq(imageId))
-        .where(this.userPhotoId.eq(userPhotoId))
         .where(this.selectedPictureId.eq(selectedPictureId));
     return await adapter.remove(rm);
   }
 
   void associateMediaFile(Activity child, MediaFile parent) {
     child.imageId = parent.id;
-    child.userPhotoId = parent.id;
     child.selectedPictureId = parent.id;
+  }
+
+  Future<List<Activity>> findByUserPhoto(int userPhotoId,
+      {bool preload = false, bool cascade = false}) async {
+    final Find find = finder.where(this.userPhotoId.eq(userPhotoId));
+    final List<Activity> models = await findMany(find);
+    if (preload) {
+      await this.preloadAll(models, cascade: cascade);
+    }
+    return models;
+  }
+
+  Future<List<Activity>> findByUserPhotoList(List<UserPhoto> models,
+      {bool preload = false, bool cascade = false}) async {
+// Return if models is empty. If this is not done, all the records will be returned!
+    if (models == null || models.isEmpty) return [];
+    final Find find = finder;
+    for (UserPhoto model in models) {
+      find.or(this.userPhotoId.eq(model.id));
+    }
+    final List<Activity> retModels = await findMany(find);
+    if (preload) {
+      await this.preloadAll(retModels, cascade: cascade);
+    }
+    return retModels;
+  }
+
+  Future<int> removeByUserPhoto(int userPhotoId) async {
+    final Remove rm = remover.where(this.userPhotoId.eq(userPhotoId));
+    return await adapter.remove(rm);
+  }
+
+  void associateUserPhoto(Activity child, UserPhoto parent) {
+    child.userPhotoId = parent.id;
   }
 
   Future<Activity> preload(Activity model, {bool cascade = false}) async {
@@ -496,4 +523,5 @@ abstract class _ActivityBean implements Bean<Activity> {
 
   MediaFileBean get mediaFileBean;
   TrackBean get trackBean;
+  UserPhotoBean get userPhotoBean;
 }

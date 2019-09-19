@@ -4,7 +4,7 @@ import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 
-part 'activity_images.jorm.dart';
+part 'activity_image.jorm.dart';
 
 class ActivityImage {
   @BelongsTo(ActivityBean)
