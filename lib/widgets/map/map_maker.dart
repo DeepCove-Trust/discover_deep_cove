@@ -68,15 +68,13 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
   }
 
   void _onAfterBuild(BuildContext context, LatLng center, double zoom) {
-    setState(() {
-      PageStorage.of(context).writeState(
-        context,
-        MapState(
-          center: center,
-          zoom: zoom,
-        ),
-      );
-    });
+    PageStorage.of(context).writeState(
+      context,
+      MapState(
+        center: center,
+        zoom: zoom,
+      ),
+    );
   }
 
   @override
