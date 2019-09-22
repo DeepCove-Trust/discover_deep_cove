@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/util/data_sync.dart';
+import 'package:discover_deep_cove/util/data_sync/sync_manager.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _SplashState extends State<Splash> {
     // Check whether database file exists and push the home screen if so
     try {
       await ConfigBean.of(context).find(1);
-      Navigator.of(context).popAndPushNamed('/');
+      Navigator.of(context).pop();
     } catch (ex) {
       if (ex is DatabaseException) {
         // Database hasn't been built
@@ -37,9 +38,15 @@ class _SplashState extends State<Splash> {
               'This may take several minutes.';
         });
 
-        bool wasSuccessful = await SyncProvider.syncResources();
+        SyncManager syncManager = SyncManager(
+            onProgressChange: (state, percent) =>
+                print('$state | $percent percent'));
 
-        if (wasSuccessful) {
+        await syncManager.sync(firstLoad: true);
+
+        // bool wasSuccessful = await SyncProvider.syncResources();
+
+        if (true) {
           setState(() {
             text = 'Application up to date';
             icon = Icon(Icons.check, color: Colors.green, size: 50);

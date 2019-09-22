@@ -1,3 +1,4 @@
+import 'package:discover_deep_cove/data/db.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
@@ -12,8 +13,10 @@ class DatabaseAdapter extends StatelessWidget {
   final SqfliteAdapter adapter;
   final Widget child;
 
-  static SqfliteAdapter of(BuildContext context){
-    DatabaseAdapter provider = context.ancestorWidgetOfExactType(DatabaseAdapter);
+  /// Returns the adapter to the database
+  static SqfliteAdapter of(BuildContext context) {
+    DatabaseAdapter provider =
+        context.ancestorWidgetOfExactType(DatabaseAdapter);
     return provider.adapter;
   }
 

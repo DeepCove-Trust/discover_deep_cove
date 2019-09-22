@@ -27,17 +27,22 @@ enum MediaFileType {
 class MediaFile {
   MediaFile();
 
-  MediaFile.create({
-    @required this.fileType,
-    @required this.path,
-    @required this.name,
-  });
+  MediaFile.create(
+      {@required this.fileType,
+      @required this.path,
+      @required this.name,
+      @required this.source,
+      @required this.showCopyright,
+      @required this.updatedAt});
 
   MediaFile.make(
       {@required this.id,
       @required this.fileType,
       @required this.path,
-      this.name});
+      @required this.name,
+      @required this.source,
+      @required this.showCopyright,
+      @required this.updatedAt});
 
   @PrimaryKey()
   int id;
@@ -62,6 +67,9 @@ class MediaFile {
   /// Whether to display copyright symbol next to source
   @Column()
   bool showCopyright;
+
+  @Column()
+  DateTime updatedAt;
 
   /// List of the entries that use this media file as their main image.
   /// TODO: Should these be using @BelongsTo.many() ???
@@ -117,8 +125,7 @@ class MediaFileBean extends Bean<MediaFile> with _MediaFileBean {
   MediaFileBean.of(BuildContext context)
       : factFileNuggetBean = FactFileNuggetBean.of(context),
         factFileEntryBean = FactFileEntryBean.of(context),
-        factFileEntryImageBean =
-            FactFileEntryImageBean.of(context),
+        factFileEntryImageBean = FactFileEntryImageBean.of(context),
         activityBean = ActivityBean.of(context),
         activityImageBean = ActivityImageBean.of(context),
         quizBean = QuizBean(DatabaseAdapter.of(context)),

@@ -32,7 +32,7 @@ class SyncProvider {
   /// sent by the CMS server. This can be compared with the hash of
   /// the actual file that has been downloaded from the server.
   static Future<String> _getFilesHash() async {
-    http.Response response = await http.get(Env.filesHashUrl);
+    http.Response response = await http.get('');
     if (response.statusCode != 200) {
       throw Exception('API error'); // TODO: make this better
     }
@@ -43,7 +43,7 @@ class SyncProvider {
   /// CMS server. This can be compared with the hash of the actual
   /// JSON data that was downloaded from the server.
   static Future<String> _getJsonHash() async {
-    http.Response response = await http.get(Env.dataHashUrl);
+    http.Response response = await http.get('');
     if (response.statusCode != 200) {
       throw Exception('API error'); // TODO: make this better
     }
@@ -53,7 +53,7 @@ class SyncProvider {
   /// Makes the API get request for the zipped resources on the remote server.
   /// Returns the [http.Response] of the request.
   static Future<http.Response> _requestFile() async {
-    http.Response response = await http.get(Env.filesSyncUrl);
+    http.Response response = await http.get('');
     if (response.statusCode != 200) {
       throw Exception(
           'API error ${response.statusCode}'); // TODO: make this better
@@ -66,7 +66,7 @@ class SyncProvider {
   ///
   /// Returns the [http.Response] of the request.
   static Future<String> _requestData() async {
-    http.Response response = await http.get(Env.dataSyncUrl);
+    http.Response response = await http.get('');
     if (response.statusCode != 200) {
       throw Exception('API error. Response status ${response.statusCode}');
       // TODO: make this better
@@ -394,7 +394,7 @@ class SyncProvider {
       throw ex; // otherwise, throw the exception
     }
 
-    http.Response response = await http.get(Env.versionsUrl);
+    http.Response response = await http.get('');
     if (response.statusCode != 200) {
       throw Exception('API responded with error - Error code: ' +
           response.statusCode.toString());

@@ -13,6 +13,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   final path = StrField('path');
   final source = StrField('source');
   final showCopyright = BoolField('show_copyright');
+  final updatedAt = DateTimeField('updated_at');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
@@ -21,6 +22,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         path.name: path,
         source.name: source,
         showCopyright.name: showCopyright,
+        updatedAt.name: updatedAt,
       };
   MediaFile fromMap(Map map) {
     MediaFile model = MediaFile();
@@ -30,6 +32,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
     model.path = adapter.parseValue(map['path']);
     model.source = adapter.parseValue(map['source']);
     model.showCopyright = adapter.parseValue(map['show_copyright']);
+    model.updatedAt = adapter.parseValue(map['updated_at']);
 
     return model;
   }
@@ -45,6 +48,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       ret.add(path.set(model.path));
       ret.add(source.set(model.source));
       ret.add(showCopyright.set(model.showCopyright));
+      ret.add(updatedAt.set(model.updatedAt));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(fileType.name)) ret.add(fileType.set(model.fileType));
@@ -53,6 +57,8 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       if (only.contains(source.name)) ret.add(source.set(model.source));
       if (only.contains(showCopyright.name))
         ret.add(showCopyright.set(model.showCopyright));
+      if (only.contains(updatedAt.name))
+        ret.add(updatedAt.set(model.updatedAt));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
@@ -72,6 +78,9 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       if (model.showCopyright != null) {
         ret.add(showCopyright.set(model.showCopyright));
       }
+      if (model.updatedAt != null) {
+        ret.add(updatedAt.set(model.updatedAt));
+      }
     }
 
     return ret;
@@ -85,6 +94,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
     st.addStr(path.name, isNullable: false);
     st.addStr(source.name, isNullable: true);
     st.addBool(showCopyright.name, isNullable: false);
+    st.addDateTime(updatedAt.name, isNullable: false);
     return adapter.createTable(st);
   }
 
