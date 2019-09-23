@@ -38,8 +38,10 @@ class _SplashState extends State<Splash> {
               'This may take several minutes.';
         });
 
+        print('Initializing first time data sync...');
+
         SyncManager syncManager = SyncManager(
-            onProgressChange: (state, percent) =>
+            onProgressChange: (state, percent, upTo, outOf, totalSize) =>
                 print('$state | $percent percent'));
 
         await syncManager.sync(firstLoad: true);

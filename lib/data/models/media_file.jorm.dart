@@ -8,7 +8,7 @@ part of 'media_file.dart';
 
 abstract class _MediaFileBean implements Bean<MediaFile> {
   final id = IntField('id');
-  final fileType = IntField('file_type');
+  final category = StrField('category');
   final name = StrField('name');
   final path = StrField('path');
   final source = StrField('source');
@@ -17,7 +17,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
-        fileType.name: fileType,
+        category.name: category,
         name.name: name,
         path.name: path,
         source.name: source,
@@ -27,7 +27,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   MediaFile fromMap(Map map) {
     MediaFile model = MediaFile();
     model.id = adapter.parseValue(map['id']);
-    model.fileType = adapter.parseValue(map['file_type']);
+    model.category = adapter.parseValue(map['category']);
     model.name = adapter.parseValue(map['name']);
     model.path = adapter.parseValue(map['path']);
     model.source = adapter.parseValue(map['source']);
@@ -43,7 +43,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
 
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
-      ret.add(fileType.set(model.fileType));
+      ret.add(category.set(model.category));
       ret.add(name.set(model.name));
       ret.add(path.set(model.path));
       ret.add(source.set(model.source));
@@ -51,7 +51,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       ret.add(updatedAt.set(model.updatedAt));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
-      if (only.contains(fileType.name)) ret.add(fileType.set(model.fileType));
+      if (only.contains(category.name)) ret.add(category.set(model.category));
       if (only.contains(name.name)) ret.add(name.set(model.name));
       if (only.contains(path.name)) ret.add(path.set(model.path));
       if (only.contains(source.name)) ret.add(source.set(model.source));
@@ -63,8 +63,8 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       if (model.id != null) {
         ret.add(id.set(model.id));
       }
-      if (model.fileType != null) {
-        ret.add(fileType.set(model.fileType));
+      if (model.category != null) {
+        ret.add(category.set(model.category));
       }
       if (model.name != null) {
         ret.add(name.set(model.name));
@@ -89,7 +89,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
-    st.addInt(fileType.name, isNullable: false);
+    st.addStr(category.name, isNullable: false);
     st.addStr(name.name, isNullable: false);
     st.addStr(path.name, isNullable: false);
     st.addStr(source.name, isNullable: true);

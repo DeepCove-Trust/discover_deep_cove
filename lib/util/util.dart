@@ -13,22 +13,6 @@ import 'package:toast/toast.dart';
 
 /// Container class for general helper functions.
 class Util {
-  /// Stores the body of the [http.Response] as a file, using the specified
-  /// [absPath] and [fileName].
-  ///
-  /// Will create directories that do not exist.
-  static Future<File> httpResponseToFile(
-      {@required Response response,
-      @required String absPath,
-      @required String fileName}) async {
-    // TODO: Check for write permission here?
-
-    File file = File(join(absPath, fileName));
-    await file.create(recursive: true);
-    await file.writeAsBytes(response.bodyBytes);
-
-    return file;
-  }
 
   /// Extract the supplied file [zip] to the supplied directory [dir]
   ///
@@ -70,9 +54,9 @@ class Util {
 
   /// Generates a file name by adding a time-based string to the end,
   /// and adding the correct file extension based on supplied type.
-  static String getAntiCollisionName(String name, MediaFileType type) {
+  static String getAntiCollisionName(String name, String extension) {
     String suffix = DateTime.now().millisecondsSinceEpoch.toString();
-    return name.replaceAll(' ', '_') + '_' + suffix + '.' + type.toString();
+    return name.replaceAll(' ', '_') + '_' + suffix + '.' + extension;
   }
 
   /// Returns the amount of free storage space available to the app, in bytes.
@@ -82,6 +66,8 @@ class Util {
     try {
       _storageInfo = await PathProviderEx.getStorageInfo();
     } on PlatformException { return -1; }
+
+    print('Device has ${_storageInfo[0].availableBytes} bytes available');
 
     return _storageInfo[0].availableBytes;
 

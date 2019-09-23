@@ -14,22 +14,13 @@ import 'package:meta/meta.dart';
 
 part 'media_file.jorm.dart';
 
-/// The media file types supported by the application.
-/// TODO: Monitor Jaguar's support of enum persistence
-enum MediaFileType {
-  jpg,
-  png,
-  mp3,
-  wav,
-}
-
 /// A media file that is stored on the device.
 class MediaFile {
   MediaFile();
 
-  MediaFile.create(
-      {@required this.fileType,
+  MediaFile.create({
       @required this.path,
+      @required this.category,
       @required this.name,
       @required this.source,
       @required this.showCopyright,
@@ -37,8 +28,8 @@ class MediaFile {
 
   MediaFile.make(
       {@required this.id,
-      @required this.fileType,
       @required this.path,
+      @required this.category,
       @required this.name,
       @required this.source,
       @required this.showCopyright,
@@ -47,10 +38,9 @@ class MediaFile {
   @PrimaryKey()
   int id;
 
-  /// TODO: Persist as a [MediaFileType] enum when Jaguar supports it.
-  /// The file type.
+  /// Image or Audio
   @Column()
-  int fileType;
+  String category;
 
   /// Description of the media file's contents.
   @Column()

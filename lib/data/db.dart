@@ -65,7 +65,7 @@ class DB {
     }
 
     // Establish the path to the database file
-    String dbPath = join(temp ? Env.dbPath : Env.tempDbPath);
+    String dbPath = join(temp ? Env.tempDbPath : Env.dbPath);
     // Could use getDatabasesPath() instead of env value
 
     // Create the database adaptor, connect to db, and return adaptor for use

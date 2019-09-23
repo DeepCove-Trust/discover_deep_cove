@@ -1,3 +1,8 @@
+import 'dart:io';
+import 'package:discover_deep_cove/util/permissions.dart';
+import 'package:meta/meta.dart';
+import 'package:path/path.dart';
+
 import 'package:http/http.dart' as Http;
 
 import '../env.dart';
@@ -29,11 +34,52 @@ class NetworkUtil {
   }
 
   /// Returns the body of the response that is returned in response to
-  /// a GET request to the supplied URL.
-  static Future<String> requestData(String url) async {
+  /// a GET request to the supplied URL, as a string.
+  static Future<String> requestDataString(String url) async {
     Http.Response response = await Http.get(url);
     if (response.statusCode != 200)
       throw Exception('API responded with code ${response.statusCode}');
     return response.body;
+  }
+
+  /// Returns the body of the response that is returned in response to
+  /// a GET request to the supplied URL, as an array of ints.
+  static Future<List<int>> requestDataBytes(String url) async {
+    Http.Response response = await Http.get(url);
+    if (response.statusCode != 200)
+      throw Exception('API responded with code ${response.statusCode}');
+    return response.bodyBytes;
+  }
+
+  /// Stores the body of the [http.Response] as a file, using the specified
+  /// [absPath] and [filename]. Will create directories that do not exist.
+  /// Use within try-catch.
+  static Future<File> httpResponseToFile(
+      {@required Http.Response response,
+      @required String absPath,
+      @required String filename}) async {
+
+    return await bytesToFile(
+        bytes: response.bodyBytes, absPath: absPath, filename: filename);
+  }
+
+  /// Stores the supplied [List<int>] as a file, using the specified [absPath]
+  /// and [filename].
+  /// Creates directories if required.
+  static Future<File> bytesToFile(
+      {@required List<int> bytes,
+      @required String absPath,
+      @required String filename}) async {
+    // Check for storage permissions before saving file
+    if (!(await Permissions.ensurePermission(PermissionGroup.storage))) {
+      throw Exception('Application does not have permission to save file.');
+    }
+
+    // Write the supplied bytes to the file
+    File file = File(join(absPath, filename));
+    await file.create(recursive: true);
+    await file.writeAsBytes(bytes);
+
+    return file;
   }
 }

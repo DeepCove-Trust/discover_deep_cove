@@ -33,6 +33,7 @@ class Env {
   // API Endpoints
   static String get _mediaUrl => DotEnv().env['media'];
 
+  static String get _mediaDownloadUrl => DotEnv().env['mediaDownload'];
 
   //-------------------------------- PATHS  ------------------------------------
 
@@ -70,19 +71,16 @@ class Env {
 
   static double get mapDefaultZoom => double.parse(DotEnv().env['defaultZoom']);
 
-  static LatLng get swPanBoundary =>
-      LatLng(
-          double.parse(DotEnv().env['swPanBoundaryLat']),
-          double.parse(DotEnv().env['swPanBoundaryLong']));
+  static LatLng get swPanBoundary => LatLng(
+      double.parse(DotEnv().env['swPanBoundaryLat']),
+      double.parse(DotEnv().env['swPanBoundaryLong']));
 
-  static LatLng get nePanBoundary =>
-      LatLng(
+  static LatLng get nePanBoundary => LatLng(
         double.parse(DotEnv().env['nePanBoundaryLat']),
         double.parse(DotEnv().env['nePanBoundaryLong']),
       );
 
-  static LatLng get mapDefaultCenter =>
-      LatLng(
+  static LatLng get mapDefaultCenter => LatLng(
         double.parse(DotEnv().env['defaultCenterLat']),
         double.parse(DotEnv().env['defaultCenterLong']),
       );
@@ -90,7 +88,6 @@ class Env {
   //---------------------- HELPER METHODS - PATHS ------------------------------
   // These perform basic processing on configured variables, in order to return
   // more useful information to the application code.
-
 
   static String get rootStorageDirPath => _rootStorageDirPath;
 
@@ -119,7 +116,7 @@ class Env {
 
   /// API endpoint to return summary of all required media files
   static String mediaListUrl(CmsServerLocation server) {
-    return _getCmsUrl(server) +_mediaUrl;
+    return _getCmsUrl(server) + _mediaUrl;
   }
 
   /// API endpoint to return details of a single media file
@@ -127,4 +124,10 @@ class Env {
     return _getCmsUrl(server) + _mediaUrl + '/$id';
   }
 
+  /// API endpoint to return the specified media file
+  static String mediaDownloadUrl(CmsServerLocation server, String filename) {
+    return _getCmsUrl(server) +
+        _mediaDownloadUrl +
+        '?filename=$filename&original=true'; // Todo: remove original
+  }
 }

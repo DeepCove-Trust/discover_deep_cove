@@ -21,19 +21,23 @@ import 'package:discover_deep_cove/util/network_util.dart';
 enum SyncState {
   /// The sync process has not yet begun
   None,
+
   /// In the process of checking connectivity, creating and connecting to
   /// databases.
   Initialization,
-  /// Learning about local and remote resources
-  Discovery,
+
   /// Downloading media files
   MediaDownload,
+
   /// Downloading other data/content
   DataDownload,
+
   /// Overwriting original db with new one, deleting unneeded media files
   Cleanup,
+
   /// The sync process has completed successfully.
   Done,
+
   /// The sync process has terminated due to an error
   Error
 }
@@ -43,12 +47,15 @@ enum SyncError {
   /// due to the device not having internet access, or the CMS servers being
   /// unavailable.
   Server_Unreachable,
+
   /// The CMS API has returned an unexpected status code, and the sync process
   /// was unable to complete.
   Api_Error,
+
   /// The device has insufficient storage space to download all required media
   /// files, so the sync has been aborted.
   Insufficient_Storage,
+
   /// The sync process has been terminated due to an error.
   Other_Error
 }
@@ -58,18 +65,20 @@ class SyncManager {
   CmsServerLocation serverLocation;
   SqfliteAdapter tempAdapter, adapter;
 
-  void Function(SyncState, int) onProgressChange;
+  // State, percentage complete, up to file, out of files, total size bytes
+  void Function(SyncState, int, int, int, int) onProgressChange;
 
   SyncManager({this.onProgressChange}) : syncState = SyncState.None;
 
   /// Returns progress information to the widget that called the sync
   /// method.
-  void _updateProgress(SyncState syncState, int percent) {
+  void _updateProgress(SyncState syncState, int percent,
+      {int upTo, int outOf, int totalSize}) {
     this.syncState = syncState;
-    onProgressChange(syncState, percent);
+    onProgressChange(syncState, percent, upTo, outOf, totalSize);
   }
 
-  void _failUpdate({SyncError error = SyncError.Other_Error}) {
+  void _failUpdate(SyncError error) {
     _updateProgress(SyncState.Error, 0);
 
     // Todo: Do something here to clean up / revert
@@ -87,7 +96,7 @@ class SyncManager {
 
     // If no server reachable, terminate
     if (serverLocation == null) {
-      _failUpdate(error: SyncError.Server_Unreachable);
+      _failUpdate(SyncError.Server_Unreachable);
       return;
     } else {
       _updateProgress(SyncState.Initialization, 10);
@@ -103,22 +112,33 @@ class SyncManager {
 
     tempAdapter = await DB.instance.tempAdapter;
     adapter = await DB.instance.adapter;
-    adapter.close();
     // Ensure temp database has all tables created
-    if (firstLoad) _initializeDatatables(tempAdapter);
+    _initializeDatatables(tempAdapter);
+    _initializeDatatables(adapter);
 
     // ----------------------------------------------
     // ** Media files sync **
 
-    _updateProgress(SyncState.Discovery, 15);
+    _updateProgress(SyncState.MediaDownload, 15);
 
     MediaSync mediaSync = MediaSync(
         adapter: adapter,
         tempAdapter: tempAdapter,
         server: serverLocation,
-        onFail: () => print('failed to update'));
+        onFail: _failUpdate);
 
+    // Build the download, update and deletion queues for media files
     await mediaSync.buildQueues();
+
+    // Process the update queue for media files
+    await mediaSync.processUpdateQueue();
+
+    _updateProgress(SyncState.MediaDownload, 20);
+
+    // Process the download queue for media files
+    await mediaSync.processDownloadQueueSync();
+
+    print('Done');
   }
 
   /// Returns intranet if intranet is available, else returns internet if

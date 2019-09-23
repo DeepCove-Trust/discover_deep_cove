@@ -266,7 +266,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       // Determine directory and filename to store new image
       Directory directory = Directory(Env.getResourcePath('user_photos'));
       String filename =
-          Util.getAntiCollisionName(widget.activity.title, MediaFileType.jpg);
+          Util.getAntiCollisionName(widget.activity.title, ".jpg");
 
       // Save the image to the users photos directory, and delete temp image
       ImageHandler.saveImage(

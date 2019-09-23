@@ -17,6 +17,7 @@ import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/network_util.dart';
 import 'package:discover_deep_cove/util/permissions.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:http/http.dart' as http;
@@ -120,10 +121,10 @@ class SyncProvider {
     print('Requesting zip file from server.');
 
     // Request the file and store to temp file 'payload.zip'
-    File resourcesZip = await Util.httpResponseToFile(
+    File resourcesZip = await NetworkUtil.httpResponseToFile(
         response: await _requestFile(),
         absPath: rootDir.path,
-        fileName: 'resources.zip');
+        filename: 'resources.zip');
 
     print('Zip file saved to \'${rootDir.path}\'.');
 
