@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:discover_deep_cove/util/exeptions.dart';
 import 'package:discover_deep_cove/util/permissions.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart';
@@ -36,19 +37,24 @@ class NetworkUtil {
   /// Returns the body of the response that is returned in response to
   /// a GET request to the supplied URL, as a string.
   static Future<String> requestDataString(String url) async {
-    Http.Response response = await Http.get(url);
-    if (response.statusCode != 200)
-      throw Exception('API responded with code ${response.statusCode}');
+    Http.Response response = await _requestResponse(url);
     return response.body;
   }
 
   /// Returns the body of the response that is returned in response to
   /// a GET request to the supplied URL, as an array of ints.
   static Future<List<int>> requestDataBytes(String url) async {
+    Http.Response response = await _requestResponse(url);
+    return response.bodyBytes;
+  }
+
+  /// Returns [Response] object for a GET request to the provided URL.
+  /// Throws [ApiException] if status code is not 200 (OK).
+  static Future<Http.Response> _requestResponse(String url) async {
     Http.Response response = await Http.get(url);
     if (response.statusCode != 200)
-      throw Exception('API responded with code ${response.statusCode}');
-    return response.bodyBytes;
+      throw ApiException(message: 'Request to $url returned non-OK response', statusCode: response.statusCode);
+    return response;
   }
 
   /// Stores the body of the [http.Response] as a file, using the specified

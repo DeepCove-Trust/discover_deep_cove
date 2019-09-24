@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'package:discover_deep_cove/util/exeptions.dart';
 import 'package:http/http.dart' as Http;
 import 'package:path/path.dart';
 import 'dart:io';
@@ -30,30 +31,35 @@ class MediaData {
 class MediaSync {
   CmsServerLocation server;
   SqfliteAdapter tempAdapter, adapter;
-  void Function(SyncError) onFail;
-  void Function(int, int, int) onProgress;
+  void Function(SyncState, int, {int upTo, int outOf, int totalSize})
+      onProgress;
 
-  MediaSync({@required this.adapter,
-    @required this.tempAdapter,
-    @required this.server,
-    @required this.onProgress,
-    @required this.onFail});
+  MediaSync(
+      {@required this.adapter,
+      @required this.tempAdapter,
+      @required this.server,
+      @required this.onProgress})
+      : mediaFileBeanMain = MediaFileBean(adapter),
+        mediaFileBeanTemp = MediaFileBean(tempAdapter);
+
+  MediaFileBean mediaFileBeanMain, mediaFileBeanTemp;
+
+  int upTo, outOf, totalSize;
 
   Queue<MediaData> _downloadQueue;
-  Queue<MediaFile> _deletionQueue;
-  Queue<MediaFile> _updateQueue;
+  Queue<MediaFile> _deletionQueue, _updateQueue;
 
   /// Populate the download and deletion queues for later use
   Future<void> buildQueues() async {
     // Retrieve list of locally existing media files
-    List<MediaFile> localMediaFiles = await MediaFileBean(tempAdapter).getAll();
+    List<MediaFile> localMediaFiles = await mediaFileBeanTemp.getAll();
 
     // Retrieve list of required media files from server, as MediaData objects
-    String jsonString = await NetworkUtil.requestDataString(
-        Env.mediaListUrl(server));
+    String jsonString =
+        await NetworkUtil.requestDataString(Env.mediaListUrl(server));
     List<dynamic> jsonData = json.decode(jsonString);
     List<MediaData> remoteMedia =
-    jsonData.map((i) => MediaData.fromJson(i)).toList();
+        jsonData.map((i) => MediaData.fromJson(i)).toList();
 
     // CALCULATE DOWNLOAD QUEUE
     // All remote media that do not exist locally
@@ -63,9 +69,8 @@ class MediaSync {
     // CALCULATE UPDATE QUEUE
     // Any local media that exist remotely, and the remote timestamp is after
     // the local timestamp
-    _updateQueue = Queue.from(localMediaFiles.where((e) =>
-        remoteMedia
-            .any((f) => f.id == e.id && f.updatedAt.isAfter(e.updatedAt))));
+    _updateQueue = Queue.from(localMediaFiles.where((e) => remoteMedia
+        .any((f) => f.id == e.id && f.updatedAt.isAfter(e.updatedAt))));
 
     // CALCULATE DELETION QUEUE
     // Any local media that don't exist in the remote media list
@@ -76,95 +81,96 @@ class MediaSync {
   /// Iterates through the download queue and downloads each file asynchronously,
   /// adding database records and saving to disk as files are received.
   /// Performs a free-storage check prior to downloading.
-  Future<void> processDownloadQueue() async {
-    MediaFileBean mediaFileBeanMain = MediaFileBean(adapter);
-    MediaFileBean mediaFileBeanTemp = MediaFileBean(tempAdapter);
+  Future<void> processDownloadQueue({bool asyncDownload = true}) async {
+    upTo = 0; // file that we are up to downloading
+    outOf = _downloadQueue.length; // out of how many
+    totalSize = _downloadQueue.fold<int>(0, (v, n) => v + n.size);
 
-    if (!(await sufficientStorageAvailable())) {
-      onFail(SyncError.Insufficient_Storage);
-      return;
+    if (!(await sufficientStorageAvailable(totalSize))) {
+      throw InsufficientStorageException(message: 'Insufficient storage on device.');
     }
+
+    // Update progress for user
+    onProgress(SyncState.MediaDownload, getPercentage(),
+        upTo: upTo, outOf: outOf, totalSize: totalSize);
+
+    // This list will contain all of our download jobs if downloading
+    // asynchronously.
+    List<Future<void>> futures = new List<Future<void>>();
 
     while (_downloadQueue.isNotEmpty) {
       MediaData mediaData = _downloadQueue.removeFirst();
 
-      // Todo: Asynchonously download all files
-
-      // Request file meta data from server
-
-      // Download file from server
-
-      // Add database records
-
-      // Save file to directory
+      if (asyncDownload) {
+        futures.add(downloadMediaFile(mediaData).catchError((_) =>
+            throw FailedDownloadException(
+                message: 'One or more file downloads failed.')));
+      } else {
+        await downloadMediaFile(mediaData);
+      }
     }
+
+    // Wait for all download jobs to complete
+    await Future.wait(futures, cleanUp: (_) => print('error'));
+
+    print('Download queue has been successfully processed.');
   }
 
-  /// Iterates through the download queue one file at a time. Downloads the
-  /// file, saves database records, then saves to disk.
-  /// Performs a storage check before downloading.
-  /// NOTE: This method is not itself synchronous.
-  Future<void> processDownloadQueueSync() async {
-    MediaFileBean mediaFileBeanMain = MediaFileBean(adapter);
-    MediaFileBean mediaFileBeanTemp = MediaFileBean(tempAdapter);
+  /// Downloads a file, and creates database records for it. An exception
+  /// thrown from this method indicates that the download failed.
+  Future<void> downloadMediaFile(MediaData mediaData) async {
+    // Retrieve mediaFile object from server, and deserialize
+    String jsonString = await NetworkUtil.requestDataString(
+        Env.mediaDetailsUrl(server, mediaData.id));
+    MediaFile mediaFile = mediaFileBeanMain.fromMap(json.decode(jsonString));
 
-    if (!(await sufficientStorageAvailable())) {
-      onFail(SyncError.Insufficient_Storage);
-      return;
+    // Download file from server, to memory
+    String absPath = Env.getResourcePath(mediaFile.category);
+    String filename = mediaData.filename;
+    Http.Response response =
+        await Http.get(Env.mediaDownloadUrl(server, filename));
+
+    // Assign path to mediaFile object
+    mediaFile.path = join(mediaFile.category, mediaData.filename);
+
+    // Add database records
+    await insertMediaRecord(mediaFile);
+
+    // Save file to directory
+    try {
+      // Todo: Monitor whether this try-catch works in async
+      await NetworkUtil.httpResponseToFile(
+          response: response, absPath: absPath, filename: filename);
+    } catch (ex) {
+      // Exception while saving file, remove database records
+      await removeMediaRecord(mediaFile);
+      throw FailedDownloadException(
+          message: "Download failed for file ID {${mediaFile.id}");
     }
 
-    while (_downloadQueue.isNotEmpty) {
-      MediaData mediaData = _downloadQueue.removeFirst();
-
-      // Todo: Synchronously download all files
-
-      // Request file meta data from server
-      String jsonString = await NetworkUtil.requestDataString(
-          Env.mediaDetailsUrl(server, mediaData.id));
-      MediaFile mediaFile = mediaFileBeanMain.fromMap(json.decode(jsonString));
-
-      // Download file from server
-      String absPath = Env.getResourcePath(mediaFile.category);
-      String filename = mediaData.filename;
-      Http.Response response = await Http.get(Env.mediaDownloadUrl(server, filename));
-
-      // Assign path to mediaFile object
-      mediaFile.path = join(mediaFile.category, mediaData.filename);
-
-      // Add database records
-      await mediaFileBeanTemp.insert(mediaFile);
-      await mediaFileBeanMain.insert(mediaFile);
-
-      // Save file to directory
-      try {
-        await NetworkUtil.httpResponseToFile(
-            response: response, absPath: absPath, filename: filename);
-      }
-      catch(ex){
-        // Exception while saving file, remove database records
-        await mediaFileBeanTemp.remove(mediaFile.id);
-        await mediaFileBeanMain.remove(mediaFile.id);
-        onFail(SyncError.Other_Error);
-        return;
-      }
-    }
+    // Increment the 'upTo' counter and report progress.
+    upTo++;
+    onProgress(SyncState.MediaDownload, getPercentage(),
+        upTo: upTo, outOf: outOf, totalSize: totalSize);
   }
 
   /// Adds supplied MediaFile record to both temp and main databases
   Future<void> insertMediaRecord(MediaFile mediaFile) async {
-    MediaFileBean mediaFileBeanMain = MediaFileBean(adapter);
-    MediaFileBean mediaFileBeanTemp = MediaFileBean(tempAdapter);
     await mediaFileBeanMain.insert(mediaFile);
     await mediaFileBeanTemp.insert(mediaFile);
   }
 
+  /// Removes supplied MediaFile record from both temp and main databases
+  Future<void> removeMediaRecord(MediaFile mediaFile) async {
+    await mediaFileBeanMain.remove(mediaFile.id);
+    await mediaFileBeanTemp.remove(mediaFile.id);
+  }
+
   /// Returns true if the device has enough available space to download
   /// required media files (with > 10MB spare)
-  Future<bool> sufficientStorageAvailable() async {
-    print('Calculating storage requirements...');
+  Future<bool> sufficientStorageAvailable(int requiredSize) async {
+    print('Calculating storage availablity...');
 
-    // Calculate sum of all file sizes, in bytes
-    int requiredSize = _downloadQueue.fold<int>(0, (v, n) => v + n.size);
     print('Download requires $requiredSize bytes');
 
     // Calculate available storage space
@@ -183,8 +189,6 @@ class MediaSync {
   /// Iterates through the update queue and updates each media file that
   /// has been updated on the CMS.
   Future<void> processUpdateQueue() async {
-    MediaFileBean mediaFileBeanTemp = MediaFileBean(tempAdapter);
-
     for (MediaFile mediaFile in _updateQueue) {
       // Request the meta data for the media file
       String jsonString = await NetworkUtil.requestDataString(
@@ -202,13 +206,16 @@ class MediaSync {
   /// the database record that points to the file.
   Future<void> processDeletionQueue() async {
     print('Deleting unneeded media files...');
-
-    MediaFileBean mediaFileBean = MediaFileBean(adapter);
-
     for (MediaFile mediaFile in _deletionQueue) {
-      await File(mediaFile.path).delete();
-      await mediaFileBean.remove(mediaFile.id);
+      await File(mediaFile.path).delete().catchError((_){});
+      await mediaFileBeanMain.remove(mediaFile.id);
       print('Deleted media file ${mediaFile.id}');
     }
+  }
+
+  /// Gets the correct completion percentage for the download process.
+  /// (the media download queue begins at 20 and ends at 80)
+  int getPercentage() {
+    return 60 * upTo ~/ outOf + 20;
   }
 }

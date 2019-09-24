@@ -16,6 +16,7 @@ import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/data/models/user_photo.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/data_sync/media_sync.dart';
+import 'package:discover_deep_cove/util/exeptions.dart';
 import 'package:discover_deep_cove/util/network_util.dart';
 
 enum SyncState {
@@ -25,6 +26,9 @@ enum SyncState {
   /// In the process of checking connectivity, creating and connecting to
   /// databases.
   Initialization,
+
+  /// A CMS server has been successfully contacted.
+  ServerDiscovered,
 
   /// Downloading media files
   MediaDownload,
@@ -39,29 +43,14 @@ enum SyncState {
   Done,
 
   /// The sync process has terminated due to an error
-  Error
-}
-
-enum SyncError {
-  /// Neither the internet nor the intranet CMS server was reachable, either
-  /// due to the device not having internet access, or the CMS servers being
-  /// unavailable.
-  Server_Unreachable,
-
-  /// The CMS API has returned an unexpected status code, and the sync process
-  /// was unable to complete.
-  Api_Error,
-
-  /// The device has insufficient storage space to download all required media
-  /// files, so the sync has been aborted.
-  Insufficient_Storage,
-
-  /// The sync process has been terminated due to an error.
-  Other_Error
+  Error_Permission,
+  Error_Storage,
+  Error_ServerUnreachable,
+  Error_Other
 }
 
 class SyncManager {
-  SyncState syncState;
+  SyncState syncState = SyncState.None;
   CmsServerLocation serverLocation;
   SqfliteAdapter tempAdapter, adapter;
 
@@ -78,80 +67,95 @@ class SyncManager {
     onProgressChange(syncState, percent, upTo, outOf, totalSize);
   }
 
-  void _failUpdate(SyncError error) {
-    _updateProgress(SyncState.Error, 0);
+  Future<void> _failUpdate(Exception exception) async {
 
-    // Todo: Do something here to clean up / revert
+    SyncState errorState;
+
+    if(exception is ServerUnreachableException) errorState = SyncState.Error_ServerUnreachable;
+    else if(exception is InsufficientStorageException) errorState = SyncState.Error_Storage;
+    else if(exception is InsufficientPermissionException) errorState = SyncState.Error_Permission;
+    else errorState = SyncState.Error_Other;
+
+    // Delete temp database - ignore exception if it wasn't yet created
+    await File(Env.tempDbPath).delete().catchError((_){});
+
+    _updateProgress(errorState, 0);
   }
 
   /// Initiates the sync process for the application
   Future<void> sync({bool firstLoad}) async {
-    _updateProgress(SyncState.Initialization, 5);
+    try {
+      _updateProgress(SyncState.Initialization, 0);
 
-    // -----------------------------------------------
-    // ** Determine which server to use for update **
+      // -----------------------------------------------
+      // ** Determine which server to use for update **
 
-    // First, check whether the intranet is available
-    serverLocation = await _getServerLocation();
+      // First, check whether the intranet is available
+      serverLocation = await _getServerLocation();
+      _updateProgress(SyncState.ServerDiscovered, 5);
 
-    // If no server reachable, terminate
-    if (serverLocation == null) {
-      _failUpdate(SyncError.Server_Unreachable);
-      return;
-    } else {
-      _updateProgress(SyncState.Initialization, 10);
+      // -----------------------------------------------
+      // ** Establish database connections **
+
+      // Check if database file already exists, copy as temp db if so.
+      // Then open the connection to the database.
+      File dbFile = File(Env.dbPath);
+      if (await dbFile.exists()) dbFile.copy(Env.tempDbPath);
+
+      tempAdapter = await DB.instance.tempAdapter;
+      adapter = await DB.instance.adapter;
+
+      // Ensure all tables exist
+      _initializeDatatables(tempAdapter);
+      _initializeDatatables(adapter);
+
+      // ----------------------------------------------
+      // ** Media files sync **
+
+      _updateProgress(SyncState.MediaDownload, 10);
+
+      MediaSync mediaSync = MediaSync(
+          adapter: adapter,
+          tempAdapter: tempAdapter,
+          server: serverLocation,
+          onProgress: _updateProgress);
+
+      // Build the download, update and deletion queues for media files
+      await mediaSync.buildQueues();
+
+      _updateProgress(SyncState.MediaDownload, 15);
+
+      // Process the update queue for media files
+      await mediaSync.processUpdateQueue();
+
+      _updateProgress(SyncState.MediaDownload, 20);
+
+      // Process the download queue for media files
+      await mediaSync.processDownloadQueue(asyncDownload: true);
+      //await mediaSync.processDownloadQueueSync();
+
+      _updateProgress(SyncState.MediaDownload, 80);
     }
-
-    // -----------------------------------------------
-    // ** Establish database connections **
-
-    // Check if database file already exists, copy as temp db if so.
-    // Then open the connection to the database.
-    File dbFile = File(Env.dbPath);
-    if (await dbFile.exists()) dbFile.copy(Env.tempDbPath);
-
-    tempAdapter = await DB.instance.tempAdapter;
-    adapter = await DB.instance.adapter;
-    // Ensure temp database has all tables created
-    _initializeDatatables(tempAdapter);
-    _initializeDatatables(adapter);
-
-    // ----------------------------------------------
-    // ** Media files sync **
-
-    _updateProgress(SyncState.MediaDownload, 15);
-
-    MediaSync mediaSync = MediaSync(
-        adapter: adapter,
-        tempAdapter: tempAdapter,
-        server: serverLocation,
-        onFail: _failUpdate);
-
-    // Build the download, update and deletion queues for media files
-    await mediaSync.buildQueues();
-
-    // Process the update queue for media files
-    await mediaSync.processUpdateQueue();
-
-    _updateProgress(SyncState.MediaDownload, 20);
-
-    // Process the download queue for media files
-    await mediaSync.processDownloadQueueSync();
-
-    print('Done');
+    on Exception catch(ex){
+      _failUpdate(ex);
+    }
   }
 
-  /// Returns intranet if intranet is available, else returns internet if
-  /// internet is available, else null.
+  /// Returns intranet if intranet CMS is available, else returns internet if
+  /// internet CMS is available, else throws [ServerUnreachableException].
   Future<CmsServerLocation> _getServerLocation() async {
     if (await NetworkUtil.canAccessCMSLocal()) {
+      print('Connectivity established with intranet server.');
       return CmsServerLocation.Intranet;
     } else if (await NetworkUtil.canAccessCMSRemote()) {
+      print('Connectivity established with internet server.');
       return CmsServerLocation.Internet;
     } else
-      return null;
+      throw ServerUnreachableException(message: 'CMS server was not reachable');
   }
 
+  /// Creates all database tables for the provided database adapter, if not
+  /// exists.
   void _initializeDatatables(SqfliteAdapter a) {
     ConfigBean(a).createTable(ifNotExists: true);
     ActivityBean(a).createTable(ifNotExists: true);
