@@ -31,8 +31,8 @@ class Env {
   static String get intranetCmsUrl => DotEnv().env['intranetURL'];
 
   // API Endpoints
+  static String get _configUrl => DotEnv().env['config'];
   static String get _mediaUrl => DotEnv().env['media'];
-
   static String get _mediaDownloadUrl => DotEnv().env['mediaDownload'];
 
   //-------------------------------- PATHS  ------------------------------------
@@ -112,6 +112,11 @@ class Env {
 
   static String _getCmsUrl(CmsServerLocation server) {
     return server == CmsServerLocation.Internet ? remoteCmsUrl : intranetCmsUrl;
+  }
+
+  /// API endpoint to return the latest config from the server
+  static String configUrl(CmsServerLocation server) {
+    return _getCmsUrl(server) + _configUrl;
   }
 
   /// API endpoint to return summary of all required media files

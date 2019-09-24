@@ -405,9 +405,6 @@ class SyncProvider {
 
 // Compare remote versions to local versions, setting to 'true' if a
 // newer version is available on the server.
-    return {
-      'data': (remote['data'] as int) > local.dataVersion,
-      'files': (remote['files'] as int) > local.filesVersion,
-    };
+    return null;
   }
 }

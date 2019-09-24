@@ -15,6 +15,7 @@ import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/data/models/user_photo.dart';
 import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/data_sync/config_sync.dart';
 import 'package:discover_deep_cove/util/data_sync/media_sync.dart';
 import 'package:discover_deep_cove/util/exeptions.dart';
 import 'package:discover_deep_cove/util/network_util.dart';
@@ -134,7 +135,10 @@ class SyncManager {
       await mediaSync.processDownloadQueue(asyncDownload: true);
       //await mediaSync.processDownloadQueueSync();
 
-      _updateProgress(SyncState.MediaDownload, 80);
+      _updateProgress(SyncState.DataDownload, 80);
+
+      // Sync the config table
+      await ConfigSync(tempAdapter, server: serverLocation).sync();
     }
     on Exception catch(ex){
       _failUpdate(ex);
