@@ -17,6 +17,7 @@ import 'package:discover_deep_cove/data/models/user_photo.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/data_sync/config_sync.dart';
 import 'package:discover_deep_cove/util/data_sync/media_sync.dart';
+import 'package:discover_deep_cove/util/data_sync/quiz_sync.dart';
 import 'package:discover_deep_cove/util/exeptions.dart';
 import 'package:discover_deep_cove/util/network_util.dart';
 
@@ -69,16 +70,19 @@ class SyncManager {
   }
 
   Future<void> _failUpdate(Exception exception) async {
-
     SyncState errorState;
 
-    if(exception is ServerUnreachableException) errorState = SyncState.Error_ServerUnreachable;
-    else if(exception is InsufficientStorageException) errorState = SyncState.Error_Storage;
-    else if(exception is InsufficientPermissionException) errorState = SyncState.Error_Permission;
-    else errorState = SyncState.Error_Other;
+    if (exception is ServerUnreachableException)
+      errorState = SyncState.Error_ServerUnreachable;
+    else if (exception is InsufficientStorageException)
+      errorState = SyncState.Error_Storage;
+    else if (exception is InsufficientPermissionException)
+      errorState = SyncState.Error_Permission;
+    else
+      errorState = SyncState.Error_Other;
 
     // Delete temp database - ignore exception if it wasn't yet created
-    await File(Env.tempDbPath).delete().catchError((_){});
+    await File(Env.tempDbPath).delete().catchError((_) {});
 
     _updateProgress(errorState, 0);
   }
@@ -110,8 +114,8 @@ class SyncManager {
       _initializeDatatables(tempAdapter);
       _initializeDatatables(adapter);
 
-      // ----------------------------------------------
-      // ** Media files sync **
+      // ================================================================
+      // ** BEGIN MEDIA FILES SYNC **
 
       _updateProgress(SyncState.MediaDownload, 10);
 
@@ -121,26 +125,62 @@ class SyncManager {
           server: serverLocation,
           onProgress: _updateProgress);
 
-      // Build the download, update and deletion queues for media files
+      // Build the download, update and deletion queues for media files -
       await mediaSync.buildQueues();
-
       _updateProgress(SyncState.MediaDownload, 15);
+      // ----------------------------------------------------------------
 
-      // Process the update queue for media files
+      // Process the update queue for media files -----------------------
       await mediaSync.processUpdateQueue();
-
       _updateProgress(SyncState.MediaDownload, 20);
+      // ----------------------------------------------------------------
 
-      // Process the download queue for media files
-      await mediaSync.processDownloadQueue(asyncDownload: true);
-      //await mediaSync.processDownloadQueueSync();
-
+      // Process the download queue for media files ---------------------
+      await mediaSync.processDownloadQueue(asyncDownload: Env.asyncDownload);
       _updateProgress(SyncState.DataDownload, 80);
+      // ----------------------------------------------------------------
 
-      // Sync the config table
+      // ** END MEDIA FILES SYNC ** -------------------------------------
+      // ================================================================
+
+      // ================================================================
+      // ** BEGIN DATA SYNC **
+
+      // Sync the config table ------------------------------------------
       await ConfigSync(tempAdapter, server: serverLocation).sync();
-    }
-    on Exception catch(ex){
+      _updateProgress(SyncState.DataDownload, 82);
+      //-----------------------------------------------------------------
+
+      // Sync the quiz related tables -----------------------------------
+      await QuizSync(tempAdapter, server: serverLocation).sync();
+      _updateProgress(SyncState.DataDownload, 84);
+      // ----------------------------------------------------------------
+
+      // ** END DATA SYNC ** --------------------------------------------
+      // ================================================================
+
+      // ================================================================
+      // ** CLEANUP PHASE ** --------------------------------------------
+
+      _updateProgress(SyncState.Cleanup, 90);
+
+      // Overwrite original database
+      await File(Env.tempDbPath).copy(Env.dbPath);
+
+      _updateProgress(SyncState.Cleanup, 95);
+
+      // Delete files in the deletion queue
+      await mediaSync.processDeletionQueue();
+
+      // Delete temp database
+      await File(Env.tempDbPath).delete();
+
+      // ** END CLEANUP PHASE **
+      // ================================================================
+
+      // DATA SYNC COMPLETE!
+      _updateProgress(SyncState.Done, 100);
+    } on Exception catch (ex) {
       _failUpdate(ex);
     }
   }
@@ -154,25 +194,25 @@ class SyncManager {
     } else if (await NetworkUtil.canAccessCMSRemote()) {
       print('Connectivity established with internet server.');
       return CmsServerLocation.Internet;
-    } else
-      throw ServerUnreachableException(message: 'CMS server was not reachable');
+    }
+    throw ServerUnreachableException();
   }
 
   /// Creates all database tables for the provided database adapter, if not
   /// exists.
-  void _initializeDatatables(SqfliteAdapter a) {
-    ConfigBean(a).createTable(ifNotExists: true);
-    ActivityBean(a).createTable(ifNotExists: true);
-    ActivityImageBean(a).createTable(ifNotExists: true);
-    TrackBean(a).createTable(ifNotExists: true);
-    FactFileEntryBean(a).createTable(ifNotExists: true);
-    FactFileCategoryBean(a).createTable(ifNotExists: true);
-    FactFileNuggetBean(a).createTable(ifNotExists: true);
-    FactFileEntryImageBean(a).createTable(ifNotExists: true);
-    QuizBean(a).createTable(ifNotExists: true);
-    QuizQuestionBean(a).createTable(ifNotExists: true);
-    QuizAnswerBean(a).createTable(ifNotExists: true);
-    MediaFileBean(a).createTable(ifNotExists: true);
-    UserPhotoBean(a).createTable(ifNotExists: true);
+  void _initializeDatatables(SqfliteAdapter adapter) {
+    ConfigBean(adapter).createTable(ifNotExists: true);
+    ActivityBean(adapter).createTable(ifNotExists: true);
+    ActivityImageBean(adapter).createTable(ifNotExists: true);
+    TrackBean(adapter).createTable(ifNotExists: true);
+    FactFileEntryBean(adapter).createTable(ifNotExists: true);
+    FactFileCategoryBean(adapter).createTable(ifNotExists: true);
+    FactFileNuggetBean(adapter).createTable(ifNotExists: true);
+    FactFileEntryImageBean(adapter).createTable(ifNotExists: true);
+    QuizBean(adapter).createTable(ifNotExists: true);
+    QuizQuestionBean(adapter).createTable(ifNotExists: true);
+    QuizAnswerBean(adapter).createTable(ifNotExists: true);
+    MediaFileBean(adapter).createTable(ifNotExists: true);
+    UserPhotoBean(adapter).createTable(ifNotExists: true);
   }
 }

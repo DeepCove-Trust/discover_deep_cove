@@ -29,8 +29,8 @@ class MediaData {
 }
 
 class MediaSync {
-  CmsServerLocation server;
-  SqfliteAdapter tempAdapter, adapter;
+  final CmsServerLocation server;
+  final SqfliteAdapter tempAdapter, adapter;
   void Function(SyncState, int, {int upTo, int outOf, int totalSize})
       onProgress;
 
@@ -81,13 +81,14 @@ class MediaSync {
   /// Iterates through the download queue and downloads each file asynchronously,
   /// adding database records and saving to disk as files are received.
   /// Performs a free-storage check prior to downloading.
-  Future<void> processDownloadQueue({bool asyncDownload = true}) async {
+  Future<void> processDownloadQueue({bool asyncDownload}) async {
     upTo = 0; // file that we are up to downloading
     outOf = _downloadQueue.length; // out of how many
     totalSize = _downloadQueue.fold<int>(0, (v, n) => v + n.size);
 
     if (!(await sufficientStorageAvailable(totalSize))) {
-      throw InsufficientStorageException(message: 'Insufficient storage on device.');
+      throw InsufficientStorageException(
+          message: 'Insufficient storage on device.');
     }
 
     // Update progress for user
@@ -152,6 +153,8 @@ class MediaSync {
     upTo++;
     onProgress(SyncState.MediaDownload, getPercentage(),
         upTo: upTo, outOf: outOf, totalSize: totalSize);
+
+    print('Downloaded media file ${mediaFile.id} (${mediaFile.name})');
   }
 
   /// Adds supplied MediaFile record to both temp and main databases
@@ -198,7 +201,7 @@ class MediaSync {
       await mediaFileBeanTemp
           .update(mediaFileBeanTemp.fromMap(json.decode(jsonString)));
 
-      print('Media file ${mediaFile.id} - updated in temp database');
+      print('Media file ${mediaFile.id} (${mediaFile.name}) - updated');
     }
   }
 
@@ -207,15 +210,17 @@ class MediaSync {
   Future<void> processDeletionQueue() async {
     print('Deleting unneeded media files...');
     for (MediaFile mediaFile in _deletionQueue) {
-      await File(mediaFile.path).delete().catchError((_){});
+      await File(Env.getResourcePath(mediaFile.path))
+          .delete()
+          .catchError((_) { print('Error deleting ${mediaFile.name}');});
       await mediaFileBeanMain.remove(mediaFile.id);
-      print('Deleted media file ${mediaFile.id}');
+      print('Deleted media file ${mediaFile.id} (${mediaFile.name})');
     }
   }
 
   /// Gets the correct completion percentage for the download process.
   /// (the media download queue begins at 20 and ends at 80)
   int getPercentage() {
-    return 60 * upTo ~/ outOf + 20;
+    return outOf > 0 ? 60 * upTo ~/ outOf + 20 : 0; // avoid divide by zero
   }
 }

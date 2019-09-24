@@ -8,20 +8,20 @@ part of 'quiz_answer.dart';
 
 abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
   final id = IntField('id');
-  final questionId = IntField('question_id');
+  final quizQuestionId = IntField('quiz_question_id');
   final text = StrField('text');
   final imageId = IntField('image_id');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
-        questionId.name: questionId,
+        quizQuestionId.name: quizQuestionId,
         text.name: text,
         imageId.name: imageId,
       };
   QuizAnswer fromMap(Map map) {
     QuizAnswer model = QuizAnswer();
     model.id = adapter.parseValue(map['id']);
-    model.questionId = adapter.parseValue(map['question_id']);
+    model.quizQuestionId = adapter.parseValue(map['quiz_question_id']);
     model.text = adapter.parseValue(map['text']);
     model.imageId = adapter.parseValue(map['image_id']);
 
@@ -34,21 +34,21 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
 
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
-      ret.add(questionId.set(model.questionId));
+      ret.add(quizQuestionId.set(model.quizQuestionId));
       ret.add(text.set(model.text));
       ret.add(imageId.set(model.imageId));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
-      if (only.contains(questionId.name))
-        ret.add(questionId.set(model.questionId));
+      if (only.contains(quizQuestionId.name))
+        ret.add(quizQuestionId.set(model.quizQuestionId));
       if (only.contains(text.name)) ret.add(text.set(model.text));
       if (only.contains(imageId.name)) ret.add(imageId.set(model.imageId));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
       }
-      if (model.questionId != null) {
-        ret.add(questionId.set(model.questionId));
+      if (model.quizQuestionId != null) {
+        ret.add(quizQuestionId.set(model.quizQuestionId));
       }
       if (model.text != null) {
         ret.add(text.set(model.text));
@@ -64,7 +64,7 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
-    st.addInt(questionId.name,
+    st.addInt(quizQuestionId.name,
         foreignTable: quizQuestionBean.tableName,
         foreignCol: 'id',
         isNullable: false);
@@ -243,9 +243,9 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     return adapter.remove(remove);
   }
 
-  Future<List<QuizAnswer>> findByQuizQuestion(int questionId,
+  Future<List<QuizAnswer>> findByQuizQuestion(int quizQuestionId,
       {bool preload = false, bool cascade = false}) async {
-    final Find find = finder.where(this.questionId.eq(questionId));
+    final Find find = finder.where(this.quizQuestionId.eq(quizQuestionId));
     final List<QuizAnswer> models = await findMany(find);
     if (preload) {
       await this.preloadAll(models, cascade: cascade);
@@ -259,7 +259,7 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (QuizQuestion model in models) {
-      find.or(this.questionId.eq(model.id));
+      find.or(this.quizQuestionId.eq(model.id));
     }
     final List<QuizAnswer> retModels = await findMany(find);
     if (preload) {
@@ -268,13 +268,13 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     return retModels;
   }
 
-  Future<int> removeByQuizQuestion(int questionId) async {
-    final Remove rm = remover.where(this.questionId.eq(questionId));
+  Future<int> removeByQuizQuestion(int quizQuestionId) async {
+    final Remove rm = remover.where(this.quizQuestionId.eq(quizQuestionId));
     return await adapter.remove(rm);
   }
 
   void associateQuizQuestion(QuizAnswer child, QuizQuestion parent) {
-    child.questionId = parent.id;
+    child.quizQuestionId = parent.id;
   }
 
   Future<List<QuizAnswer>> findByMediaFile(int imageId,

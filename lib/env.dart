@@ -32,8 +32,12 @@ class Env {
 
   // API Endpoints
   static String get _configUrl => DotEnv().env['config'];
+
   static String get _mediaUrl => DotEnv().env['media'];
+
   static String get _mediaDownloadUrl => DotEnv().env['mediaDownload'];
+
+  static String get _quizzesUrl => DotEnv().env['quizzes'];
 
   //-------------------------------- PATHS  ------------------------------------
 
@@ -47,6 +51,9 @@ class Env {
   /// used. ** Setting to true will break app for iOS. Turn off for release.
   static bool get debugStorageMode =>
       DotEnv().env['debugStorageMode'].toLowerCase() == 'true';
+
+  static bool get asyncDownload =>
+      DotEnv().env['asyncMediaDownload'].toLowerCase() == 'true';
 
   static String _rootStorageDirPath;
 
@@ -94,7 +101,7 @@ class Env {
   /// Returns the path to the database file.
   static String get dbPath => join(_rootStorageDirPath, _dbPath);
 
-  /// Returns the path to the temp database file
+  /// Returns the path to the temp database file.
   static String get tempDbPath => join(_rootStorageDirPath, _tempDbPath);
 
   /// Returns the path to the resources directory.
@@ -114,25 +121,36 @@ class Env {
     return server == CmsServerLocation.Internet ? remoteCmsUrl : intranetCmsUrl;
   }
 
-  /// API endpoint to return the latest config from the server
+  /// API endpoint to return the latest config from the server.
   static String configUrl(CmsServerLocation server) {
     return _getCmsUrl(server) + _configUrl;
   }
 
-  /// API endpoint to return summary of all required media files
+  /// API endpoint to return summary of all required media files.
   static String mediaListUrl(CmsServerLocation server) {
     return _getCmsUrl(server) + _mediaUrl;
   }
 
-  /// API endpoint to return details of a single media file
+  /// API endpoint to return details of a single media file.
   static String mediaDetailsUrl(CmsServerLocation server, int id) {
     return _getCmsUrl(server) + _mediaUrl + '/$id';
   }
 
-  /// API endpoint to return the specified media file
+  /// API endpoint to return the specified media file.
   static String mediaDownloadUrl(CmsServerLocation server, String filename) {
     return _getCmsUrl(server) +
         _mediaDownloadUrl +
         '?filename=$filename&original=true'; // Todo: remove original
+  }
+
+  /// API endpoint to return a summary of active quizzes.
+  static String quizzesUrl(CmsServerLocation server) {
+    return _getCmsUrl(server) + _quizzesUrl;
+  }
+
+  /// API endpoint to return details, questions and answers for a given
+  /// quiz ID.
+  static String quizDetailsUrl(CmsServerLocation server, int id) {
+    return _getCmsUrl(server) + _quizzesUrl + '/$id';
   }
 }

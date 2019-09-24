@@ -291,7 +291,7 @@ class SyncProvider {
 
         // Replace quiz if the CMS provided a newer version.
         // This will remove user scores for this quiz.
-        if (oldQuiz.lastModified.isBefore(newQuiz.lastModified)) {
+        if (oldQuiz.updatedAt.isBefore(newQuiz.updatedAt)) {
           await quizBean.remove(newQuiz.id);
           await quizBean.insert(newQuiz);
           print("Quiz updated.");

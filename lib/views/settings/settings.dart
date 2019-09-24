@@ -148,7 +148,7 @@ class _SettingsState extends State<Settings> {
     QuizBean quizBean = QuizBean.of(context);
     List<Quiz> quizzes = await quizBean.getAll();
     quizzes.forEach((q) {
-      q.clearProgress();
+      quizBean.clearProgress(q.id);
       quizBean.update(q);
     });
 
