@@ -8,21 +8,15 @@ part of 'config.dart';
 
 abstract class _ConfigBean implements Bean<Config> {
   final id = IntField('id');
-  final dataVersion = IntField('data_version');
-  final filesVersion = IntField('files_version');
   final masterUnlockCode = StrField('master_unlock_code');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
-        dataVersion.name: dataVersion,
-        filesVersion.name: filesVersion,
         masterUnlockCode.name: masterUnlockCode,
       };
   Config fromMap(Map map) {
     Config model = Config();
     model.id = adapter.parseValue(map['id']);
-    model.dataVersion = adapter.parseValue(map['data_version']);
-    model.filesVersion = adapter.parseValue(map['files_version']);
     model.masterUnlockCode = adapter.parseValue(map['master_unlock_code']);
 
     return model;
@@ -34,26 +28,14 @@ abstract class _ConfigBean implements Bean<Config> {
 
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
-      ret.add(dataVersion.set(model.dataVersion));
-      ret.add(filesVersion.set(model.filesVersion));
       ret.add(masterUnlockCode.set(model.masterUnlockCode));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
-      if (only.contains(dataVersion.name))
-        ret.add(dataVersion.set(model.dataVersion));
-      if (only.contains(filesVersion.name))
-        ret.add(filesVersion.set(model.filesVersion));
       if (only.contains(masterUnlockCode.name))
         ret.add(masterUnlockCode.set(model.masterUnlockCode));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
-      }
-      if (model.dataVersion != null) {
-        ret.add(dataVersion.set(model.dataVersion));
-      }
-      if (model.filesVersion != null) {
-        ret.add(filesVersion.set(model.filesVersion));
       }
       if (model.masterUnlockCode != null) {
         ret.add(masterUnlockCode.set(model.masterUnlockCode));
@@ -66,8 +48,6 @@ abstract class _ConfigBean implements Bean<Config> {
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
-    st.addInt(dataVersion.name, isNullable: false);
-    st.addInt(filesVersion.name, isNullable: false);
     st.addStr(masterUnlockCode.name, isNullable: false);
     return adapter.createTable(st);
   }

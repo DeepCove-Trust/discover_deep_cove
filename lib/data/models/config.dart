@@ -10,19 +10,11 @@ class Config {
 
   Config.make({
     @required this.id,
-    @required this.dataVersion,
-    @required this.filesVersion,
     @required this.masterUnlockCode,
   });
 
   @PrimaryKey()
   int id;
-
-  @Column()
-  int dataVersion;
-
-  @Column()
-  int filesVersion;
 
   @Column()
   String masterUnlockCode;
