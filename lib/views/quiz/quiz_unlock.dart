@@ -1,3 +1,4 @@
+import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
@@ -44,6 +45,12 @@ class _QuizUnlockState extends State<QuizUnlock> {
   void verifyCode(BuildContext context) async {
     UnlockStatus status;
 
+    Config config = await ConfigBean.of(context).find(1);
+
+    if(textController.text == config.masterUnlockCode){
+      return await unlockAllQuizzes();
+    }
+
     Quiz quiz = await QuizBean.of(context).findByCode(textController.text);
 
     if (quiz != null) {
@@ -70,6 +77,15 @@ class _QuizUnlockState extends State<QuizUnlock> {
         break;
       default:
         Util.showToast(context, 'Invalid code entered');
+    }
+  }
+
+  /// Unlock all quizzes
+  Future<void> unlockAllQuizzes() async {
+    List<Quiz> quizzes = await QuizBean.of(context).getAll();
+    for(Quiz quiz in quizzes){
+      quiz.unlocked = true;
+      await QuizBean.of(context).update(quiz);
     }
   }
 
