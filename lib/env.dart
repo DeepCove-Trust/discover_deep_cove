@@ -32,12 +32,11 @@ class Env {
 
   // API Endpoints
   static String get _configUrl => DotEnv().env['config'];
-
   static String get _mediaUrl => DotEnv().env['media'];
-
   static String get _mediaDownloadUrl => DotEnv().env['mediaDownload'];
-
   static String get _quizzesUrl => DotEnv().env['quizzes'];
+  static String get _factFilesUrl => DotEnv().env['factFiles'];
+
 
   //-------------------------------- PATHS  ------------------------------------
 
@@ -152,5 +151,17 @@ class Env {
   /// quiz ID.
   static String quizDetailsUrl(CmsServerLocation server, int id) {
     return _getCmsUrl(server) + _quizzesUrl + '/$id';
+  }
+
+  static String factFilesList(CmsServerLocation server){
+    return _getCmsUrl(server) + _factFilesUrl;
+  }
+
+  static String factFileDetails(CmsServerLocation server, int id){
+    return _getCmsUrl(server) + _factFilesUrl + '/$id';
+  }
+
+  static String factFileCategoriesList(CmsServerLocation server){
+    return _getCmsUrl(server) + _factFilesUrl + '/categories';
   }
 }

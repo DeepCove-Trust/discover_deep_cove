@@ -8,7 +8,7 @@ import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/activity/activity_image.dart';
 import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/data/models/config.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_image.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';

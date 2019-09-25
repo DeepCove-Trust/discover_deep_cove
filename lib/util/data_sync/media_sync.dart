@@ -198,8 +198,9 @@ class MediaSync {
           Env.mediaDetailsUrl(server, mediaFile.id));
 
       // Update the database using the deserialized, updated, media file
-      await mediaFileBeanTemp
-          .update(mediaFileBeanTemp.fromMap(json.decode(jsonString)));
+      await mediaFileBeanTemp.update(
+          mediaFileBeanTemp.fromMap(json.decode(jsonString)),
+          onlyNonNull: true);
 
       print('Media file ${mediaFile.id} (${mediaFile.name}) - updated');
     }
@@ -210,9 +211,9 @@ class MediaSync {
   Future<void> processDeletionQueue() async {
     print('Deleting unneeded media files...');
     for (MediaFile mediaFile in _deletionQueue) {
-      await File(Env.getResourcePath(mediaFile.path))
-          .delete()
-          .catchError((_) { print('Error deleting ${mediaFile.name}');});
+      await File(Env.getResourcePath(mediaFile.path)).delete().catchError((_) {
+        print('Error deleting ${mediaFile.name}');
+      });
       await mediaFileBeanMain.remove(mediaFile.id);
       print('Deleted media file ${mediaFile.id} (${mediaFile.name})');
     }

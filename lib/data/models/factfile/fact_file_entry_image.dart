@@ -5,12 +5,16 @@ import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 
-part 'fact_file_entry_images.jorm.dart';
+part 'fact_file_entry_image.jorm.dart';
 
 /// Pivot table between fact file entries and the media files that belong to
 /// their galleries.
 class FactFileEntryImage {
   FactFileEntryImage();
+
+  FactFileEntryImage.make(int factFileId, int mediaFileId)
+      : factFileEntryId = factFileId,
+        mediaFileId = mediaFileId;
 
   // Todo: Confirm whether these two should be BelongsTo.many
   @BelongsTo(FactFileEntryBean)

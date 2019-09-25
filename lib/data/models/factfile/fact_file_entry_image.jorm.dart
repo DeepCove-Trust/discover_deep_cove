@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'fact_file_entry_images.dart';
+part of 'fact_file_entry_image.dart';
 
 // **************************************************************************
 // BeanGenerator
