@@ -256,7 +256,7 @@ class SyncProvider {
 
         // If the activity has been modified, replace it with the newer
         // version.
-        if (oldActivity.lastModified.isBefore(newActivity.lastModified)) {
+        if (oldActivity.updatedAt.isBefore(newActivity.updatedAt)) {
           await activityBean.remove(newActivity.id);
           await activityBean.insert(newActivity);
           print("Activity updated");

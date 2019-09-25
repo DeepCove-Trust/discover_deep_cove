@@ -19,6 +19,7 @@ import 'package:discover_deep_cove/util/data_sync/config_sync.dart';
 import 'package:discover_deep_cove/util/data_sync/fact_file_sync.dart';
 import 'package:discover_deep_cove/util/data_sync/media_sync.dart';
 import 'package:discover_deep_cove/util/data_sync/quiz_sync.dart';
+import 'package:discover_deep_cove/util/data_sync/track_sync.dart';
 import 'package:discover_deep_cove/util/exeptions.dart';
 import 'package:discover_deep_cove/util/network_util.dart';
 
@@ -147,6 +148,8 @@ class SyncManager {
       // ================================================================
       // ** BEGIN DATA SYNC **
 
+      TrackSync trackSync = TrackSync(tempAdapter, server: serverLocation);
+
       // Sync the config table ------------------------------------------
       await ConfigSync(tempAdapter, server: serverLocation).sync();
       _updateProgress(SyncState.DataDownload, 82);
@@ -162,6 +165,9 @@ class SyncManager {
       _updateProgress(SyncState.DataDownload, 86);
       // ----------------------------------------------------------------
 
+      // Sync tracks and activities -------------------------------------
+      await trackSync.sync();
+      // ----------------------------------------------------------------
 
       // ** END DATA SYNC ** --------------------------------------------
       // ================================================================
@@ -176,8 +182,9 @@ class SyncManager {
 
       _updateProgress(SyncState.Cleanup, 95);
 
-      // Delete files in the deletion queue
+      // Delete files in the deletion queues
       await mediaSync.processDeletionQueue();
+      await trackSync.processDeletionQueue(adapter); // Delete old user photos
 
       // Delete temp database
       await File(Env.tempDbPath).delete();

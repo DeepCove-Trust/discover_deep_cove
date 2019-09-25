@@ -110,7 +110,7 @@ class QuizSync {
       await questionBean.insert(question);
 
       // Insert answers for this question
-      await answerBean.insertMany(answers.where((a) => a.id == question.id).toList());
+      await answerBean.insertMany(answers.where((a) => a.quizQuestionId == question.id).toList());
 
       // Now replace the correct answer id for the question
       question.correctAnswerId = correctAnswerId;

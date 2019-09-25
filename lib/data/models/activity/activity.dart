@@ -23,7 +23,7 @@ class Activity {
   int id;
 
   @Column()
-  DateTime lastModified;
+  DateTime updatedAt;
 
   @BelongsTo(TrackBean)
   int trackId;
@@ -86,13 +86,13 @@ class Activity {
   List<MediaFile> imageOptions;
 
   @IgnoreColumn()
-  MediaFile image; // Todo: preload this
+  MediaFile image;
 
   @IgnoreColumn()
-  MediaFile selectedPicture; // Todo: preload this
+  MediaFile selectedPicture;
 
   @IgnoreColumn()
-  UserPhoto userPhoto; // Todo: preload this
+  UserPhoto userPhoto;
 
   @IgnoreColumn()
   LatLng get latLng => LatLng(coordY, coordX);

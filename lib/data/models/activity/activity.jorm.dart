@@ -8,7 +8,7 @@ part of 'activity.dart';
 
 abstract class _ActivityBean implements Bean<Activity> {
   final id = IntField('id');
-  final lastModified = DateTimeField('last_modified');
+  final updatedAt = DateTimeField('updated_at');
   final trackId = IntField('track_id');
   final factFileId = IntField('fact_file_id');
   final _activityType = IntField('activity_type');
@@ -30,7 +30,7 @@ abstract class _ActivityBean implements Bean<Activity> {
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
-        lastModified.name: lastModified,
+        updatedAt.name: updatedAt,
         trackId.name: trackId,
         factFileId.name: factFileId,
         _activityType.name: _activityType,
@@ -52,7 +52,7 @@ abstract class _ActivityBean implements Bean<Activity> {
   Activity fromMap(Map map) {
     Activity model = Activity();
     model.id = adapter.parseValue(map['id']);
-    model.lastModified = adapter.parseValue(map['last_modified']);
+    model.updatedAt = adapter.parseValue(map['updated_at']);
     model.trackId = adapter.parseValue(map['track_id']);
     model.factFileId = adapter.parseValue(map['fact_file_id']);
     model._activityType = adapter.parseValue(map['activity_type']);
@@ -81,7 +81,7 @@ abstract class _ActivityBean implements Bean<Activity> {
 
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
-      ret.add(lastModified.set(model.lastModified));
+      ret.add(updatedAt.set(model.updatedAt));
       ret.add(trackId.set(model.trackId));
       ret.add(factFileId.set(model.factFileId));
       ret.add(_activityType.set(model._activityType));
@@ -102,8 +102,8 @@ abstract class _ActivityBean implements Bean<Activity> {
       ret.add(userText.set(model.userText));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
-      if (only.contains(lastModified.name))
-        ret.add(lastModified.set(model.lastModified));
+      if (only.contains(updatedAt.name))
+        ret.add(updatedAt.set(model.updatedAt));
       if (only.contains(trackId.name)) ret.add(trackId.set(model.trackId));
       if (only.contains(factFileId.name))
         ret.add(factFileId.set(model.factFileId));
@@ -135,8 +135,8 @@ abstract class _ActivityBean implements Bean<Activity> {
       if (model.id != null) {
         ret.add(id.set(model.id));
       }
-      if (model.lastModified != null) {
-        ret.add(lastModified.set(model.lastModified));
+      if (model.updatedAt != null) {
+        ret.add(updatedAt.set(model.updatedAt));
       }
       if (model.trackId != null) {
         ret.add(trackId.set(model.trackId));
@@ -198,7 +198,7 @@ abstract class _ActivityBean implements Bean<Activity> {
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
-    st.addDateTime(lastModified.name, isNullable: false);
+    st.addDateTime(updatedAt.name, isNullable: false);
     st.addInt(trackId.name,
         foreignTable: trackBean.tableName, foreignCol: 'id', isNullable: false);
     st.addInt(factFileId.name, isNullable: true);

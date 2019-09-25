@@ -41,7 +41,7 @@ class FactFileSync {
 
   Future<List<FactFileCategory>> _getCategoriesSummary() async {
     String jsonString =
-        await NetworkUtil.requestDataString(Env.factFileCategoriesList(server));
+        await NetworkUtil.requestDataString(Env.factFileCategoriesListUrl(server));
     List<dynamic> data = json.decode(jsonString);
     return data.map((m) => factFileCategoryBean.fromMap(m)).toList();
   }
@@ -49,7 +49,7 @@ class FactFileSync {
   Future<void> _downloadFactFile(int id) async {
     // Request json string from server
     String jsonString =
-        await NetworkUtil.requestDataString(Env.factFileDetails(server, id));
+        await NetworkUtil.requestDataString(Env.factFileDetailsUrl(server, id));
     Map<String, dynamic> decodedJson = json.decode(jsonString);
 
     // Deserialize all data
@@ -117,8 +117,6 @@ class FactFileSync {
 
   Future<void> _createEntryImagesFor(int factFileId, List<int> mediaIds) async {
     if (mediaIds.length == 0) return;
-
-    FactFileEntry entry = await factFileEntryBean.find(factFileId);
 
     // Create list of entry image objects
     List<FactFileEntryImage> entryImages =
@@ -188,7 +186,7 @@ class FactFileSync {
 
   Future<List<FactFileData>> _getFactFilesSummary() async {
     String jsonString =
-        await NetworkUtil.requestDataString(Env.factFilesList(server));
+        await NetworkUtil.requestDataString(Env.factFilesListUrl(server));
     List<dynamic> decodedJson = json.decode(jsonString);
     return decodedJson.map((map) => FactFileData.fromMap(map)).toList();
   }

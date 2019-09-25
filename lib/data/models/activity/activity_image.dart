@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
@@ -12,6 +13,10 @@ class ActivityImage {
 
   @BelongsTo(MediaFileBean)
   int imageId;
+
+  ActivityImage();
+
+  ActivityImage.make({@required this.imageId, @required this.activityId});
 }
 
 @GenBean()
