@@ -1,6 +1,5 @@
 import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
@@ -255,7 +254,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                     ),
                     onPressed: () => verifyCode(context),
                     borderSide: BorderSide(
-                      color: HexColor("FFFFFFFF"),
+                      color: Color(0xFFFFFFFF),
                     ),
                   ),
                 ),

@@ -1,7 +1,6 @@
 import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/db.dart';
 import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,13 +32,13 @@ void main() async {
 ThemeData appTheme() {
   return ThemeData(
     //Green
-    primaryColor: HexColor("FF8BC34A"),
+    primaryColor: Color(0xFF8BC34A),
     //Charcoal
-    primaryColorDark: HexColor("FF262626"),
+    primaryColorDark: Color(0xFF262626),
     //Orange
-    accentColor: HexColor("FFFF5026"),
+    accentColor: Color(0xFFFF5026),
     //Dark Gray
-    backgroundColor: HexColor("FF363636"),
+    backgroundColor: Color(0xFF363636),
 
     fontFamily: 'Roboto',
   );
