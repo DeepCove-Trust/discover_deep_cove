@@ -70,6 +70,9 @@ class Util {
     print('Device has ${_storageInfo[0].availableBytes} bytes available');
 
     return _storageInfo[0].availableBytes;
+  }
 
+  static String bytesToMBString(int bytes){
+    return '${(bytes / 1000000).toStringAsFixed(1)}MB';
   }
 }

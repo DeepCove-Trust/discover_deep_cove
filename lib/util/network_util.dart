@@ -34,6 +34,18 @@ class NetworkUtil {
     }
   }
 
+  /// Returns the decoded JSON list that is received in response to a get
+  /// request to the supplied URL.
+  static Future<List<dynamic>> requestJsonList(String url){
+    // Todo: Complete this
+  }
+
+  /// Returns the decoded JSON map that is received in response to a get
+  /// request to the supplied URL.
+  static Future<Map<String, dynamic>> requestJsonMap(String url){
+    // Todo: Complete this
+  }
+
   /// Returns the body of the response that is returned in response to
   /// a GET request to the supplied URL, as a string.
   static Future<String> requestDataString(String url) async {

@@ -54,20 +54,20 @@ enum SyncState {
 }
 
 class SyncManager {
-  SyncState syncState = SyncState.None;
-  CmsServerLocation serverLocation;
-  SqfliteAdapter tempAdapter, adapter;
+  SyncState _syncState = SyncState.None;
+  CmsServerLocation _serverLocation;
+  SqfliteAdapter _tempAdapter, _adapter;
 
   // State, percentage complete, up to file, out of files, total size bytes
   void Function(SyncState, int, int, int, int) onProgressChange;
 
-  SyncManager({this.onProgressChange}) : syncState = SyncState.None;
+  SyncManager({this.onProgressChange}) : _syncState = SyncState.None;
 
   /// Returns progress information to the widget that called the sync
   /// method.
   void _updateProgress(SyncState syncState, int percent,
       {int upTo, int outOf, int totalSize}) {
-    this.syncState = syncState;
+    this._syncState = syncState;
     onProgressChange(syncState, percent, upTo, outOf, totalSize);
   }
 
@@ -98,7 +98,7 @@ class SyncManager {
       // ** Determine which server to use for update **
 
       // First, check whether the intranet is available
-      serverLocation = await _getServerLocation();
+      _serverLocation = await _getServerLocation();
       _updateProgress(SyncState.ServerDiscovered, 5);
 
       // -----------------------------------------------
@@ -109,12 +109,12 @@ class SyncManager {
       File dbFile = File(Env.dbPath);
       if (await dbFile.exists()) dbFile.copy(Env.tempDbPath);
 
-      tempAdapter = await DB.instance.tempAdapter;
-      adapter = await DB.instance.adapter;
+      _tempAdapter = await DB.instance.tempAdapter;
+      _adapter = await DB.instance.adapter;
 
       // Ensure all tables exist
-      _initializeDatatables(tempAdapter);
-      _initializeDatatables(adapter);
+      _initializeDatatables(_tempAdapter);
+      _initializeDatatables(_adapter);
 
       // ================================================================
       // ** BEGIN MEDIA FILES SYNC **
@@ -122,9 +122,9 @@ class SyncManager {
       _updateProgress(SyncState.MediaDownload, 10);
 
       MediaSync mediaSync = MediaSync(
-          adapter: adapter,
-          tempAdapter: tempAdapter,
-          server: serverLocation,
+          adapter: _adapter,
+          tempAdapter: _tempAdapter,
+          server: _serverLocation,
           onProgress: _updateProgress);
 
       // Build the download, update and deletion queues for media files -
@@ -148,21 +148,21 @@ class SyncManager {
       // ================================================================
       // ** BEGIN DATA SYNC **
 
-      TrackSync trackSync = TrackSync(tempAdapter, server: serverLocation);
+      TrackSync trackSync = TrackSync(_tempAdapter, server: _serverLocation);
 
       // Sync the config table ------------------------------------------
-      await ConfigSync(tempAdapter, server: serverLocation).sync();
-      _updateProgress(SyncState.DataDownload, 82);
+      await ConfigSync(_tempAdapter, server: _serverLocation).sync();
+      _updateProgress(SyncState.DataDownload, 84);
       //-----------------------------------------------------------------
 
       // Sync the quiz related tables -----------------------------------
-      await QuizSync(tempAdapter, server: serverLocation).sync();
-      _updateProgress(SyncState.DataDownload, 84);
+      await QuizSync(_tempAdapter, server: _serverLocation).sync();
+      _updateProgress(SyncState.DataDownload, 88);
       // ----------------------------------------------------------------
 
       // Sync the fact files --------------------------------------------
-      await FactFileSync(tempAdapter, server: serverLocation).sync();
-      _updateProgress(SyncState.DataDownload, 86);
+      await FactFileSync(_tempAdapter, server: _serverLocation).sync();
+      _updateProgress(SyncState.DataDownload, 92);
       // ----------------------------------------------------------------
 
       // Sync tracks and activities -------------------------------------
@@ -175,16 +175,16 @@ class SyncManager {
       // ================================================================
       // ** CLEANUP PHASE ** --------------------------------------------
 
-      _updateProgress(SyncState.Cleanup, 90);
+      _updateProgress(SyncState.Cleanup, 95);
 
       // Overwrite original database
       await File(Env.tempDbPath).copy(Env.dbPath);
 
-      _updateProgress(SyncState.Cleanup, 95);
+      _updateProgress(SyncState.Cleanup, 98);
 
       // Delete files in the deletion queues
-      await mediaSync.processDeletionQueue();
-      await trackSync.processDeletionQueue(adapter); // Delete old user photos
+      await mediaSync.processDeletionQueue(); // Delete unused media files
+      await trackSync.processDeletionQueue(_adapter); // Delete old user photos
 
       // Delete temp database
       await File(Env.tempDbPath).delete();

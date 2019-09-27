@@ -21,13 +21,13 @@ class RouteGenerator {
     var args = settings.arguments;
 
     switch (settings.name) {
-      case '/about':
+      case '/':
         return MaterialPageRoute(builder: (_) => Home());
 
       case '/splash':
         return MaterialPageRoute(builder: (_) => Splash());
 
-      case '/':
+      case '/about':
         return MaterialPageRoute(builder: (_) => About());
 
       //Fact file routes
