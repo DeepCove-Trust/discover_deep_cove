@@ -75,4 +75,6 @@ class Util {
   static String bytesToMBString(int bytes){
     return '${(bytes / 1000000).toStringAsFixed(1)}MB';
   }
+  static bool saveToDevice = true;//TODO hook this up to the database so that it persists when device is turned off
+  //should go into the settings table
 }
