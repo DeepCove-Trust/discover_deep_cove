@@ -96,7 +96,6 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
     return FutureBuilder(
         future: widget.isReview ? _getSavedPhoto() : _getPreview(),
         builder: (context, snapshot) {
-          print(snapshot.connectionState.toString());
           if (snapshot.connectionState == ConnectionState.active ||
               snapshot.connectionState == ConnectionState.waiting) {
             return Column(
@@ -120,13 +119,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
 
   @override
   Widget build(BuildContext context) {
-    String imagePath = Env.getResourcePath(widget.activity.userPhoto?.path);
-
-    print("Image path:");
-    print(imagePath);
-    print("Picture " +
-        (File(imagePath).existsSync() ? "exists" : "does not exist"));
-
+    
     return Scaffold(
       appBar: ActivityAppBar(
         text: widget.activity.title,
