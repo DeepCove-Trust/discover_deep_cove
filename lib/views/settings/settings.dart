@@ -21,6 +21,8 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  bool test = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +31,16 @@ class _SettingsState extends State<Settings> {
         children: [
           Column(
             children: [
+              SettingsButton(
+                iconData: FontAwesomeIcons.image,
+                text: "Save to Device",
+                isOnOff: true,
+                onOffCallback: (newTest) => setState(() {
+                  test = !test;
+                }),
+                initalValue: test,
+              ),
+              Divider(color: Color(0xFF777777), height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.undo,
                 text: "Reset Progress",
@@ -136,7 +148,6 @@ class _SettingsState extends State<Settings> {
   }
 
   _resetProgress() async {
-
     ActivityBean activityBean = ActivityBean.of(context);
     List<Activity> activities = await activityBean.getAll();
     activities.forEach((a) {
