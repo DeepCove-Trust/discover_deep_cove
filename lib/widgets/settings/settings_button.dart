@@ -6,13 +6,23 @@ class SettingsButton extends StatelessWidget {
   final IconData iconData;
   final String text;
   final VoidCallback onTap;
+  final bool isOnOff;
+  final bool initalValue;
+  final void Function(bool) onOffCallback;
 
-  SettingsButton({this.text, this.iconData, this.onTap});
+  SettingsButton({
+    this.text,
+    this.iconData,
+    this.onTap,
+    this.isOnOff = false,
+    this.initalValue = false,
+    this.onOffCallback,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: isOnOff ? null : onTap,
       child: Container(
         padding: EdgeInsets.symmetric(
             vertical: Screen.height(context, percentage: 5), horizontal: 12),
@@ -32,7 +42,14 @@ class SettingsButton extends StatelessWidget {
                           ? 60
                           : 40),
               child: SubHeading(text),
-            )
+            ),
+            isOnOff
+                ? Switch(
+                    onChanged: isOnOff ? onOffCallback : null,
+                    activeColor: Theme.of(context).accentColor,
+                    value: initalValue,
+                  )
+                : Container(),
           ],
         ),
       ),
