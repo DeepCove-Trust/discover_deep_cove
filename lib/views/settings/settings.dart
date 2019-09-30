@@ -36,9 +36,9 @@ class _SettingsState extends State<Settings> {
                 text: "Save to Device",
                 isOnOff: true,
                 onOffCallback: (newTest) => setState(() {
-                  test = !test;
+                  Util.saveToDevice = !Util.saveToDevice;
                 }),
-                initalValue: test,
+                initalValue: Util.saveToDevice,
               ),
               Divider(color: Color(0xFF777777), height: 1),
               SettingsButton(
