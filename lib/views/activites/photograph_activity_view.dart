@@ -129,11 +129,11 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
 
     return Scaffold(
       appBar: ActivityAppBar(
-          text: widget.activity.title,
-          onTap: widget.activity.factFileId != null
-              ? () => displayFactFile(widget.activity.factFileId)
-              : null,
-        ),
+        text: widget.activity.title,
+        onTap: widget.activity.factFileId != null
+            ? () => displayFactFile(widget.activity.factFileId)
+            : null,
+      ),
       body: Column(
         children: [
           Padding(
@@ -150,10 +150,11 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
           ),
           Expanded(
             child: Center(
-                child: Padding(
-              padding: EdgeInsets.all(8),
-              child: _getCenterChild(),
-            )),
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: _getCenterChild(),
+              ),
+            ),
           )
         ],
       ),
@@ -166,19 +167,21 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       backgroundColor: Theme.of(context).backgroundColor,
       floatingActionButton: widget.isReview
           ? Container()
-          : Align(alignment: Alignment.bottomCenter, child:Padding(
-              padding: EdgeInsets.only(
-                bottom: 8,
-              ),
-              child: CustomFab(
-                icon: FontAwesomeIcons.camera,
-                text: "I see it!",
-                onPressed: () {
-                  _onImageButtonPressed(context);
-                },
+          : Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: 8,
+                ),
+                child: CustomFab(
+                  icon: FontAwesomeIcons.camera,
+                  text: "I see it!",
+                  onPressed: () {
+                    _onImageButtonPressed(context);
+                  },
+                ),
               ),
             ),
-          ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
