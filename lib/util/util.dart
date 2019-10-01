@@ -56,7 +56,7 @@ class Util {
   /// and adding the correct file extension based on supplied type.
   static String getAntiCollisionName(String name, String extension) {
     String suffix = DateTime.now().millisecondsSinceEpoch.toString();
-    return name.replaceAll(' ', '_') + '_' + suffix + '.' + extension;
+    return name.replaceAll(' ', '_') + '_' + suffix + extension;
   }
 
   /// Returns the amount of free storage space available to the app, in bytes.
