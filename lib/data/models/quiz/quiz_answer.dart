@@ -13,7 +13,7 @@ class QuizAnswer {
   int id;
 
   @BelongsTo(QuizQuestionBean)
-  int questionId;
+  int quizQuestionId;
 
   @Column(isNullable: true)
   String text;
@@ -25,7 +25,7 @@ class QuizAnswer {
   QuizQuestion correctForQuestion;
 
   @IgnoreColumn()
-  MediaFile image; // TODO: Preload this field
+  MediaFile image;
 }
 
 @GenBean()

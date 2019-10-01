@@ -38,10 +38,12 @@ class _FactFileIndexState extends State<FactFileIndex>
     List<FactFileCategory> data =
         await factFileCategoryBean.getAllWithPreloadedEntries();
 
-    setState(() {
-      categories = data;
-      controller = TabController(vsync: this, length: data.length);
-    });
+    if(mounted) {
+      setState(() {
+        categories = data;
+        controller = TabController(vsync: this, length: data.length);
+      });
+    }
 
     for (FactFileCategory category in categories) {
       for (FactFileEntry entry in category.entries)

@@ -7,7 +7,11 @@ class SettingsButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
 
-  SettingsButton({this.text, this.iconData, this.onTap});
+  SettingsButton({
+    this.text,
+    this.iconData,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +30,15 @@ class SettingsButton extends StatelessWidget {
               child: Icon(iconData, color: Colors.white),
             ),
             Container(
-              width: Screen.width(context,
-                  percentage:
-                      Screen.isTablet(context) && Screen.isPortrait(context)
-                          ? 60
-                          : 40),
+              width: Screen.width(
+                context,
+                percentage:
+                    Screen.isTablet(context) && Screen.isPortrait(context)
+                        ? 60
+                        : 50,
+              ),
               child: SubHeading(text),
-            )
+            ),
           ],
         ),
       ),

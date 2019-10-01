@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
@@ -189,8 +187,8 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                         )
                       : Container(),
                   Positioned(
-                    top: _getYPos(widget.activity.userYCoord),
-                    left: _getXPos(widget.activity.userXCoord),
+                    top: _getYPos(widget.activity.userCoordY),
+                    left: _getXPos(widget.activity.userCoordX),
                     child: Center(
                       child: Container(
                         width: Screen.height(context, percentage: 10),
@@ -198,7 +196,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                         child: Container(
                           key: _keyImage,
                           decoration: BoxDecoration(
-                            color: HexColor("80FF5026"),
+                            color: Color(0x80FF5026),
                             border: Border.all(
                               color: setTransparentColor(),
                               width: 3.0,
@@ -275,7 +273,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                               height: Screen.height(context, percentage: 10),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: HexColor("80FF5026"),
+                                  color: Color(0x80FF5026),
                                   border: Border.all(
                                     color: setTransparentColor(),
                                     width: 3.0,
@@ -350,13 +348,12 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
 
   ///Updates the transparency value of the accent color
   setTransparentColor() {
-    return transparentAccent = HexColor(
-        '80' + Theme.of(context).accentColor.toString().substring(10, 16));
+    return transparentAccent = Color(0x80FF5026);
   }
 
   void saveAnswer() async {
-    widget.activity.userXCoord = posX;
-    widget.activity.userYCoord = posY;
+    widget.activity.userCoordX = posX;
+    widget.activity.userCoordY = posY;
     await ActivityBean.of(context).update(widget.activity);
     Navigator.of(context).pop();
   }

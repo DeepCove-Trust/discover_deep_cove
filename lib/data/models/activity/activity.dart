@@ -1,7 +1,8 @@
 import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/activity/activity_images.dart';
+import 'package:discover_deep_cove/data/models/activity/activity_image.dart';
 import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:discover_deep_cove/data/models/user_photo.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:latlong/latlong.dart' show LatLng;
@@ -22,7 +23,7 @@ class Activity {
   int id;
 
   @Column()
-  DateTime lastModified;
+  DateTime updatedAt;
 
   @BelongsTo(TrackBean)
   int trackId;
@@ -40,10 +41,10 @@ class Activity {
   String qrCode;
 
   @Column()
-  double xCoord;
+  double coordX;
 
   @Column()
-  double yCoord;
+  double coordY;
 
   @Column()
   String title;
@@ -59,7 +60,7 @@ class Activity {
   int imageId;
 
   /// The image that the user took for this activity.
-  @BelongsTo(MediaFileBean, isNullable: true)
+  @BelongsTo(UserPhotoBean, isNullable: true)
   int userPhotoId;
 
   /// The selected picture for a picture select activity.
@@ -70,10 +71,10 @@ class Activity {
   bool informationActivityUnlocked;
 
   @Column(isNullable: true)
-  double userXCoord;
+  double userCoordX;
 
   @Column(isNullable: true)
-  double userYCoord;
+  double userCoordY;
 
   @Column(isNullable: true)
   int userCount;
@@ -85,16 +86,16 @@ class Activity {
   List<MediaFile> imageOptions;
 
   @IgnoreColumn()
-  MediaFile image; // Todo: preload this
+  MediaFile image;
 
   @IgnoreColumn()
-  MediaFile selectedPicture; // Todo: preload this
+  MediaFile selectedPicture;
 
   @IgnoreColumn()
-  MediaFile userPhoto; // Todo: preload this
+  UserPhoto userPhoto;
 
   @IgnoreColumn()
-  LatLng get latLng => LatLng(yCoord, xCoord);
+  LatLng get latLng => LatLng(coordY, coordX);
 
   bool isCompleted() {
     switch (activityType) {
@@ -102,7 +103,7 @@ class Activity {
         return selectedPictureId != null;
         break;
       case ActivityType.pictureTapActivity:
-        return userXCoord != null && userYCoord != null;
+        return userCoordX != null && userCoordY != null;
         break;
       case ActivityType.countActivity:
         return userCount != null;
@@ -125,8 +126,8 @@ class Activity {
     userPhotoId = null;
     userPhoto = null;
     userCount = null;
-    userYCoord = null;
-    userXCoord = null;
+    userCoordY = null;
+    userCoordX = null;
     userText = null;
     selectedPictureId = null;
     selectedPicture = null;
@@ -154,6 +155,10 @@ class ActivityBean extends Bean<Activity> with _ActivityBean {
 
   MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
 
+  UserPhotoBean _userPhotoBean;
+
+  UserPhotoBean get userPhotoBean => _userPhotoBean ?? UserPhotoBean(adapter);
+
   final String tableName = 'activities';
 
   Future<Activity> preloadRelationships(Activity activity) async {
@@ -164,7 +169,7 @@ class ActivityBean extends Bean<Activity> with _ActivityBean {
     }
 
     if (activity.userPhotoId != null) {
-      activity.userPhoto = await mediaFileBean.find(activity.userPhotoId);
+      activity.userPhoto = await userPhotoBean.find(activity.userPhotoId);
     }
 
     if (activity.selectedPictureId != null) {

@@ -1,4 +1,3 @@
-import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:flutter/material.dart';
 
 class ImageSource extends StatelessWidget {
@@ -21,7 +20,7 @@ class ImageSource extends StatelessWidget {
               Text(
                 isCopyright ? "© " + source : source,
                 style: TextStyle(
-                  color: HexColor("FF999999"),
+                  color: Color(0xFF999999),
                   fontStyle: FontStyle.italic,
                   fontSize: size,
                 ),
