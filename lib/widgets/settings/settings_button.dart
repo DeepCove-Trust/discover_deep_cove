@@ -30,11 +30,13 @@ class SettingsButton extends StatelessWidget {
               child: Icon(iconData, color: Colors.white),
             ),
             Container(
-              width: Screen.width(context,
-                  percentage:
-                      Screen.isTablet(context) && Screen.isPortrait(context)
-                          ? 60
-                          : 40),
+              width: Screen.width(
+                context,
+                percentage:
+                    Screen.isTablet(context) && Screen.isPortrait(context)
+                        ? 60
+                        : 40,
+              ),
               child: SubHeading(text),
             ),
           ],
