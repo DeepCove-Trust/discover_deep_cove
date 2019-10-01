@@ -21,7 +21,6 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  bool test = true;
 
   @override
   Widget build(BuildContext context) {
