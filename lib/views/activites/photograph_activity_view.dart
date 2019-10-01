@@ -14,6 +14,7 @@ import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 
 class PhotographActivityView extends StatefulWidget {
   final Activity activity;
@@ -90,7 +91,6 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
   }
 
   Widget _getCenterChild() {
-    print('getCenterChild');
     return FutureBuilder(
         future: widget.isReview ? _getSavedPhoto() : _getPreview(),
         builder: (context, snapshot) {
@@ -117,7 +117,6 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: ActivityAppBar(
         text: widget.activity.title,
@@ -134,10 +133,6 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
           Padding(
             padding: const EdgeInsets.fromLTRB(40, 0, 40, 20),
             child: BodyText(widget.activity.task),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Divider(color: Color(0xFF777777)),
           ),
           Expanded(
             child: Center(
@@ -166,7 +161,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                 ),
                 child: CustomFab(
                   icon: FontAwesomeIcons.camera,
-                  text: "I see it!",
+                  text: _image == null ? "I see it!" : "Try again",
                   onPressed: () {
                     _onImageButtonPressed(context);
                   },
@@ -259,8 +254,12 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
     try {
       // Determine directory and filename to store new image
       Directory directory = Directory(Env.getResourcePath('user_photos'));
-      String filename =
-          Util.getAntiCollisionName(widget.activity.title, ".jpg");
+      String filename = Util.getAntiCollisionName(
+        widget.activity.title,
+        ".jpg",
+      );
+
+      if (Util.saveToDevice) GallerySaver.saveImage(_image.path);
 
       // Save the image to the users photos directory, and delete temp image
       ImageHandler.saveImage(
