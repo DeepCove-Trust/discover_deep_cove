@@ -10,17 +10,21 @@ abstract class _ConfigBean implements Bean<Config> {
   final id = IntField('id');
   final masterUnlockCode = StrField('master_unlock_code');
   final _savePhotosToGallery = BoolField('save_photos_to_gallery');
+  final savePhotosToGallery = BoolField('save_photos_to_gallery');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
         masterUnlockCode.name: masterUnlockCode,
         _savePhotosToGallery.name: _savePhotosToGallery,
+        savePhotosToGallery.name: savePhotosToGallery,
       };
   Config fromMap(Map map) {
     Config model = Config();
     model.id = adapter.parseValue(map['id']);
     model.masterUnlockCode = adapter.parseValue(map['master_unlock_code']);
     model._savePhotosToGallery =
+        adapter.parseValue(map['save_photos_to_gallery']);
+    model.savePhotosToGallery =
         adapter.parseValue(map['save_photos_to_gallery']);
 
     return model;
@@ -34,12 +38,15 @@ abstract class _ConfigBean implements Bean<Config> {
       ret.add(id.set(model.id));
       ret.add(masterUnlockCode.set(model.masterUnlockCode));
       ret.add(_savePhotosToGallery.set(model._savePhotosToGallery));
+      ret.add(savePhotosToGallery.set(model.savePhotosToGallery));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(masterUnlockCode.name))
         ret.add(masterUnlockCode.set(model.masterUnlockCode));
       if (only.contains(_savePhotosToGallery.name))
         ret.add(_savePhotosToGallery.set(model._savePhotosToGallery));
+      if (only.contains(savePhotosToGallery.name))
+        ret.add(savePhotosToGallery.set(model.savePhotosToGallery));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
@@ -50,6 +57,9 @@ abstract class _ConfigBean implements Bean<Config> {
       if (model._savePhotosToGallery != null) {
         ret.add(_savePhotosToGallery.set(model._savePhotosToGallery));
       }
+      if (model.savePhotosToGallery != null) {
+        ret.add(savePhotosToGallery.set(model.savePhotosToGallery));
+      }
     }
 
     return ret;
@@ -59,7 +69,8 @@ abstract class _ConfigBean implements Bean<Config> {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
     st.addStr(masterUnlockCode.name, isNullable: false);
-    st.addBool(_savePhotosToGallery.name, isNullable: false);
+    st.addBool(_savePhotosToGallery.name, isNullable: true);
+    st.addBool(savePhotosToGallery.name, isNullable: false);
     return adapter.createTable(st);
   }
 

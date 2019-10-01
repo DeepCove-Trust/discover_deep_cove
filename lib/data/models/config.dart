@@ -19,7 +19,7 @@ class Config {
   @Column()
   String masterUnlockCode;
 
-  @Column(name: 'save_photos_to_gallery')
+  @Column(name: 'save_photos_to_gallery', isNullable: true)
   bool _savePhotosToGallery;
   bool get savePhotosToGallery => _savePhotosToGallery ?? false;
   set savePhotosToGallery(bool val) => _savePhotosToGallery = val;
