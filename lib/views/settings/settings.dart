@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/settings/settings_button.dart';
@@ -17,6 +18,30 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  bool savePhotosToGallery;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadConfig();
+  }
+
+  Future<void> _loadConfig() async {
+    Config config = await ConfigBean.of(context).find(1);
+    setState(() {
+      savePhotosToGallery = config.savePhotosToGallery;
+    });
+  }
+
+  void _toggleSaveToGallery() async {
+    Config newConfig = Config();
+    newConfig.id = 1;
+    newConfig.savePhotosToGallery = !savePhotosToGallery;
+    await ConfigBean.of(context).update(newConfig, onlyNonNull: true);
+
+    setState(() => savePhotosToGallery = !savePhotosToGallery);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +50,17 @@ class _SettingsState extends State<Settings> {
         children: [
           Column(
             children: [
+              SettingsButton(
+                  iconData: FontAwesomeIcons.image,
+                  text: savePhotosToGallery == null
+                      ? '...'
+                      : savePhotosToGallery
+                          ? "Stop saving photos to gallery"
+                          : "Save photos to gallery",
+                  onTap: savePhotosToGallery != null
+                      ? () => _toggleSaveToGallery()
+                      : null),
+              Divider(color: Color(0xFF777777), height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.undo,
                 text: "Reset Progress",
@@ -89,7 +125,6 @@ class _SettingsState extends State<Settings> {
   }
 
   _resetProgress() async {
-
     ActivityBean activityBean = ActivityBean.of(context);
     List<Activity> activities = await activityBean.getAll();
     activities.forEach((a) {

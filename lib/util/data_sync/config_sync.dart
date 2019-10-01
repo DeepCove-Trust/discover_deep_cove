@@ -23,7 +23,7 @@ class ConfigSync {
       await configBean.insert(serverConfig);
       print('Config added');
     } else {
-      await configBean.update(serverConfig);
+      await configBean.update(serverConfig, onlyNonNull: true);
       print('Config unchanged / updated');
     }
   }

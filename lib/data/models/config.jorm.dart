@@ -9,15 +9,19 @@ part of 'config.dart';
 abstract class _ConfigBean implements Bean<Config> {
   final id = IntField('id');
   final masterUnlockCode = StrField('master_unlock_code');
+  final _savePhotosToGallery = BoolField('save_photos_to_gallery');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
         masterUnlockCode.name: masterUnlockCode,
+        _savePhotosToGallery.name: _savePhotosToGallery,
       };
   Config fromMap(Map map) {
     Config model = Config();
     model.id = adapter.parseValue(map['id']);
     model.masterUnlockCode = adapter.parseValue(map['master_unlock_code']);
+    model._savePhotosToGallery =
+        adapter.parseValue(map['save_photos_to_gallery']);
 
     return model;
   }
@@ -29,16 +33,22 @@ abstract class _ConfigBean implements Bean<Config> {
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
       ret.add(masterUnlockCode.set(model.masterUnlockCode));
+      ret.add(_savePhotosToGallery.set(model._savePhotosToGallery));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(masterUnlockCode.name))
         ret.add(masterUnlockCode.set(model.masterUnlockCode));
+      if (only.contains(_savePhotosToGallery.name))
+        ret.add(_savePhotosToGallery.set(model._savePhotosToGallery));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
       }
       if (model.masterUnlockCode != null) {
         ret.add(masterUnlockCode.set(model.masterUnlockCode));
+      }
+      if (model._savePhotosToGallery != null) {
+        ret.add(_savePhotosToGallery.set(model._savePhotosToGallery));
       }
     }
 
@@ -49,6 +59,7 @@ abstract class _ConfigBean implements Bean<Config> {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
     st.addStr(masterUnlockCode.name, isNullable: false);
+    st.addBool(_savePhotosToGallery.name, isNullable: false);
     return adapter.createTable(st);
   }
 

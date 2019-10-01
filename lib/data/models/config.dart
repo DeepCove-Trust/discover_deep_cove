@@ -10,7 +10,7 @@ class Config {
 
   Config.make({
     @required this.id,
-    @required this.masterUnlockCode,
+    @required this.masterUnlockCode
   });
 
   @PrimaryKey()
@@ -18,6 +18,11 @@ class Config {
 
   @Column()
   String masterUnlockCode;
+
+  @Column(name: 'save_photos_to_gallery')
+  bool _savePhotosToGallery;
+  bool get savePhotosToGallery => _savePhotosToGallery ?? false;
+  set savePhotosToGallery(bool val) => _savePhotosToGallery = val;
 }
 
 @GenBean()

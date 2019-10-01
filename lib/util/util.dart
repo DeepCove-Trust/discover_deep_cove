@@ -1,6 +1,7 @@
 import 'dart:io' show File, Directory;
 
 import 'package:archive/archive.dart' show ZipDecoder, Archive, ArchiveFile;
+import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +57,7 @@ class Util {
   /// and adding the correct file extension based on supplied type.
   static String getAntiCollisionName(String name, String extension) {
     String suffix = DateTime.now().millisecondsSinceEpoch.toString();
-    return name.replaceAll(' ', '_') + '_' + suffix + '.' + extension;
+    return name.replaceAll(' ', '_') + '_' + suffix + extension;
   }
 
   /// Returns the amount of free storage space available to the app, in bytes.
@@ -74,5 +75,10 @@ class Util {
 
   static String bytesToMBString(int bytes){
     return '${(bytes / 1000000).toStringAsFixed(1)}MB';
+  }
+
+  static Future<bool> savePhotosToGallery(BuildContext context) async {
+    Config config = await ConfigBean.of(context).find(1);
+    return config.savePhotosToGallery;
   }
 }
