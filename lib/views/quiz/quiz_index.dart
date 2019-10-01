@@ -21,9 +21,9 @@ class _QuizIndexState extends State<QuizIndex> {
   }
 
   Future<void> refreshData() async {
-    List<Quiz> data = await QuizBean.of(context).getAllAndPreload();
-    data = data.where((quiz) => quiz.unlocked).toList();
-    setState(() => quizzes = data);
+    List<Quiz> activeQuizzes = await QuizBean.of(context).getAllAndPreload();
+    activeQuizzes = activeQuizzes.where((quiz) => quiz.unlocked).toList();
+    setState(() => quizzes = activeQuizzes);
   }
 
   @override

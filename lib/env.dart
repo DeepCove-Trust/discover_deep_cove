@@ -28,7 +28,7 @@ class Env {
   static String get remoteCmsUrl => DotEnv().env['remoteUrl'];
 
   /// IP address or domain name of the on-site server
-  static String get intranetCmsUrl => DotEnv().env['intranetURL'];
+  static String get intranetCmsUrl => DotEnv().env['intranetUrl'];
 
   // API Endpoints
   static String get _configUrl => DotEnv().env['config'];

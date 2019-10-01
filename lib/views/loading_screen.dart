@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/util/data_sync/sync_manager.dart';
@@ -6,15 +8,22 @@ import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/misc/progress_bar.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 
-class Splash extends StatefulWidget {
+class LoadingScreen extends StatefulWidget {
+  final bool isManualUpdate;
+  final VoidCallback onComplete;
+
+  LoadingScreen({this.isManualUpdate = false, this.onComplete});
+
   @override
-  _SplashState createState() => _SplashState();
+  _LoadingScreenState createState() => _LoadingScreenState();
 }
 
 // Todo: This screen should replicate the splash screen.
-class _SplashState extends State<Splash> {
+class _LoadingScreenState extends State<LoadingScreen> {
+  bool isFirstLoad = false;
   SyncState syncState;
   int filesToDownload;
   int filesDownloaded;
@@ -25,7 +34,14 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
     syncState = SyncState.None;
-    checkContent();
+    widget.isManualUpdate ? checkContent() : manualUpdate();
+  }
+
+  Future<void> manualUpdate() async {
+    print('Checking for new content');
+    await SyncManager(onProgressChange: _onProgressUpdate).sync();
+    await Future.delayed(Duration(seconds: 2));
+    Navigator.of(context).pop();
   }
 
   // Check whether the database exists
@@ -35,14 +51,14 @@ class _SplashState extends State<Splash> {
     try {
       var config = await ConfigBean(DatabaseAdapter.of(context)).getAll();
     } on DatabaseException catch (ex) {
-      print('Application database has not been created, initializing sync.');
+      isFirstLoad = true;
+      print('Checking for new content');
       await SyncManager(onProgressChange: _onProgressUpdate).sync();
-
       // Short delay so user can see the final success/error message
       await Future.delayed(Duration(seconds: 2));
     } finally {
       // Direct the user to the home screen
-      Navigator.of(context).pop();
+      Navigator.of(context).pushReplacementNamed('/');
     }
   }
 
@@ -51,13 +67,15 @@ class _SplashState extends State<Splash> {
       case SyncState.None:
         return '';
       case SyncState.DataDownload:
-        return 'Downloading data...';
+        return 'Checking for new data...';
       case SyncState.Error_ServerUnreachable:
         return 'Server could not be reached';
       case SyncState.ServerDiscovered:
         return '';
+      case SyncState.MediaDiscovery:
+        return 'Checking for new files...';
       case SyncState.MediaDownload:
-        return 'Downloading files...';
+        return 'Downloading new files...';
       case SyncState.Cleanup:
         return 'Cleaning up...';
       case SyncState.Done:
@@ -86,6 +104,7 @@ class _SplashState extends State<Splash> {
             color: Colors.lightGreen, size: 50);
       case SyncState.Cleanup:
       case SyncState.Initialization:
+      case SyncState.MediaDiscovery:
       case SyncState.MediaDownload:
       case SyncState.ServerDiscovered:
       case SyncState.DataDownload:
@@ -94,8 +113,8 @@ class _SplashState extends State<Splash> {
     }
   }
 
-  void _onProgressUpdate(
-      SyncState syncState, int percent, int upTo, int outOf, int totalSize) {
+  void _onProgressUpdate(SyncState syncState, int percent, int upTo, int outOf,
+      int totalSize) {
     setState(() {
       this.syncState = syncState;
       percentComplete = percent.toDouble();
@@ -103,40 +122,62 @@ class _SplashState extends State<Splash> {
       filesToDownload = outOf;
       downloadSize = totalSize;
     });
+
+    if (syncState == SyncState.Error_ServerUnreachable ||
+        syncState == SyncState.Error_Other ||
+        syncState == SyncState.Error_Storage ||
+        syncState == SyncState.Error_Permission && widget.isManualUpdate) {
+      _onUpdateFail();
+    }
+  }
+
+  void _onUpdateFail() async {
+    await Future.delayed(Duration(seconds: 2));
+
+    if (isFirstLoad) {
+      SystemNavigator.pop(); // quit app if app doesn't yet have content
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Image.asset('assets/splash_logo.png'),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: Screen.height(context, percentage: 10)),
-                ProgressBar(percent: percentComplete / 100),
-                SizedBox(height: Screen.height(context, percentage: 6)),
-                BodyText(
-                  _getMessage(),
-                  size: Screen.isTablet(context) ? 30 : null,
-                ),
-                SizedBox(height: Screen.height(context, percentage: 4)),
-                _getIcon() ?? Container(),
-                filesToDownload != null
-                    ? BodyText(
-                        '$filesDownloaded out of $filesToDownload '
-                        'downloaded \n (${Util.bytesToMBString(downloadSize)} total)',
-                        size: Screen.isTablet(context) ? 30 : null)
-                    : Container(),
-              ],
-            )
-          ],
+    return WillPopScope(
+      onWillPop: () => Future<bool>.value(false),
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 90,
+                    child: _getIcon(),
+                  ),
+                  BodyText(
+                    _getMessage(),
+                    size: Screen.isTablet(context) ? 30 : null,
+                  ),
+                  SizedBox(height: 30),
+                  ProgressBar(percent: percentComplete / 100),
+                  SizedBox(height: 30),
+                  BodyText(
+                    filesToDownload != null
+                        ? '$filesDownloaded out of $filesToDownload downloaded \n '
+                        '(${Util.bytesToMBString(downloadSize)} total)'
+                        : ' \n ',
+                    size: Screen.isTablet(context) ? 30 : null,
+                  )
+                ],
+              )
+            ],
+          ),
         ),
+        backgroundColor: Theme
+            .of(context)
+            .primaryColorDark,
       ),
-      backgroundColor: Theme.of(context).primaryColorDark,
     );
   }
 }

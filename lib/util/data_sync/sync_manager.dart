@@ -34,6 +34,9 @@ enum SyncState {
   /// A CMS server has been successfully contacted.
   ServerDiscovered,
 
+  /// Discovering required media files
+  MediaDiscovery,
+
   /// Downloading media files
   MediaDownload,
 
@@ -119,7 +122,7 @@ class SyncManager {
       // ================================================================
       // ** BEGIN MEDIA FILES SYNC **
 
-      _updateProgress(SyncState.MediaDownload, 10);
+      _updateProgress(SyncState.MediaDiscovery, 10);
 
       MediaSync mediaSync = MediaSync(
           adapter: _adapter,
@@ -129,12 +132,12 @@ class SyncManager {
 
       // Build the download, update and deletion queues for media files -
       await mediaSync.buildQueues();
-      _updateProgress(SyncState.MediaDownload, 15);
+      _updateProgress(SyncState.MediaDiscovery, 15);
       // ----------------------------------------------------------------
 
       // Process the update queue for media files -----------------------
       await mediaSync.processUpdateQueue();
-      _updateProgress(SyncState.MediaDownload, 20);
+      _updateProgress(SyncState.MediaDiscovery, 20);
       // ----------------------------------------------------------------
 
       // Process the download queue for media files ---------------------
@@ -186,7 +189,8 @@ class SyncManager {
       await mediaSync.processDeletionQueue(); // Delete unused media files
       await trackSync.processDeletionQueue(_adapter); // Delete old user photos
 
-      // Delete temp database
+      // Delete temp database and reset adaptor
+      await DB.instance.resetTempAdapter();
       await File(Env.tempDbPath).delete();
 
       // ** END CLEANUP PHASE **
@@ -194,7 +198,9 @@ class SyncManager {
 
       // DATA SYNC COMPLETE!
       _updateProgress(SyncState.Done, 100);
-    } on Exception catch (ex) {
+    } on Exception catch (ex, stacktrace) {
+      print(ex);
+      print(stacktrace);
       _failUpdate(ex);
     }
   }

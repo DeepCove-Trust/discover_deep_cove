@@ -12,14 +12,13 @@ class NetworkUtil {
   /// Returns true if the application receives an HTTP response from the
   /// remote CMS server after making a GET request.
   static Future<bool> canAccessCMSRemote() async {
-    return await _returnsResponse(
-        'http://lan.deepcove.xyz/api/app/config'); // Todo: replace with env value
+    return await _returnsResponse(Env.configUrl(CmsServerLocation.Internet));
   }
 
   /// Returns true if the application receives an HTTP response from the
   /// intranet server address, after making a GET request.
   static Future<bool> canAccessCMSLocal() async {
-    return await _returnsResponse(Env.intranetCmsUrl);
+    return await _returnsResponse(Env.configUrl(CmsServerLocation.Intranet));
   }
 
   /// Returns true if the device receives an OK HTTP response after making
@@ -36,13 +35,13 @@ class NetworkUtil {
 
   /// Returns the decoded JSON list that is received in response to a get
   /// request to the supplied URL.
-  static Future<List<dynamic>> requestJsonList(String url){
+  static Future<List<dynamic>> requestJsonList(String url) {
     // Todo: Complete this
   }
 
   /// Returns the decoded JSON map that is received in response to a get
   /// request to the supplied URL.
-  static Future<Map<String, dynamic>> requestJsonMap(String url){
+  static Future<Map<String, dynamic>> requestJsonMap(String url) {
     // Todo: Complete this
   }
 
@@ -65,7 +64,9 @@ class NetworkUtil {
   static Future<Http.Response> _requestResponse(String url) async {
     Http.Response response = await Http.get(url);
     if (response.statusCode != 200)
-      throw ApiException(message: 'Request to $url returned non-OK response', statusCode: response.statusCode);
+      throw ApiException(
+          message: 'Request to $url returned non-OK response',
+          statusCode: response.statusCode);
     return response;
   }
 
@@ -76,7 +77,6 @@ class NetworkUtil {
       {@required Http.Response response,
       @required String absPath,
       @required String filename}) async {
-
     return await bytesToFile(
         bytes: response.bodyBytes, absPath: absPath, filename: filename);
   }

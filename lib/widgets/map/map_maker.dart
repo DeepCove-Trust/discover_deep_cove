@@ -10,6 +10,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong/latlong.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'custom_marker.dart';
 
@@ -32,16 +33,16 @@ class MapMaker extends StatefulWidget {
 }
 
 class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
-  // LatLng mapCenter;
-  // double zoom;
   List<Track> tracks;
   int currentTrackNum;
   StreamController<String> trackStreamController;
   Stream<String> trackStream;
 
-  MapState state;
+  MapState mapState;
 
-  Track get currentTrack => tracks[currentTrackNum];
+  Track get currentTrack => tracks.length > 0 ? tracks[currentTrackNum] : null;
+  bool get tracksLoaded => tracks != null;
+  bool get hasTracks => tracks.length > 0;
 
   @override
   void initState() {
@@ -63,8 +64,15 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
   }
 
   Future<void> loadTracks() async {
-    tracks = await TrackBean.of(context).getAllAndPreload();
-    setState(() => tracks);
+    try {
+      tracks = await TrackBean.of(context).getAllAndPreload();
+      setState(() => tracks);
+    }
+    on DatabaseException catch (ex){
+      await Future.delayed(Duration(seconds: 5));
+      // Tracks table probably doesn't exist, initiate initial update
+      Navigator.pushReplacementNamed(context, '/update', arguments: true);
+    }
   }
 
   void _onAfterBuild(BuildContext context, LatLng center, double zoom) {
@@ -79,25 +87,24 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return tracks != null
-        ? Scaffold(
+        return Scaffold(
             appBar: AppBar(
               brightness: Brightness.dark,
-              leading: IconButton(
+              leading: tracksLoaded && hasTracks ? IconButton(
                 icon: Icon(FontAwesomeIcons.arrowLeft),
                 onPressed: () => changeTrack(increase: false),
                 color: Colors.white,
-              ),
-              actions: <Widget>[
+              ) : null,
+              actions: tracksLoaded && hasTracks ? [
                 IconButton(
                   icon: Icon(FontAwesomeIcons.arrowRight),
                   onPressed: () => changeTrack(increase: true),
                   color: Colors.white,
                 ),
-              ],
-              title: StreamBuilder(
+              ] : null,
+              title: tracksLoaded ? StreamBuilder(
                 stream: trackStream,
-                initialData: currentTrack.name,
+                initialData: hasTracks ? currentTrack.name : 'No tracks...',
                 builder: (context, snapshot) {
                   return SubHeading(
                     snapshot.hasData ? snapshot.data : '',
@@ -106,6 +113,11 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
                         : Screen.isSmall(context) ? 16 : null,
                   );
                 },
+              ) : SubHeading(
+                'Loading tracks...',
+                size: Screen.isTablet(context)
+                    ? 30
+                    : Screen.isSmall(context) ? 16 : null,
               ),
               centerTitle: true,
               backgroundColor: Theme.of(context).primaryColorDark,
@@ -138,12 +150,6 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
                 _buildTileLayerOptions(),
                 _buildMarkerClusterOptions(),
               ],
-            ),
-          )
-        : Container(
-            color: Theme.of(context).backgroundColor,
-            child: Center(
-              child: CircularProgressIndicator(),
             ),
           );
   }
@@ -186,13 +192,15 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
 
   List<CustomMarker> _getMarkers() {
     List<CustomMarker> markers = List<CustomMarker>();
-    for (Track track in tracks) {
-      for (Activity activity in track.activities) {
-        markers.add(CustomMarker(
-          track: track,
-          point: activity.latLng,
-          builder: (context) => _buildMarker(context, activity),
-        ));
+    if(tracksLoaded) {
+      for (Track track in tracks) {
+        for (Activity activity in track.activities) {
+          markers.add(CustomMarker(
+            track: track,
+            point: activity.latLng,
+            builder: (context) => _buildMarker(context, activity),
+          ));
+        }
       }
     }
     return markers;

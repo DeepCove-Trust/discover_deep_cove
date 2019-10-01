@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/network_util.dart';
-import 'package:discover_deep_cove/widgets/misc/loading_modal_overlay.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as Http;
 

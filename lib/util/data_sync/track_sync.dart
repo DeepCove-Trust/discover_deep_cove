@@ -96,7 +96,9 @@ class TrackSync {
 
     // Add the user photo to the deletion queue (we don't want to delete now,
     // in case the update process fails and we need to revert.
-    _deletionQueue.add(activity.userPhotoId);
+    if(activity.userPhotoId != null) {
+      _deletionQueue.add(activity.userPhotoId);
+    }
 
     print('Deleted activity {$id} (${activity.title})');
   }

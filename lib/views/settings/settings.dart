@@ -1,18 +1,14 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/util/data_sync.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/settings/settings_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Settings extends StatefulWidget {
-  final void Function({bool isLoading, String loadingMessage, Icon icon})
-      onProgressUpdate;
   final void Function(String code) onCodeEntry;
 
   Settings({
-    @required this.onProgressUpdate,
     @required this.onCodeEntry,
   });
 
@@ -67,50 +63,7 @@ class _SettingsState extends State<Settings> {
   }
 
   void syncResources() async {
-    bool wasSuccess = false;
-
-    widget.onProgressUpdate(
-        isLoading: true,
-        loadingMessage: 'Checking for updates.\n\nPlease wait...');
-
-    Map<String, bool> updates;
-
-    try {
-      updates = await SyncProvider.updatedDataAvailable();
-
-      if (updates['data'] == true || updates['files'] == true) {
-        widget.onProgressUpdate(
-            isLoading: true,
-            loadingMessage: 'Downloading updates.\n\nPlease wait...');
-      }
-
-      wasSuccess = await SyncProvider.syncResources();
-    } catch (ex) {
-      print(ex.toString());
-      await displayError();
-    }
-
-    if (wasSuccess) {
-      widget.onProgressUpdate(
-        isLoading: true,
-        loadingMessage: 'Application up to date!',
-        icon: Icon(Icons.check, color: Colors.green, size: 60),
-      );
-      await Future.delayed(Duration(seconds: 2));
-    } else {
-      await displayError();
-    }
-
-    widget.onProgressUpdate(isLoading: false);
-  }
-
-  Future<void> displayError() async {
-    widget.onProgressUpdate(
-      isLoading: true,
-      loadingMessage: 'Oops! An error occured.\n\nPlease try again later.',
-      icon: Icon(Icons.error_outline, color: Colors.red, size: 60),
-    );
-    await Future.delayed(Duration(seconds: 2));
+    Navigator.pushNamed(context, '/update', arguments: false);
   }
 
   _confirmResetDialog() async {
