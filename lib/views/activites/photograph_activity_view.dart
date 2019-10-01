@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/user_photo.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/image_handler.dart';
@@ -259,7 +260,8 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
         ".jpg",
       );
 
-      if (Util.saveToDevice) GallerySaver.saveImage(_image.path);
+      if (await Util.savePhotosToGallery(context))
+        GallerySaver.saveImage(_image.path);
 
       // Save the image to the users photos directory, and delete temp image
       ImageHandler.saveImage(

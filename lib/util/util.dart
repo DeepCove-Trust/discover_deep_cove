@@ -1,6 +1,7 @@
 import 'dart:io' show File, Directory;
 
 import 'package:archive/archive.dart' show ZipDecoder, Archive, ArchiveFile;
+import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +76,9 @@ class Util {
   static String bytesToMBString(int bytes){
     return '${(bytes / 1000000).toStringAsFixed(1)}MB';
   }
-  static bool saveToDevice = true;//TODO hook this up to the database so that it persists when device is turned off
-  //should go into the settings table
+
+  static Future<bool> savePhotosToGallery(BuildContext context) async {
+    Config config = await ConfigBean.of(context).find(1);
+    return config.savePhotosToGallery;
+  }
 }
