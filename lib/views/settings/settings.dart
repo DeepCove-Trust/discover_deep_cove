@@ -33,12 +33,8 @@ class _SettingsState extends State<Settings> {
             children: [
               SettingsButton(
                 iconData: FontAwesomeIcons.image,
-                text: "Save to Device",
-                isOnOff: true,
-                onOffCallback: (newTest) => setState(() {
-                  Util.saveToDevice = !Util.saveToDevice;
-                }),
-                initalValue: Util.saveToDevice,
+                text: Util.saveToDevice ? "Save photos to gallery" : "Stop saving photos",
+                onTap: () => setState(() => Util.saveToDevice = !Util.saveToDevice),
               ),
               Divider(color: Color(0xFF777777), height: 1),
               SettingsButton(
