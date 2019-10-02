@@ -1,6 +1,4 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
-import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
@@ -98,7 +96,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                   horizontal: Screen.height(context, percentage: 5.0),
                 ),
                 child: Divider(
-                  color: HexColor("FF777777"),
+                  color: Color(0xFF777777),
                 ),
               )
             : Container(),

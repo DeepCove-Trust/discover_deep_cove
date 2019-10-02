@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
@@ -107,7 +105,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                   vertical: Screen.height(context, percentage: 1.25),
                 ),
                 child: Divider(
-                  color: HexColor("FFFFFFFF"),
+                  color: Color(0xFFFFFFFF),
                 ),
               )
             : Container(),

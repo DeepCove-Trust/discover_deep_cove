@@ -1,5 +1,5 @@
 import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_image.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
@@ -18,6 +18,7 @@ class FactFileEntry {
   FactFileEntry.make(
       {@required this.id,
       @required this.categoryId,
+      @required this.updatedAt,
       @required this.primaryName,
       @required this.bodyText});
 
@@ -26,6 +27,9 @@ class FactFileEntry {
 
   @BelongsTo(FactFileCategoryBean)
   int categoryId;
+
+  @Column()
+  DateTime updatedAt;
 
   @Column()
   String primaryName;
@@ -135,9 +139,12 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
     if (entry.listenAudioId != null)
       entry.listenAudio = await mediaFileBean.find(entry.listenAudioId);
 
-    for(FactFileNugget nugget in entry.nuggets){
+    for (FactFileNugget nugget in entry.nuggets) {
       nugget = await factFileNuggetBean.preloadImage(nugget);
     }
+
+    // Sort nuggets by order index
+    entry.nuggets.sort((a, b) => a.orderIndex - b.orderIndex);
 
     return entry;
   }

@@ -398,7 +398,7 @@ abstract class _QuizQuestionBean implements Bean<QuizQuestion> {
         models,
         (QuizQuestion model) => [model.id],
         quizAnswerBean.findByQuizQuestionList,
-        (QuizAnswer model) => [model.questionId],
+        (QuizAnswer model) => [model.quizQuestionId],
         (QuizQuestion model, QuizAnswer child) =>
             model.answers = List.from(model.answers)..add(child),
         cascade: cascade);
