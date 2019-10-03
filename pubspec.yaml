@@ -32,7 +32,7 @@ dependencies:
   # Misc
   http: ^0.12.0+2                     # BSD
   archive: ^2.0.8                     # Apache 2.0
-  path_provider: ^1.1.0               # BSD
+  path_provider: ^1.3.0               # BSD
   path_provider_ex: ^1.0.1             # MIT
   flutter_dotenv: ^2.0.1              # MIT
   permission_handler: ^3.0.1          # MIT

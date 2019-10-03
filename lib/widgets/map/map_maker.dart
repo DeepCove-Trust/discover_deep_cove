@@ -63,8 +63,10 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
         PageStorage.of(context).readState(context, identifier: 'MapState') ??
             MapState(center: Env.mapDefaultCenter, zoom: Env.mapDefaultZoom);
 
-    // Load track data
-    loadTracks();
+    tracks = PageStorage.of(context).readState(context, identifier: 'Tracks');
+
+    // Load track data if not in storage
+    if (tracks == null) loadTracks();
   }
 
   @override
@@ -76,6 +78,7 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
   Future<void> loadTracks() async {
     try {
       tracks = await TrackBean.of(context).getAllAndPreload();
+      PageStorage.of(context).writeState(context, tracks, identifier: 'Tracks');
       setState(() => tracks);
     } on DatabaseException catch (ex) {
       await Future.delayed(Duration(seconds: 5));

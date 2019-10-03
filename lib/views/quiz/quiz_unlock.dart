@@ -2,6 +2,7 @@ import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
+import 'package:discover_deep_cove/views/home.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
@@ -58,6 +59,9 @@ class _QuizUnlockState extends State<QuizUnlock> {
       } else {
         quiz.unlocked = true;
         await QuizBean.of(context).update(quiz);
+        // This will discard any stored quizzes so the the index page fetches fresh
+        // data on next view.
+        PageStorage.of(context).writeState(context, null, identifier: 'Quizzes');
         status = UnlockStatus.success;
       }
 
@@ -86,6 +90,9 @@ class _QuizUnlockState extends State<QuizUnlock> {
       quiz.unlocked = true;
       await QuizBean.of(context).update(quiz);
     }
+    // This will discard any stored quizzes so the the index page fetches fresh
+    // data on next view.
+    PageStorage.of(context).writeState(context, null, identifier: 'Quizzes');
   }
 
   buildContent() {
