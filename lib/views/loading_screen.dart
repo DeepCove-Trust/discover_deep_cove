@@ -9,21 +9,18 @@ import 'package:discover_deep_cove/widgets/misc/progress_bar.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sqflite/sqflite.dart';
 
 class LoadingScreen extends StatefulWidget {
-  final bool isManualUpdate;
+  final bool isFirstLoad;
   final VoidCallback onComplete;
 
-  LoadingScreen({this.isManualUpdate = false, this.onComplete});
+  LoadingScreen({this.isFirstLoad = false, this.onComplete});
 
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
 
-// Todo: This screen should replicate the splash screen.
 class _LoadingScreenState extends State<LoadingScreen> {
-  bool isFirstLoad = false;
   SyncState syncState;
   int filesToDownload;
   int filesDownloaded;
@@ -34,32 +31,17 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void initState() {
     super.initState();
     syncState = SyncState.None;
-    widget.isManualUpdate ? checkContent() : manualUpdate();
+    manualUpdate();
   }
 
   Future<void> manualUpdate() async {
     print('Checking for new content');
     await SyncManager(onProgressChange: _onProgressUpdate).sync();
     await Future.delayed(Duration(seconds: 2));
-    Navigator.of(context).pop();
-  }
 
-  // Check whether the database exists
-  Future<void> checkContent() async {
-    // Check whether the config table exists, a database exception thrown here
-    // indicates that this is first time load
-    try {
-      var config = await ConfigBean(DatabaseAdapter.of(context)).getAll();
-    } on DatabaseException catch (ex) {
-      isFirstLoad = true;
-      print('Checking for new content');
-      await SyncManager(onProgressChange: _onProgressUpdate).sync();
-      // Short delay so user can see the final success/error message
-      await Future.delayed(Duration(seconds: 2));
-    } finally {
-      // Direct the user to the home screen
-      Navigator.of(context).pushReplacementNamed('/');
-    }
+    widget.isFirstLoad
+        ? Navigator.of(context).pushReplacementNamed('/')
+        : Navigator.of(context).pop();
   }
 
   String _getMessage() {
@@ -88,7 +70,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
         return 'You device has insufficient storage space. '
             'Please free some space and try again.';
       case SyncState.Initialization:
-        return 'Preparing to update...';
+        return widget.isFirstLoad
+            ? 'Downloading initial content'
+            : 'Preparing to update...';
     }
   }
 
@@ -113,8 +97,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
     }
   }
 
-  void _onProgressUpdate(SyncState syncState, int percent, int upTo, int outOf,
-      int totalSize) {
+  void _onProgressUpdate(
+      SyncState syncState, int percent, int upTo, int outOf, int totalSize) {
     setState(() {
       this.syncState = syncState;
       percentComplete = percent.toDouble();
@@ -126,7 +110,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     if (syncState == SyncState.Error_ServerUnreachable ||
         syncState == SyncState.Error_Other ||
         syncState == SyncState.Error_Storage ||
-        syncState == SyncState.Error_Permission && widget.isManualUpdate) {
+        syncState == SyncState.Error_Permission && widget.isFirstLoad) {
       _onUpdateFail();
     }
   }
@@ -134,7 +118,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void _onUpdateFail() async {
     await Future.delayed(Duration(seconds: 2));
 
-    if (isFirstLoad) {
+    if (widget.isFirstLoad) {
       SystemNavigator.pop(); // quit app if app doesn't yet have content
     }
   }
@@ -165,7 +149,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   BodyText(
                     filesToDownload != null
                         ? '$filesDownloaded out of $filesToDownload downloaded \n '
-                        '(${Util.bytesToMBString(downloadSize)} total)'
+                            '(${Util.bytesToMBString(downloadSize)} total)'
                         : ' \n ',
                     size: Screen.isTablet(context) ? 30 : null,
                   )
@@ -174,9 +158,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
             ],
           ),
         ),
-        backgroundColor: Theme
-            .of(context)
-            .primaryColorDark,
+        backgroundColor: Theme.of(context).primaryColorDark,
       ),
     );
   }

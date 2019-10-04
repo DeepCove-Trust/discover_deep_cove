@@ -41,7 +41,9 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
   MapState mapState;
 
   Track get currentTrack => tracks.length > 0 ? tracks[currentTrackNum] : null;
+
   bool get tracksLoaded => tracks != null;
+
   bool get hasTracks => tracks.length > 0;
 
   @override
@@ -54,7 +56,17 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
       animateToActivity(activityId);
     });
     currentTrackNum = 0;
-    loadTracks();
+
+    // Determine whether previous map state has been saved, otherwise use
+    // default values from the env file
+    mapState =
+        PageStorage.of(context).readState(context, identifier: 'MapState') ??
+            MapState(center: Env.mapDefaultCenter, zoom: Env.mapDefaultZoom);
+
+    tracks = PageStorage.of(context).readState(context, identifier: 'Tracks');
+
+    // Load track data if not in storage
+    if (tracks == null) loadTracks();
   }
 
   @override
@@ -66,9 +78,9 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
   Future<void> loadTracks() async {
     try {
       tracks = await TrackBean.of(context).getAllAndPreload();
+      PageStorage.of(context).writeState(context, tracks, identifier: 'Tracks');
       setState(() => tracks);
-    }
-    on DatabaseException catch (ex){
+    } on DatabaseException catch (ex) {
       await Future.delayed(Duration(seconds: 5));
       // Tracks table probably doesn't exist, initiate initial update
       Navigator.pushReplacementNamed(context, '/update', arguments: true);
@@ -77,32 +89,37 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
 
   void _onAfterBuild(BuildContext context, LatLng center, double zoom) {
     PageStorage.of(context).writeState(
-      context,
-      MapState(
-        center: center,
-        zoom: zoom,
-      ),
-    );
+        context,
+        MapState(
+          center: center,
+          zoom: zoom,
+        ),
+        identifier: 'MapState');
   }
 
   @override
   Widget build(BuildContext context) {
-        return Scaffold(
-            appBar: AppBar(
-              brightness: Brightness.dark,
-              leading: tracksLoaded && hasTracks ? IconButton(
+    return Scaffold(
+      appBar: AppBar(
+        brightness: Brightness.dark,
+        leading: tracksLoaded && hasTracks
+            ? IconButton(
                 icon: Icon(FontAwesomeIcons.arrowLeft),
                 onPressed: () => changeTrack(increase: false),
                 color: Colors.white,
-              ) : null,
-              actions: tracksLoaded && hasTracks ? [
+              )
+            : null,
+        actions: tracksLoaded && hasTracks
+            ? [
                 IconButton(
                   icon: Icon(FontAwesomeIcons.arrowRight),
                   onPressed: () => changeTrack(increase: true),
                   color: Colors.white,
                 ),
-              ] : null,
-              title: tracksLoaded ? StreamBuilder(
+              ]
+            : null,
+        title: tracksLoaded
+            ? StreamBuilder(
                 stream: trackStream,
                 initialData: hasTracks ? currentTrack.name : 'No tracks...',
                 builder: (context, snapshot) {
@@ -113,45 +130,39 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
                         : Screen.isSmall(context) ? 16 : null,
                   );
                 },
-              ) : SubHeading(
+              )
+            : SubHeading(
                 'Loading tracks...',
                 size: Screen.isTablet(context)
                     ? 30
                     : Screen.isSmall(context) ? 16 : null,
               ),
-              centerTitle: true,
-              backgroundColor: Theme.of(context).primaryColorDark,
-            ),
-            body: FlutterMap(
-              mapController: widget.mapController,
-              options: MapOptions(
-                center: PageStorage.of(context).readState(context) != null
-                    ? (PageStorage.of(context).readState(context) as MapState)
-                        .center
-                    : Env.mapDefaultCenter,
-                minZoom: Env.mapMinZoom,
-                maxZoom: Env.mapMaxZoom,
-                zoom: PageStorage.of(context).readState(context) != null
-                    ? (PageStorage.of(context).readState(context) as MapState)
-                        .zoom
-                    : Env.mapDefaultZoom,
-                swPanBoundary: Env.swPanBoundary,
-                nePanBoundary: Env.nePanBoundary,
-                plugins: [MarkerClusterPlugin()],
-                onPositionChanged: (mapPosition, hasGesture, isGesture) {
-                  if (mapPosition.center != Env.mapDefaultCenter) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) =>
-                        _onAfterBuild(
-                            context, mapPosition.center, mapPosition.zoom));
-                  }
-                },
-              ),
-              layers: [
-                _buildTileLayerOptions(),
-                _buildMarkerClusterOptions(),
-              ],
-            ),
-          );
+        centerTitle: true,
+        backgroundColor: Theme.of(context).primaryColorDark,
+      ),
+      body: FlutterMap(
+        mapController: widget.mapController,
+        options: MapOptions(
+          center: mapState.center,
+          minZoom: Env.mapMinZoom,
+          maxZoom: Env.mapMaxZoom,
+          zoom: mapState.zoom,
+          swPanBoundary: Env.swPanBoundary,
+          nePanBoundary: Env.nePanBoundary,
+          plugins: [MarkerClusterPlugin()],
+          onPositionChanged: (mapPosition, hasGesture, isGesture) {
+            if (mapPosition.center != Env.mapDefaultCenter) {
+              WidgetsBinding.instance.addPostFrameCallback((_) =>
+                  _onAfterBuild(context, mapPosition.center, mapPosition.zoom));
+            }
+          },
+        ),
+        layers: [
+          _buildTileLayerOptions(),
+          _buildMarkerClusterOptions(),
+        ],
+      ),
+    );
   }
 
   TileLayerOptions _buildTileLayerOptions() {
@@ -192,7 +203,7 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
 
   List<CustomMarker> _getMarkers() {
     List<CustomMarker> markers = List<CustomMarker>();
-    if(tracksLoaded) {
+    if (tracksLoaded) {
       for (Track track in tracks) {
         for (Activity activity in track.activities) {
           markers.add(CustomMarker(

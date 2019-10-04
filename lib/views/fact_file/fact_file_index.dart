@@ -6,6 +6,7 @@ import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/fact_file/fact_file_tab.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 
 /// Displays the tabs and a [tile] representing each [FactFileEntry]
@@ -18,14 +19,22 @@ class _FactFileIndexState extends State<FactFileIndex>
     with TickerProviderStateMixin {
   TabController controller;
   FactFileCategoryBean factFileCategoryBean;
-  List<FactFileCategory> categories = List<FactFileCategory>();
+  List<FactFileCategory> categories;
 
   @override
   void initState() {
     super.initState();
-    controller = TabController(vsync: this, length: categories.length);
     factFileCategoryBean = FactFileCategoryBean.of(context);
-    refreshData();
+
+    categories =
+        PageStorage.of(context).readState(context, identifier: 'FactFiles');
+    if (categories == null) refreshData();
+
+    controller = TabController(
+        vsync: this,
+        length: categories?.length != null
+            ? categories.length == 0 ? 1 : categories.length
+            : 1);
   }
 
   @override
@@ -38,10 +47,13 @@ class _FactFileIndexState extends State<FactFileIndex>
     List<FactFileCategory> data =
         await factFileCategoryBean.getAllWithPreloadedEntries();
 
-    if(mounted) {
+    PageStorage.of(context).writeState(context, data, identifier: 'FactFiles');
+
+    if (mounted) {
       setState(() {
         categories = data;
-        controller = TabController(vsync: this, length: data.length);
+        controller = TabController(
+            vsync: this, length: data.length == 0 ? 1 : data.length);
       });
     }
 
@@ -56,14 +68,22 @@ class _FactFileIndexState extends State<FactFileIndex>
 
   ///Returns a list of [Text] widgets that are the tab labels
   List<Container> getTabHeadings() {
-    return categories.map((c) {
-      return Container(
-        width: Screen.width(context) /
-            (categories.length > 2 ? 3 : categories.length),
-        // Todo: better way?
-        child: BodyText(c.name),
-      );
-    }).toList();
+    return categories == null || categories?.length == 0
+        ? [
+            Container(
+              width: Screen.width(context),
+              child:
+                  BodyText(categories == null ? 'Loading Fact Files...' : ''),
+            )
+          ]
+        : categories.map((c) {
+            return Container(
+              width: Screen.width(context) /
+                  (categories.length > 2 ? 3 : categories.length),
+              // Todo: better way?
+              child: BodyText(c.name),
+            );
+          }).toList();
   }
 
   ///Returns a list of [FactFileTab] widgets that are passed the list of category entries
@@ -75,19 +95,17 @@ class _FactFileIndexState extends State<FactFileIndex>
 
   @override
   Widget build(BuildContext context) {
-    // Loading screen
-    if (categories.length == 0) {
-      return Container(
-          color: Theme.of(context).primaryColorDark,
-          child: Center(
-            child: CircularProgressIndicator(),
-          ));
-    }
-
-    // If loaded
     return Scaffold(
       appBar: getTabBar(),
-      body: TabBarView(controller: controller, children: getTabs()),
+      body: categories == null
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : TabBarView(
+              controller: controller,
+              children: categories.length == 0
+                  ? [Center(child: SubHeading('No content...'))]
+                  : getTabs()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }

@@ -33,7 +33,7 @@ class RouteGenerator {
       case '/update':
         return MaterialPageRoute(
           builder: (_) => LoadingScreen(
-            isManualUpdate: args,
+            isFirstLoad: args,
           ),
         );
 
