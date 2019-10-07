@@ -85,7 +85,6 @@ flutter:
   assets:
     - .env
     - assets/icon/icon.png
-    - assets/splash_logo.png
     - assets/peaks.png
     - assets/map.mbtiles
     - assets/invalidQRcode.png
