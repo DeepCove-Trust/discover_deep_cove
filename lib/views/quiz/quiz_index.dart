@@ -94,7 +94,7 @@ class _QuizIndexState extends State<QuizIndex> {
   }
 
   Future<void> addAttempt(Quiz quiz) async {
-    quiz.attempts++;
+    quiz.setAttempts(quiz.attempts + 1);
     await QuizBean.of(context).update(quiz);
   }
 
@@ -106,7 +106,7 @@ class _QuizIndexState extends State<QuizIndex> {
           Navigator.of(context).pushNamed('/quizQuestions', arguments: quiz);
         },
         title: quiz.title,
-        subheading: quiz.attempts != null && quiz.attempts > 0
+        subheading: quiz.attempts > 0
             ? 'High Score: ${quiz.highScore}/${quiz.questions.length} | Attempts: ${quiz.attempts}'
             : 'Not yet attempted',
         image: quiz.image != null ? quiz.image : null,

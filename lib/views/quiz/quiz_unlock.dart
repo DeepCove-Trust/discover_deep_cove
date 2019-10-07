@@ -57,7 +57,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
       if (quiz.unlocked) {
         status = UnlockStatus.alreadyUnlocked;
       } else {
-        quiz.unlocked = true;
+        quiz.setUnlocked(true);
         await QuizBean.of(context).update(quiz);
         // This will discard any stored quizzes so the the index page fetches fresh
         // data on next view.
@@ -87,7 +87,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
   Future<void> unlockAllQuizzes() async {
     List<Quiz> quizzes = await QuizBean.of(context).getAll();
     for(Quiz quiz in quizzes){
-      quiz.unlocked = true;
+      quiz.setUnlocked(true);
       await QuizBean.of(context).update(quiz);
     }
     // This will discard any stored quizzes so the the index page fetches fresh
