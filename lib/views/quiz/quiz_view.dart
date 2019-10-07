@@ -27,7 +27,6 @@ class QuizViewState extends State<QuizView> {
 
   QuizQuestion get currentQuestion => widget.quiz.questions[questionIndex];
   bool isCorrect;
-  bool isImageQuestion = false;
   String guess;
   String answer;
   QuizAnswer imageGuess;
@@ -60,8 +59,6 @@ class QuizViewState extends State<QuizView> {
       guess = answerId == 0 ? "False" : "True";
       answer = currentQuestion.trueFalseQuestion ? "True" : "False";
     } else if (currentQuestion.answers.any((a) => a.image != null)) {
-      isImageQuestion = true;
-
       isCorrect = answerId == currentQuestion.correctAnswerId;
       imageGuess = currentQuestion.answers.firstWhere((a) => a.id == answerId);
       imageAnswer = currentQuestion.answers
@@ -184,7 +181,6 @@ class QuizViewState extends State<QuizView> {
   Widget buildOverlay() {
     return CorrectWrongOverlay(
       isCorrect: isCorrect,
-      isImageQuestion: isImageQuestion,
       guess: guess,
       answer: answer,
       imageGuess: imageGuess,

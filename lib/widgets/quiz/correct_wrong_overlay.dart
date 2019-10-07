@@ -9,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CorrectWrongOverlay extends StatefulWidget {
   final bool isCorrect;
-  final bool isImageQuestion;
+
   final String answer;
   final String guess;
   final QuizAnswer imageGuess;
@@ -18,7 +18,6 @@ class CorrectWrongOverlay extends StatefulWidget {
 
   CorrectWrongOverlay({
     this.isCorrect,
-    this.isImageQuestion = false,
     this.answer,
     this.guess,
     this.imageAnswer,
@@ -34,6 +33,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
     with SingleTickerProviderStateMixin {
   Animation<double> _iconAnimation;
   AnimationController _iconAnimationController;
+  bool isImageQuestion;
 
   @override
   void initState() {
@@ -44,6 +44,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
         parent: _iconAnimationController, curve: Curves.elasticOut);
     _iconAnimation.addListener(() => this.setState(() {}));
     _iconAnimationController.forward();
+    isImageQuestion = widget.imageGuess != null ? true : false;
   }
 
   @override
@@ -58,7 +59,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
       color: Color.fromARGB(190, 0, 0, 0),
       child: InkWell(
         onTap: () => widget.onTap(),
-        child: widget.isImageQuestion
+        child: isImageQuestion
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -86,13 +87,11 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
                     child: Transform.rotate(
                       angle: _iconAnimation.value * 2 * pi,
                       child: Icon(
-                        widget.isCorrect 
+                        widget.isCorrect
                             ? FontAwesomeIcons.check
                             : FontAwesomeIcons.times,
                         size: Screen.width(context, percentage: 15),
-                        color: widget.isCorrect 
-                            ? Colors.green
-                            : Colors.red,
+                        color: widget.isCorrect ? Colors.green : Colors.red,
                       ),
                     ),
                   ),
@@ -151,9 +150,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
                             ? FontAwesomeIcons.check
                             : FontAwesomeIcons.times,
                         size: Screen.width(context, percentage: 15),
-                        color: widget.isCorrect
-                            ? Colors.green
-                            : Colors.red,
+                        color: widget.isCorrect ? Colors.green : Colors.red,
                       ),
                     ),
                   ),
@@ -163,7 +160,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Heading(
-                      widget.isCorrect 
+                      widget.isCorrect
                           ? "Correct! ${widget.answer} is the right answer"
                           : "Wrong! You selected ${widget.guess} the correct answer is ${widget.answer}",
                     ),
