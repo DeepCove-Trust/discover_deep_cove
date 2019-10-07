@@ -16,12 +16,12 @@ class QuizQuestion {
   @BelongsTo(QuizBean)
   int quizId;
 
-  @Column(name: 'trueFalseQuestion', isNullable: true)
-  int _trueFalseQuestion;
+  @Column(name: 'trueFalseAnswer', isNullable: true)
+  int _trueFalseAnswer;
 
   @IgnoreColumn()
-  bool get trueFalseQuestion =>
-      _trueFalseQuestion != null ? _trueFalseQuestion == 1 : null;
+  bool get trueFalseAnswer =>
+      _trueFalseAnswer != null ? _trueFalseAnswer == 1 : null;
 
   @Column()
   String text;

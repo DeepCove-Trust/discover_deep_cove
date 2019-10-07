@@ -54,10 +54,10 @@ class QuizViewState extends State<QuizView> {
   }
 
   void handleAnswer(int answerId) {
-    if (currentQuestion.trueFalseQuestion != null) {
-      isCorrect = answerId == (currentQuestion.trueFalseQuestion ? 1 : 0);
+    if (currentQuestion.trueFalseAnswer != null) {
+      isCorrect = answerId == (currentQuestion.trueFalseAnswer ? 1 : 0);
       guess = answerId == 0 ? "False" : "True";
-      answer = currentQuestion.trueFalseQuestion ? "True" : "False";
+      answer = currentQuestion.trueFalseAnswer ? "True" : "False";
     } else if (currentQuestion.answers.any((a) => a.image != null)) {
       isCorrect = answerId == currentQuestion.correctAnswerId;
       imageGuess = currentQuestion.answers.firstWhere((a) => a.id == answerId);
@@ -154,7 +154,7 @@ class QuizViewState extends State<QuizView> {
   }
 
   List<Widget> buildAnswerTiles() {
-    if (currentQuestion.trueFalseQuestion != null) {
+    if (currentQuestion.trueFalseAnswer != null) {
       return [
         QuizTextButton(onTap: () => handleAnswer(1), text: 'True'),
         QuizTextButton(onTap: () => handleAnswer(0), text: 'False')
@@ -186,6 +186,8 @@ class QuizViewState extends State<QuizView> {
       imageGuess: imageGuess,
       imageAnswer: imageAnswer,
       onTap: () => setState(() {
+        imageAnswer = null;
+        imageGuess = null;
         questionIndex++;
         showOverlay = false;
       }),
