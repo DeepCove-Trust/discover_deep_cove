@@ -15,7 +15,6 @@ class Quiz {
   @Column()
   DateTime updatedAt;
 
-  // todo: wait for jaguar to support default values
   @Column(name: 'unlocked', isNullable: true)
   bool _unlocked;
 
@@ -24,7 +23,7 @@ class Quiz {
   /// unlock code is set).
   @IgnoreColumn()
   bool get unlocked => unlockCode == null ? true : (_unlocked ?? false);
-  set unlocked(val) => _unlocked = val;
+  void setUnlocked(val) => _unlocked = val;
 
   @Column(isNullable: true)
   String unlockCode;
@@ -32,11 +31,20 @@ class Quiz {
   @Column()
   String title;
 
-  @Column(isNullable: true)
-  int attempts;
+  @Column(name: 'attempts', isNullable: true)
+  int _attempts;
 
-  @Column(isNullable: true)
-  int highScore;
+  @IgnoreColumn()
+  int get attempts => _attempts ?? 0;
+  void setAttempts(val) => _attempts = val;
+
+  @Column(name: 'high_score', isNullable: true)
+  int _highScore;
+
+  @IgnoreColumn()
+  int get highScore => _highScore ?? 0;
+  void setHighScore(val) => _highScore = val;
+
 
   @HasMany(QuizQuestionBean)
   List<QuizQuestion> questions;
@@ -104,8 +112,8 @@ class QuizBean extends Bean<Quiz> with _QuizBean {
   /// Resets the attempts and highscore for the given ID
   Future<void> clearProgress(int id) async {
     Quiz quiz = await find(id);
-    quiz.attempts = 0;
-    quiz.highScore = 0;
+    quiz.setAttempts(0);
+    quiz.setHighScore(0);
     await update(quiz);
   }
 }

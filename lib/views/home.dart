@@ -48,7 +48,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       mapController: mapController,
       context: context,
       animationStream: mapAnimateController.stream.asBroadcastStream(),
-      // todo
       onMarkerTap: handleMarkerTap,
       key: PageStorageKey('Map Maker'),
     )); // placeholder

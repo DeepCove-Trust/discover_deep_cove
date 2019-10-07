@@ -98,8 +98,8 @@ class QuizSync {
     }
 
     // Insert quiz into database, unlocking if appropriate
-    quiz.unlocked = unlocked;
-    await quizBean.insert(quiz);
+    quiz.setUnlocked(unlocked);
+    await quizBean.insert(quiz, onlyNonNull: true);
 
     // Insert questions (we have to withhold correct answer IDs until the
     // answers have been inserted, to dodge FK constraint

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/activity/track.dart';
+import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
@@ -77,12 +78,19 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
 
   Future<void> loadTracks() async {
     try {
+      // Determine if initial sync has been completed
+      List<Config> config = await ConfigBean.of(context).getAll();
+      if(config.length == 0){
+        await Future.delayed(Duration(seconds: 5));
+        Navigator.pushReplacementNamed(context, '/update', arguments: true);
+      }
+
       tracks = await TrackBean.of(context).getAllAndPreload();
       PageStorage.of(context).writeState(context, tracks, identifier: 'Tracks');
       setState(() => tracks);
     } on DatabaseException catch (ex) {
       await Future.delayed(Duration(seconds: 5));
-      // Tracks table probably doesn't exist, initiate initial update
+      // Table doesn't exist yet, load content
       Navigator.pushReplacementNamed(context, '/update', arguments: true);
     }
   }
