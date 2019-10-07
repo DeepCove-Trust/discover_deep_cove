@@ -78,9 +78,9 @@ class QuizSync {
   }
 
   Future<void> _downloadQuizData(int id, {bool unlocked}) async {
-
     // Request full json string of quiz and all questions/answers
-    String jsonString = await NetworkUtil.requestDataString(Env.quizDetailsUrl(server, id));
+    String jsonString =
+        await NetworkUtil.requestDataString(Env.quizDetailsUrl(server, id));
     Map<String, dynamic> map = json.decode(jsonString);
 
     // Deserialize quiz object
@@ -88,13 +88,14 @@ class QuizSync {
 
     // Deserialize question objects
     List<dynamic> questionData = map['questions'];
-    List<QuizQuestion> questions =  questionData.map((map) => questionBean.fromMap(map)).toList();
+    List<QuizQuestion> questions =
+        questionData.map((map) => questionBean.fromMap(map)).toList();
 
     // Deserialize answer objects for each question
     List<QuizAnswer> answers = List<QuizAnswer>();
-    for(Map<String,dynamic> map in questionData){
+    for (Map<String, dynamic> map in questionData) {
       List<dynamic> answerData = map['answers'];
-      answers.addAll(answerData.map((map)=> answerBean.fromMap(map)).toList());
+      answers.addAll(answerData.map((map) => answerBean.fromMap(map)).toList());
     }
 
     // Insert quiz into database, unlocking if appropriate
@@ -103,13 +104,15 @@ class QuizSync {
 
     // Insert questions (we have to withhold correct answer IDs until the
     // answers have been inserted, to dodge FK constraint
-    for(QuizQuestion question in questions){
+    for (QuizQuestion question in questions) {
       int correctAnswerId = question.correctAnswerId;
       question.correctAnswerId = null;
       await questionBean.insert(question);
 
       // Insert answers for this question
-      await answerBean.insertMany(answers.where((a) => a.quizQuestionId == question.id).toList());
+      if( answers.where((a) => a.quizQuestionId == question.id).isNotEmpty){
+        await answerBean.insertMany(answers.where((a) => a.quizQuestionId == question.id).toList());
+      }
 
       // Now replace the correct answer id for the question
       question.correctAnswerId = correctAnswerId;
@@ -121,20 +124,20 @@ class QuizSync {
 
   /// Deletes the given quiz ID, as well as all question and answer records
   /// related to it.
-  Future<void> _deleteQuiz(int id) async {    
-
+  Future<void> _deleteQuiz(int id) async {
     // Fetch the quiz object from database
     Quiz quiz = await quizBean.find(id);
 
     List<QuizQuestion> questions = await questionBean.findByQuiz(id);
 
     // Delete all questions and answers
-    for(QuizQuestion question in questions){
+    for (QuizQuestion question in questions) {
       question.correctAnswerId = null;
       await questionBean.update(question);
 
-      List<QuizAnswer> answers = await answerBean.findByQuizQuestion(question.id);
-      for(QuizAnswer answer in answers){
+      List<QuizAnswer> answers =
+          await answerBean.findByQuizQuestion(question.id);
+      for (QuizAnswer answer in answers) {
         await answerBean.remove(answer.id);
       }
       questionBean.remove(question.id);
@@ -146,7 +149,6 @@ class QuizSync {
     print('Deleted quiz $id (${quiz.title}');
   }
 
-  
   /// Deletes and re-downloads the given quiz ID, persisting the unlock state
   /// of the original.
   Future<void> _replaceQuizData(int id) async {
