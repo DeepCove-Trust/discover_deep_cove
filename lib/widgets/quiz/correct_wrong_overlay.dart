@@ -86,11 +86,11 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
                     child: Transform.rotate(
                       angle: _iconAnimation.value * 2 * pi,
                       child: Icon(
-                        widget.isCorrect == true
+                        widget.isCorrect 
                             ? FontAwesomeIcons.check
                             : FontAwesomeIcons.times,
                         size: Screen.width(context, percentage: 15),
-                        color: widget.isCorrect == true
+                        color: widget.isCorrect 
                             ? Colors.green
                             : Colors.red,
                       ),
@@ -147,11 +147,11 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
                     child: Transform.rotate(
                       angle: _iconAnimation.value * 2 * pi,
                       child: Icon(
-                        widget.isCorrect == true
+                        widget.isCorrect
                             ? FontAwesomeIcons.check
                             : FontAwesomeIcons.times,
                         size: Screen.width(context, percentage: 15),
-                        color: widget.isCorrect == true
+                        color: widget.isCorrect
                             ? Colors.green
                             : Colors.red,
                       ),
@@ -163,7 +163,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Heading(
-                      widget.isCorrect == true
+                      widget.isCorrect 
                           ? "Correct! ${widget.answer} is the right answer"
                           : "Wrong! You selected ${widget.guess} the correct answer is ${widget.answer}",
                     ),
