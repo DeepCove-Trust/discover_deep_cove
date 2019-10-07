@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_result.dart';
@@ -28,6 +29,8 @@ class QuizViewState extends State<QuizView> {
   bool isCorrect;
   String guess;
   String answer;
+  QuizAnswer imageGuess;
+  QuizAnswer imageAnswer;
   bool showOverlay = false;
   int questionIndex = 0;
   int score = 0;
@@ -55,6 +58,11 @@ class QuizViewState extends State<QuizView> {
       isCorrect = answerId == (currentQuestion.trueFalseQuestion ? 1 : 0);
       guess = answerId == 0 ? "False" : "True";
       answer = currentQuestion.trueFalseQuestion ? "True" : "False";
+    } else if (currentQuestion.answers.any((a) => a.image != null)) {
+      isCorrect = answerId == currentQuestion.correctAnswerId;
+      imageGuess = currentQuestion.answers.firstWhere((a) => a.id == answerId);
+      imageAnswer = currentQuestion.answers
+          .firstWhere((a) => a.id == currentQuestion.correctAnswerId);
     } else {
       isCorrect = answerId == currentQuestion.correctAnswerId;
       guess = currentQuestion.answers.firstWhere((a) => a.id == answerId).text;
@@ -175,6 +183,8 @@ class QuizViewState extends State<QuizView> {
       isCorrect: isCorrect,
       guess: guess,
       answer: answer,
+      imageGuess: imageGuess,
+      imageAnswer: imageAnswer,
       onTap: () => setState(() {
         questionIndex++;
         showOverlay = false;
