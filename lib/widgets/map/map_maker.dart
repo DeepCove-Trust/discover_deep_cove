@@ -86,7 +86,7 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
       }
 
       tracks = await TrackBean.of(context).getAllAndPreload();
-      PageStorage.of(context).writeState(context, tracks, identifier: 'Tracks');
+//      PageStorage.of(context).writeState(context, tracks, identifier: 'Tracks'); // Todo: Reenable when we have a way of refreshing activities after completion
       setState(() => tracks);
     } on DatabaseException catch (ex) {
       await Future.delayed(Duration(seconds: 5));

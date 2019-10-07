@@ -222,13 +222,14 @@ class _FactFileDetailsState extends State<FactFileDetails>
   getContent() {
     return Container(
       padding: EdgeInsets.all(
-        Screen.width(context, percentage: 2),
+        8
       ),
       child: Column(
         children: [
+          SizedBox(height: 20),
           Heading(entry.primaryName),
-          SizedBox(height: Screen.height(context, percentage: 1.56)),
-          SubHeading(entry.altName),
+          SizedBox(height: 10),
+          entry.altName != null ? SubHeading(entry.altName) : Container(),
           Divider(color: Colors.white, height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -334,7 +335,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
   getNuggets() {
     return entry.nuggets.map((nugget) {
       return FactNugget(
-        path: nugget.image != null ? nugget.image.path : null,
+        path: nugget?.image?.path,
         name: nugget.name,
         text: nugget.text,
       );
