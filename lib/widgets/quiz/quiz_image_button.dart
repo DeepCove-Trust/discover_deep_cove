@@ -47,7 +47,6 @@ class QuizImageButton extends StatelessWidget {
                     ),
                   ),
                 ),
-//                image.source == null && text == null ?
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -81,7 +80,6 @@ class QuizImageButton extends StatelessWidget {
                         : Container(),
                   ],
                 )
-//                    : Container(),
               ],
             ),
           ),
