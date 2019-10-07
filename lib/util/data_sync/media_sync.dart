@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'package:discover_deep_cove/util/exeptions.dart';
+import 'package:discover_deep_cove/util/permissions.dart';
 import 'package:http/http.dart' as Http;
 import 'package:path/path.dart';
 import 'dart:io';
@@ -95,6 +96,8 @@ class MediaSync {
     onProgress(SyncState.MediaDownload, getPercentage(),
         upTo: upTo, outOf: outOf, totalSize: totalSize);
 
+    await Permissions.ensurePermission(PermissionGroup.storage);
+
     // This list will contain all of our download jobs if downloading
     // asynchronously.
     List<Future<void>> futures = new List<Future<void>>();
@@ -103,9 +106,12 @@ class MediaSync {
       MediaData mediaData = _downloadQueue.removeFirst();
 
       if (asyncDownload) {
-        futures.add(downloadMediaFile(mediaData).catchError((_) =>
-            throw FailedDownloadException(
-                message: 'One or more file downloads failed.')));
+        futures.add(downloadMediaFile(mediaData).catchError((ex, stacktrace) {
+          print(ex);
+          print(stacktrace);
+          throw FailedDownloadException(
+              message: 'One or more file downloads failed.');
+        }));
       } else {
         await downloadMediaFile(mediaData);
       }
@@ -142,8 +148,10 @@ class MediaSync {
       // Todo: Monitor whether this try-catch works in async
       await NetworkUtil.httpResponseToFile(
           response: response, absPath: absPath, filename: filename);
-    } catch (ex) {
+    } catch (ex, stacktrace) {
       // Exception while saving file, remove database records
+      print(ex);
+      print(stacktrace);
       await removeMediaRecord(mediaFile);
       throw FailedDownloadException(
           message: "Download failed for file ID {${mediaFile.id}");
