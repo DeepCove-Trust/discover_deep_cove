@@ -1,15 +1,15 @@
+import 'dart:math';
+
 import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_image_button.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CorrectWrongOverlay extends StatefulWidget {
   final bool isCorrect;
-
   final String answer;
   final String guess;
   final QuizAnswer imageGuess;
