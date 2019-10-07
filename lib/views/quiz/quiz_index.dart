@@ -1,5 +1,6 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/views/quiz/quiz_view_args.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_tile.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,8 @@ class _QuizIndexState extends State<QuizIndex> {
 
   Future<void> refreshData() async {
     List<Quiz> activeQuizzes = await QuizBean.of(context).getAllAndPreload();
-    List<Quiz> unlockedQuizzes = activeQuizzes.where((q) => q.unlocked).toList();
+    List<Quiz> unlockedQuizzes =
+        activeQuizzes.where((q) => q.unlocked).toList();
     PageStorage.of(context)
         .writeState(context, unlockedQuizzes, identifier: 'Quizzes');
     setState(() => quizzes = unlockedQuizzes);
@@ -103,7 +105,8 @@ class _QuizIndexState extends State<QuizIndex> {
       return Tile(
         onTap: () {
           addAttempt(quiz);
-          Navigator.of(context).pushNamed('/quizQuestions', arguments: quiz);
+          Navigator.of(context).pushNamed('/quizQuestions',
+              arguments: QuizViewArgs(quiz: quiz, onComplete: refreshData));
         },
         title: quiz.title,
         subheading: quiz.attempts > 0

@@ -2,7 +2,6 @@ import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_result.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/correct_wrong_overlay.dart';
 import 'package:discover_deep_cove/widgets/quiz/image_question.dart';
@@ -13,9 +12,10 @@ import 'package:discover_deep_cove/widgets/quiz/text_question.dart';
 import 'package:flutter/material.dart';
 
 class QuizView extends StatefulWidget {
-  QuizView({this.quiz});
+  QuizView({this.quiz, this.onComplete});
 
   final Quiz quiz;
+  final VoidCallback onComplete;
 
   @override
   State createState() => QuizViewState();
@@ -46,7 +46,7 @@ class QuizViewState extends State<QuizView> {
 
   Future<void> updateHighScore(int score) async {
     Quiz quiz = widget.quiz;
-    quiz.highScore = score;
+    quiz.setHighScore(score);
     await QuizBean.of(context).update(quiz);
   }
 
@@ -113,10 +113,12 @@ class QuizViewState extends State<QuizView> {
   Widget buildQuestionView() {
     if (questionIndex == widget.quiz.questions.length) {
       bool isHighScore = false;
-      if (score > widget.quiz.highScore) {
+      if (widget.quiz.highScore == null || score > widget.quiz.highScore) {
         updateHighScore(score);
         isHighScore = true;
       }
+
+      widget.onComplete();
 
       return QuizResult(
         name: widget.quiz.title,

@@ -13,7 +13,7 @@ abstract class _QuizBean implements Bean<Quiz> {
   final unlockCode = StrField('unlock_code');
   final title = StrField('title');
   final _attempts = IntField('attempts');
-  final highScore = IntField('high_score');
+  final _highScore = IntField('high_score');
   final imageId = IntField('image_id');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
@@ -23,7 +23,7 @@ abstract class _QuizBean implements Bean<Quiz> {
         unlockCode.name: unlockCode,
         title.name: title,
         _attempts.name: _attempts,
-        highScore.name: highScore,
+        _highScore.name: _highScore,
         imageId.name: imageId,
       };
   Quiz fromMap(Map map) {
@@ -34,7 +34,7 @@ abstract class _QuizBean implements Bean<Quiz> {
     model.unlockCode = adapter.parseValue(map['unlock_code']);
     model.title = adapter.parseValue(map['title']);
     model._attempts = adapter.parseValue(map['attempts']);
-    model.highScore = adapter.parseValue(map['high_score']);
+    model._highScore = adapter.parseValue(map['high_score']);
     model.imageId = adapter.parseValue(map['image_id']);
 
     return model;
@@ -51,7 +51,7 @@ abstract class _QuizBean implements Bean<Quiz> {
       ret.add(unlockCode.set(model.unlockCode));
       ret.add(title.set(model.title));
       ret.add(_attempts.set(model._attempts));
-      ret.add(highScore.set(model.highScore));
+      ret.add(_highScore.set(model._highScore));
       ret.add(imageId.set(model.imageId));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
@@ -64,8 +64,8 @@ abstract class _QuizBean implements Bean<Quiz> {
       if (only.contains(title.name)) ret.add(title.set(model.title));
       if (only.contains(_attempts.name))
         ret.add(_attempts.set(model._attempts));
-      if (only.contains(highScore.name))
-        ret.add(highScore.set(model.highScore));
+      if (only.contains(_highScore.name))
+        ret.add(_highScore.set(model._highScore));
       if (only.contains(imageId.name)) ret.add(imageId.set(model.imageId));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
@@ -86,8 +86,8 @@ abstract class _QuizBean implements Bean<Quiz> {
       if (model._attempts != null) {
         ret.add(_attempts.set(model._attempts));
       }
-      if (model.highScore != null) {
-        ret.add(highScore.set(model.highScore));
+      if (model._highScore != null) {
+        ret.add(_highScore.set(model._highScore));
       }
       if (model.imageId != null) {
         ret.add(imageId.set(model.imageId));
@@ -105,7 +105,7 @@ abstract class _QuizBean implements Bean<Quiz> {
     st.addStr(unlockCode.name, isNullable: true);
     st.addStr(title.name, isNullable: false);
     st.addInt(_attempts.name, isNullable: true);
-    st.addInt(highScore.name, isNullable: true);
+    st.addInt(_highScore.name, isNullable: true);
     st.addInt(imageId.name,
         foreignTable: mediaFileBean.tableName,
         foreignCol: 'id',

@@ -38,8 +38,13 @@ class Quiz {
   int get attempts => _attempts ?? 0;
   void setAttempts(val) => _attempts = val;
 
-  @Column(isNullable: true)
-  int highScore;
+  @Column(name: 'high_score', isNullable: true)
+  int _highScore;
+
+  @IgnoreColumn()
+  int get highScore => _highScore ?? 0;
+  void setHighScore(val) => _highScore = val;
+
 
   @HasMany(QuizQuestionBean)
   List<QuizQuestion> questions;
@@ -108,7 +113,7 @@ class QuizBean extends Bean<Quiz> with _QuizBean {
   Future<void> clearProgress(int id) async {
     Quiz quiz = await find(id);
     quiz.setAttempts(0);
-    quiz.highScore = 0;
+    quiz.setHighScore(0);
     await update(quiz);
   }
 }
