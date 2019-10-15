@@ -10,22 +10,19 @@ class Config {
 
   Config.make({
     @required this.id,
-    @required this.dataVersion,
-    @required this.filesVersion,
-    @required this.masterUnlockCode,
+    @required this.masterUnlockCode
   });
 
   @PrimaryKey()
   int id;
 
   @Column()
-  int dataVersion;
-
-  @Column()
-  int filesVersion;
-
-  @Column()
   String masterUnlockCode;
+
+  @Column(name: 'save_photos_to_gallery', isNullable: true)
+  bool _savePhotosToGallery;
+  bool get savePhotosToGallery => _savePhotosToGallery ?? false;
+  set savePhotosToGallery(bool val) => _savePhotosToGallery = val;
 }
 
 @GenBean()

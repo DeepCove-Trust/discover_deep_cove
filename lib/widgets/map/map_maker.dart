@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/activity/track.dart';
+import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong/latlong.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'custom_marker.dart';
 
@@ -19,7 +21,8 @@ class MapMaker extends StatefulWidget {
     @required this.context,
     @required this.onMarkerTap,
     @required this.animationStream,
-  });
+    Key key,
+  }) : super(key: key);
 
   final Function(Activity) onMarkerTap;
   final MapController mapController;
@@ -31,14 +34,18 @@ class MapMaker extends StatefulWidget {
 }
 
 class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
-  LatLng center;
-  double zoom;
   List<Track> tracks;
   int currentTrackNum;
   StreamController<String> trackStreamController;
   Stream<String> trackStream;
 
-  Track get currentTrack => tracks[currentTrackNum];
+  MapState mapState;
+
+  Track get currentTrack => tracks.length > 0 ? tracks[currentTrackNum] : null;
+
+  bool get tracksLoaded => tracks != null;
+
+  bool get hasTracks => tracks.length > 0;
 
   @override
   void initState() {
@@ -50,7 +57,17 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
       animateToActivity(activityId);
     });
     currentTrackNum = 0;
-    loadTracks();
+
+    // Determine whether previous map state has been saved, otherwise use
+    // default values from the env file
+    mapState =
+        PageStorage.of(context).readState(context, identifier: 'MapState') ??
+            MapState(center: Env.mapDefaultCenter, zoom: Env.mapDefaultZoom);
+
+    tracks = PageStorage.of(context).readState(context, identifier: 'Tracks');
+
+    // Load track data if not in storage
+    if (tracks == null) loadTracks();
   }
 
   @override
@@ -60,31 +77,59 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
   }
 
   Future<void> loadTracks() async {
-    tracks = await TrackBean.of(context).getAllAndPreload();
-    setState(() => tracks);
+    try {
+      // Determine if initial sync has been completed
+      List<Config> config = await ConfigBean.of(context).getAll();
+      if(config.length == 0){
+        await Future.delayed(Duration(seconds: 5));
+        Navigator.pushReplacementNamed(context, '/update', arguments: true);
+      }
+
+      tracks = await TrackBean.of(context).getAllAndPreload();
+//      PageStorage.of(context).writeState(context, tracks, identifier: 'Tracks'); // Todo: Reenable when we have a way of refreshing activities after completion
+      setState(() => tracks);
+    } on DatabaseException catch (ex) {
+      await Future.delayed(Duration(seconds: 5));
+      // Table doesn't exist yet, load content
+      Navigator.pushReplacementNamed(context, '/update', arguments: true);
+    }
+  }
+
+  void _onAfterBuild(BuildContext context, LatLng center, double zoom) {
+    PageStorage.of(context).writeState(
+        context,
+        MapState(
+          center: center,
+          zoom: zoom,
+        ),
+        identifier: 'MapState');
   }
 
   @override
   Widget build(BuildContext context) {
-    return tracks != null
-        ? Scaffold(
-            appBar: AppBar(
-              brightness: Brightness.dark,
-              leading: IconButton(
+    return Scaffold(
+      appBar: AppBar(
+        brightness: Brightness.dark,
+        leading: tracksLoaded && hasTracks
+            ? IconButton(
                 icon: Icon(FontAwesomeIcons.arrowLeft),
                 onPressed: () => changeTrack(increase: false),
                 color: Colors.white,
-              ),
-              actions: <Widget>[
+              )
+            : null,
+        actions: tracksLoaded && hasTracks
+            ? [
                 IconButton(
                   icon: Icon(FontAwesomeIcons.arrowRight),
                   onPressed: () => changeTrack(increase: true),
                   color: Colors.white,
                 ),
-              ],
-              title: StreamBuilder(
+              ]
+            : null,
+        title: tracksLoaded
+            ? StreamBuilder(
                 stream: trackStream,
-                initialData: currentTrack.name,
+                initialData: hasTracks ? currentTrack.name : 'No tracks...',
                 builder: (context, snapshot) {
                   return SubHeading(
                     snapshot.hasData ? snapshot.data : '',
@@ -93,33 +138,39 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
                         : Screen.isSmall(context) ? 16 : null,
                   );
                 },
+              )
+            : SubHeading(
+                'Loading tracks...',
+                size: Screen.isTablet(context)
+                    ? 30
+                    : Screen.isSmall(context) ? 16 : null,
               ),
-              centerTitle: true,
-              backgroundColor: Theme.of(context).primaryColorDark,
-            ),
-            body: FlutterMap(
-              mapController: widget.mapController,
-              options: MapOptions(
-                center: /*center ?? */ Env.defaultMapCenter,
-                minZoom: Env.mapMinZoom,
-                maxZoom: Env.mapMaxZoom,
-                zoom: zoom ?? Env.mapDefaultZoom,
-                swPanBoundary: Env.swPanBoundary,
-                nePanBoundary: Env.nePanBoundary,
-                plugins: [MarkerClusterPlugin()],
-              ),
-              layers: [
-                _buildTileLayerOptions(),
-                _buildMarkerClusterOptions(),
-              ],
-            ),
-          )
-        : Container(
-            color: Theme.of(context).backgroundColor,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+        centerTitle: true,
+        backgroundColor: Theme.of(context).primaryColorDark,
+      ),
+      body: FlutterMap(
+        mapController: widget.mapController,
+        options: MapOptions(
+          center: mapState.center,
+          minZoom: Env.mapMinZoom,
+          maxZoom: Env.mapMaxZoom,
+          zoom: mapState.zoom,
+          swPanBoundary: Env.swPanBoundary,
+          nePanBoundary: Env.nePanBoundary,
+          plugins: [MarkerClusterPlugin()],
+          onPositionChanged: (mapPosition, hasGesture, isGesture) {
+            if (mapPosition.center != Env.mapDefaultCenter) {
+              WidgetsBinding.instance.addPostFrameCallback((_) =>
+                  _onAfterBuild(context, mapPosition.center, mapPosition.zoom));
+            }
+          },
+        ),
+        layers: [
+          _buildTileLayerOptions(),
+          _buildMarkerClusterOptions(),
+        ],
+      ),
+    );
   }
 
   TileLayerOptions _buildTileLayerOptions() {
@@ -160,13 +211,15 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
 
   List<CustomMarker> _getMarkers() {
     List<CustomMarker> markers = List<CustomMarker>();
-    for (Track track in tracks) {
-      for (Activity activity in track.activities) {
-        markers.add(CustomMarker(
-          track: track,
-          point: activity.latLng,
-          builder: (context) => _buildMarker(context, activity),
-        ));
+    if (tracksLoaded) {
+      for (Track track in tracks) {
+        for (Activity activity in track.activities) {
+          markers.add(CustomMarker(
+            track: track,
+            point: activity.latLng,
+            builder: (context) => _buildMarker(context, activity),
+          ));
+        }
       }
     }
     return markers;
@@ -236,10 +289,19 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
   void animateToActivity(int activityId) async {
     Activity activity = await ActivityBean.of(context).find(activityId);
 
-    if(activity.trackId != currentTrack.id) currentTrackNum = tracks.indexWhere((track) => track.id == activity.trackId);
-    
+    if (activity.trackId != currentTrack.id)
+      currentTrackNum =
+          tracks.indexWhere((track) => track.id == activity.trackId);
+
     trackStreamController.sink.add(currentTrack.name);
 
     animatedMove(latLng: activity.latLng, zoom: 18.0);
   }
+}
+
+class MapState {
+  LatLng center;
+  double zoom;
+
+  MapState({this.center, this.zoom});
 }

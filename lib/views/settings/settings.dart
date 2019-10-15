@@ -1,19 +1,15 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/util/data_sync.dart';
-import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/settings/settings_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Settings extends StatefulWidget {
-  final void Function({bool isLoading, String loadingMessage, Icon icon})
-      onProgressUpdate;
   final void Function(String code) onCodeEntry;
 
   Settings({
-    @required this.onProgressUpdate,
     @required this.onCodeEntry,
   });
 
@@ -22,6 +18,30 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  bool savePhotosToGallery;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadConfig();
+  }
+
+  Future<void> _loadConfig() async {
+    Config config = await ConfigBean.of(context).find(1);
+    setState(() {
+      savePhotosToGallery = config.savePhotosToGallery;
+    });
+  }
+
+  void _toggleSaveToGallery() async {
+    Config newConfig = Config();
+    newConfig.id = 1;
+    newConfig.savePhotosToGallery = !savePhotosToGallery;
+    await ConfigBean.of(context).update(newConfig, onlyNonNull: true);
+
+    setState(() => savePhotosToGallery = !savePhotosToGallery);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,17 +51,28 @@ class _SettingsState extends State<Settings> {
           Column(
             children: [
               SettingsButton(
+                  iconData: FontAwesomeIcons.image,
+                  text: savePhotosToGallery == null
+                      ? '...'
+                      : savePhotosToGallery
+                          ? "Stop saving photos to gallery"
+                          : "Save photos to gallery",
+                  onTap: savePhotosToGallery != null
+                      ? () => _toggleSaveToGallery()
+                      : null),
+              Divider(color: Color(0xFF777777), height: 1),
+              SettingsButton(
                 iconData: FontAwesomeIcons.undo,
                 text: "Reset Progress",
                 onTap: _confirmResetDialog,
               ),
-              Divider(color: HexColor("FF777777"), height: 1),
+              Divider(color: Color(0xFF777777), height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.sync,
                 text: "Check for updates",
                 onTap: syncResources,
               ),
-              Divider(color: HexColor("FF777777"), height: 1),
+              Divider(color: Color(0xFF777777), height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.infoCircle,
                 text: "About this app",
@@ -49,7 +80,7 @@ class _SettingsState extends State<Settings> {
                   Navigator.of(context).pushNamed('/about');
                 },
               ),
-              Divider(color: HexColor("FF777777"), height: 1),
+              Divider(color: Color(0xFF777777), height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.qrcode,
                 text: "Manually Enter Code",
@@ -59,7 +90,7 @@ class _SettingsState extends State<Settings> {
                   arguments: widget.onCodeEntry,
                 ),
               ),
-              Divider(color: HexColor("FF777777"), height: 1),
+              Divider(color: Color(0xFF777777), height: 1),
             ],
           )
         ],
@@ -68,50 +99,10 @@ class _SettingsState extends State<Settings> {
   }
 
   void syncResources() async {
-    bool wasSuccess = false;
-
-    widget.onProgressUpdate(
-        isLoading: true,
-        loadingMessage: 'Checking for updates.\n\nPlease wait...');
-
-    Map<String, bool> updates;
-
-    try {
-      updates = await SyncProvider.updatedDataAvailable();
-
-      if (updates['data'] == true || updates['files'] == true) {
-        widget.onProgressUpdate(
-            isLoading: true,
-            loadingMessage: 'Downloading updates.\n\nPlease wait...');
-      }
-
-      wasSuccess = await SyncProvider.syncResources();
-    } catch (ex) {
-      print(ex.toString());
-      await displayError();
-    }
-
-    if (wasSuccess) {
-      widget.onProgressUpdate(
-        isLoading: true,
-        loadingMessage: 'Application up to date!',
-        icon: Icon(Icons.check, color: Colors.green, size: 60),
-      );
-      await Future.delayed(Duration(seconds: 2));
-    } else {
-      await displayError();
-    }
-
-    widget.onProgressUpdate(isLoading: false);
-  }
-
-  Future<void> displayError() async {
-    widget.onProgressUpdate(
-      isLoading: true,
-      loadingMessage: 'Oops! An error occured.\n\nPlease try again later.',
-      icon: Icon(Icons.error_outline, color: Colors.red, size: 60),
-    );
-    await Future.delayed(Duration(seconds: 2));
+    PageStorage.of(context).writeState(context, null, identifier: 'Quizzes');
+    PageStorage.of(context).writeState(context, null, identifier: 'FactFiles');
+    PageStorage.of(context).writeState(context, null, identifier: 'Tracks');
+    Navigator.pushNamed(context, '/update', arguments: false);
   }
 
   _confirmResetDialog() async {
@@ -137,7 +128,6 @@ class _SettingsState extends State<Settings> {
   }
 
   _resetProgress() async {
-
     ActivityBean activityBean = ActivityBean.of(context);
     List<Activity> activities = await activityBean.getAll();
     activities.forEach((a) {
@@ -148,9 +138,13 @@ class _SettingsState extends State<Settings> {
     QuizBean quizBean = QuizBean.of(context);
     List<Quiz> quizzes = await quizBean.getAll();
     quizzes.forEach((q) {
-      q.clearProgress();
+      quizBean.clearProgress(q.id);
       quizBean.update(q);
     });
+
+    PageStorage.of(context).writeState(context, null, identifier: 'Quizzes');
+    PageStorage.of(context).writeState(context, null, identifier: 'FactFiles');
+    PageStorage.of(context).writeState(context, null, identifier: 'Tracks');
 
     Navigator.of(context).pop();
     Util.showToast(context, 'Progress Reset!');

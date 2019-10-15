@@ -1,8 +1,8 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_result.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/correct_wrong_overlay.dart';
 import 'package:discover_deep_cove/widgets/quiz/image_question.dart';
@@ -13,9 +13,10 @@ import 'package:discover_deep_cove/widgets/quiz/text_question.dart';
 import 'package:flutter/material.dart';
 
 class QuizView extends StatefulWidget {
-  QuizView({this.quiz});
+  QuizView({this.quiz, this.onComplete});
 
   final Quiz quiz;
+  final VoidCallback onComplete;
 
   @override
   State createState() => QuizViewState();
@@ -28,6 +29,8 @@ class QuizViewState extends State<QuizView> {
   bool isCorrect;
   String guess;
   String answer;
+  QuizAnswer imageGuess;
+  QuizAnswer imageAnswer;
   bool showOverlay = false;
   int questionIndex = 0;
   int score = 0;
@@ -46,15 +49,20 @@ class QuizViewState extends State<QuizView> {
 
   Future<void> updateHighScore(int score) async {
     Quiz quiz = widget.quiz;
-    quiz.highScore = score;
+    quiz.setHighScore(score);
     await QuizBean.of(context).update(quiz);
   }
 
   void handleAnswer(int answerId) {
-    if (currentQuestion.trueFalseQuestion != null) {
-      isCorrect = answerId == (currentQuestion.trueFalseQuestion ? 1 : 0);
+    if (currentQuestion.trueFalseAnswer != null) {
+      isCorrect = answerId == (currentQuestion.trueFalseAnswer ? 1 : 0);
       guess = answerId == 0 ? "False" : "True";
-      answer = currentQuestion.trueFalseQuestion ? "True" : "False";
+      answer = currentQuestion.trueFalseAnswer ? "True" : "False";
+    } else if (currentQuestion.answers.any((a) => a.image != null)) {
+      isCorrect = answerId == currentQuestion.correctAnswerId;
+      imageGuess = currentQuestion.answers.firstWhere((a) => a.id == answerId);
+      imageAnswer = currentQuestion.answers
+          .firstWhere((a) => a.id == currentQuestion.correctAnswerId);
     } else {
       isCorrect = answerId == currentQuestion.correctAnswerId;
       guess = currentQuestion.answers.firstWhere((a) => a.id == answerId).text;
@@ -113,10 +121,12 @@ class QuizViewState extends State<QuizView> {
   Widget buildQuestionView() {
     if (questionIndex == widget.quiz.questions.length) {
       bool isHighScore = false;
-      if (score > widget.quiz.highScore) {
+      if (widget.quiz.highScore == null || score > widget.quiz.highScore) {
         updateHighScore(score);
         isHighScore = true;
       }
+
+      widget.onComplete();
 
       return QuizResult(
         name: widget.quiz.title,
@@ -144,7 +154,7 @@ class QuizViewState extends State<QuizView> {
   }
 
   List<Widget> buildAnswerTiles() {
-    if (currentQuestion.trueFalseQuestion != null) {
+    if (currentQuestion.trueFalseAnswer != null) {
       return [
         QuizTextButton(onTap: () => handleAnswer(1), text: 'True'),
         QuizTextButton(onTap: () => handleAnswer(0), text: 'False')
@@ -156,7 +166,7 @@ class QuizViewState extends State<QuizView> {
         ? currentQuestion.answers.map((answer) {
             return QuizImageButton(
               onTap: () => handleAnswer(answer.id),
-              imagePath: answer.image.path,
+              image: answer.image,
               text: answer.text,
             );
           }).toList()
@@ -173,7 +183,11 @@ class QuizViewState extends State<QuizView> {
       isCorrect: isCorrect,
       guess: guess,
       answer: answer,
+      imageGuess: imageGuess,
+      imageAnswer: imageAnswer,
       onTap: () => setState(() {
+        imageAnswer = null;
+        imageGuess = null;
         questionIndex++;
         showOverlay = false;
       }),

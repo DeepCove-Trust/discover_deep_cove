@@ -1,4 +1,3 @@
-import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,7 @@ class ActivityPassSaveBar extends StatelessWidget {
               child: OutlineButton(
                 onPressed: this.onTapPass ?? () => Navigator.of(context).pop(),
                 borderSide: BorderSide(
-                  color: HexColor("FF777777"),
+                  color: Color(0xFF777777),
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
@@ -51,7 +50,7 @@ class ActivityPassSaveBar extends StatelessWidget {
               child: OutlineButton(
                 onPressed: onTapSave,
                 borderSide: BorderSide(
-                  color: HexColor("FF777777"),
+                  color: Color(0xFF777777),
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),

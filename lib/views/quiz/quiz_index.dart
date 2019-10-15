@@ -1,7 +1,6 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
+import 'package:discover_deep_cove/views/quiz/quiz_view_args.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_tile.dart';
 import 'package:flutter/material.dart';
@@ -13,19 +12,23 @@ class QuizIndex extends StatefulWidget {
 }
 
 class _QuizIndexState extends State<QuizIndex> {
-  List<Quiz> quizzes = List<Quiz>();
+  List<Quiz> quizzes;
 
   @override
   void initState() {
-    refreshData();
-
     super.initState();
+
+    quizzes = PageStorage.of(context).readState(context, identifier: 'Quizzes');
+    if (quizzes == null) refreshData();
   }
 
   Future<void> refreshData() async {
-    List<Quiz> data = await QuizBean.of(context).getAllAndPreload();
-    data = data.where((quiz) => quiz.unlocked).toList();
-    setState(() => quizzes = data);
+    List<Quiz> activeQuizzes = await QuizBean.of(context).getAllAndPreload();
+    List<Quiz> unlockedQuizzes =
+        activeQuizzes.where((q) => q.unlocked).toList();
+    PageStorage.of(context)
+        .writeState(context, unlockedQuizzes, identifier: 'Quizzes');
+    setState(() => quizzes = unlockedQuizzes);
   }
 
   @override
@@ -69,27 +72,31 @@ class _QuizIndexState extends State<QuizIndex> {
         brightness: Brightness.dark,
       ),
       backgroundColor: Theme.of(context).backgroundColor,
-      body: RefreshIndicator(
-        onRefresh: () => refreshData(),
-        child: quizzes.length > 0
-            ? GridView.count(
-                mainAxisSpacing: Screen.width(context, percentage: 2.5),
-                crossAxisSpacing: Screen.width(context, percentage: 2.5),
-                crossAxisCount: (Screen.isTablet(context)
-                    ? Screen.isPortrait(context) ? 2 : 3
-                    : 1),
-                padding: EdgeInsets.all(
-                  Screen.width(context, percentage: 2.5),
-                ),
-                children: buildCards(context, quizzes),
-              )
-            : Center(child: CircularProgressIndicator()),
-      ),
+      body: quizzes == null
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : RefreshIndicator(
+              onRefresh: () => refreshData(),
+              child: quizzes.length > 0
+                  ? GridView.count(
+                      mainAxisSpacing: Screen.width(context, percentage: 2.5),
+                      crossAxisSpacing: Screen.width(context, percentage: 2.5),
+                      crossAxisCount: (Screen.isTablet(context)
+                          ? Screen.isPortrait(context) ? 2 : 3
+                          : 1),
+                      padding: EdgeInsets.all(
+                        Screen.width(context, percentage: 2.5),
+                      ),
+                      children: buildCards(context, quizzes),
+                    )
+                  : Center(child: CircularProgressIndicator()),
+            ),
     );
   }
 
   Future<void> addAttempt(Quiz quiz) async {
-    quiz.attempts++;
+    quiz.setAttempts(quiz.attempts + 1);
     await QuizBean.of(context).update(quiz);
   }
 
@@ -98,14 +105,14 @@ class _QuizIndexState extends State<QuizIndex> {
       return Tile(
         onTap: () {
           addAttempt(quiz);
-          Navigator.of(context).pushNamed('/quizQuestions', arguments: quiz);
+          Navigator.of(context).pushNamed('/quizQuestions',
+              arguments: QuizViewArgs(quiz: quiz, onComplete: refreshData));
         },
         title: quiz.title,
         subheading: quiz.attempts > 0
             ? 'High Score: ${quiz.highScore}/${quiz.questions.length} | Attempts: ${quiz.attempts}'
             : 'Not yet attempted',
-        imagePath:
-            quiz.image != null ? Env.getResourcePath(quiz.image.path) : null,
+        image: quiz.image != null ? quiz.image : null,
       );
     }).toList();
   }

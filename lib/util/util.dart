@@ -1,31 +1,19 @@
 import 'dart:io' show File, Directory;
 
 import 'package:archive/archive.dart' show ZipDecoder, Archive, ArchiveFile;
+import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' show Response;
 import 'package:meta/meta.dart' show required;
 import 'package:path/path.dart' show join;
+import 'package:path_provider_ex/path_provider_ex.dart';
 import 'package:toast/toast.dart';
 
 /// Container class for general helper functions.
 class Util {
-  /// Stores the body of the [http.Response] as a file, using the specified
-  /// [absPath] and [fileName].
-  ///
-  /// Will create directories that do not exist.
-  static Future<File> httpResponseToFile(
-      {@required Response response,
-      @required String absPath,
-      @required String fileName}) async {
-    // TODO: Check for write permission here?
-
-    File file = File(join(absPath, fileName));
-    await file.create(recursive: true);
-    await file.writeAsBytes(response.bodyBytes);
-
-    return file;
-  }
 
   /// Extract the supplied file [zip] to the supplied directory [dir]
   ///
@@ -67,8 +55,30 @@ class Util {
 
   /// Generates a file name by adding a time-based string to the end,
   /// and adding the correct file extension based on supplied type.
-  static String getAntiCollisionName(String name, MediaFileType type) {
+  static String getAntiCollisionName(String name, String extension) {
     String suffix = DateTime.now().millisecondsSinceEpoch.toString();
-    return name.replaceAll(' ', '_') + '_' + suffix + '.' + type.toString();
+    return name.replaceAll(' ', '_') + '_' + suffix + extension;
+  }
+
+  /// Returns the amount of free storage space available to the app, in bytes.
+  /// Returns -1 if unable to calculate.
+  static Future<int> getAvailableStorageSpace() async {
+    List<StorageInfo> _storageInfo;
+    try {
+      _storageInfo = await PathProviderEx.getStorageInfo();
+    } on PlatformException { return -1; }
+
+    print('Device has ${_storageInfo[0].availableBytes} bytes available');
+
+    return _storageInfo[0].availableBytes;
+  }
+
+  static String bytesToMBString(int bytes){
+    return '${(bytes / 1000000).toStringAsFixed(1)}MB';
+  }
+
+  static Future<bool> savePhotosToGallery(BuildContext context) async {
+    Config config = await ConfigBean.of(context).find(1);
+    return config.savePhotosToGallery;
   }
 }

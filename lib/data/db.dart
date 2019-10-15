@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/permissions.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
@@ -20,21 +22,36 @@ class DB {
   /// Single database adaptor instance belonging to the single provider.
   static SqfliteAdapter _adapter;
 
-  /// Return _db if not null, else initialize the database.
-  Future<SqfliteAdapter> get adapter async => _adapter ??= await _initDb();
+  /// Database adaptor for the temporary database
+  static SqfliteAdapter _tempAdapter;
+
+  /// Return _adapter if not null, else initialize the database.
+  Future<SqfliteAdapter> get adapter async => _adapter ??= await _initDb(false);
+
+  /// Return _tempAdapter if not null, else initialize
+  Future<SqfliteAdapter> get tempAdapter async =>
+      _tempAdapter ??= await _initDb(true);
 
   /// Removes the [_adapter] so that the database will be re-initialized
   /// the next time [adapter] is retrieved.
   ///
   /// Should not be called outside of the [SyncProvider] class.
-  void resetAdapter() {
+  Future<void> resetAdapter() async {
+    await _adapter.close();
     _adapter = null;
+  }
+
+  /// Closes connection to the temp database, delete the temp database file
+  /// and set the _tempAdapter member back to null.
+  Future<void> resetTempAdapter() async {
+    await _tempAdapter.close();
+    _tempAdapter = null;
   }
 
   /// Throws [InsufficientPermissionException] is user does not grant storage
   /// permission.
-  Future<SqfliteAdapter> _initDb() async {
-    print('Connecting to database...');
+  Future<SqfliteAdapter> _initDb(bool temp) async {
+    print('Connecting to ${temp ? 'temporary' : ''} database...');
 
     // Request external storage permission if the app is configured to use
     // external storage.
@@ -48,7 +65,7 @@ class DB {
     }
 
     // Establish the path to the database file
-    String dbPath = join(Env.dbPath);
+    String dbPath = join(temp ? Env.tempDbPath : Env.dbPath);
     // Could use getDatabasesPath() instead of env value
 
     // Create the database adaptor, connect to db, and return adaptor for use

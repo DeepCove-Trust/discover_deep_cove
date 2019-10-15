@@ -1,6 +1,4 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/views/activites/activity_screen_args.dart';
 import 'package:discover_deep_cove/views/activites/activity_unlock.dart';
 import 'package:discover_deep_cove/views/activites/count_activity_view.dart';
@@ -12,8 +10,9 @@ import 'package:discover_deep_cove/views/fact_file/fact_file_details.dart';
 import 'package:discover_deep_cove/views/home.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_unlock.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_view.dart';
+import 'package:discover_deep_cove/views/quiz/quiz_view_args.dart';
 import 'package:discover_deep_cove/views/settings/about.dart';
-import 'package:discover_deep_cove/views/splash.dart';
+import 'package:discover_deep_cove/views/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -25,10 +24,17 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Home());
 
       case '/splash':
-        return MaterialPageRoute(builder: (_) => Splash());
+        return MaterialPageRoute(builder: (_) => LoadingScreen());
 
       case '/about':
         return MaterialPageRoute(builder: (_) => About());
+
+      case '/update':
+        return MaterialPageRoute(
+          builder: (_) => LoadingScreen(
+            isFirstLoad: args,
+          ),
+        );
 
       //Fact file routes
       case '/factFileDetails':
@@ -55,10 +61,11 @@ class RouteGenerator {
         return _errorRoute();
 
       case '/quizQuestions':
-        if (args is Quiz) {
+        if (args is QuizViewArgs) {
           return MaterialPageRoute(
             builder: (_) => QuizView(
-              quiz: args,
+              quiz: args.quiz,
+              onComplete: args.onComplete,
             ),
           );
         }
@@ -110,10 +117,9 @@ class RouteGenerator {
           }
           if (aArgs.activity.activityType == ActivityType.informational) {
             return MaterialPageRoute(
-            builder: (_) => FactFileDetails(
-              entryId: aArgs.activity.factFileId
-            ),
-          );
+              builder: (_) =>
+                  FactFileDetails(entryId: aArgs.activity.factFileId),
+            );
           }
         }
         return _errorRoute();

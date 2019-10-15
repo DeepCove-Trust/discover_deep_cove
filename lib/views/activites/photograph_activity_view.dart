@@ -2,19 +2,20 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
-import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:discover_deep_cove/data/models/config.dart';
+import 'package:discover_deep_cove/data/models/user_photo.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/image_handler.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 
 class PhotographActivityView extends StatefulWidget {
   final Activity activity;
@@ -91,11 +92,9 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
   }
 
   Widget _getCenterChild() {
-    print('getCenterChild');
     return FutureBuilder(
         future: widget.isReview ? _getSavedPhoto() : _getPreview(),
         builder: (context, snapshot) {
-          print(snapshot.connectionState.toString());
           if (snapshot.connectionState == ConnectionState.active ||
               snapshot.connectionState == ConnectionState.waiting) {
             return Column(
@@ -119,20 +118,13 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
 
   @override
   Widget build(BuildContext context) {
-    String imagePath = Env.getResourcePath(widget.activity.userPhoto?.path);
-
-    print("Image path:");
-    print(imagePath);
-    print("Picture " +
-        (File(imagePath).existsSync() ? "exists" : "does not exist"));
-
     return Scaffold(
       appBar: ActivityAppBar(
-          text: widget.activity.title,
-          onTap: widget.activity.factFileId != null
-              ? () => displayFactFile(widget.activity.factFileId)
-              : null,
-        ),
+        text: widget.activity.title,
+        onTap: widget.activity.factFileId != null
+            ? () => displayFactFile(widget.activity.factFileId)
+            : null,
+      ),
       body: Column(
         children: [
           Padding(
@@ -143,16 +135,13 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
             padding: const EdgeInsets.fromLTRB(40, 0, 40, 20),
             child: BodyText(widget.activity.task),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Divider(color: Color(0xFF777777)),
-          ),
           Expanded(
             child: Center(
-                child: Padding(
-              padding: EdgeInsets.all(8),
-              child: _getCenterChild(),
-            )),
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: _getCenterChild(),
+              ),
+            ),
           )
         ],
       ),
@@ -165,19 +154,21 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       backgroundColor: Theme.of(context).backgroundColor,
       floatingActionButton: widget.isReview
           ? Container()
-          : Align(alignment: Alignment.bottomCenter, child:Padding(
-              padding: EdgeInsets.only(
-                bottom: 8,
-              ),
-              child: CustomFab(
-                icon: FontAwesomeIcons.camera,
-                text: "I see it!",
-                onPressed: () {
-                  _onImageButtonPressed(context);
-                },
+          : Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: 8,
+                ),
+                child: CustomFab(
+                  icon: FontAwesomeIcons.camera,
+                  text: _image == null ? "I see it!" : "Try again",
+                  onPressed: () {
+                    _onImageButtonPressed(context);
+                  },
+                ),
               ),
             ),
-          ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
@@ -264,20 +255,23 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
     try {
       // Determine directory and filename to store new image
       Directory directory = Directory(Env.getResourcePath('user_photos'));
-      String filename =
-          Util.getAntiCollisionName(widget.activity.title, MediaFileType.jpg);
+      String filename = Util.getAntiCollisionName(
+        widget.activity.title,
+        ".jpg",
+      );
+
+      if (await Util.savePhotosToGallery(context))
+        GallerySaver.saveImage(_image.path);
 
       // Save the image to the users photos directory, and delete temp image
       ImageHandler.saveImage(
           tempImage: _image, directory: directory, name: filename);
 
       // Add a database record for the new image
-      MediaFile image = MediaFile.create(
-        name: filename,
+      UserPhoto image = UserPhoto.create(
         path: 'user_photos/$filename',
-        fileType: MediaFileType.jpg.index,
       );
-      var id = await MediaFileBean.of(context).insert(image);
+      var id = await UserPhotoBean.of(context).insert(image);
 
       // Update the activity with the new user image
       widget.activity.userPhotoId = id;

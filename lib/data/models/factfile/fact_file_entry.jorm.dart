@@ -9,6 +9,7 @@ part of 'fact_file_entry.dart';
 abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
   final id = IntField('id');
   final categoryId = IntField('category_id');
+  final updatedAt = DateTimeField('updated_at');
   final primaryName = StrField('primary_name');
   final altName = StrField('alt_name');
   final bodyText = StrField('body_text');
@@ -19,6 +20,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
         categoryId.name: categoryId,
+        updatedAt.name: updatedAt,
         primaryName.name: primaryName,
         altName.name: altName,
         bodyText.name: bodyText,
@@ -30,6 +32,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     FactFileEntry model = FactFileEntry();
     model.id = adapter.parseValue(map['id']);
     model.categoryId = adapter.parseValue(map['category_id']);
+    model.updatedAt = adapter.parseValue(map['updated_at']);
     model.primaryName = adapter.parseValue(map['primary_name']);
     model.altName = adapter.parseValue(map['alt_name']);
     model.bodyText = adapter.parseValue(map['body_text']);
@@ -47,6 +50,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
       ret.add(categoryId.set(model.categoryId));
+      ret.add(updatedAt.set(model.updatedAt));
       ret.add(primaryName.set(model.primaryName));
       ret.add(altName.set(model.altName));
       ret.add(bodyText.set(model.bodyText));
@@ -57,6 +61,8 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(categoryId.name))
         ret.add(categoryId.set(model.categoryId));
+      if (only.contains(updatedAt.name))
+        ret.add(updatedAt.set(model.updatedAt));
       if (only.contains(primaryName.name))
         ret.add(primaryName.set(model.primaryName));
       if (only.contains(altName.name)) ret.add(altName.set(model.altName));
@@ -73,6 +79,9 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
       }
       if (model.categoryId != null) {
         ret.add(categoryId.set(model.categoryId));
+      }
+      if (model.updatedAt != null) {
+        ret.add(updatedAt.set(model.updatedAt));
       }
       if (model.primaryName != null) {
         ret.add(primaryName.set(model.primaryName));
@@ -104,6 +113,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         foreignTable: factFileCategoryBean.tableName,
         foreignCol: 'id',
         isNullable: false);
+    st.addDateTime(updatedAt.name, isNullable: false);
     st.addStr(primaryName.name, isNullable: false);
     st.addStr(altName.name, isNullable: true);
     st.addStr(bodyText.name, isNullable: false);

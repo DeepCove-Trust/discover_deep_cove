@@ -8,33 +8,33 @@ part of 'quiz.dart';
 
 abstract class _QuizBean implements Bean<Quiz> {
   final id = IntField('id');
-  final lastModified = DateTimeField('last_modified');
-  final unlocked = BoolField('unlocked');
+  final updatedAt = DateTimeField('updated_at');
+  final _unlocked = BoolField('unlocked');
   final unlockCode = StrField('unlock_code');
   final title = StrField('title');
-  final attempts = IntField('attempts');
-  final highScore = IntField('high_score');
+  final _attempts = IntField('attempts');
+  final _highScore = IntField('high_score');
   final imageId = IntField('image_id');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
-        lastModified.name: lastModified,
-        unlocked.name: unlocked,
+        updatedAt.name: updatedAt,
+        _unlocked.name: _unlocked,
         unlockCode.name: unlockCode,
         title.name: title,
-        attempts.name: attempts,
-        highScore.name: highScore,
+        _attempts.name: _attempts,
+        _highScore.name: _highScore,
         imageId.name: imageId,
       };
   Quiz fromMap(Map map) {
     Quiz model = Quiz();
     model.id = adapter.parseValue(map['id']);
-    model.lastModified = adapter.parseValue(map['last_modified']);
-    model.unlocked = adapter.parseValue(map['unlocked']);
+    model.updatedAt = adapter.parseValue(map['updated_at']);
+    model._unlocked = adapter.parseValue(map['unlocked']);
     model.unlockCode = adapter.parseValue(map['unlock_code']);
     model.title = adapter.parseValue(map['title']);
-    model.attempts = adapter.parseValue(map['attempts']);
-    model.highScore = adapter.parseValue(map['high_score']);
+    model._attempts = adapter.parseValue(map['attempts']);
+    model._highScore = adapter.parseValue(map['high_score']);
     model.imageId = adapter.parseValue(map['image_id']);
 
     return model;
@@ -46,34 +46,36 @@ abstract class _QuizBean implements Bean<Quiz> {
 
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
-      ret.add(lastModified.set(model.lastModified));
-      ret.add(unlocked.set(model.unlocked));
+      ret.add(updatedAt.set(model.updatedAt));
+      ret.add(_unlocked.set(model._unlocked));
       ret.add(unlockCode.set(model.unlockCode));
       ret.add(title.set(model.title));
-      ret.add(attempts.set(model.attempts));
-      ret.add(highScore.set(model.highScore));
+      ret.add(_attempts.set(model._attempts));
+      ret.add(_highScore.set(model._highScore));
       ret.add(imageId.set(model.imageId));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
-      if (only.contains(lastModified.name))
-        ret.add(lastModified.set(model.lastModified));
-      if (only.contains(unlocked.name)) ret.add(unlocked.set(model.unlocked));
+      if (only.contains(updatedAt.name))
+        ret.add(updatedAt.set(model.updatedAt));
+      if (only.contains(_unlocked.name))
+        ret.add(_unlocked.set(model._unlocked));
       if (only.contains(unlockCode.name))
         ret.add(unlockCode.set(model.unlockCode));
       if (only.contains(title.name)) ret.add(title.set(model.title));
-      if (only.contains(attempts.name)) ret.add(attempts.set(model.attempts));
-      if (only.contains(highScore.name))
-        ret.add(highScore.set(model.highScore));
+      if (only.contains(_attempts.name))
+        ret.add(_attempts.set(model._attempts));
+      if (only.contains(_highScore.name))
+        ret.add(_highScore.set(model._highScore));
       if (only.contains(imageId.name)) ret.add(imageId.set(model.imageId));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
       }
-      if (model.lastModified != null) {
-        ret.add(lastModified.set(model.lastModified));
+      if (model.updatedAt != null) {
+        ret.add(updatedAt.set(model.updatedAt));
       }
-      if (model.unlocked != null) {
-        ret.add(unlocked.set(model.unlocked));
+      if (model._unlocked != null) {
+        ret.add(_unlocked.set(model._unlocked));
       }
       if (model.unlockCode != null) {
         ret.add(unlockCode.set(model.unlockCode));
@@ -81,11 +83,11 @@ abstract class _QuizBean implements Bean<Quiz> {
       if (model.title != null) {
         ret.add(title.set(model.title));
       }
-      if (model.attempts != null) {
-        ret.add(attempts.set(model.attempts));
+      if (model._attempts != null) {
+        ret.add(_attempts.set(model._attempts));
       }
-      if (model.highScore != null) {
-        ret.add(highScore.set(model.highScore));
+      if (model._highScore != null) {
+        ret.add(_highScore.set(model._highScore));
       }
       if (model.imageId != null) {
         ret.add(imageId.set(model.imageId));
@@ -98,12 +100,12 @@ abstract class _QuizBean implements Bean<Quiz> {
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
-    st.addDateTime(lastModified.name, isNullable: false);
-    st.addBool(unlocked.name, isNullable: true);
+    st.addDateTime(updatedAt.name, isNullable: false);
+    st.addBool(_unlocked.name, isNullable: true);
     st.addStr(unlockCode.name, isNullable: true);
     st.addStr(title.name, isNullable: false);
-    st.addInt(attempts.name, isNullable: true);
-    st.addInt(highScore.name, isNullable: true);
+    st.addInt(_attempts.name, isNullable: true);
+    st.addInt(_highScore.name, isNullable: true);
     st.addInt(imageId.name,
         foreignTable: mediaFileBean.tableName,
         foreignCol: 'id',

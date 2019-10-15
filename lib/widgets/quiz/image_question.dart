@@ -84,6 +84,19 @@ class _ImageQuestionState extends State<ImageQuestion>
     );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          height = constraints.maxHeight;
+          return buildContent();
+        },
+      ),
+      backgroundColor: Theme.of(context).backgroundColor,
+    );
+  }
+
   buildContent() {
     return (Screen.isTablet(context) && !Screen.isPortrait(context))
         ? GridView.count(
@@ -107,21 +120,6 @@ class _ImageQuestionState extends State<ImageQuestion>
               answerComponent(),
             ],
           );
-  }
-
-  answerComponent() {
-    return Expanded(
-      child: Container(
-        color: Theme.of(context).backgroundColor,
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CustomGrid(children: widget.answers),
-          ],
-        ),
-      ),
-    );
   }
 
   questionComponent() {
@@ -149,7 +147,10 @@ class _ImageQuestionState extends State<ImageQuestion>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SubHeading(widget.question.text),
+                  SubHeading(
+                    widget.question.text,
+                    size: Screen.isTablet(context) ? 30 : null,
+                  ),
                   if (hasAudio)
                     Padding(
                       padding: EdgeInsets.only(
@@ -166,16 +167,18 @@ class _ImageQuestionState extends State<ImageQuestion>
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          height = constraints.maxHeight;
-          return buildContent();
-        },
+  answerComponent() {
+    return Expanded(
+      child: Container(
+        color: Theme.of(context).backgroundColor,
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CustomGrid(children: widget.answers),
+          ],
+        ),
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
     );
   }
 }

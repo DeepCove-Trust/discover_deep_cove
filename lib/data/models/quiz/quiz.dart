@@ -13,17 +13,17 @@ class Quiz {
   int id;
 
   @Column()
-  DateTime lastModified;
+  DateTime updatedAt;
 
-  // todo: wait for jaguar to support default values
   @Column(name: 'unlocked', isNullable: true)
-  bool unlocked;
+  bool _unlocked;
 
   /// Returns true if the quiz is unlocked. This also takes into consideration
   /// whether there is an unlock code set (quiz is unlocked by default if no
   /// unlock code is set).
-//  @IgnoreColumn()
-//  bool get unlocked => unlockCode == null ? true : (_unlocked ?? false);
+  @IgnoreColumn()
+  bool get unlocked => unlockCode == null ? true : (_unlocked ?? false);
+  void setUnlocked(val) => _unlocked = val;
 
   @Column(isNullable: true)
   String unlockCode;
@@ -31,11 +31,20 @@ class Quiz {
   @Column()
   String title;
 
-  @Column(isNullable: true)
-  int attempts;
+  @Column(name: 'attempts', isNullable: true)
+  int _attempts;
 
-  @Column(isNullable: true)
-  int highScore;
+  @IgnoreColumn()
+  int get attempts => _attempts ?? 0;
+  void setAttempts(val) => _attempts = val;
+
+  @Column(name: 'high_score', isNullable: true)
+  int _highScore;
+
+  @IgnoreColumn()
+  int get highScore => _highScore ?? 0;
+  void setHighScore(val) => _highScore = val;
+
 
   @HasMany(QuizQuestionBean)
   List<QuizQuestion> questions;
@@ -45,12 +54,6 @@ class Quiz {
 
   @IgnoreColumn()
   MediaFile image;
-
-  clearProgress(){
-    attempts = 0;
-    highScore = 0;
-    unlocked = unlockCode == null;
-  }
 }
 
 @GenBean()
@@ -70,25 +73,30 @@ class QuizBean extends Bean<Quiz> with _QuizBean {
   MediaFileBean get mediaFileBean => _mediaFileBean ?? MediaFileBean(adapter);
 
   final String tableName = 'quizzes';
-  
-  Future<List<Quiz>> preloadExtras(List<Quiz> quizzes) async {
+
+  Future<List<Quiz>> preloadExtrasForAll(List<Quiz> quizzes) async {
     for (Quiz quiz in quizzes) {
-      quiz.image = await mediaFileBean.find(quiz.imageId);
-    }    
+      await preloadExtras(quiz);
+    }
     return quizzes;
+  }
+
+  Future<Quiz> preloadExtras(Quiz quiz)async{
+    quiz.image = await mediaFileBean.find(quiz.imageId);
+    return quiz;
   }
 
   Future<List<Quiz>> findWhereAndPreload(where) async {
     if (where is ExpressionMaker<Quiz>) where = where(this);
     List<Quiz> quizzes = await findWhere(where);
     quizzes = await preloadAll(quizzes);
-    return await preloadExtras(quizzes);
+    return await preloadExtrasForAll(quizzes);
   }
 
   Future<List<Quiz>> getAllAndPreload() async {
     List<Quiz> quizzes = await getAll();
     quizzes = await preloadAll(quizzes);
-    return await preloadExtras(quizzes);
+    return await preloadExtrasForAll(quizzes);
   }
 
   Future<Quiz> findByCode(String code,
@@ -99,5 +107,13 @@ class QuizBean extends Bean<Quiz> with _QuizBean {
       await this.preload(model, cascade: cascade);
     }
     return model;
+  }
+
+  /// Resets the attempts and highscore for the given ID
+  Future<void> clearProgress(int id) async {
+    Quiz quiz = await find(id);
+    quiz.setAttempts(0);
+    quiz.setHighScore(0);
+    await update(quiz);
   }
 }

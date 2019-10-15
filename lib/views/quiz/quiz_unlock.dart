@@ -1,7 +1,8 @@
+import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/util/hex_color.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
+import 'package:discover_deep_cove/views/home.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
@@ -44,14 +45,23 @@ class _QuizUnlockState extends State<QuizUnlock> {
   void verifyCode(BuildContext context) async {
     UnlockStatus status;
 
+    Config config = await ConfigBean.of(context).find(1);
+
+    if(textController.text == config.masterUnlockCode){
+      return await unlockAllQuizzes();
+    }
+
     Quiz quiz = await QuizBean.of(context).findByCode(textController.text);
 
     if (quiz != null) {
       if (quiz.unlocked) {
         status = UnlockStatus.alreadyUnlocked;
       } else {
-        quiz.unlocked = true;
+        quiz.setUnlocked(true);
         await QuizBean.of(context).update(quiz);
+        // This will discard any stored quizzes so the the index page fetches fresh
+        // data on next view.
+        PageStorage.of(context).writeState(context, null, identifier: 'Quizzes');
         status = UnlockStatus.success;
       }
 
@@ -71,6 +81,18 @@ class _QuizUnlockState extends State<QuizUnlock> {
       default:
         Util.showToast(context, 'Invalid code entered');
     }
+  }
+
+  /// Unlock all quizzes
+  Future<void> unlockAllQuizzes() async {
+    List<Quiz> quizzes = await QuizBean.of(context).getAll();
+    for(Quiz quiz in quizzes){
+      quiz.setUnlocked(true);
+      await QuizBean.of(context).update(quiz);
+    }
+    // This will discard any stored quizzes so the the index page fetches fresh
+    // data on next view.
+    PageStorage.of(context).writeState(context, null, identifier: 'Quizzes');
   }
 
   buildContent() {
@@ -239,7 +261,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                     ),
                     onPressed: () => verifyCode(context),
                     borderSide: BorderSide(
-                      color: HexColor("FFFFFFFF"),
+                      color: Color(0xFFFFFFFF),
                     ),
                   ),
                 ),

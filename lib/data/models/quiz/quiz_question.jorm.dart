@@ -9,7 +9,7 @@ part of 'quiz_question.dart';
 abstract class _QuizQuestionBean implements Bean<QuizQuestion> {
   final id = IntField('id');
   final quizId = IntField('quiz_id');
-  final _trueFalseQuestion = IntField('true_false_question');
+  final _trueFalseAnswer = IntField('true_false_answer');
   final text = StrField('text');
   final imageId = IntField('image_id');
   final audioId = IntField('audio_id');
@@ -18,7 +18,7 @@ abstract class _QuizQuestionBean implements Bean<QuizQuestion> {
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
         quizId.name: quizId,
-        _trueFalseQuestion.name: _trueFalseQuestion,
+        _trueFalseAnswer.name: _trueFalseAnswer,
         text.name: text,
         imageId.name: imageId,
         audioId.name: audioId,
@@ -28,7 +28,7 @@ abstract class _QuizQuestionBean implements Bean<QuizQuestion> {
     QuizQuestion model = QuizQuestion();
     model.id = adapter.parseValue(map['id']);
     model.quizId = adapter.parseValue(map['quiz_id']);
-    model._trueFalseQuestion = adapter.parseValue(map['true_false_question']);
+    model._trueFalseAnswer = adapter.parseValue(map['true_false_answer']);
     model.text = adapter.parseValue(map['text']);
     model.imageId = adapter.parseValue(map['image_id']);
     model.audioId = adapter.parseValue(map['audio_id']);
@@ -44,7 +44,7 @@ abstract class _QuizQuestionBean implements Bean<QuizQuestion> {
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
       ret.add(quizId.set(model.quizId));
-      ret.add(_trueFalseQuestion.set(model._trueFalseQuestion));
+      ret.add(_trueFalseAnswer.set(model._trueFalseAnswer));
       ret.add(text.set(model.text));
       ret.add(imageId.set(model.imageId));
       ret.add(audioId.set(model.audioId));
@@ -52,8 +52,8 @@ abstract class _QuizQuestionBean implements Bean<QuizQuestion> {
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(quizId.name)) ret.add(quizId.set(model.quizId));
-      if (only.contains(_trueFalseQuestion.name))
-        ret.add(_trueFalseQuestion.set(model._trueFalseQuestion));
+      if (only.contains(_trueFalseAnswer.name))
+        ret.add(_trueFalseAnswer.set(model._trueFalseAnswer));
       if (only.contains(text.name)) ret.add(text.set(model.text));
       if (only.contains(imageId.name)) ret.add(imageId.set(model.imageId));
       if (only.contains(audioId.name)) ret.add(audioId.set(model.audioId));
@@ -66,8 +66,8 @@ abstract class _QuizQuestionBean implements Bean<QuizQuestion> {
       if (model.quizId != null) {
         ret.add(quizId.set(model.quizId));
       }
-      if (model._trueFalseQuestion != null) {
-        ret.add(_trueFalseQuestion.set(model._trueFalseQuestion));
+      if (model._trueFalseAnswer != null) {
+        ret.add(_trueFalseAnswer.set(model._trueFalseAnswer));
       }
       if (model.text != null) {
         ret.add(text.set(model.text));
@@ -91,7 +91,7 @@ abstract class _QuizQuestionBean implements Bean<QuizQuestion> {
     st.addInt(id.name, primary: true, isNullable: false);
     st.addInt(quizId.name,
         foreignTable: quizBean.tableName, foreignCol: 'id', isNullable: false);
-    st.addInt(_trueFalseQuestion.name, isNullable: true);
+    st.addInt(_trueFalseAnswer.name, isNullable: true);
     st.addStr(text.name, isNullable: false);
     st.addInt(imageId.name,
         foreignTable: mediaFileBean.tableName,
@@ -398,7 +398,7 @@ abstract class _QuizQuestionBean implements Bean<QuizQuestion> {
         models,
         (QuizQuestion model) => [model.id],
         quizAnswerBean.findByQuizQuestionList,
-        (QuizAnswer model) => [model.questionId],
+        (QuizAnswer model) => [model.quizQuestionId],
         (QuizQuestion model, QuizAnswer child) =>
             model.answers = List.from(model.answers)..add(child),
         cascade: cascade);

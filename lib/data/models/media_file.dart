@@ -1,7 +1,7 @@
 import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/activity/activity_images.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_images.dart';
+import 'package:discover_deep_cove/data/models/activity/activity_image.dart';
+import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_image.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
@@ -14,38 +14,33 @@ import 'package:meta/meta.dart';
 
 part 'media_file.jorm.dart';
 
-/// The media file types supported by the application.
-/// TODO: Monitor Jaguar's support of enum persistence
-enum MediaFileType {
-  jpg,
-  png,
-  mp3,
-  wav,
-}
-
 /// A media file that is stored on the device.
 class MediaFile {
   MediaFile();
 
   MediaFile.create({
-    @required this.fileType,
-    @required this.path,
-    @required this.name,
-  });
+      @required this.path,
+      @required this.category,
+      @required this.name,
+      @required this.source,
+      @required this.showCopyright,
+      @required this.updatedAt});
 
   MediaFile.make(
       {@required this.id,
-      @required this.fileType,
       @required this.path,
-      this.name});
+      @required this.category,
+      @required this.name,
+      @required this.source,
+      @required this.showCopyright,
+      @required this.updatedAt});
 
-  @PrimaryKey(auto: true)
+  @PrimaryKey()
   int id;
 
-  /// TODO: Persist as a [MediaFileType] enum when Jaguar supports it.
-  /// The file type.
+  /// Image or Audio
   @Column()
-  int fileType;
+  String category;
 
   /// Description of the media file's contents.
   @Column()
@@ -54,6 +49,17 @@ class MediaFile {
   /// Path to the file, relative to the apps root storage directory.
   @Column()
   String path;
+
+  /// String to display for image attribution
+  @Column(isNullable: true)
+  String source;
+
+  /// Whether to display copyright symbol next to source
+  @Column()
+  bool showCopyright;
+
+  @Column()
+  DateTime updatedAt;
 
   /// List of the entries that use this media file as their main image.
   /// TODO: Should these be using @BelongsTo.many() ???
@@ -107,15 +113,14 @@ class MediaFileBean extends Bean<MediaFile> with _MediaFileBean {
         super(adapter);
 
   MediaFileBean.of(BuildContext context)
-      : factFileNuggetBean = FactFileNuggetBean(DatabaseAdapter.of(context)),
-        factFileEntryBean = FactFileEntryBean(DatabaseAdapter.of(context)),
-        factFileEntryImageBean =
-            FactFileEntryImageBean(DatabaseAdapter.of(context)),
-        activityBean = ActivityBean(DatabaseAdapter.of(context)),
-        activityImageBean = ActivityImageBean(DatabaseAdapter.of(context)),
+      : factFileNuggetBean = FactFileNuggetBean.of(context),
+        factFileEntryBean = FactFileEntryBean.of(context),
+        factFileEntryImageBean = FactFileEntryImageBean.of(context),
+        activityBean = ActivityBean.of(context),
+        activityImageBean = ActivityImageBean.of(context),
         quizBean = QuizBean(DatabaseAdapter.of(context)),
-        quizQuestionBean = QuizQuestionBean(DatabaseAdapter.of(context)),
-        quizAnswerBean = QuizAnswerBean(DatabaseAdapter.of(context)),
+        quizQuestionBean = QuizQuestionBean.of(context),
+        quizAnswerBean = QuizAnswerBean.of(context),
         super(DatabaseAdapter.of(context));
 
   final FactFileNuggetBean factFileNuggetBean;

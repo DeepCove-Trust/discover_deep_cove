@@ -1,45 +1,44 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'fact_file_entry_images.dart';
+part of 'activity_image.dart';
 
 // **************************************************************************
 // BeanGenerator
 // **************************************************************************
 
-abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
-  final factFileEntryId = IntField('fact_file_entry_id');
-  final mediaFileId = IntField('media_file_id');
+abstract class _ActivityImageBean implements Bean<ActivityImage> {
+  final activityId = IntField('activity_id');
+  final imageId = IntField('image_id');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
-        factFileEntryId.name: factFileEntryId,
-        mediaFileId.name: mediaFileId,
+        activityId.name: activityId,
+        imageId.name: imageId,
       };
-  FactFileEntryImage fromMap(Map map) {
-    FactFileEntryImage model = FactFileEntryImage();
-    model.factFileEntryId = adapter.parseValue(map['fact_file_entry_id']);
-    model.mediaFileId = adapter.parseValue(map['media_file_id']);
+  ActivityImage fromMap(Map map) {
+    ActivityImage model = ActivityImage();
+    model.activityId = adapter.parseValue(map['activity_id']);
+    model.imageId = adapter.parseValue(map['image_id']);
 
     return model;
   }
 
-  List<SetColumn> toSetColumns(FactFileEntryImage model,
+  List<SetColumn> toSetColumns(ActivityImage model,
       {bool update = false, Set<String> only, bool onlyNonNull = false}) {
     List<SetColumn> ret = [];
 
     if (only == null && !onlyNonNull) {
-      ret.add(factFileEntryId.set(model.factFileEntryId));
-      ret.add(mediaFileId.set(model.mediaFileId));
+      ret.add(activityId.set(model.activityId));
+      ret.add(imageId.set(model.imageId));
     } else if (only != null) {
-      if (only.contains(factFileEntryId.name))
-        ret.add(factFileEntryId.set(model.factFileEntryId));
-      if (only.contains(mediaFileId.name))
-        ret.add(mediaFileId.set(model.mediaFileId));
+      if (only.contains(activityId.name))
+        ret.add(activityId.set(model.activityId));
+      if (only.contains(imageId.name)) ret.add(imageId.set(model.imageId));
     } else /* if (onlyNonNull) */ {
-      if (model.factFileEntryId != null) {
-        ret.add(factFileEntryId.set(model.factFileEntryId));
+      if (model.activityId != null) {
+        ret.add(activityId.set(model.activityId));
       }
-      if (model.mediaFileId != null) {
-        ret.add(mediaFileId.set(model.mediaFileId));
+      if (model.imageId != null) {
+        ret.add(imageId.set(model.imageId));
       }
     }
 
@@ -48,18 +47,18 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
 
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
-    st.addInt(factFileEntryId.name,
-        foreignTable: factFileEntryBean.tableName,
+    st.addInt(activityId.name,
+        foreignTable: activityBean.tableName,
         foreignCol: 'id',
         isNullable: false);
-    st.addInt(mediaFileId.name,
+    st.addInt(imageId.name,
         foreignTable: mediaFileBean.tableName,
         foreignCol: 'id',
         isNullable: false);
     return adapter.createTable(st);
   }
 
-  Future<dynamic> insert(FactFileEntryImage model,
+  Future<dynamic> insert(ActivityImage model,
       {bool cascade = false,
       bool onlyNonNull = false,
       Set<String> only}) async {
@@ -68,7 +67,7 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     return adapter.insert(insert);
   }
 
-  Future<void> insertMany(List<FactFileEntryImage> models,
+  Future<void> insertMany(List<ActivityImage> models,
       {bool onlyNonNull = false, Set<String> only}) async {
     final List<List<SetColumn>> data = models
         .map((model) =>
@@ -79,7 +78,7 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     return;
   }
 
-  Future<dynamic> upsert(FactFileEntryImage model,
+  Future<dynamic> upsert(ActivityImage model,
       {bool cascade = false,
       Set<String> only,
       bool onlyNonNull = false}) async {
@@ -88,7 +87,7 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     return adapter.upsert(upsert);
   }
 
-  Future<void> upsertMany(List<FactFileEntryImage> models,
+  Future<void> upsertMany(List<ActivityImage> models,
       {bool onlyNonNull = false, Set<String> only}) async {
     final List<List<SetColumn>> data = [];
     for (var i = 0; i < models.length; ++i) {
@@ -101,7 +100,7 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     return;
   }
 
-  Future<void> updateMany(List<FactFileEntryImage> models,
+  Future<void> updateMany(List<ActivityImage> models,
       {bool onlyNonNull = false, Set<String> only}) async {
     final List<List<SetColumn>> data = [];
     final List<Expression> where = [];
@@ -116,82 +115,80 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     return;
   }
 
-  Future<List<FactFileEntryImage>> findByFactFileEntry(int factFileEntryId,
+  Future<List<ActivityImage>> findByActivity(int activityId,
       {bool preload = false, bool cascade = false}) async {
-    final Find find = finder.where(this.factFileEntryId.eq(factFileEntryId));
+    final Find find = finder.where(this.activityId.eq(activityId));
     return findMany(find);
   }
 
-  Future<List<FactFileEntryImage>> findByFactFileEntryList(
-      List<FactFileEntry> models,
-      {bool preload = false,
-      bool cascade = false}) async {
+  Future<List<ActivityImage>> findByActivityList(List<Activity> models,
+      {bool preload = false, bool cascade = false}) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
-    for (FactFileEntry model in models) {
-      find.or(this.factFileEntryId.eq(model.id));
+    for (Activity model in models) {
+      find.or(this.activityId.eq(model.id));
     }
     return findMany(find);
   }
 
-  Future<int> removeByFactFileEntry(int factFileEntryId) async {
-    final Remove rm = remover.where(this.factFileEntryId.eq(factFileEntryId));
+  Future<int> removeByActivity(int activityId) async {
+    final Remove rm = remover.where(this.activityId.eq(activityId));
     return await adapter.remove(rm);
   }
 
-  void associateFactFileEntry(FactFileEntryImage child, FactFileEntry parent) {
-    child.factFileEntryId = parent.id;
+  void associateActivity(ActivityImage child, Activity parent) {
+    child.activityId = parent.id;
   }
 
-  Future<int> detachFactFileEntry(FactFileEntry model) async {
-    final dels = await findByFactFileEntry(model.id);
+  Future<int> detachActivity(Activity model) async {
+    final dels = await findByActivity(model.id);
     if (dels.isNotEmpty) {
-      await removeByFactFileEntry(model.id);
+      await removeByActivity(model.id);
       final exp = Or();
       for (final t in dels) {
-        exp.or(mediaFileBean.id.eq(t.mediaFileId));
+        exp.or(mediaFileBean.id.eq(t.imageId));
       }
       return await mediaFileBean.removeWhere(exp);
     }
     return 0;
   }
 
-  Future<List<MediaFile>> fetchByFactFileEntry(FactFileEntry model) async {
-    final pivots = await findByFactFileEntry(model.id);
+  Future<List<MediaFile>> fetchByActivity(Activity model) async {
+    final pivots = await findByActivity(model.id);
 // Return if model has no pivots. If this is not done, all records will be removed!
     if (pivots.isEmpty) return [];
     final exp = Or();
     for (final t in pivots) {
-      exp.or(mediaFileBean.id.eq(t.mediaFileId));
+      exp.or(mediaFileBean.id.eq(t.imageId));
     }
     return await mediaFileBean.findWhere(exp);
   }
 
-  Future<List<FactFileEntryImage>> findByMediaFile(int mediaFileId,
+  Future<List<ActivityImage>> findByMediaFile(int imageId,
       {bool preload = false, bool cascade = false}) async {
-    final Find find = finder.where(this.mediaFileId.eq(mediaFileId));
+    final Find find = finder.where(this.imageId.eq(imageId));
     return findMany(find);
   }
 
-  Future<List<FactFileEntryImage>> findByMediaFileList(List<MediaFile> models,
+  Future<List<ActivityImage>> findByMediaFileList(List<MediaFile> models,
       {bool preload = false, bool cascade = false}) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (MediaFile model in models) {
-      find.or(this.mediaFileId.eq(model.id));
+      find.or(this.imageId.eq(model.id));
     }
     return findMany(find);
   }
 
-  Future<int> removeByMediaFile(int mediaFileId) async {
-    final Remove rm = remover.where(this.mediaFileId.eq(mediaFileId));
+  Future<int> removeByMediaFile(int imageId) async {
+    final Remove rm = remover.where(this.imageId.eq(imageId));
     return await adapter.remove(rm);
   }
 
-  void associateMediaFile(FactFileEntryImage child, MediaFile parent) {
-    child.mediaFileId = parent.id;
+  void associateMediaFile(ActivityImage child, MediaFile parent) {
+    child.imageId = parent.id;
   }
 
   Future<int> detachMediaFile(MediaFile model) async {
@@ -200,29 +197,29 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
       await removeByMediaFile(model.id);
       final exp = Or();
       for (final t in dels) {
-        exp.or(factFileEntryBean.id.eq(t.factFileEntryId));
+        exp.or(activityBean.id.eq(t.activityId));
       }
-      return await factFileEntryBean.removeWhere(exp);
+      return await activityBean.removeWhere(exp);
     }
     return 0;
   }
 
-  Future<List<FactFileEntry>> fetchByMediaFile(MediaFile model) async {
+  Future<List<Activity>> fetchByMediaFile(MediaFile model) async {
     final pivots = await findByMediaFile(model.id);
 // Return if model has no pivots. If this is not done, all records will be removed!
     if (pivots.isEmpty) return [];
     final exp = Or();
     for (final t in pivots) {
-      exp.or(factFileEntryBean.id.eq(t.factFileEntryId));
+      exp.or(activityBean.id.eq(t.activityId));
     }
-    return await factFileEntryBean.findWhere(exp);
+    return await activityBean.findWhere(exp);
   }
 
-  Future<dynamic> attach(MediaFile one, FactFileEntry two,
+  Future<dynamic> attach(MediaFile one, Activity two,
       {bool upsert = false}) async {
-    final ret = FactFileEntryImage();
-    ret.mediaFileId = one.id;
-    ret.factFileEntryId = two.id;
+    final ret = ActivityImage();
+    ret.imageId = one.id;
+    ret.activityId = two.id;
     if (!upsert) {
       return insert(ret);
     } else {
@@ -230,6 +227,6 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     }
   }
 
-  FactFileEntryBean get factFileEntryBean;
+  ActivityBean get activityBean;
   MediaFileBean get mediaFileBean;
 }
