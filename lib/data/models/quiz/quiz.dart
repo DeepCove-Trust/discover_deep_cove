@@ -114,6 +114,7 @@ class QuizBean extends Bean<Quiz> with _QuizBean {
     Quiz quiz = await find(id);
     quiz.setAttempts(0);
     quiz.setHighScore(0);
+    quiz._unlocked = false;
     await update(quiz);
   }
 }
