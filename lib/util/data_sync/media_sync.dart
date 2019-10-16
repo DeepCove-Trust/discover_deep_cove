@@ -186,6 +186,12 @@ class MediaSync {
 
     // Calculate available storage space
     int availableSize = await Util.getAvailableStorageSpace();
+
+    // If unable to determine available space, proceed anyway // todo: improve
+    if(availableSize == -1){
+      return true;
+    }
+    
     print('Device has $availableSize bytes available');
 
     if (requiredSize > availableSize - 10000000) {
