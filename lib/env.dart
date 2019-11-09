@@ -32,13 +32,18 @@ class Env {
 
   // API Endpoints
   static String get _configUrl => DotEnv().env['config'];
-  static String get _mediaUrl => DotEnv().env['media'];
-  static String get _mediaDownloadUrl => DotEnv().env['mediaDownload'];
-  static String get _quizzesUrl => DotEnv().env['quizzes'];
-  static String get _factFilesUrl => DotEnv().env['factFiles'];
-  static String get _tracksUrl => DotEnv().env['tracks'];
-  static String get _activitiesUrl => DotEnv().env['activities'];
 
+  static String get _mediaUrl => DotEnv().env['media'];
+
+  static String get _mediaDownloadUrl => DotEnv().env['mediaDownload'];
+
+  static String get _quizzesUrl => DotEnv().env['quizzes'];
+
+  static String get _factFilesUrl => DotEnv().env['factFiles'];
+
+  static String get _tracksUrl => DotEnv().env['tracks'];
+
+  static String get _activitiesUrl => DotEnv().env['activities'];
 
   //-------------------------------- PATHS  ------------------------------------
 
@@ -138,10 +143,11 @@ class Env {
   }
 
   /// API endpoint to return the specified media file.
-  static String mediaDownloadUrl(CmsServerLocation server, String filename) {
+  static String mediaDownloadUrl(CmsServerLocation server, String filename,
+      {int width = 0}) {
     return _getCmsUrl(server) +
         _mediaDownloadUrl +
-        '?filename=$filename&original=true'; // Todo: remove original
+        '?filename=$filename&width=$width'; // Todo: remove original
   }
 
   /// API endpoint to return a summary of active quizzes.
@@ -156,33 +162,33 @@ class Env {
   }
 
   /// API endpoint to retrieve summary of active fact files.
-  static String factFilesListUrl(CmsServerLocation server){
+  static String factFilesListUrl(CmsServerLocation server) {
     return _getCmsUrl(server) + _factFilesUrl;
   }
 
   /// API endpoint to retrieve details, including nuggets and gallery
   /// image IDs, for a given fact file ID.
-  static String factFileDetailsUrl(CmsServerLocation server, int id){
+  static String factFileDetailsUrl(CmsServerLocation server, int id) {
     return _getCmsUrl(server) + _factFilesUrl + '/$id';
   }
 
   /// API endpoint to retrieve summary of active fact file categories.
-  static String factFileCategoriesListUrl(CmsServerLocation server){
+  static String factFileCategoriesListUrl(CmsServerLocation server) {
     return _getCmsUrl(server) + _factFilesUrl + '/categories';
   }
 
   /// API endpoint to retrieve list of active tracks, and their names.
-  static String tracksListUrl(CmsServerLocation server){
+  static String tracksListUrl(CmsServerLocation server) {
     return _getCmsUrl(server) + _tracksUrl;
   }
 
   /// API endpoint to retrieve list of active activities.
-  static String activitiesListUrl(CmsServerLocation server){
+  static String activitiesListUrl(CmsServerLocation server) {
     return _getCmsUrl(server) + _activitiesUrl;
   }
 
   /// API endpoint to retrieve details for a given activity ID.
-  static String activityDetailsUrl(CmsServerLocation server, int id){
+  static String activityDetailsUrl(CmsServerLocation server, int id) {
     return _getCmsUrl(server) + _activitiesUrl + '/$id';
   }
 }

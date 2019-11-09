@@ -36,7 +36,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   Future<void> manualUpdate() async {
     print('Checking for new content');
-    await SyncManager(onProgressChange: _onProgressUpdate).sync();
+    await SyncManager(onProgressChange: _onProgressUpdate, context: context)
+        .sync();
     await Future.delayed(Duration(seconds: 2));
 
     widget.isFirstLoad

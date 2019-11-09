@@ -15,6 +15,8 @@ import 'package:meta/meta.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 
+import '../screen.dart';
+
 /// Class to which the media list API data will deserialize into.
 class MediaData {
   final int id;
@@ -32,6 +34,7 @@ class MediaData {
 class MediaSync {
   final CmsServerLocation server;
   final SqfliteAdapter tempAdapter, adapter;
+  final BuildContext context;
   void Function(SyncState, int, {int upTo, int outOf, int totalSize})
       onProgress;
 
@@ -39,6 +42,7 @@ class MediaSync {
       {@required this.adapter,
       @required this.tempAdapter,
       @required this.server,
+      @required this.context,
       @required this.onProgress})
       : mediaFileBeanMain = MediaFileBean(adapter),
         mediaFileBeanTemp = MediaFileBean(tempAdapter);
@@ -131,11 +135,13 @@ class MediaSync {
         Env.mediaDetailsUrl(server, mediaData.id));
     MediaFile mediaFile = mediaFileBeanMain.fromMap(json.decode(jsonString));
 
-    // Download file from server, to memory
+    // Download file from server, to memory. Download larger images if device
+    // is a tablet.
     String absPath = Env.getResourcePath(mediaFile.category);
     String filename = mediaData.filename;
-    Http.Response response =
-        await Http.get(Env.mediaDownloadUrl(server, filename));
+    Http.Response response = await Http.get(Env.mediaDownloadUrl(
+        server, filename,
+        width: Screen.isTablet(context) ? 500 : null));
 
     // Assign path to mediaFile object
     mediaFile.path = join(mediaFile.category, mediaData.filename);
@@ -188,10 +194,10 @@ class MediaSync {
     int availableSize = await Util.getAvailableStorageSpace();
 
     // If unable to determine available space, proceed anyway // todo: improve
-    if(availableSize == -1){
+    if (availableSize == -1) {
       return true;
     }
-    
+
     print('Device has $availableSize bytes available');
 
     if (requiredSize > availableSize - 10000000) {
