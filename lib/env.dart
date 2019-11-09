@@ -147,7 +147,7 @@ class Env {
       {int width = 0}) {
     return _getCmsUrl(server) +
         _mediaDownloadUrl +
-        '?filename=$filename&width=$width'; // Todo: remove original
+        '?filename=$filename&width=$width';
   }
 
   /// API endpoint to return a summary of active quizzes.
