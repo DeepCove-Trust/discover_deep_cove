@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:barcode_scan/barcode_scan.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
@@ -87,13 +87,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 //Qr reader section
   ///Uses the camera to scan a qr code
   Future<void> scan() async {
-    try {
-      String qrString = await BarcodeScanner.scan();
-
+    try{
+      String qrString = await scanner.scan();
       handleScanResult(qrString);
-    } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.CameraAccessDenied) {} else {}
-    } on FormatException {} catch (e) {}
+    }
+    catch(e,trace){
+      print(e);
+      print(trace);
+    }
   }
 
   void navigateToActivity(Activity activity, bool isReview) {
