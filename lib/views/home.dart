@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
@@ -11,9 +10,9 @@ import 'package:discover_deep_cove/views/settings/settings.dart';
 import 'package:discover_deep_cove/widgets/map/map_maker.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:majascan/majascan.dart';
 import 'package:toast/toast.dart';
 
 enum Page { FactFile, Scan, Map, Quiz, Settings }
@@ -87,14 +86,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 //Qr reader section
   ///Uses the camera to scan a qr code
   Future<void> scan() async {
-    try{
-      String qrString = await scanner.scan();
-      handleScanResult(qrString);
-    }
-    catch(e,trace){
-      print(e);
-      print(trace);
-    }
+    String qrString = await MajaScan.startScan(
+      title: "Scan QR Code",
+    );
+    handleScanResult(qrString);
   }
 
   void navigateToActivity(Activity activity, bool isReview) {

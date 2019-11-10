@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
+        <activity android:name="com.djgeo.majascan.g_scanner.QrCodeScannerActivity"/>
     </application>
     
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
