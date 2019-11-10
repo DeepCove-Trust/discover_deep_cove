@@ -46,10 +46,16 @@ class QuizSync {
         .toSet()
         .union(serverQuizzes.map((q) => q.id).toSet());
 
+    List<Future> futures = List<Future>();
+
     for (int id in idSet) {
       // If local quizzes doesn't have a copy, download from server
       if (!localQuizzes.any((q) => q.id == id)) {
-        await _downloadQuizData(id);
+        if(Env.asyncDownload){
+          futures.add(_downloadQuizData(id));
+        } else {
+          await _downloadQuizData(id);
+        }
       }
       // If server doesn't send this quiz, and the local database contains it,
       // delete it and all its children records
@@ -62,8 +68,18 @@ class QuizSync {
           .firstWhere((q) => q.id == id)
           .updatedAt
           .isAfter(localQuizzes.firstWhere((q) => q.id == id).updatedAt)) {
-        await _replaceQuizData(id);
+        if(Env.asyncDownload){
+          futures.add(_replaceQuizData(id));
+        }
+        else {
+          await _replaceQuizData(id);
+        }
       }
+    }
+
+    if(Env.asyncDownload){
+      await Future.wait(futures);
+      print('Aysnc quiz downloads complete');
     }
   }
 

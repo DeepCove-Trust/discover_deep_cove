@@ -141,7 +141,7 @@ class SyncManager {
       // ----------------------------------------------------------------
 
       // Process the download queue for media files ---------------------
-      await mediaSync.processDownloadQueue(asyncDownload: Env.asyncDownload);
+      await mediaSync.processDownloadQueue();
       _updateProgress(SyncState.DataDownload, 80);
       // ----------------------------------------------------------------
 

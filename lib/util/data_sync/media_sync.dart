@@ -82,7 +82,7 @@ class MediaSync {
   /// Iterates through the download queue and downloads each file asynchronously,
   /// adding database records and saving to disk as files are received.
   /// Performs a free-storage check prior to downloading.
-  Future<void> processDownloadQueue({bool asyncDownload}) async {
+  Future<void> processDownloadQueue() async {
     upTo = 0; // file that we are up to downloading
     outOf = _downloadQueue.length; // out of how many
     totalSize = _downloadQueue.fold<int>(0, (v, n) => v + n.size);
@@ -105,7 +105,7 @@ class MediaSync {
     while (_downloadQueue.isNotEmpty) {
       MediaData mediaData = _downloadQueue.removeFirst();
 
-      if (asyncDownload) {
+      if (Env.asyncDownload) {
         futures.add(downloadMediaFile(mediaData).catchError((ex, stacktrace) {
           print(ex);
           print(stacktrace);
