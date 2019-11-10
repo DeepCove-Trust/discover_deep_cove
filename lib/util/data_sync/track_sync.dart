@@ -96,7 +96,7 @@ class TrackSync {
 
     // Add the user photo to the deletion queue (we don't want to delete now,
     // in case the update process fails and we need to revert.
-    if(activity.userPhotoId != null) {
+    if (activity.userPhotoId != null) {
       _deletionQueue.add(activity.userPhotoId);
     }
 
@@ -130,29 +130,45 @@ class TrackSync {
         .toSet()
         .union(serverActivities.map((t) => t.id).toSet());
 
+    List<Future> futures = List<Future>();
+
     for (int id in idSet) {
       if (!localActivities.any((t) => t.id == id)) {
         // Download activity if not on local
-        await _downloadActivity(id);
-        print('Activity $id downloaded');
+        if (Env.asyncDownload) {
+          futures.add(_downloadActivity(id));
+        } else {
+          await _downloadActivity(id);
+        }
       } else if (!serverActivities.any((t) => t.id == id)) {
         // Delete the track (and all activities) if not on server
-        await _deleteActivity(id);
-        print('Activity $id deleted');
+        if(Env.asyncDownload) {
+          futures.add(_deleteActivity(id));
+        } else{
+          await _deleteActivity(id);
+        }
       } else if (localActivities
           .firstWhere((a) => a.id == id)
           .updatedAt
           .isAfter(serverActivities.firstWhere((a) => a.id == id).updatedAt)) {
         // Update the existing, just in case name has change
-        await _updateActivity(id);
-        print('Activity $id updated');
+        if(Env.asyncDownload){
+          futures.add(_updateActivity(id));
+        } else {
+          await _updateActivity(id);
+        }
       }
+    }
+    if(Env.asyncDownload) {
+      await Future.wait(futures);
+      print('Async activity downloads complete');
     }
   }
 
   Future<void> _updateActivity(int id) async {
     await _deleteActivity(id);
     await _downloadActivity(id);
+    print('Activity $id updated');
   }
 
   Future<List<ActivityData>> _getActivitiesSummary() async {
@@ -181,7 +197,9 @@ class TrackSync {
     await activityBean.insert(activity);
 
     // Save activity image records
-    _createActivityImagesFor(id, imageIds);
+    await _createActivityImagesFor(id, imageIds);
+
+    print('Activity $id downloaded');
   }
 
   Future<void> _createActivityImagesFor(
