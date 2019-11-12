@@ -167,13 +167,23 @@ class FactFileSync {
         .toSet()
         .union(serverEntries.map((e) => e.id).toSet());
 
+    List<Future> futures = List<Future>();
+
     for (int id in idSet) {
       if (!localEntries.any((e) => e.id == id)) {
         // Download new fact file
-        await _downloadFactFile(id);
+        if(Env.asyncDownload){
+          futures.add(_downloadFactFile(id));
+        } else {
+          await _downloadFactFile(id);
+        }
       } else if (!serverEntries.any((e) => e.id == id)) {
         // Delete old fact file from local
-        await _deleteFactFile(id);
+        if(Env.asyncDownload){
+          futures.add(_deleteFactFile(id));
+        } else {
+          await _deleteFactFile(id);
+        }
       } else if (localEntries
           .firstWhere((e) => e.id == id)
           .updatedAt
@@ -181,6 +191,11 @@ class FactFileSync {
         // Update factfile entry
         await _updateFactFile(id);
       }
+    }
+
+    if(Env.asyncDownload){
+      await Future.wait(futures);
+      print('Async fact files downloads have completed');
     }
   }
 

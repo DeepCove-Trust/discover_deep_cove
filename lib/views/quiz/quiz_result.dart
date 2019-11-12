@@ -109,7 +109,7 @@ class QuizResult extends StatelessWidget {
             ),
             isHighscore
                 ? BodyText(
-                    "New Highscore!",
+                    "New High Score!",
                     size: Screen.isTablet(context) ? 40 : null,
                   )
                 : Container(),

@@ -22,6 +22,7 @@ import 'package:discover_deep_cove/util/data_sync/quiz_sync.dart';
 import 'package:discover_deep_cove/util/data_sync/track_sync.dart';
 import 'package:discover_deep_cove/util/exeptions.dart';
 import 'package:discover_deep_cove/util/network_util.dart';
+import 'package:flutter/cupertino.dart';
 
 enum SyncState {
   /// The sync process has not yet begun
@@ -60,11 +61,13 @@ class SyncManager {
   SyncState _syncState = SyncState.None;
   CmsServerLocation _serverLocation;
   SqfliteAdapter _tempAdapter, _adapter;
+  BuildContext context;
 
   // State, percentage complete, up to file, out of files, total size bytes
   void Function(SyncState, int, int, int, int) onProgressChange;
 
-  SyncManager({this.onProgressChange}) : _syncState = SyncState.None;
+  SyncManager({this.onProgressChange, @required this.context})
+      : _syncState = SyncState.None;
 
   /// Returns progress information to the widget that called the sync
   /// method.
@@ -128,6 +131,7 @@ class SyncManager {
           adapter: _adapter,
           tempAdapter: _tempAdapter,
           server: _serverLocation,
+          context: context,
           onProgress: _updateProgress);
 
       // Build the download, update and deletion queues for media files -
@@ -141,7 +145,7 @@ class SyncManager {
       // ----------------------------------------------------------------
 
       // Process the download queue for media files ---------------------
-      await mediaSync.processDownloadQueue(asyncDownload: Env.asyncDownload);
+      await mediaSync.processDownloadQueue();
       _updateProgress(SyncState.DataDownload, 80);
       // ----------------------------------------------------------------
 

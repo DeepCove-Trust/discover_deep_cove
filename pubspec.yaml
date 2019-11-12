@@ -36,7 +36,7 @@ dependencies:
   path_provider_ex: ^1.0.1             # MIT
   flutter_dotenv: ^2.0.1              # MIT
   permission_handler: ^3.0.1          # MIT
-  barcode_scan: ^1.0.0                # MIT
+  majascan: ^ 0.3.5                   # MIT
   font_awesome_flutter: ^8.4.0        # MIT
   audioplayers: ^0.13.1               # MIT
   carousel_pro: ^1.0.0                # MIT

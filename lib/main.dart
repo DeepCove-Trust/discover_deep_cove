@@ -16,6 +16,10 @@ void main() async {
   // Force portrait orientation
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
+  if(DotEnv().env['debugStorageMode'] == 'true'){
+    print('Warning: Debug storage mode enabled. Disable for production release.');
+  }
+
   runApp(
     DatabaseAdapter(
       adapter: await DB.instance.adapter,

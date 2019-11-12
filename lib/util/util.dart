@@ -66,7 +66,10 @@ class Util {
     List<StorageInfo> _storageInfo;
     try {
       _storageInfo = await PathProviderEx.getStorageInfo();
-    } on PlatformException { return -1; }
+    } on PlatformException {
+      print('Warning: Unable to determine bytes available!');
+      return -1;
+    }
 
     print('Device has ${_storageInfo[0].availableBytes} bytes available');
 

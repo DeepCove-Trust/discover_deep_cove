@@ -197,7 +197,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
       );
       await precacheImage(provider, context);
       images.add(
-        Image(image: provider),
+        Image(image: provider, fit: BoxFit.cover,),
       );
     }
     return images;
