@@ -85,6 +85,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Future<void> scan() async {
     String qrString = await MajaScan.startScan(
       title: "Scan QR Code",
+      qRCornerColor: Theme.of(context).accentColor,
+      qRScannerColor: Theme.of(context).accentColor,
     );
     handleScanResult(qrString);
   }
