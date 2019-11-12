@@ -43,13 +43,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.13.2"
-  barcode_scan:
-    dependency: "direct main"
-    description:
-      name: barcode_scan
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -417,6 +410,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.11.3+2"
+  majascan:
+    dependency: "direct main"
+    description:
+      name: majascan
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.5"
   matcher:
     dependency: transitive
     description:
