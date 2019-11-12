@@ -23,7 +23,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
-
   // Stream controller to tell map when to animate
   StreamController<int> mapAnimateController;
 
@@ -73,9 +72,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         context,
         duration: Toast.LENGTH_SHORT,
         gravity: Toast.BOTTOM,
-        backgroundColor: Theme
-            .of(context)
-            .primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
         textColor: Colors.black,
       );
     }
@@ -148,12 +145,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           canvasColor: Color(0xFF262626),
           // sets the active color of the `BottomNavigationBar` if `Brightness` is light
           primaryColor: Color(0xFFFF5026),
-          textTheme: Theme
-              .of(context)
-              .textTheme
-              .copyWith(
-            caption: TextStyle(color: Colors.white),
-          ),
+          textTheme: Theme.of(context).textTheme.copyWith(
+                caption: TextStyle(color: Colors.white),
+              ),
         ), // sets the inactive color of the `BottomNavigationBar`
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -161,8 +155,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             index == 1
                 ? scan()
                 : setState(() {
-              currentPage = pages[index];
-            });
+                    currentPage = pages[index];
+                  });
           },
           currentIndex: pageIndex(currentPage),
           items: [
@@ -176,10 +170,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       ),
       floatingActionButton: pageIs(Page.Map)
           ? CustomFab(
-        icon: FontAwesomeIcons.qrcode,
-        text: "Scan",
-        onPressed: () => scan(),
-      )
+              icon: FontAwesomeIcons.qrcode,
+              text: "Scan",
+              onPressed: () => scan(),
+            )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
