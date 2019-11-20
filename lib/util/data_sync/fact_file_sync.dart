@@ -187,7 +187,7 @@ class FactFileSync {
       } else if (localEntries
           .firstWhere((e) => e.id == id)
           .updatedAt
-          .isAfter(serverEntries.firstWhere((e) => e.id == id).updatedAt)) {
+          .isBefore(serverEntries.firstWhere((e) => e.id == id).updatedAt)) {
         // Update factfile entry
         await _updateFactFile(id);
       }
