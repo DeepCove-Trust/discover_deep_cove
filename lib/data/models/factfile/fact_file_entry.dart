@@ -69,6 +69,10 @@ class FactFileEntry {
 
   @IgnoreColumn()
   FactFileCategory category;
+
+  bool hasAudioClips() => hasPronouceClip() || hasListenClip();
+  bool hasPronouceClip() => pronounceAudioId != null;
+  bool hasListenClip() => listenAudioId != null;
 }
 
 /// Bean class for database manipulation - generated mixin code

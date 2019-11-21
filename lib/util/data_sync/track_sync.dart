@@ -150,7 +150,7 @@ class TrackSync {
       } else if (localActivities
           .firstWhere((a) => a.id == id)
           .updatedAt
-          .isAfter(serverActivities.firstWhere((a) => a.id == id).updatedAt)) {
+          .isBefore(serverActivities.firstWhere((a) => a.id == id).updatedAt)) {
         // Update the existing, just in case name has change
         if(Env.asyncDownload){
           futures.add(_updateActivity(id));
