@@ -413,9 +413,9 @@ packages:
   majascan:
     dependency: "direct main"
     description:
-      name: majascan
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "majascan-0.3.5"
+      relative: true
+    source: path
     version: "0.3.5"
   matcher:
     dependency: transitive
