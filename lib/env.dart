@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:discover_deep_cove/util/screen.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -133,21 +135,27 @@ class Env {
   }
 
   /// API endpoint to return summary of all required media files.
-  static String mediaListUrl(CmsServerLocation server) {
-    return _getCmsUrl(server) + _mediaUrl;
+  static String mediaListUrl(CmsServerLocation server, BuildContext context) {
+    return _getCmsUrl(server) +
+        _mediaUrl +
+        '?width=${Screen.isTablet(context) ? 500 : null}';
   }
 
   /// API endpoint to return details of a single media file.
-  static String mediaDetailsUrl(CmsServerLocation server, int id) {
-    return _getCmsUrl(server) + _mediaUrl + '/$id';
+  static String mediaDetailsUrl(
+      CmsServerLocation server, int id, BuildContext context) {
+    return _getCmsUrl(server) +
+        _mediaUrl +
+        '/$id' +
+        '?width=${Screen.isTablet(context) ? 500 : null}';
   }
 
   /// API endpoint to return the specified media file.
-  static String mediaDownloadUrl(CmsServerLocation server, String filename,
-      {int width = 0}) {
+  static String mediaDownloadUrl(
+      CmsServerLocation server, String filename, BuildContext context) {
     return _getCmsUrl(server) +
         _mediaDownloadUrl +
-        '?filename=$filename&width=$width';
+        '?filename=$filename&width=${Screen.isTablet(context) ? 500 : null}';
   }
 
   /// API endpoint to return a summary of active quizzes.
