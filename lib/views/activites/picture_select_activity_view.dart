@@ -130,12 +130,6 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                       size: Screen.isTablet(context) ? 30 : null,
                     )
                   : Container(),
-              BodyText(
-                !widget.isReview
-                    ? widget.activity.imageOptions[photoIndex].name
-                    : widget.activity.selectedPicture.name,
-                size: Screen.isTablet(context) ? 30 : null,
-              ),
             ],
           ),
         ),
