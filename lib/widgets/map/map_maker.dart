@@ -184,7 +184,7 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
 
   MarkerClusterLayerOptions _buildMarkerClusterOptions() {
     return MarkerClusterLayerOptions(
-      maxClusterRadius: 40,
+      maxClusterRadius: 30,
       height: 30,
       width: 30,
       anchorPos: AnchorPos.align(AnchorAlign.center),
@@ -265,7 +265,7 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
         activity.isCompleted()
             ? FontAwesomeIcons.lockOpen
             : FontAwesomeIcons.lock,
-        size: isCurrentTrack ? 30 : 20,
+        size: isCurrentTrack ? 20 : 15,
         color: isCurrentTrack ? Theme.of(context).accentColor : Colors.grey,
       ),
     ));
