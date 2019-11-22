@@ -261,7 +261,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       );
 
       if (await Util.savePhotosToGallery(context))
-        GallerySaver.saveImage(_image.path);
+        await GallerySaver.saveImage(_image.path);
 
       // Save the image to the users photos directory, and delete temp image
       ImageHandler.saveImage(
