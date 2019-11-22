@@ -203,14 +203,21 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
   buildGraphic() {
     return Padding(
       padding:
-          EdgeInsets.symmetric(vertical: Screen.isTablet(context) ? 20 : 10),
+      EdgeInsets.symmetric(vertical: Screen.isTablet(context) ? 20 : 10),
       child: widget.activity.image == null
           ? null
           : Container(
-              width: Screen.width(context, percentage: Screen.isLandscape(context) ? 33 : 85),
-              child: Image.file(
-                  File(Env.getResourcePath(widget.activity.image.path))),
-            ),
+          width: Screen.width(context,
+              percentage: Screen.isLandscape(context) ? 33 : 85),
+          height: Screen.width(context,
+              percentage: Screen.isLandscape(context) ? 33 : 85),
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: FileImage(
+                    File(Env.getResourcePath(widget.activity.image.path))),
+              )),
+          child: Container()),
     );
   }
 
