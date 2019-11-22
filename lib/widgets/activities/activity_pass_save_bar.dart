@@ -26,17 +26,18 @@ class ActivityPassSaveBar extends StatelessWidget {
               ),
               child: OutlineButton(
                 onPressed: this.onTapPass ?? () => Navigator.of(context).pop(),
+                textColor: Colors.white,
+                disabledTextColor: Theme.of(context).primaryColorDark,
+                disabledBorderColor: Theme.of(context).primaryColorDark,
                 borderSide: BorderSide(
                   color: Color(0xFF777777),
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
-                child: BodyText(
-                  'Pass',
-                  size: Screen.isTablet(context)
-                      ? 30
-                      : Screen.isSmall(context) ? 14 : 20,
+                child:  Text(
+                  "Pass",
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
             ),
@@ -49,17 +50,18 @@ class ActivityPassSaveBar extends StatelessWidget {
               ),
               child: OutlineButton(
                 onPressed: onTapSave,
+                textColor: Colors.white,
+                disabledTextColor: Theme.of(context).primaryColorDark,
+                disabledBorderColor: Theme.of(context).primaryColorDark,
                 borderSide: BorderSide(
                   color: Color(0xFF777777),
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
-                child: BodyText(
+                child: Text(
                   "Save",
-                  size: Screen.width(context) >= 600
-                      ? 30
-                      : Screen.width(context) <= 350 ? 16 : 20,
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
             ),
