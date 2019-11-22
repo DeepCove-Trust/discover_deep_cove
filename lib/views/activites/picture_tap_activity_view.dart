@@ -44,7 +44,15 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   }
 
   @override
+  void dispose() {
+    // Return default orientations
+    Screen.setOrientations(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // Force portrait for this view
+    Screen.setOrientations(context, forcePortrait: true);
     return Scaffold(
       appBar: ActivityAppBar(
         text: widget.activity.title,
@@ -52,7 +60,17 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
             ? () => displayFactFile(widget.activity.factFileId)
             : null,
       ),
-      body: buildContent(),
+      body: Screen.isLandscape(context)
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator(),
+                  BodyText('Loading'),
+                ],
+              ),
+            )
+          : buildContent(),
       bottomNavigationBar: widget.isReview
           ? BottomBackButton()
           : ActivityPassSaveBar(
@@ -285,8 +303,9 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   double _getImageDimension() {
     return Screen.width(
       context,
-      percentage:
-          Screen.isTablet(context) && Screen.isLandscape(context) ? 40 : 80,
+      percentage: Screen.isTablet(context) && Screen.isLandscape(context)
+          ? 45
+          : Screen.isTablet(context) ? 85 : Screen.isSmall(context) ? 75 : 80,
     );
   }
 
