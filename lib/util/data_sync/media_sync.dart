@@ -61,7 +61,7 @@ class MediaSync {
 
     // Retrieve list of required media files from server, as MediaData objects
     String jsonString =
-        await NetworkUtil.requestDataString(Env.mediaListUrl(server));
+        await NetworkUtil.requestDataString(Env.mediaListUrl(server, context));
     List<dynamic> jsonData = json.decode(jsonString);
     List<MediaData> remoteMedia =
         jsonData.map((i) => MediaData.fromJson(i)).toList();
@@ -132,16 +132,15 @@ class MediaSync {
   Future<void> downloadMediaFile(MediaData mediaData) async {
     // Retrieve mediaFile object from server, and deserialize
     String jsonString = await NetworkUtil.requestDataString(
-        Env.mediaDetailsUrl(server, mediaData.id));
+        Env.mediaDetailsUrl(server, mediaData.id, context));
     MediaFile mediaFile = mediaFileBeanMain.fromMap(json.decode(jsonString));
 
     // Download file from server, to memory. Download larger images if device
     // is a tablet.
     String absPath = Env.getResourcePath(mediaFile.category);
     String filename = mediaData.filename;
-    Http.Response response = await Http.get(Env.mediaDownloadUrl(
-        server, filename,
-        width: Screen.isTablet(context) ? 500 : null));
+    Http.Response response =
+        await Http.get(Env.mediaDownloadUrl(server, filename, context));
 
     // Assign path to mediaFile object
     mediaFile.path = join(mediaFile.category, mediaData.filename);
@@ -215,7 +214,7 @@ class MediaSync {
     for (MediaFile mediaFile in _updateQueue) {
       // Request the meta data for the media file
       String jsonString = await NetworkUtil.requestDataString(
-          Env.mediaDetailsUrl(server, mediaFile.id));
+          Env.mediaDetailsUrl(server, mediaFile.id, context));
 
       // Update the database using the deserialized, updated, media file
       await mediaFileBeanTemp.update(
