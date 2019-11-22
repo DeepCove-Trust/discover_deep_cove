@@ -169,6 +169,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                       : ClipRRect(
                     borderRadius: BorderRadius.circular(5),
                     child: Container(
+                      margin: EdgeInsets.only(bottom: 15),
                       width: Screen.width(context, percentage: 87.5),
                       height: Screen.height(context,
                           percentage: Screen.isTablet(context)
@@ -189,7 +190,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                       ),
                     ),
                   ),
-                  EditAnswer()
+                  widget.isReview ? EditAnswer() : Container()
                 ],
               ),
             ],
@@ -204,11 +205,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
       padding:
           EdgeInsets.symmetric(vertical: Screen.isTablet(context) ? 20 : 10),
       child: widget.activity.image == null
-          ? Icon(
-              FontAwesome.question_circle,
-              size: Screen.isTablet(context) ? 200 : 100,
-              color: Colors.white,
-            )
+          ? null
           : Container(
               width: Screen.width(context, percentage: Screen.isLandscape(context) ? 33 : 85),
               child: Image.file(
