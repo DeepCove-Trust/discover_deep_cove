@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
+import 'package:discover_deep_cove/widgets/misc/custom_vertical_divider.dart';
 import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
@@ -52,7 +54,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
       ),
       body: buildContent(),
       bottomNavigationBar: widget.isReview
-          ? BottomBackButton(isReview: widget.isReview)
+          ? BottomBackButton()
           : ActivityPassSaveBar(
               onTapSave: () => saveAnswer(),
             ),
@@ -61,53 +63,56 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   }
 
   buildContent() {
-    return (Screen.isTablet(context) && Screen.isLandscape(context))
-        ? GridView.count(
-            crossAxisCount: 2,
-            children: [
-              getTopHalf(),
-              getBottomHalf(),
+    return Screen.isLandscape(context)
+        ? Row(
+            children: <Widget>[
+              Expanded(child: getTopHalf()),
+              CustomVerticalDivider(),
+              Expanded(child: getBottomHalf())
             ],
           )
-        : Column(
-            children: [
-              getTopHalf(),
-              Flexible(
-                child: getBottomHalf(),
+        : Scrollbar(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [getTopHalf(), getBottomHalf()],
               ),
-            ],
+            ),
           );
   }
 
   getTopHalf() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Screen.width(context, percentage: 5),
-            vertical: Screen.height(context, percentage: 2.5),
-          ),
-          child: BodyText(
-            widget.activity.description,
-            size: Screen.isTablet(context)
-                ? 25.0
-                : Screen.isSmall(context) ? 14 : 16,
-          ),
+    return Scrollbar(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Screen.isPortrait(context)
+                ? SizedBox(height: Screen.height(context, percentage: 4))
+                : Container(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+              child: BodyText(
+                widget.activity.description,
+                align: TextAlign.left,
+                size: Screen.isTablet(context) ? 25.0 : null,
+              ),
+            ),
+            SizedBox(height: Screen.height(context, percentage: 1)),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+              child: BodyText(
+                widget.activity.task,
+                align: TextAlign.left,
+                size: Screen.isTablet(context) ? 25.0 : null,
+              ),
+            ),
+            SizedBox(
+                height: Screen.isPortrait(context)
+                    ? Screen.height(context, percentage: 4)
+                    : 0)
+          ],
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Screen.width(context, percentage: 5),
-            vertical: Screen.height(context, percentage: 1.25),
-          ),
-          child: BodyText(
-            widget.activity.task,
-            size: Screen.isTablet(context)
-                ? 25.0
-                : Screen.isSmall(context) ? 14 : 16,
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -116,14 +121,13 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-          child: widget.isReview
-              ? BodyText(
-                  "Your Answer:",
-                  size: Screen.isTablet(context)
-                      ? 25.0
-                      : Screen.isSmall(context) ? 14 : 16,
-                )
-              : null,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: widget.isReview
+                ? BodyText("Your Answer",
+                    size: Screen.isTablet(context) ? 25 : 16)
+                : null,
+          ),
         ),
         widget.isReview
             ? Stack(
@@ -131,24 +135,10 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                 children: <Widget>[
                   Center(
                     child: Container(
-                      height: Screen.width(
-                        context,
-                        percentage: Screen.isTablet(context) &&
-                                Screen.isLandscape(context)
-                            ? 45
-                            : Screen.isTablet(context)
-                                ? 85
-                                : Screen.isSmall(context) ? 75 : 80,
-                      ),
-                      width: Screen.width(
-                        context,
-                        percentage: Screen.isTablet(context) &&
-                                Screen.isLandscape(context)
-                            ? 45
-                            : Screen.isTablet(context)
-                                ? 85
-                                : Screen.isSmall(context) ? 75 : 80,
-                      ),
+                      height: Screen.width(context,
+                          percentage: Screen.isLandscape(context) ? 45 : 85),
+                      width: Screen.width(context,
+                          percentage: Screen.isLandscape(context) ? 45 : 85),
                       child: Container(
                         child: Container(
                           decoration: BoxDecoration(
@@ -219,8 +209,6 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                       width: _getImageDimension(),
                       child: GestureDetector(
                         onTapDown: _handleTap,
-                        onHorizontalDragUpdate: _handleDrag,
-                        onVerticalDragUpdate: _handleDrag,
                         child: Container(
                           key: _keyImage,
                           child: Container(
@@ -265,8 +253,6 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                           top: _getYPos(posY),
                           left: _getXPos(posX),
                           child: GestureDetector(
-                            onHorizontalDragUpdate: _handleDrag,
-                            onVerticalDragUpdate: _handleDrag,
                             onTapDown: _handleTap,
                             child: Container(
                               width: Screen.height(context, percentage: 10),
@@ -288,6 +274,10 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                       : Container(),
                 ],
               ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: widget.isReview ? EditAnswer() : Container(),
+        )
       ],
     );
   }
@@ -295,9 +285,8 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   double _getImageDimension() {
     return Screen.width(
       context,
-      percentage: Screen.isTablet(context) && Screen.isLandscape(context)
-          ? 45
-          : Screen.isTablet(context) ? 85 : Screen.isSmall(context) ? 75 : 80,
+      percentage:
+          Screen.isTablet(context) && Screen.isLandscape(context) ? 40 : 80,
     );
   }
 
@@ -310,10 +299,6 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
               ? -0.5
               : Screen.isSmall(context) ? -2.5 : 0,
     );
-  }
-
-  void _handleDrag(DragUpdateDetails details) {
-    _placeMarker(details.globalPosition);
   }
 
   void _handleTap(TapDownDetails details) {
