@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
+import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
+import 'package:discover_deep_cove/widgets/misc/custom_vertical_divider.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -34,7 +40,7 @@ class _CountActivityViewState extends State<CountActivityView> {
         ),
         body: buildContent(),
         bottomNavigationBar: widget.isReview
-            ? BottomBackButton(isReview: widget.isReview)
+            ? BottomBackButton()
             : ActivityPassSaveBar(
                 onTapSave: () => saveAnswer(),
               ),
@@ -42,159 +48,185 @@ class _CountActivityViewState extends State<CountActivityView> {
   }
 
   buildContent() {
-    return (Screen.isTablet(context) && Screen.isLandscape(context))
-        ? GridView.count(
-            crossAxisCount: 2,
+    return Screen.isLandscape(context)
+        ? Row(
             children: [
-              getTopHalf(),
-              getBottomHalf(),
+              Expanded(child: getTopHalf()),
+              CustomVerticalDivider(),
+              Expanded(child: getBottomHalf())
             ],
           )
-        : Column(
-            children: [
-              getTopHalf(),
-              Flexible(
-                child: getBottomHalf(),
+        : Scrollbar(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  getTopHalf(),
+                  getBottomHalf(),
+                ],
               ),
-            ],
+            ),
           );
   }
 
   getTopHalf() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Screen.width(context, percentage: 2.5),
-            vertical: Screen.height(context, percentage: 5.0),
-          ),
-          child: BodyText(
-            widget.activity.description,
-            size: Screen.isTablet(context) ? 30 : null,
-          ),
+    return Scrollbar(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            buildGraphic(),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 15,
+              ),
+              child: BodyText(
+                widget.activity.description,
+                align: TextAlign.left,
+                size: Screen.isTablet(context) ? 25 : null,
+              ),
+            ),
+            Screen.isPortrait(context)
+                ? Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15,
+                    ),
+                    child: Divider(
+                      height: 40,
+                      color: Color(0xFF777777),
+                    ),
+                  )
+                : Container(),
+          ],
         ),
-        SizedBox(
-          height: Screen.height(
-            context,
-            percentage: 5.0,
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Screen.width(context, percentage: 2.5),
-            vertical: Screen.height(context, percentage: 5.0),
-          ),
-          child: BodyText(
-            widget.activity.task,
-            size: Screen.isTablet(context) ? 30 : null,
-          ),
-        ),
-        Screen.isPortrait(context)
-            ? Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: Screen.height(context, percentage: 5.0),
-                ),
-                child: Divider(
-                  color: Color(0xFF777777),
-                ),
-              )
-            : Container(),
-      ],
+      ),
     );
   }
 
   getBottomHalf() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(12.0),
-          child: widget.isReview
-              ? BodyText(
-                  "You Counted:",
-                  size: Screen.isTablet(context) ? 30 : null,
-                )
-              : SizedBox(
-                  height: Screen.height(context, percentage: 5.0),
-                ),
-        ),
-        SizedBox(
-          height: Screen.height(
-            context,
-            percentage: Screen.isSmall(context) ? 5.0 : 10.0,
+    return Padding(
+      padding: EdgeInsets.only(bottom: 25),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              bottom: 20,
+            ),
+            child: SubHeading(
+              widget.activity.task,
+            ),
           ),
-        ),
-        widget.isReview
-            ? Container(
-                width: Screen.width(context),
-                height: Screen.height(context,
-                    percentage: Screen.isLandscape(context) ? 15.0 : 10.0),
-                color: Theme.of(context).primaryColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text(
-                      widget.activity.userCount.toString(),
-                      style: TextStyle(
-                        fontSize: Screen.isSmall(context) ? 40 : 60,
-                        color: Colors.white,
+          Padding(
+              padding: EdgeInsets.all(12.0),
+              child: widget.isReview
+                  ? Padding(
+                      padding: EdgeInsets.only(bottom: 20),
+                      child: SubHeading(
+                        "Your answer:",
                       ),
-                    ),
-                  ],
-                ),
-              )
-            : Container(
-                width: Screen.width(context),
-                height: Screen.height(context,
-                    percentage: Screen.isLandscape(context) ? 15.0 : 10.0),
-                color: Theme.of(context).primaryColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Transform.scale(
-                      scale: Screen.isTablet(context) ? 2 : 1.5,
-                      child: IconButton(
-                        icon: Icon(
-                          FontAwesomeIcons.chevronLeft,
+                    )
+                  : Container()),
+          widget.isReview
+              ? Container(
+                  width: Screen.width(context,
+                      percentage: Screen.isLandscape(context) ? 30 : 65),
+                  height: Screen.width(context,
+                      percentage: Screen.isLandscape(context) ? 15 : 35),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        widget.activity.userCount.toString(),
+                        style: TextStyle(
+                          fontSize: Screen.isSmall(context) ? 60 : 80,
                           color: Colors.white,
                         ),
-                        onPressed: () {
-                          if (count > 1) {
-                            setState(() {
-                              count = count - 1;
-                            });
-                          }
-                        },
-                        color: Colors.white,
                       ),
-                    ),
-                    BodyText(
-                      count.toString(),
-                      size: Screen.isSmall(context)
-                          ? 40
-                          : Screen.isTablet(context) ? 70 : 50,
-                    ),
-                    Transform.scale(
-                      scale: Screen.isTablet(context) ? 2 : 1.5,
-                      child: IconButton(
-                        icon: Icon(
-                          FontAwesomeIcons.chevronRight,
+                    ],
+                  ),
+                )
+              : Container(
+                  width: Screen.width(context,
+                      percentage: Screen.isLandscape(context) ? 30 : 65),
+                  height: Screen.width(context,
+                      percentage: Screen.isLandscape(context) ? 15 : 35),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Transform.scale(
+                        scale: Screen.isTablet(context) ? 2 : 1.5,
+                        child: IconButton(
+                          icon: Icon(
+                            FontAwesomeIcons.chevronLeft,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            if (count > 0) {
+                              setState(() {
+                                count = count - 1;
+                              });
+                            }
+                          },
                           color: Colors.white,
                         ),
-                        onPressed: () {
-                          if (count < 100) {
-                            setState(() {
-                              count = count + 1;
-                            });
-                          }
-                        },
                       ),
-                    ),
-                  ],
+                      BodyText(
+                        count.toString(),
+                        size: Screen.isSmall(context) ? 60 : 80,
+                      ),
+                      Transform.scale(
+                        scale: Screen.isTablet(context) ? 2 : 1.5,
+                        child: IconButton(
+                          icon: Icon(
+                            FontAwesomeIcons.chevronRight,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            if (count < 100) {
+                              setState(() {
+                                count = count + 1;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-      ],
+          SizedBox(height: 25),
+          widget.isReview ? EditAnswer() : Container()
+        ],
+      ),
+    );
+  }
+
+  buildGraphic() {
+    return Padding(
+      padding:
+          EdgeInsets.symmetric(vertical: Screen.isTablet(context) ? 20 : 10),
+      child: widget.activity.image == null
+          ? null
+          : Container(
+              width: Screen.width(context,
+                  percentage: Screen.isLandscape(context) ? 30 : 85),
+              height: Screen.width(context,
+                  percentage: Screen.isLandscape(context) ? 30 : 85),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                fit: BoxFit.cover,
+                image: FileImage(
+                    File(Env.getResourcePath(widget.activity.image.path))),
+              )),
+              child: Container()),
     );
   }
 
