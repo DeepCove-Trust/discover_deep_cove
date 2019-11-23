@@ -24,6 +24,7 @@ class _ImageQuestionState extends State<ImageQuestion>
     with WidgetsBindingObserver {
   AudioPlayer player = AudioPlayer();
   Color playingColor = Colors.white;
+
   bool get hasAudio => widget.question.audio != null;
   StreamSubscription _playerCompleteSubscription;
   double height;
@@ -69,18 +70,21 @@ class _ImageQuestionState extends State<ImageQuestion>
   }
 
   Widget buildAudioButton() {
-    return OutlineButton.icon(
-      onPressed: () => playAudio(),
-      label: Text(
-        'Listen',
-        textAlign: TextAlign.center,
-        style: TextStyle(
+    return Container(
+      margin: EdgeInsets.all(20),
+      padding: EdgeInsets.all(7.5),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white, width: 1.5),
+        borderRadius: BorderRadius.circular(15)
+      ),
+      child: IconButton(
+        onPressed: () => playAudio(),
+        icon: Icon(
+          FontAwesomeIcons.music,
           color: playingColor,
-          fontSize: (Screen.isSmall(context) ? 16 : 20),
+          size: 30,
         ),
       ),
-      borderSide: BorderSide(color: playingColor, width: 1.5),
-      icon: Icon(FontAwesomeIcons.music, color: playingColor),
     );
   }
 
@@ -99,76 +103,57 @@ class _ImageQuestionState extends State<ImageQuestion>
 
   buildContent() {
     return (Screen.isTablet(context) && !Screen.isPortrait(context))
-        ? GridView.count(
-            crossAxisCount: 2,
-            children: [
-              Column(
-                children: <Widget>[
-                  questionComponent(),
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  answerComponent(),
-                ],
-              ),
+        ? Row(
+            children: <Widget>[
+              Expanded(child: questionComponentLandscape()),
+              answerComponent()
             ],
           )
         : Column(
             children: <Widget>[
-              questionComponent(),
+              Expanded(
+                child: questionComponentPortrait(),
+              ),
               answerComponent(),
             ],
           );
   }
 
-  questionComponent() {
+  questionComponentPortrait() {
     return Container(
-      color: Theme.of(context).backgroundColor,
-      height: Screen.isPortrait(context)
-          ? height / 3
-          : height - Screen.height(context, percentage: 4.5),
-      child: Column(
-        mainAxisAlignment: Screen.isPortrait(context)
-            ? MainAxisAlignment.start
-            : MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(
-              top: Screen.height(context, percentage: 5),
-              left: Screen.height(context,
-                  percentage: Screen.isPortrait(context) ? 0 : 3),
-              bottom: Screen.height(context, percentage: 3),
-            ),
-            child: Container(
-              color: Color.fromARGB(190, 0, 0, 0),
-              height: Screen.height(context, percentage: 20),
-              width: Screen.width(context),
+        color: Color.fromARGB(190, 0, 0, 0),
+        padding: EdgeInsets.all(24),
+        child: Center(
+          child: Scrollbar(
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SubHeading(
-                    widget.question.text,
-                    size: Screen.isTablet(context) ? 30 : null,
-                  ),
-                  if (hasAudio)
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: Screen.height(context, percentage: 2),
-                      ),
-                      child: buildAudioButton(),
-                    ),
+                children: <Widget>[
+                  SubHeading(widget.question.text),
+                  hasAudio ? buildAudioButton() : Container()
                 ],
               ),
             ),
           ),
-        ],
-      ),
-    );
+        ));
+  }
+
+  questionComponentLandscape() {
+    return Container(
+        color: Color.fromARGB(190, 0, 0, 0),
+        padding: EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SubHeading(widget.question.text),
+            hasAudio ? buildAudioButton() : Container()
+          ],
+        ));
   }
 
   answerComponent() {
     return Expanded(
+      flex: Screen.isPortrait(context) ? 2 : 1,
       child: Container(
         color: Theme.of(context).backgroundColor,
         padding: EdgeInsets.symmetric(horizontal: 10.0),

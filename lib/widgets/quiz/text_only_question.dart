@@ -23,6 +23,7 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion>
     with WidgetsBindingObserver {
   AudioPlayer player = AudioPlayer();
   Color playingColor = Colors.white;
+
   bool get hasAudio => widget.question.audio != null;
   StreamSubscription _playerCompleteSubscription;
 
@@ -69,37 +70,28 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion>
   }
 
   Widget buildAudioButton() {
-    return OutlineButton.icon(
-      onPressed: () => playAudio(),
-      label: Text(
-        'Listen',
-        textAlign: TextAlign.center,
-        style: TextStyle(
+    return Container(
+      margin: EdgeInsets.all(20),
+      padding: EdgeInsets.all(7.5),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white, width: 1.5),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: IconButton(
+        onPressed: () => playAudio(),
+        icon: Icon(
+          FontAwesomeIcons.music,
           color: playingColor,
-          fontSize: (Screen.isSmall(context) ? 16 : 20),
+          size: 30,
         ),
       ),
-      borderSide: BorderSide(color: playingColor, width: 1.5),
-      icon: Icon(FontAwesomeIcons.music, color: playingColor),
     );
   }
 
   buildContent() {
     return (Screen.isTablet(context) && !Screen.isPortrait(context))
-        ? GridView.count(
-            crossAxisCount: 2,
-            children: [
-              Column(
-                children: <Widget>[
-                  questionComponent(),
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  answerComponent(),
-                ],
-              ),
-            ],
+        ? Row(
+            children: <Widget>[questionComponent(), answerComponent()],
           )
         : Column(
             children: <Widget>[
@@ -125,41 +117,33 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion>
   }
 
   questionComponent() {
-    return Container(
-      color: Theme.of(context).backgroundColor,
-      height: Screen.isPortrait(context)
-          ? height / 2
-          : height - Screen.height(context, percentage: 4.5),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(
-              top: Screen.height(context, percentage: 5),
-              left: Screen.height(context,
-                  percentage: Screen.isPortrait(context) ? 0 : 3),
-              bottom: Screen.height(context, percentage: 3),
-            ),
-            child: Container(
-              color: Color.fromARGB(190, 0, 0, 0),
-              height: Screen.height(context, percentage: 20),
-              width: Screen.width(context),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SubHeading(widget.question.text),
-                  if (hasAudio)
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: Screen.height(context, percentage: 2),
+    return Expanded(
+      child: Container(
+        color: Color.fromARGB(190, 0, 0, 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(30),
+              child: Container(
+                width: Screen.width(context),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SubHeading(widget.question.text),
+                    if (hasAudio)
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: Screen.height(context, percentage: 2),
+                        ),
+                        child: buildAudioButton(),
                       ),
-                      child: buildAudioButton(),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

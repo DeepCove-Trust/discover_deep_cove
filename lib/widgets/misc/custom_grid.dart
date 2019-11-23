@@ -24,12 +24,11 @@ class CustomGrid extends StatelessWidget {
         SizedBox(
           height: 12,
         ),
-        children.length > 2
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [children[2], if (children.length > 3) children[3]],
-              )
-            : Container(),
+        if (children.length > 2)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [children[2], if (children.length > 3) children[3]],
+          )
       ],
     );
   }
@@ -53,13 +52,15 @@ class CustomGrid extends StatelessWidget {
                 height: Screen.height(context, percentage: 5),
               ),
               if (children.length > 2) children[2],
+              if (children.length > 2)
               SizedBox(
                 height: Screen.height(context, percentage: 5),
               ),
               if (children.length > 3) children[3],
-              SizedBox(
-                height: Screen.height(context, percentage: 5),
-              ),
+              if (children.length > 3)
+                SizedBox(
+                  height: Screen.height(context, percentage: 5),
+                ),
             ],
           ),
         ],
