@@ -2,6 +2,7 @@ import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 
 class QuizResult extends StatelessWidget {
@@ -42,18 +43,24 @@ class QuizResult extends StatelessWidget {
 
   buildContent(BuildContext context) {
     return (Screen.isTablet(context) && Screen.isLandscape(context))
-        ? GridView.count(
-            crossAxisCount: 2,
-            children: [
-              getTopHalf(context),
-              getBottomHalf(context),
+        ? Row(
+            children: <Widget>[
+              Expanded(child: getTopHalf(context)),
+              Expanded(
+                  child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: getBottomHalf(context),
+                  )
+                ],
+              ))
             ],
           )
         : Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              getTopHalf(context),
-              getBottomHalf(context),
+              Expanded(child: getTopHalf(context)),
+              Expanded(child: getBottomHalf(context))
             ],
           );
   }
@@ -64,18 +71,11 @@ class QuizResult extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-          child: Text(
-            name,
-            style: TextStyle(
-              fontSize: Screen.isSmall(context) ? 40 : 60,
-              color: Colors.white,
-            ),
-            textAlign: TextAlign.center,
-          ),
+          child: Heading(name, size: Screen.isTablet(context) ? 55 : 35)
         ),
-        BodyText(
+        SubHeading(
           "Quiz Completed!",
-          size: Screen.isTablet(context) ? 40 : null,
+//          size: Screen.isTablet(context) ? 40 : null,
         ),
         SizedBox(
           height: Screen.height(context, percentage: 5.0),
@@ -88,36 +88,29 @@ class QuizResult extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: Screen.isPortrait(context) ? 0 : 8.0),
       child: Container(
-        height: Screen.height(context,
-            percentage: Screen.isTablet(context) ? 45.0 : 37.5),
-        width: Screen.width(context,
-            percentage: Screen.isTablet(context) ? 75 : 100),
         color: Theme.of(context).primaryColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
-              child: BodyText(
+              child: SubHeading(
                 "Your score:",
-                size: Screen.isTablet(context) ? 40 : null,
               ),
             ),
             Heading(
               "$score/$outOf",
-              size: Screen.isSmall(context) ? 40 : 100,
+              size: Screen.isTablet(context) ? 100 : 75,
             ),
             isHighscore
-                ? BodyText(
+                ? SubHeading(
                     "New High Score!",
-                    size: Screen.isTablet(context) ? 40 : null,
                   )
                 : Container(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: BodyText(
+              child: SubHeading(
                 setMessage(),
-                size: Screen.isTablet(context) ? 40 : null,
               ),
             ),
           ],
