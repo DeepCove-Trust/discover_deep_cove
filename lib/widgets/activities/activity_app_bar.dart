@@ -16,7 +16,7 @@ class ActivityAppBar extends StatelessWidget with PreferredSizeWidget {
       title: SubHeading(
         text,
         size:
-            Screen.isTablet(context) ? 30 : Screen.isSmall(context) ? 16 : null,
+            Screen.isTablet(context) ? 30 : Screen.isSmall(context) ? 16 : 25,
       ),
       actions: <Widget>[
         onTap != null

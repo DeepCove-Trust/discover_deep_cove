@@ -1,10 +1,18 @@
+import 'dart:io';
+
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
+import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/custom_vertical_divider.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class TextAnswerActivityView extends StatefulWidget {
   final Activity activity;
@@ -32,155 +40,184 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => _textFieldFocus.unfocus(),
-        child: Scaffold(
-          appBar: ActivityAppBar(
-            text: widget.activity.title,
-            onTap: widget.activity.factFileId != null
-                ? () => displayFactFile(widget.activity.factFileId)
-                : null,
-          ),
-          body: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              buildContent(),
-            ],
-          ),
-          bottomNavigationBar: widget.isReview
-              ? BottomBackButton()
-              : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
-          backgroundColor: Theme.of(context).backgroundColor,
-        ));
+      onTap: () => _textFieldFocus.unfocus(),
+      child: Scaffold(
+        appBar: ActivityAppBar(
+          text: widget.activity.title,
+          onTap: widget.activity.factFileId != null
+              ? () => displayFactFile(widget.activity.factFileId)
+              : null,
+        ),
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            buildContent(),
+          ],
+        ),
+        bottomNavigationBar: widget.isReview
+            ? BottomBackButton()
+            : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
+        backgroundColor: Theme.of(context).backgroundColor,
+      ),
+    );
   }
 
   buildContent() {
     return (Screen.isTablet(context) && Screen.isLandscape(context))
-        ? GridView.count(
-            crossAxisCount: 2,
+        ? Row(
             children: [
-              getTopHalf(),
-              getBottomHalf(),
+              Expanded(child: getTopHalf()),
+              CustomVerticalDivider(),
+              Expanded(child: getBottomHalf())
             ],
           )
-        : SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                getTopHalf(),
-                getBottomHalf(),
-              ],
+        : Scrollbar(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  getTopHalf(),
+                  getBottomHalf(),
+                ],
+              ),
             ),
           );
   }
 
   getTopHalf() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Screen.width(context, percentage: 2.5),
-            vertical: Screen.height(context, percentage: 5.0),
-          ),
-          child: BodyText(
-            widget.activity.description,
-            size: Screen.isTablet(context) ? 30 : null,
-          ),
+    return Scrollbar(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            buildGraphic(),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: Screen.width(context, percentage: 3),
+                vertical: Screen.height(context, percentage: 2),
+              ),
+              child: BodyText(
+                widget.activity.description,
+                align: TextAlign.left,
+                size: Screen.isTablet(context) ? 30 : null,
+              ),
+            ),
+            Screen.isPortrait(context)
+                ? Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                    ),
+                    child: Divider(
+                      color: Color(0xFF777777),
+                    ),
+                  )
+                : Container(),
+          ],
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Screen.width(context, percentage: 2.5),
-            vertical: Screen.height(context, percentage: 2.5),
-          ),
-          child: BodyText(
-            widget.activity.task,
-            size: Screen.isTablet(context) ? 30 : null,
-          ),
-        ),
-        Screen.isPortrait(context)
-            ? Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: Screen.width(context, percentage: 5),
-                ),
-                child: Divider(
-                  color: Color(0xFF777777),
-                ),
-              )
-            : Container(),
-      ],
+      ),
     );
   }
 
   getBottomHalf() {
     return Padding(
-      padding: EdgeInsets.only(
-        right: Screen.width(context, percentage: 2.5),
+      padding: EdgeInsets.all(
+        20
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.isReview
-                ? BodyText(
-                    "You Answered:",
-                    size: Screen.isTablet(context) ? 30 : null,
-                  )
-                : SizedBox(
-                    height: Screen.height(context, percentage: 2.5),
-                  ),
-          ),
-          Column(
+      child: Scrollbar(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              widget.isReview
-                  ? Container(
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 5,
+                ),
+                child: SubHeading(
+                  widget.activity.task,
+                  size: Screen.isTablet(context) ? 35 : null,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: widget.isReview
+                    ? SubHeading(
+                  "Your answer was",
+                )
+                    : SizedBox(
+                  height: 15,
+                ),
+              ),
+              Column(
+                children: <Widget>[
+                  widget.isReview
+                      ? Container(
+                    margin: EdgeInsets.symmetric(vertical: 15),
+                    width: 1000,
+                    decoration: BoxDecoration(
+                      color: Colors.white30,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      child: BodyText(
+                        widget.activity.userText,
+                        align: TextAlign.left,
+                        size: Screen.isTablet(context) ? 30 : null,
+                      ),
+                    ),
+                  )
+                      : ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 15),
                       width: Screen.width(context, percentage: 87.5),
                       height: Screen.height(context,
                           percentage: Screen.isTablet(context)
                               ? 45.0
                               : Screen.isSmall(context) ? 30.0 : 38.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1.0, color: Theme.of(context).primaryColor),
-                        borderRadius: BorderRadius.all(Radius.circular(5.0) //
-                            ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: BodyText(
-                          widget.activity.userText,
-                          align: TextAlign.left,
-                          size: Screen.isTablet(context) ? 30 : null,
-                        ),
-                      ),
-                    )
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Container(
-                        width: Screen.width(context, percentage: 87.5),
-                        height: Screen.height(context,
-                            percentage: Screen.isTablet(context)
-                                ? 45.0
-                                : Screen.isSmall(context) ? 30.0 : 38.0),
-                        color: Colors.white,
-                        child: TextField(
-                          focusNode: _textFieldFocus,
-                          keyboardType: TextInputType.multiline,
-                          textCapitalization: TextCapitalization.sentences,
-                          maxLines: 10,
-                          style: TextStyle(color: Colors.black),
-                          controller: controller,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.all(8.0),
-                          ),
+                      color: Colors.white,
+                      child: TextField(
+                        focusNode: _textFieldFocus,
+                        keyboardType: TextInputType.multiline,
+                        textCapitalization: TextCapitalization.sentences,
+                        maxLines: 10,
+                        style: TextStyle(color: Colors.black, fontSize: Screen.isTablet(context) ? 30 : 20),
+                        controller: controller,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.all(8.0),
                         ),
                       ),
                     ),
+                  ),
+                  widget.isReview ? EditAnswer() : Container()
+                ],
+              ),
             ],
           ),
-        ],
+        ),
       ),
+    );
+  }
+
+  buildGraphic() {
+    return Padding(
+      padding:
+      EdgeInsets.symmetric(vertical: Screen.isTablet(context) ? 20 : 10),
+      child: widget.activity.image == null
+          ? null
+          : Container(
+          width: Screen.width(context,
+              percentage: Screen.isLandscape(context) ? 33 : 85),
+          height: Screen.width(context,
+              percentage: Screen.isLandscape(context) ? 33 : 85),
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: FileImage(
+                    File(Env.getResourcePath(widget.activity.image.path))),
+              )),
+          child: Container()),
     );
   }
 

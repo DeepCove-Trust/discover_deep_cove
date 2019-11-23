@@ -44,6 +44,7 @@ dependencies:
   toast: ^0.1.4                       # MIT
   image_picker: ^0.6.0+15             # Apache 2.0
   flutter_launcher_icons: ^0.7.2+1    # MIT
+  flutter_icons: 1.0.0+1              # Apache 2.0
   # url_launcher: ^5.1.2                # BSD
   # keyboard_visibility: ^0.5.6         # MIT
   percent_indicator: ^2.1.1+1         # BSD

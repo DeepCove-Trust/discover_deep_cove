@@ -9,6 +9,7 @@ import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/fact_file/nuggets/fact_nugget.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/custom_vertical_divider.dart';
 import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
@@ -113,7 +114,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
             mainAxisSize: MainAxisSize.min,
             children: [
               Expanded(child: getCarousel(tabletView: true), flex: 3),
-              VerticalDivider(thickness: 1, color: Colors.white, width: 15),
+              CustomVerticalDivider(),
               Expanded(
                 flex: 2,
                 child: ListView(
