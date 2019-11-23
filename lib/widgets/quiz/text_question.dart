@@ -102,38 +102,25 @@ class _TextQuestionState extends State<TextQuestion>
 
   buildContent() {
     return (Screen.isTablet(context) && !Screen.isPortrait(context))
-        ? GridView.count(
-            crossAxisCount: 2,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  questionComponent(),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  answerComponent(),
-                ],
-              ),
-            ],
-          )
+        ? Row(
+      children: <Widget>[
+        Expanded(child: questionComponentLandscape()),
+        Expanded(child: Column(children: <Widget>[answerComponent()],),)
+      ],
+    )
         : Column(
             children: <Widget>[
-              questionComponent(),
+              questionComponentPortrait(),
               answerComponent(),
             ],
           );
   }
 
-  questionComponent() {
+  questionComponentPortrait() {
     return Column(
       children: <Widget>[
         Container(
-          height: !Screen.isPortrait(context)
-              ? height - Screen.height(context, percentage: 4.5)
-              : Screen.height(context, percentage: 50),
+          height: Screen.height(context, percentage: 50),
           child: Stack(
             children: [
               Container(
@@ -153,15 +140,16 @@ class _TextQuestionState extends State<TextQuestion>
                 children: [
                   Container(
                     color: Color.fromARGB(190, 0, 0, 0),
-                    height: Screen.height(context,
-                        percentage: Screen.isTablet(context) ? 10 : 15),
                     width: Screen.width(context),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SubHeading(
-                          widget.question.text,
-                          size: Screen.isTablet(context) ? 30 : null,
+                        Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: SubHeading(
+                            widget.question.text,
+                            size: Screen.isTablet(context) ? 30 : null,
+                          ),
                         ),
                         if (hasAudio) buildAudioButton(),
                       ],
@@ -173,12 +161,69 @@ class _TextQuestionState extends State<TextQuestion>
                 padding: const EdgeInsets.all(2.0),
                 child: widget.question.image.source != null
                     ? ImageSource(
-                        isCopyright: widget.question.image.showCopyright,
-                        source: widget.question.image.source,
-                      )
+                  isCopyright: widget.question.image.showCopyright,
+                  source: widget.question.image.source,
+                )
                     : Container(),
               ),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  questionComponentLandscape() {
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: Container(
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: FileImage(
+                        File(
+                          Env.getResourcePath(widget.question.image.path),
+                        ),
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      color: Color.fromARGB(190, 0, 0, 0),
+                      width: Screen.width(context),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: SubHeading(
+                              widget.question.text,
+                            ),
+                          ),
+                          if (hasAudio) buildAudioButton(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: widget.question.image.source != null
+                      ? ImageSource(
+                          isCopyright: widget.question.image.showCopyright,
+                          source: widget.question.image.source,
+                        )
+                      : Container(),
+                ),
+              ],
+            ),
           ),
         ),
       ],

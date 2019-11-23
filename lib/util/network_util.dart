@@ -25,7 +25,7 @@ class NetworkUtil {
   /// a GET request to the supplied address.
   static Future<bool> _returnsResponse(String address) async {
     try {
-      print('Attempting to contact remote server at $address');
+      print('Attempting to contact content server at $address');
       Http.Response response = await Http.get(address);
       print('Response:');
       print(response.statusCode);

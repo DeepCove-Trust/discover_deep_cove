@@ -38,9 +38,6 @@ class _QuizIndexState extends State<QuizIndex> {
         leading: Container(),
         title: SubHeading(
           'Deep Cove Trivia',
-          size: Screen.isTablet(context)
-              ? 30
-              : Screen.isSmall(context) ? 16 : null,
         ),
         centerTitle: true,
         actions: <Widget>[

@@ -86,7 +86,7 @@ class QuizViewState extends State<QuizView> {
                 widget.quiz.title,
                 size: Screen.isTablet(context)
                     ? 30
-                    : Screen.isSmall(context) ? 16 : null,
+                    : Screen.isSmall(context) ? 16 : 25,
               ),
               centerTitle: true,
               leading: Container(),
@@ -98,7 +98,7 @@ class QuizViewState extends State<QuizView> {
                       '${questionIndex + 1}/${widget.quiz.questions.length}',
                       size: Screen.isTablet(context)
                           ? 30
-                          : Screen.isSmall(context) ? 16 : null,
+                          : Screen.isSmall(context) ? 16 : 25,
                     ),
                   ),
                 )

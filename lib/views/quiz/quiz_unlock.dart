@@ -6,6 +6,7 @@ import 'package:discover_deep_cove/views/home.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 
 enum UnlockStatus { success, alreadyUnlocked, failure }
@@ -47,7 +48,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
 
     Config config = await ConfigBean.of(context).find(1);
 
-    if(textController.text == config.masterUnlockCode){
+    if (textController.text == config.masterUnlockCode) {
       return await unlockAllQuizzes();
     }
 
@@ -61,7 +62,8 @@ class _QuizUnlockState extends State<QuizUnlock> {
         await QuizBean.of(context).update(quiz);
         // This will discard any stored quizzes so the the index page fetches fresh
         // data on next view.
-        PageStorage.of(context).writeState(context, null, identifier: 'Quizzes');
+        PageStorage.of(context)
+            .writeState(context, null, identifier: 'Quizzes');
         status = UnlockStatus.success;
       }
 
@@ -86,7 +88,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
   /// Unlock all quizzes
   Future<void> unlockAllQuizzes() async {
     List<Quiz> quizzes = await QuizBean.of(context).getAll();
-    for(Quiz quiz in quizzes){
+    for (Quiz quiz in quizzes) {
       quiz.setUnlocked(true);
       await QuizBean.of(context).update(quiz);
     }
@@ -96,176 +98,124 @@ class _QuizUnlockState extends State<QuizUnlock> {
   }
 
   buildContent() {
-    return (Screen.isTablet(context) && Screen.isLandscape(context))
-        ? GridView.count(
-            crossAxisCount: 2,
-            children: [
-              getBottomHalf(),
-              getTopHalf(),
+    return Screen.isLandscape(context)
+        ? Row(
+            children: <Widget>[
+              Expanded(child: getBottomHalf()),
+              Expanded(
+                child: Column(
+                  children: <Widget>[Expanded(child: getTopHalf())],
+                ),
+              )
             ],
           )
-        : SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                getTopHalf(),
-                getBottomHalf(),
-              ],
-            ),
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(flex: 2, child: getTopHalf()),
+              Expanded(
+                  child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: getBottomHalf(),
+                  )
+                ],
+              ))
+            ],
           );
   }
 
   getTopHalf() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        SizedBox(
-          height: Screen.height(context,
-              percentage: Screen.isSmall(context)
-                  ? 5
-                  : Screen.isTablet(context) && Screen.isPortrait(context)
-                      ? 8
-                      : 5),
-        ),
-        Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: Screen.height(context,
-                      percentage: Screen.isSmall(context) ? 2 : 5),
-                  horizontal: Screen.isSmall(context) ? 20 : 50),
-              child: Screen.width(context) <= 600
-                  ? BodyText(
-                      "Your teacher will give you codes to unlock quizzes.",
-                    )
-                  : Heading(
-                      "Your teacher will give you codes to unlock quizzes."),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: Screen.height(context, percentage: 5),
-                  horizontal: Screen.isSmall(context) ? 20 : 50),
-              child: Container(
-                width: Screen.width(context,
-                    percentage: Screen.isSmall(context) ? 100 : 80),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Text(
-                        "Not a Student?",
-                        style: TextStyle(
-                          fontSize: Screen.isSmall(context)
-                              ? 16
-                              : Screen.width(context) >= 650 ? 30 : 20,
-                          color: Colors.white,
-                          decoration: TextDecoration.underline,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    SizedBox(
-                      height: Screen.height(context,
-                          percentage: Screen.isSmall(context) ? 1.5 : 3),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 20),
-                      child: Heading(
-                        "Simply use the code posted in the communal kitchen of the lodge to "
-                        "Unlock all quizzes immediately!",
-                        size: Screen.width(context) >= 600
-                            ? 30
-                            : Screen.width(context) <= 350 ? 16 : 20,
-                      ),
-                    ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Color(0xFF777777),
+    return Padding(
+      padding: EdgeInsets.all(Screen.isTablet(context) ? 40 : 24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Heading('Your teacher will give you codes to unlock quizzes.'),
+          SizedBox(height: 40),
+          Container(
+              padding: EdgeInsets.all(16),
+              decoration:
+                  BoxDecoration(border: Border.all(color: Colors.white)),
+              child: Column(
+                children: <Widget>[
+                  Text('Not a student?', style: TextStyle(decoration: TextDecoration.underline, fontSize: 30, color: Colors.white),),
+                  SizedBox(height: 12),
+                  SubHeading(
+                    'Use the code in the main hostel building to unlock all quizzes.',
                   ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
+                ],
+              ))
+        ],
+      ),
     );
   }
 
   getBottomHalf() {
+    return Container(
+      color: Theme.of(context).primaryColor,
+      child: Column(
+        children: <Widget>[Expanded(child: buildUnlockForm())],
+      ),
+    );
+  }
+
+  buildUnlockForm() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Screen.isTablet(context) ? 28.0 : 8.0,
-            vertical: Screen.width(context,
-                percentage: Screen.isSmall(context) ? 2 : 5),
+          padding: EdgeInsets.only(
+            top: Screen.width(context, percentage: 5),
+            bottom: Screen.width(context, percentage: 5),
           ),
+          child: Heading(
+            "Enter unlock code:",
+            size: Screen.width(context) >= 600
+                ? 30
+                : Screen.width(context) <= 350 ? 16 : 20,
+          ),
+        ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
           child: Container(
-            width: Screen.width(context,
-                percentage: Screen.width(context) < 600 ? 100 : 80),
-            color: Theme.of(context).primaryColor,
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: Screen.width(context, percentage: 5),
-                    bottom: Screen.width(context, percentage: 5),
-                  ),
-                  child: Heading(
-                    "Enter unlock code:",
-                    size: Screen.width(context) >= 600
-                        ? 30
-                        : Screen.width(context) <= 350 ? 16 : 20,
-                  ),
-                ),
-                Transform.scale(
-                  scale: Screen.isTablet(context) ? 1.25 : 1,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Container(
-                      width: Screen.width(
-                        context,
-                        percentage: Screen.isTablet(context) ? 30 : 62.5,
-                      ),
-                      color: Colors.white,
-                      child: TextField(
-                        focusNode: _textFieldFocus,
-                        controller: textController,
-                        keyboardType: TextInputType.number,
-                        style: TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          hintText: 'Enter code...',
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(8.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: Screen.width(context, percentage: 5),
-                  ),
-                  child: OutlineButton(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Heading(
-                        "Unlock",
-                        size: Screen.width(context) >= 600
-                            ? 30
-                            : Screen.width(context) <= 350 ? 16 : 20,
-                      ),
-                    ),
-                    onPressed: () => verifyCode(context),
-                    borderSide: BorderSide(
-                      color: Color(0xFFFFFFFF),
-                    ),
-                  ),
-                ),
-              ],
+            width: Screen.width(
+              context,
+              percentage: Screen.isTablet(context) ? 30 : 62.5,
+            ),
+            color: Colors.white,
+            child: TextField(
+              focusNode: _textFieldFocus,
+              controller: textController,
+              keyboardType: TextInputType.number,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: Screen.isTablet(context) ? 35 : 25),
+              decoration: InputDecoration(
+                hintText: 'Enter code...',
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.all(8.0),
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: Screen.width(context, percentage: 5),
+          ),
+          child: OutlineButton(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Heading(
+                "Unlock",
+                size: Screen.width(context) >= 600
+                    ? 30
+                    : Screen.width(context) <= 350 ? 16 : 20,
+              ),
+            ),
+            onPressed: () => verifyCode(context),
+            borderSide: BorderSide(
+              color: Color(0xFFFFFFFF),
             ),
           ),
         ),

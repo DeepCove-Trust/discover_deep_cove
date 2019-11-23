@@ -1,5 +1,5 @@
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 
 class QuizTextButton extends StatelessWidget {
@@ -16,12 +16,12 @@ class QuizTextButton extends StatelessWidget {
         width: Screen.width(context, percentage: 40.0),
         height: Screen.height(context, percentage: 13.5),
         child: Center(
-          child: Heading(text),
+          child: SubHeading(text, size: Screen.isTablet(context) ? 25 : 20,),
         ),
         decoration: new BoxDecoration(
-          border: new Border.all(
-            color: Color(0xFF777777),
-          ),
+          color: Theme.of(context).primaryColorDark,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [BoxShadow(offset: Offset(1, 1), blurRadius: 3)]
         ),
       ),
     );
