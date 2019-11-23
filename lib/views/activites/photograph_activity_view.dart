@@ -171,11 +171,15 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
               height: Screen.width(context,
                   percentage: Screen.isLandscape(context) ? 35 : 85),
               decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                image: FileImage(
-                    File(Env.getResourcePath(widget.activity.image.path))),
-              )),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: FileImage(
+                    File(
+                      Env.getResourcePath(widget.activity.image.path),
+                    ),
+                  ),
+                ),
+              ),
               child: Container()),
     );
   }
