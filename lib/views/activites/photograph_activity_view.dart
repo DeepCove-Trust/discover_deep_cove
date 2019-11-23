@@ -146,18 +146,19 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                 padding: EdgeInsets.only(
                   bottom: 6,
                 ),
-                child: CustomFab(
-                  icon: FontAwesomeIcons.camera,
-                  text: _image == null ? "I see it!" : "Try again",
-                  onPressed: () {
-                    _onImageButtonPressed(context);
-                  },
-                ),
+                child: FloatingActionButton(
+              onPressed: () {
+                _onImageButtonPressed(context);
+              },
+              child: const Icon( FontAwesomeIcons.camera),
+            ),
               ),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
+
+  
 
   buildGraphic() {
     return Padding(
