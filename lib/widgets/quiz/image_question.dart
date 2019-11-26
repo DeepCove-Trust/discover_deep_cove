@@ -31,7 +31,8 @@ class _ImageQuestionState extends State<ImageQuestion>
 
   void playAudio() {
     setState(() => playingColor = Theme.of(context).primaryColor);
-    widget.player.play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
+    widget.player
+        .play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
   }
 
   @override
@@ -39,7 +40,8 @@ class _ImageQuestionState extends State<ImageQuestion>
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
-    _playerCompleteSubscription = widget.player.onPlayerCompletion.listen((event) {
+    _playerCompleteSubscription =
+        widget.player.onPlayerCompletion.listen((event) {
       _onComplete();
     });
   }

@@ -31,7 +31,8 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion>
 
   void playAudio() {
     setState(() => playingColor = Theme.of(context).primaryColor);
-    widget.player.play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
+    widget.player
+        .play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
   }
 
   @override
@@ -39,7 +40,8 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion>
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
-    _playerCompleteSubscription = widget.player.onPlayerCompletion.listen((event) {
+    _playerCompleteSubscription =
+        widget.player.onPlayerCompletion.listen((event) {
       _onComplete();
     });
   }
