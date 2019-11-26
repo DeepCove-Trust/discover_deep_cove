@@ -36,7 +36,6 @@ class QuizViewState extends State<QuizView> {
   int questionIndex = 0;
   int score = 0;
   AudioPlayer questionAudio = AudioPlayer();
-  Color audioColor = Colors.white;
 
   @override
   void initState() {

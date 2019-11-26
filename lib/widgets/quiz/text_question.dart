@@ -27,7 +27,7 @@ class _TextQuestionState extends State<TextQuestion>
     with WidgetsBindingObserver {
   Color playingColor = Colors.white;
   double height;
-  StreamSubscription _playerCompleteSubscription;
+  StreamSubscription _playerCompleteSubscription, _playerStoppedSubscription;
 
   bool get hasAudio => widget.question.audio != null;
 
@@ -46,6 +46,14 @@ class _TextQuestionState extends State<TextQuestion>
         widget.player.onPlayerCompletion.listen((event) {
       _onComplete();
     });
+    _playerStoppedSubscription =
+        widget.player.onPlayerStateChanged.listen((event){
+          if(widget.player.state == AudioPlayerState.STOPPED){
+            setState(() {
+              playingColor = Colors.white;
+            });
+          }
+        });
   }
 
   @override
@@ -54,6 +62,7 @@ class _TextQuestionState extends State<TextQuestion>
     widget.player.stop();
 
     _playerCompleteSubscription?.cancel();
+    _playerStoppedSubscription?.cancel();
     super.dispose();
   }
 
