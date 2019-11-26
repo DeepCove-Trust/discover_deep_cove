@@ -44,13 +44,13 @@ class _ImageQuestionState extends State<ImageQuestion>
       _onComplete();
     });
     _playerStoppedSubscription =
-        widget.player.onPlayerStateChanged.listen((event){
-          if(widget.player.state == AudioPlayerState.STOPPED){
-            setState(() {
-              playingColor = Colors.white;
-            });
-          }
+        widget.player.onPlayerStateChanged.listen((event) {
+      if (widget.player.state == AudioPlayerState.STOPPED) {
+        setState(() {
+          playingColor = Colors.white;
         });
+      }
+    });
   }
 
   @override
@@ -70,6 +70,7 @@ class _ImageQuestionState extends State<ImageQuestion>
       stopAudio();
     }
   }
+
   stopAudio() {
     setState(() {
       playingColor = Colors.white;
@@ -132,34 +133,36 @@ class _ImageQuestionState extends State<ImageQuestion>
 
   questionComponentPortrait() {
     return Container(
-        color: Color.fromARGB(190, 0, 0, 0),
-        padding: EdgeInsets.all(24),
-        child: Center(
-          child: Scrollbar(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SubHeading(widget.question.text),
-                  hasAudio ? buildAudioButton() : Container()
-                ],
-              ),
+      color: Color.fromARGB(190, 0, 0, 0),
+      padding: EdgeInsets.all(24),
+      child: Center(
+        child: Scrollbar(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SubHeading(widget.question.text),
+                hasAudio ? buildAudioButton() : Container()
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   questionComponentLandscape() {
     return Container(
-        color: Color.fromARGB(190, 0, 0, 0),
-        padding: EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SubHeading(widget.question.text),
-            hasAudio ? buildAudioButton() : Container()
-          ],
-        ));
+      color: Color.fromARGB(190, 0, 0, 0),
+      padding: EdgeInsets.all(24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          SubHeading(widget.question.text),
+          hasAudio ? buildAudioButton() : Container()
+        ],
+      ),
+    );
   }
 
   answerComponent() {
