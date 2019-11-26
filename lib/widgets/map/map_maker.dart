@@ -21,12 +21,14 @@ class MapMaker extends StatefulWidget {
     @required this.context,
     @required this.onMarkerTap,
     @required this.animationStream,
+    @required this.refreshStream,
     Key key,
   }) : super(key: key);
 
   final Function(Activity) onMarkerTap;
   final MapController mapController;
   final Stream<int> animationStream;
+  final Stream<Null> refreshStream;
   final BuildContext context;
 
   @override
@@ -38,6 +40,8 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
   int currentTrackNum;
   StreamController<String> trackStreamController;
   Stream<String> trackStream;
+
+  ActivityBean activityBean;
 
   MapState mapState;
 
@@ -56,7 +60,13 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
     widget.animationStream.listen((activityId) {
       animateToActivity(activityId);
     });
+    widget.refreshStream.listen((_) async {
+      await loadTracks();
+      setState(() {});
+    });
     currentTrackNum = 0;
+
+    activityBean = ActivityBean.of(context);
 
     // Determine whether previous map state has been saved, otherwise use
     // default values from the env file
@@ -86,9 +96,9 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
       }
 
       tracks = await TrackBean.of(context).getAllAndPreload();
-//      PageStorage.of(context).writeState(context, tracks, identifier: 'Tracks'); // Todo: Reenable when we have a way of refreshing activities after completion
+      PageStorage.of(context).writeState(context, tracks, identifier: 'Tracks');
       setState(() => tracks);
-    } on DatabaseException catch (ex) {
+    } on DatabaseException {
       await Future.delayed(Duration(seconds: 5));
       // Table doesn't exist yet, load content
       Navigator.pushReplacementNamed(context, '/update', arguments: true);
@@ -108,6 +118,7 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
         leading: tracksLoaded && hasTracks
@@ -287,7 +298,7 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
   }
 
   void animateToActivity(int activityId) async {
-    Activity activity = await ActivityBean.of(context).find(activityId);
+    Activity activity = await activityBean.find(activityId);
 
     if (activity.trackId != currentTrack.id)
       currentTrackNum =
