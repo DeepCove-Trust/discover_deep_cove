@@ -36,6 +36,7 @@ class QuizViewState extends State<QuizView> {
   int questionIndex = 0;
   int score = 0;
   AudioPlayer questionAudio = AudioPlayer();
+  Color audioColor = Colors.white;
 
   @override
   void initState() {
@@ -141,24 +142,27 @@ class QuizViewState extends State<QuizView> {
     // if the question has an image
     if (currentQuestion.image != null) {
       return TextQuestion(
-          question: currentQuestion,
-          answers: buildAnswerTiles(),
-          player: questionAudio);
+        question: currentQuestion,
+        answers: buildAnswerTiles(),
+        player: questionAudio,
+      );
     }
 
     // if any answers have an image
     if (currentQuestion.answers.any((a) => a.image != null)) {
       return ImageQuestion(
-          question: currentQuestion,
-          answers: buildAnswerTiles(),
-          player: questionAudio);
+        question: currentQuestion,
+        answers: buildAnswerTiles(),
+        player: questionAudio,
+      );
     }
 
     // if the question/answers are text only
     return TextOnlyQuestion(
-        question: currentQuestion,
-        answers: buildAnswerTiles(),
-        player: questionAudio);
+      question: currentQuestion,
+      answers: buildAnswerTiles(),
+      player: questionAudio,
+    );
   }
 
   List<Widget> buildAnswerTiles() {
