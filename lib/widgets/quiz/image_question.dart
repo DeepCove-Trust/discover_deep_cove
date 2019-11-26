@@ -13,8 +13,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class ImageQuestion extends StatefulWidget {
   final QuizQuestion question;
   final List<QuizImageButton> answers;
+  final AudioPlayer player;
 
-  ImageQuestion({this.question, this.answers});
+  ImageQuestion({this.question, this.answers, this.player});
 
   @override
   _ImageQuestionState createState() => _ImageQuestionState();
@@ -22,7 +23,6 @@ class ImageQuestion extends StatefulWidget {
 
 class _ImageQuestionState extends State<ImageQuestion>
     with WidgetsBindingObserver {
-  AudioPlayer player = AudioPlayer();
   Color playingColor = Colors.white;
 
   bool get hasAudio => widget.question.audio != null;
@@ -31,7 +31,7 @@ class _ImageQuestionState extends State<ImageQuestion>
 
   void playAudio() {
     setState(() => playingColor = Theme.of(context).primaryColor);
-    player.play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
+    widget.player.play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
   }
 
   @override
@@ -39,7 +39,7 @@ class _ImageQuestionState extends State<ImageQuestion>
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
-    _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
+    _playerCompleteSubscription = widget.player.onPlayerCompletion.listen((event) {
       _onComplete();
     });
   }
@@ -47,7 +47,7 @@ class _ImageQuestionState extends State<ImageQuestion>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    player.stop();
+    widget.player.stop();
 
     _playerCompleteSubscription?.cancel();
     super.dispose();
@@ -66,7 +66,7 @@ class _ImageQuestionState extends State<ImageQuestion>
     setState(() {
       playingColor = Colors.white;
     });
-    player.stop();
+    widget.player.stop();
   }
 
   void _onComplete() {

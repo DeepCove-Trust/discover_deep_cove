@@ -15,8 +15,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class TextQuestion extends StatefulWidget {
   final QuizQuestion question;
   final List<QuizTextButton> answers;
+  final AudioPlayer player;
 
-  TextQuestion({this.question, this.answers});
+  TextQuestion({this.question, this.answers, this.player});
 
   @override
   _TextQuestionState createState() => _TextQuestionState();
@@ -24,7 +25,6 @@ class TextQuestion extends StatefulWidget {
 
 class _TextQuestionState extends State<TextQuestion>
     with WidgetsBindingObserver {
-  AudioPlayer player = AudioPlayer();
   Color playingColor = Colors.white;
   double height;
   StreamSubscription _playerCompleteSubscription;
@@ -33,7 +33,7 @@ class _TextQuestionState extends State<TextQuestion>
 
   void playAudio() {
     setState(() => playingColor = Theme.of(context).primaryColor);
-    player.play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
+    widget.player.play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
   }
 
   @override
@@ -41,7 +41,7 @@ class _TextQuestionState extends State<TextQuestion>
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
-    _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
+    _playerCompleteSubscription = widget.player.onPlayerCompletion.listen((event) {
       _onComplete();
     });
   }
@@ -49,7 +49,7 @@ class _TextQuestionState extends State<TextQuestion>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    player.stop();
+    widget.player.stop();
 
     _playerCompleteSubscription?.cancel();
     super.dispose();
@@ -68,7 +68,7 @@ class _TextQuestionState extends State<TextQuestion>
       setState(() {
         playingColor = Colors.white;
       });
-      player.stop();
+      widget.player.stop();
   }
 
   void _onComplete() {

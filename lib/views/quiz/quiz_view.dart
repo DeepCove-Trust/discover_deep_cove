@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
@@ -34,6 +35,7 @@ class QuizViewState extends State<QuizView> {
   bool showOverlay = false;
   int questionIndex = 0;
   int score = 0;
+  AudioPlayer questionAudio = AudioPlayer();
 
   @override
   void initState() {
@@ -139,18 +141,18 @@ class QuizViewState extends State<QuizView> {
     // if the question has an image
     if (currentQuestion.image != null) {
       return TextQuestion(
-          question: currentQuestion, answers: buildAnswerTiles());
+          question: currentQuestion, answers: buildAnswerTiles(), player: questionAudio);
     }
 
     // if any answers have an image
     if (currentQuestion.answers.any((a) => a.image != null)) {
       return ImageQuestion(
-          question: currentQuestion, answers: buildAnswerTiles());
+          question: currentQuestion, answers: buildAnswerTiles(), player: questionAudio);
     }
 
     // if the question/answers are text only
     return TextOnlyQuestion(
-        question: currentQuestion, answers: buildAnswerTiles());
+        question: currentQuestion, answers: buildAnswerTiles(), player: questionAudio);
   }
 
   List<Widget> buildAnswerTiles() {
@@ -179,6 +181,8 @@ class QuizViewState extends State<QuizView> {
   }
 
   Widget buildOverlay() {
+    questionAudio.stop();
+    
     return CorrectWrongOverlay(
       isCorrect: isCorrect,
       guess: guess,
