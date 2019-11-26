@@ -58,11 +58,15 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion>
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.paused) {
-      setState(() {
-        playingColor = Colors.white;
-      });
-      player.stop();
+      stopAudio();
     }
+  }
+
+  stopAudio() {
+    setState(() {
+      playingColor = Colors.white;
+    });
+    player.stop();
   }
 
   void _onComplete() {

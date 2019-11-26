@@ -60,11 +60,15 @@ class _TextQuestionState extends State<TextQuestion>
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.paused) {
+      stopAudio();
+    }
+  }
+
+  stopAudio(){
       setState(() {
         playingColor = Colors.white;
       });
       player.stop();
-    }
   }
 
   void _onComplete() {

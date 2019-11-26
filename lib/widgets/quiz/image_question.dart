@@ -58,11 +58,15 @@ class _ImageQuestionState extends State<ImageQuestion>
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.paused) {
-      setState(() {
-        playingColor = Colors.white;
-      });
-      player.stop();
+      stopAudio();
     }
+  }
+
+  stopAudio() {
+    setState(() {
+      playingColor = Colors.white;
+    });
+    player.stop();
   }
 
   void _onComplete() {
@@ -74,9 +78,8 @@ class _ImageQuestionState extends State<ImageQuestion>
       margin: EdgeInsets.all(20),
       padding: EdgeInsets.all(7.5),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white, width: 1.5),
-        borderRadius: BorderRadius.circular(15)
-      ),
+          border: Border.all(color: Colors.white, width: 1.5),
+          borderRadius: BorderRadius.circular(15)),
       child: IconButton(
         onPressed: () => playAudio(),
         icon: Icon(
