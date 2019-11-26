@@ -62,7 +62,6 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
     });
     widget.refreshStream.listen((_) async {
       await loadTracks();
-      setState(() {});
     });
     currentTrackNum = 0;
 

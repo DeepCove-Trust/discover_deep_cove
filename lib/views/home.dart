@@ -96,7 +96,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   void navigateToActivity(Activity activity, bool isReview) async {
-    await Navigator.pushNamed(
+    Navigator.pushNamed(
       context,
       '/activity',
       arguments: ActivityScreenArgs(
