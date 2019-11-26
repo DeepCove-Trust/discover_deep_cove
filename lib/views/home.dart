@@ -25,6 +25,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   // Stream controller to tell map when to animate
   StreamController<int> mapAnimateController;
+  StreamController<Null> mapMarkerRefresh;
 
   Widget currentPage;
   List<Widget> pages = List<Widget>();
@@ -38,6 +39,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     super.initState();
 
     mapAnimateController = StreamController();
+    mapMarkerRefresh = StreamController();
     mapController = MapController();
     // Initialize the list of page widgets.
     pages.add(FactFileIndex());
@@ -46,6 +48,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       mapController: mapController,
       context: context,
       animationStream: mapAnimateController.stream.asBroadcastStream(),
+      refreshStream: mapMarkerRefresh.stream.asBroadcastStream(),
       onMarkerTap: handleMarkerTap,
       key: PageStorageKey('Map Maker'),
     )); // placeholder
@@ -60,6 +63,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   void dispose() {
     super.dispose();
     mapAnimateController.close();
+    mapMarkerRefresh.close();
   }
 
   void handleMarkerTap(Activity activity) async {
@@ -91,7 +95,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     handleScanResult(qrString);
   }
 
-  void navigateToActivity(Activity activity, bool isReview) {
+  void navigateToActivity(Activity activity, bool isReview) async {
     Navigator.pushNamed(
       context,
       '/activity',
@@ -126,8 +130,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     // allow time to animate
     await Future.delayed(Duration(milliseconds: 1100));
 
-    Navigator.pushNamed(context, '/activity',
+    await Navigator.pushNamed(context, '/activity',
         arguments: ActivityScreenArgs(activity: activity));
+
+    mapMarkerRefresh.sink.add(null);
   }
 
 //End qr reader section
@@ -137,6 +143,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     Screen.setOrientations(context);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       body: PageStorage(
         child: currentPage,
         bucket: bucket,
