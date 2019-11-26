@@ -12,8 +12,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class TextOnlyQuestion extends StatefulWidget {
   final QuizQuestion question;
   final List<Widget> answers;
+  final AudioPlayer player;
 
-  TextOnlyQuestion({this.question, this.answers});
+  TextOnlyQuestion({this.question, this.answers, this.player});
 
   @override
   _TextOnlyQuestionState createState() => _TextOnlyQuestionState();
@@ -21,17 +22,17 @@ class TextOnlyQuestion extends StatefulWidget {
 
 class _TextOnlyQuestionState extends State<TextOnlyQuestion>
     with WidgetsBindingObserver {
-  AudioPlayer player = AudioPlayer();
   Color playingColor = Colors.white;
 
   bool get hasAudio => widget.question.audio != null;
-  StreamSubscription _playerCompleteSubscription;
+  StreamSubscription _playerCompleteSubscription, _playerStoppedSubscription;
 
   double height;
 
   void playAudio() {
     setState(() => playingColor = Theme.of(context).primaryColor);
-    player.play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
+    widget.player
+        .play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
   }
 
   @override
@@ -39,17 +40,27 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion>
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
-    _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
+    _playerCompleteSubscription =
+        widget.player.onPlayerCompletion.listen((event) {
       _onComplete();
     });
+    _playerStoppedSubscription =
+        widget.player.onPlayerStateChanged.listen((event){
+          if(widget.player.state == AudioPlayerState.STOPPED){
+            setState(() {
+              playingColor = Colors.white;
+            });
+          }
+        });
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    player.stop();
+    widget.player.stop();
 
     _playerCompleteSubscription?.cancel();
+    _playerStoppedSubscription?.cancel();
     super.dispose();
   }
 
@@ -58,11 +69,15 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion>
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.paused) {
-      setState(() {
-        playingColor = Colors.white;
-      });
-      player.stop();
+      stopAudio();
     }
+  }
+
+  stopAudio() {
+    setState(() {
+      playingColor = Colors.white;
+    });
+    widget.player.stop();
   }
 
   void _onComplete() {
