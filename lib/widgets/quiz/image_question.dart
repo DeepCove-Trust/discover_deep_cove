@@ -30,7 +30,6 @@ class _ImageQuestionState extends State<ImageQuestion>
   double height;
 
   void playAudio() {
-    print('onplay');
     setState(() => playingColor = Theme.of(context).primaryColor);
     widget.player
         .play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
@@ -39,7 +38,6 @@ class _ImageQuestionState extends State<ImageQuestion>
   @override
   void initState() {
     super.initState();
-    print('initstate');
     WidgetsBinding.instance.addObserver(this);
     _playerCompleteSubscription =
         widget.player.onPlayerCompletion.listen((event) {
@@ -57,7 +55,6 @@ class _ImageQuestionState extends State<ImageQuestion>
 
   @override
   void dispose() {
-    print('ondispose');
     WidgetsBinding.instance.removeObserver(this);
     widget.player.stop();
 
@@ -69,7 +66,6 @@ class _ImageQuestionState extends State<ImageQuestion>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    print('onchangelifecyclestate');
     if (state == AppLifecycleState.paused) {
       stopAudio();
     }
@@ -82,7 +78,6 @@ class _ImageQuestionState extends State<ImageQuestion>
   }
 
   void _onComplete() {
-    print('oncomplete');
     setState(() => playingColor = Colors.white);
   }
 
@@ -106,8 +101,6 @@ class _ImageQuestionState extends State<ImageQuestion>
 
   @override
   Widget build(BuildContext context) {
-    print('buildImageQuestion');
-    print('color is $playingColor');
     return Scaffold(
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
