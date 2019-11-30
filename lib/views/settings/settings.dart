@@ -150,7 +150,6 @@ class _SettingsState extends State<Settings> {
     });
 
     PageStorage.of(context).writeState(context, null, identifier: 'Quizzes');
-    PageStorage.of(context).writeState(context, null, identifier: 'FactFiles');
     PageStorage.of(context).writeState(context, null, identifier: 'Tracks');
 
     Navigator.of(context).pop();
