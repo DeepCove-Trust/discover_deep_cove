@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
+import 'package:discover_deep_cove/util/verbose_state.dart';
 import 'package:discover_deep_cove/views/activites/activity_screen_args.dart';
 import 'package:discover_deep_cove/views/fact_file/fact_file_index.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_index.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:majascan/majascan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 enum Page { FactFile, Scan, Map, Quiz, Settings }
@@ -22,10 +24,9 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with TickerProviderStateMixin {
+class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
   // Stream controller to tell map when to animate
   StreamController<int> mapAnimateController;
-  StreamController<Null> mapMarkerRefresh;
 
   Widget currentPage;
   List<Widget> pages = List<Widget>();
@@ -37,9 +38,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
     mapAnimateController = StreamController();
-    mapMarkerRefresh = StreamController();
     mapController = MapController();
     // Initialize the list of page widgets.
     pages.add(FactFileIndex());
@@ -48,7 +47,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       mapController: mapController,
       context: context,
       animationStream: mapAnimateController.stream.asBroadcastStream(),
-      refreshStream: mapMarkerRefresh.stream.asBroadcastStream(),
       onMarkerTap: handleMarkerTap,
       key: PageStorageKey('Map Maker'),
     )); // placeholder
@@ -63,7 +61,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   void dispose() {
     super.dispose();
     mapAnimateController.close();
-    mapMarkerRefresh.close();
   }
 
   void handleMarkerTap(Activity activity) async {
@@ -133,13 +130,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     await Navigator.pushNamed(context, '/activity',
         arguments: ActivityScreenArgs(activity: activity));
 
-    mapMarkerRefresh.sink.add(null);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('reloadMap', true);
   }
 
 //End qr reader section
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     Screen.setOrientations(context);
 
     return Scaffold(
