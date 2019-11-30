@@ -4,6 +4,7 @@ import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/verbose_state.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong/latlong.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'custom_marker.dart';
@@ -21,21 +23,20 @@ class MapMaker extends StatefulWidget {
     @required this.context,
     @required this.onMarkerTap,
     @required this.animationStream,
-    @required this.refreshStream,
     Key key,
   }) : super(key: key);
 
   final Function(Activity) onMarkerTap;
   final MapController mapController;
   final Stream<int> animationStream;
-  final Stream<Null> refreshStream;
   final BuildContext context;
 
   @override
   State createState() => _MapMakerState();
 }
 
-class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
+class _MapMakerState extends VerboseState<MapMaker>
+    with TickerProviderStateMixin {
   List<Track> tracks;
   int currentTrackNum;
   StreamController<String> trackStreamController;
@@ -53,15 +54,11 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    print('map init');
     super.initState();
     trackStreamController = StreamController();
     trackStream = trackStreamController.stream;
     widget.animationStream.listen((activityId) {
       animateToActivity(activityId);
-    });
-    widget.refreshStream.listen((_) async {
-      await loadTracks();
     });
     currentTrackNum = 0;
 
@@ -75,8 +72,10 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
 
     tracks = PageStorage.of(context).readState(context, identifier: 'Tracks');
 
-    // Load track data if not in storage
-    if (tracks == null) loadTracks();
+    // Load track data if not in storage OR reload has been flagged
+    if (tracks == null ||
+        (PageStorage.of(context).readState(context, identifier: 'ReloadMap') ??
+            false)) loadTracks();
   }
 
   @override
@@ -89,13 +88,15 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
     try {
       // Determine if initial sync has been completed
       List<Config> config = await ConfigBean.of(context).getAll();
-      if(config.length == 0){
+      if (config.length == 0) {
         await Future.delayed(Duration(seconds: 5));
         Navigator.pushReplacementNamed(context, '/update', arguments: true);
       }
 
       tracks = await TrackBean.of(context).getAllAndPreload();
       PageStorage.of(context).writeState(context, tracks, identifier: 'Tracks');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('reloadMap', false);
       setState(() => tracks);
     } on DatabaseException {
       await Future.delayed(Duration(seconds: 5));
@@ -114,8 +115,23 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
         identifier: 'MapState');
   }
 
+  void checkIfReloadRequired() async {
+    print('Checking if reload required');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool reloadMap = prefs.getBool('reloadMap');
+    if(reloadMap ?? false){
+      print('Map reload is required...');
+      loadTracks();
+    }
+    else print('Map reload is not required...');
+  }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
+    checkIfReloadRequired();
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -303,7 +319,9 @@ class _MapMakerState extends State<MapMaker> with TickerProviderStateMixin {
       currentTrackNum =
           tracks.indexWhere((track) => track.id == activity.trackId);
 
-    trackStreamController.sink.add(currentTrack.name);
+    if (!trackStreamController.isClosed) {
+      trackStreamController.sink.add(currentTrack.name);
+    }
 
     animatedMove(latLng: activity.latLng, zoom: 18.0);
   }
