@@ -19,11 +19,13 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   bool savePhotosToGallery;
+  bool resetInProgress;
 
   @override
   void initState() {
-    super.initState();
     _loadConfig();
+    resetInProgress = false;
+    super.initState();
   }
 
   Future<void> _loadConfig() async {
@@ -84,11 +86,13 @@ class _SettingsState extends State<Settings> {
               SettingsButton(
                 iconData: FontAwesomeIcons.qrcode,
                 text: "Manually Enter Code",
-                onTap: () => Navigator.pushNamed(
-                  context,
-                  '/activityUnlock',
-                  arguments: widget.onCodeEntry,
-                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/activityUnlock',
+                    arguments: widget.onCodeEntry,
+                  );
+                },
               ),
               Divider(color: Color(0xFF777777), height: 1),
             ],
@@ -120,7 +124,7 @@ class _SettingsState extends State<Settings> {
               ),
               FlatButton(
                 child: Text('Reset'),
-                onPressed: () => _resetProgress(),
+                onPressed: resetInProgress ? null : () => _resetProgress(),
               ),
             ],
           );
@@ -128,6 +132,9 @@ class _SettingsState extends State<Settings> {
   }
 
   _resetProgress() async {
+    if (resetInProgress) return;
+    resetInProgress = true;
+
     ActivityBean activityBean = ActivityBean.of(context);
     List<Activity> activities = await activityBean.getAll();
     activities.forEach((a) {
@@ -147,6 +154,7 @@ class _SettingsState extends State<Settings> {
     PageStorage.of(context).writeState(context, null, identifier: 'Tracks');
 
     Navigator.of(context).pop();
+    resetInProgress = false;
     Util.showToast(context, 'Progress Reset!');
   }
 }
