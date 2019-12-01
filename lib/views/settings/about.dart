@@ -42,7 +42,6 @@ class About extends StatelessWidget {
                   ),
                   child: Heading("Special thanks"),
                 ),
-                // Todo: Sort out the special thanks section
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: setXPadding(context),
