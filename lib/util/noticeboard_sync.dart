@@ -10,7 +10,7 @@ import '../env.dart';
 class NoticeboardSync {
   static void retrieveNotices(BuildContext context) async {
     bool hasUpdated = false;
-    print('Checking for new notices');
+    if (Env.debugMessages) print('Checking for new notices');
 
     try {
       NoticeBean bean = NoticeBean.of(context);

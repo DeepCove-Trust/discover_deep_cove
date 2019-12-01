@@ -25,10 +25,10 @@ class NetworkUtil {
   /// a GET request to the supplied address.
   static Future<bool> _returnsResponse(String address) async {
     try {
-      print('Attempting to contact content server at $address');
+      if (Env.debugMessages) print('Attempting to contact content server at $address');
       Http.Response response = await Http.get(address);
-      print('Response:');
-      print(response.statusCode);
+      if (Env.debugMessages) print('Response:');
+      if (Env.debugMessages) print(response.statusCode);
       return response.statusCode == 200;
     } catch (ex) {
       // no DNS resolution, invalid url, etc

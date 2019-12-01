@@ -9,6 +9,8 @@ import 'package:path/path.dart' show join;
 import 'package:path_provider_ex/path_provider_ex.dart';
 import 'package:toast/toast.dart';
 
+import '../env.dart';
+
 /// Container class for general helper functions.
 class Util {
 
@@ -64,11 +66,11 @@ class Util {
     try {
       _storageInfo = await PathProviderEx.getStorageInfo();
     } on PlatformException {
-      print('Warning: Unable to determine bytes available!');
+      if (Env.debugMessages) print('Warning: Unable to determine bytes available!');
       return -1;
     }
 
-    print('Device has ${_storageInfo[0].availableBytes} bytes available');
+    if (Env.debugMessages) print('Device has ${_storageInfo[0].availableBytes} bytes available');
 
     return _storageInfo[0].availableBytes;
   }

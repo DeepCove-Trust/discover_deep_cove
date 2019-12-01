@@ -62,6 +62,10 @@ class Env {
   static bool get debugStorageMode =>
       DotEnv().env['debugStorageMode'].toLowerCase() == 'true';
 
+  /// If true diagnostic print messages will be written to console
+  static bool get debugMessages =>
+      DotEnv().env['debugMessgaes'].toLowerCase() == 'true';
+
   static bool get asyncDownload =>
       DotEnv().env['asyncMediaDownload'].toLowerCase() == 'true';
 
@@ -203,7 +207,7 @@ class Env {
   }
 
   /// API endpoint to retrieve list of active notices
-  static String getNoticesUrl(){
+  static String getNoticesUrl() {
     return _getCmsUrl(CmsServerLocation.Internet) + _noticesUrl;
   }
 }

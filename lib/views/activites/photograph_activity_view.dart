@@ -48,7 +48,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
   Future<Widget> _getSavedPhoto() async {
     String filepath = widget.activity.userPhoto?.path;
     if (filepath == null) {
-      print('Error loading stored image.');
+      if (Env.debugMessages) print('Error loading stored image.');
       return BodyText(
         'There was an error loading your image...',
         size: Screen.isTablet(context) ? 30 : null,

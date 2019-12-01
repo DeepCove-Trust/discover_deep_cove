@@ -6,6 +6,8 @@ import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../env.dart';
+
 class LoadingScreen extends StatefulWidget {
   final bool isFirstLoad;
   final VoidCallback onComplete;
@@ -31,7 +33,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   Future<void> manualUpdate() async {
-    print('Checking for new content');
+    if (Env.debugMessages) print('Checking for new content');
     await SyncManager(onProgressChange: _onProgressUpdate, context: context)
         .sync();
     await Future.delayed(Duration(seconds: 2));

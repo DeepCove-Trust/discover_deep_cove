@@ -71,7 +71,7 @@ class FactFileSync {
       await factFileNuggetBean.insertMany(nuggets);
     }
 
-    print('Downloaded fact file $id (${entry.primaryName})');
+    if (Env.debugMessages) print('Downloaded fact file $id (${entry.primaryName})');
   }
 
   Future<void> _deleteFactFile(int id) async {
@@ -84,7 +84,7 @@ class FactFileSync {
     // Delete the fact file itself
     factFileEntryBean.remove(id);
 
-    print('Deleted fact file $id');
+    if (Env.debugMessages) print('Deleted fact file $id');
   }
 
   Future<void> _updateFactFile(int id) async {
@@ -95,7 +95,7 @@ class FactFileSync {
   Future<void> _deleteCategory(int categoryId) async {
     await _deleteFactFilesFor(categoryId);
     await factFileCategoryBean.remove(categoryId);
-    print('Deleted category $categoryId');
+    if (Env.debugMessages) print('Deleted category $categoryId');
   }
 
   Future<void> _deleteFactFilesFor(int categoryId) async {
@@ -195,7 +195,7 @@ class FactFileSync {
 
     if(Env.asyncDownload){
       await Future.wait(futures);
-      print('Async fact files downloads have completed');
+      if (Env.debugMessages) print('Async fact files downloads have completed');
     }
   }
 

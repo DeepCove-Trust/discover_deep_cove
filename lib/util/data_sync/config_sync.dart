@@ -21,10 +21,10 @@ class ConfigSync {
     // Insert if not exists, else update
     if((await configBean.find(1)) == null){
       await configBean.insert(serverConfig);
-      print('Config added');
+      if (Env.debugMessages) print('Config added');
     } else {
       await configBean.update(serverConfig, onlyNonNull: true);
-      print('Config unchanged / updated');
+      if (Env.debugMessages) print('Config unchanged / updated');
     }
   }
 

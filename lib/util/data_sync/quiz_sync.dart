@@ -78,7 +78,7 @@ class QuizSync {
 
     if(Env.asyncDownload){
       await Future.wait(futures);
-      print('Aysnc quiz downloads complete');
+      if (Env.debugMessages) print('Aysnc quiz downloads complete');
     }
   }
 
@@ -134,7 +134,7 @@ class QuizSync {
       await questionBean.update(question);
     }
 
-    print('Downloaded quiz $id (${quiz.title})');
+    if (Env.debugMessages) print('Downloaded quiz $id (${quiz.title})');
   }
 
   /// Deletes the given quiz ID, as well as all question and answer records
@@ -161,14 +161,14 @@ class QuizSync {
     // Delete the quiz itself
     await quizBean.remove(id);
 
-    print('Deleted quiz $id (${quiz.title}');
+    if (Env.debugMessages) print('Deleted quiz $id (${quiz.title}');
   }
 
   /// Deletes and re-downloads the given quiz ID, persisting the unlock state
   /// of the original.
   Future<void> _replaceQuizData(int id) async {
     Quiz quiz = await quizBean.find(id);
-    print('Updating quiz $id (${quiz.title} - (will delete and re-download');
+    if (Env.debugMessages) print('Updating quiz $id (${quiz.title} - (will delete and re-download');
     await _deleteQuiz(id);
     await _downloadQuizData(id, unlocked: quiz.unlocked);
   }

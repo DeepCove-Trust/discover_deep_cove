@@ -64,14 +64,14 @@ class TrackSync {
       if (!localTracks.any((t) => t.id == id)) {
         // Add track if not on local
         trackBean.insert(serverTracks.firstWhere((t) => t.id == id));
-        print('Track $id added');
+        if (Env.debugMessages) print('Track $id added');
       } else if (!serverTracks.any((t) => t.id == id)) {
         // Delete the track (and all activities) if not on server
         await _deleteTrack(id);
       } else {
         // Update the existing, just in case name has change
         await trackBean.update(serverTracks.firstWhere((t) => t.id == id));
-        print('Track $id updated/unchanged');
+        if (Env.debugMessages) print('Track $id updated/unchanged');
       }
     }
   }
@@ -99,7 +99,7 @@ class TrackSync {
       _deletionQueue.add(activity.userPhotoId);
     }
 
-    print('Deleted activity {$id} (${activity.title})');
+    if (Env.debugMessages) print('Deleted activity {$id} (${activity.title})');
   }
 
   /// Iterates through each user photo ID in the deletion queue, deleting the
@@ -160,14 +160,14 @@ class TrackSync {
     }
     if(Env.asyncDownload) {
       await Future.wait(futures);
-      print('Async activity downloads complete');
+      if (Env.debugMessages) print('Async activity downloads complete');
     }
   }
 
   Future<void> _updateActivity(int id) async {
     await _deleteActivity(id);
     await _downloadActivity(id);
-    print('Activity $id updated');
+    if (Env.debugMessages) print('Activity $id updated');
   }
 
   Future<List<ActivityData>> _getActivitiesSummary() async {
@@ -198,7 +198,7 @@ class TrackSync {
     // Save activity image records
     await _createActivityImagesFor(id, imageIds);
 
-    print('Activity $id downloaded');
+    if (Env.debugMessages) print('Activity $id downloaded');
   }
 
   Future<void> _createActivityImagesFor(
@@ -219,7 +219,7 @@ class TrackSync {
     // Delete the track itself
     await trackBean.remove(id);
 
-    print('Track {$id} deleted');
+    if (Env.debugMessages) print('Track {$id} deleted');
   }
 
   Future<void> _deleteActivityImagesFor(int activityId) async {
