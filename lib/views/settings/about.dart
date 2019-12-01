@@ -16,14 +16,15 @@ class About extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: setYPadding(context),
+                  padding: EdgeInsets.only(
+                    top: setYPadding(context),
                   ),
                   child: Heading("About the trust"),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: setXPadding(context),
+                    vertical: setYPadding(context),
                   ),
                   child: BodyText(
                     "The Deep Cove Outdoor Education Trust is a non-profit "
@@ -34,27 +35,25 @@ class About extends StatelessWidget {
                     align: TextAlign.left,
                   ),
                 ),
+                Divider(color: Colors.white30),
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: setYPadding(context),
+                  padding: EdgeInsets.only(
+                    top: setYPadding(context),
                   ),
                   child: Heading("Special thanks"),
                 ),
-                // Todo: Sort out the special thanks section
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: setXPadding(context),
+                    vertical: setYPadding(context),
                   ),
                   child: BodyText(
                     "The trust and developers would like to give a special thank you to "
-                    "the Department of Conservation and the Te Reo Department of SIT for "
-                    "providing information and recordings used within this app.",
+                    "the Department of Conservation (https://www.doc.govt.nz) for information and recordings used within this app.",
                     align: TextAlign.left,
                   ),
                 ),
-                Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: BodyText("https://www.doc.govt.nz")),
+                Divider(color: Colors.white30),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     vertical: setYPadding(context),
@@ -68,7 +67,15 @@ class About extends StatelessWidget {
                   child: BodyText(
                     "This app was developed by Mitchell Quarrie,"
                     " Samuel Jackson and Samuel Grant",
-                    align: TextAlign.left,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: setXPadding(context),
+                    vertical: setYPadding(context),
+                  ),
+                  child: BodyText(
+                    'App icon designed by Dylan Ross',
                   ),
                 ),
               ],
@@ -84,17 +91,17 @@ class About extends StatelessWidget {
 
   setXPadding(BuildContext context) {
     return Screen.height(context) >= 600 && Screen.isPortrait(context)
-        ? Screen.width(context, percentage: 10)
+        ? Screen.width(context, percentage: 5)
         : Screen.height(context) >= 600 && Screen.isLandscape(context)
-            ? Screen.width(context, percentage: 20)
-            : Screen.width(context, percentage: 5);
+            ? Screen.width(context, percentage: 10)
+            : Screen.width(context, percentage: 2.5);
   }
 
   setYPadding(BuildContext context) {
     return Screen.height(context) >= 600 && Screen.isPortrait(context)
-        ? Screen.width(context, percentage: 8)
+        ? Screen.width(context, percentage: 6)
         : Screen.height(context) >= 600 && Screen.isLandscape(context)
-            ? Screen.height(context, percentage: 10)
-            : Screen.width(context, percentage: 5);
+            ? Screen.height(context, percentage: 8)
+            : Screen.width(context, percentage: 4);
   }
 }
