@@ -114,12 +114,15 @@ class NoticeView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              BodyText(
+              Text(
                 notice.longDesc,
-                size: Screen.isTablet(context)
-                    ? 22
-                    : Screen.isSmall(context) ? 16 : null,
-                align: TextAlign.left,
+                style: TextStyle(
+                  color: Theme.of(context).primaryColorLight,
+                  fontSize: Screen.isTablet(context)
+                      ? 22
+                      : Screen.isSmall(context) ? 16 : null,
+                ),
+                textAlign: TextAlign.left,
               ),
             ],
           ),
