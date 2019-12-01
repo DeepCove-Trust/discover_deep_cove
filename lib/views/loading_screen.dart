@@ -70,7 +70,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         return widget.isFirstLoad
             ? 'Downloading initial content'
             : 'Preparing to update...';
-      default: 
+      default:
         return '';
     }
   }
@@ -93,7 +93,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       case SyncState.DataDownload:
       case SyncState.None:
         return null;
-      default: 
+      default:
         return null;
     }
   }

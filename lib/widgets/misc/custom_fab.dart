@@ -15,7 +15,7 @@ class CustomFab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Transform.scale(
       scale: Screen.isSmall(context) ? 0.75 : 1,
-          child: FloatingActionButton.extended(
+      child: FloatingActionButton.extended(
         icon: Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 0, 4.0, 0),
           child: Icon(icon),

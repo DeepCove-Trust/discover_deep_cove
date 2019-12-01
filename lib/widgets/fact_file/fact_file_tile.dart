@@ -11,7 +11,10 @@ class SmallTile extends StatelessWidget {
   final VoidCallback onTap;
 
   SmallTile(
-      {@required this.title, @required this.imagePath, this.onTap, this.heroTag});
+      {@required this.title,
+      @required this.imagePath,
+      this.onTap,
+      this.heroTag});
 
   @override
   Widget build(BuildContext context) {

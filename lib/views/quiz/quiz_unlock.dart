@@ -137,7 +137,13 @@ class _QuizUnlockState extends State<QuizUnlock> {
                   BoxDecoration(border: Border.all(color: Colors.white)),
               child: Column(
                 children: <Widget>[
-                  Text('Not a student?', style: TextStyle(decoration: TextDecoration.underline, fontSize: 30, color: Colors.white),),
+                  Text(
+                    'Not a student?',
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        fontSize: 30,
+                        color: Colors.white),
+                  ),
                   SizedBox(height: 12),
                   SubHeading(
                     'Use the code in the main hostel building to unlock all quizzes.',

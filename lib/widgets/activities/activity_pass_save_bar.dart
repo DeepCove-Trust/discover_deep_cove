@@ -34,7 +34,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
-                child:  Text(
+                child: Text(
                   "Pass",
                   style: TextStyle(fontSize: 20),
                 ),

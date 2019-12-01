@@ -69,9 +69,8 @@ class QuizResult extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-          child: Heading(name, size: Screen.isTablet(context) ? 55 : 35)
-        ),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+            child: Heading(name, size: Screen.isTablet(context) ? 55 : 35)),
         SubHeading(
           "Quiz Completed!",
 //          size: Screen.isTablet(context) ? 40 : null,

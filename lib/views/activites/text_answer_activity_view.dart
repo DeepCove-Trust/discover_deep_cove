@@ -118,9 +118,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
 
   getBottomHalf() {
     return Padding(
-      padding: EdgeInsets.all(
-        20
-      ),
+      padding: EdgeInsets.all(20),
       child: Scrollbar(
         child: SingleChildScrollView(
           child: Column(
@@ -139,55 +137,57 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                 padding: const EdgeInsets.all(8.0),
                 child: widget.isReview
                     ? SubHeading(
-                  "Your answer was",
-                )
+                        "Your answer was",
+                      )
                     : SizedBox(
-                  height: 15,
-                ),
+                        height: 15,
+                      ),
               ),
               Column(
                 children: <Widget>[
                   widget.isReview
                       ? Container(
-                    margin: EdgeInsets.symmetric(vertical: 15),
-                    width: 1000,
-                    decoration: BoxDecoration(
-                      color: Colors.white30,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      child: BodyText(
-                        widget.activity.userText,
-                        align: TextAlign.left,
-                        size: Screen.isTablet(context) ? 30 : null,
-                      ),
-                    ),
-                  )
+                          margin: EdgeInsets.symmetric(vertical: 15),
+                          width: 1000,
+                          decoration: BoxDecoration(
+                            color: Colors.white30,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.all(20),
+                            child: BodyText(
+                              widget.activity.userText,
+                              align: TextAlign.left,
+                              size: Screen.isTablet(context) ? 30 : null,
+                            ),
+                          ),
+                        )
                       : ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 15),
-                      width: Screen.width(context, percentage: 87.5),
-                      height: Screen.height(context,
-                          percentage: Screen.isTablet(context)
-                              ? 45.0
-                              : Screen.isSmall(context) ? 30.0 : 38.0),
-                      color: Colors.white,
-                      child: TextField(
-                        focusNode: _textFieldFocus,
-                        keyboardType: TextInputType.multiline,
-                        textCapitalization: TextCapitalization.sentences,
-                        maxLines: 10,
-                        style: TextStyle(color: Colors.black, fontSize: Screen.isTablet(context) ? 30 : 20),
-                        controller: controller,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(8.0),
+                          borderRadius: BorderRadius.circular(5),
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 15),
+                            width: Screen.width(context, percentage: 87.5),
+                            height: Screen.height(context,
+                                percentage: Screen.isTablet(context)
+                                    ? 45.0
+                                    : Screen.isSmall(context) ? 30.0 : 38.0),
+                            color: Colors.white,
+                            child: TextField(
+                              focusNode: _textFieldFocus,
+                              keyboardType: TextInputType.multiline,
+                              textCapitalization: TextCapitalization.sentences,
+                              maxLines: 10,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: Screen.isTablet(context) ? 30 : 20),
+                              controller: controller,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.all(8.0),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
                   widget.isReview ? EditAnswer() : Container()
                 ],
               ),
@@ -201,21 +201,21 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
   buildGraphic() {
     return Padding(
       padding:
-      EdgeInsets.symmetric(vertical: Screen.isTablet(context) ? 20 : 10),
+          EdgeInsets.symmetric(vertical: Screen.isTablet(context) ? 20 : 10),
       child: widget.activity.image == null
           ? null
           : Container(
-          width: Screen.width(context,
-              percentage: Screen.isLandscape(context) ? 33 : 85),
-          height: Screen.width(context,
-              percentage: Screen.isLandscape(context) ? 33 : 85),
-          decoration: BoxDecoration(
-              image: DecorationImage(
+              width: Screen.width(context,
+                  percentage: Screen.isLandscape(context) ? 33 : 85),
+              height: Screen.width(context,
+                  percentage: Screen.isLandscape(context) ? 33 : 85),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
                 fit: BoxFit.cover,
                 image: FileImage(
                     File(Env.getResourcePath(widget.activity.image.path))),
               )),
-          child: Container()),
+              child: Container()),
     );
   }
 

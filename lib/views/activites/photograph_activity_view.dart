@@ -145,18 +145,16 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                   bottom: 6,
                 ),
                 child: FloatingActionButton(
-              onPressed: () {
-                _onImageButtonPressed(context);
-              },
-              child: const Icon( FontAwesomeIcons.camera),
-            ),
+                  onPressed: () {
+                    _onImageButtonPressed(context);
+                  },
+                  child: const Icon(FontAwesomeIcons.camera),
+                ),
               ),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
-
-  
 
   buildGraphic() {
     return Padding(
