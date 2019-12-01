@@ -31,7 +31,7 @@ class NoticeView extends StatelessWidget {
                   child: ListView(
                 children: <Widget>[getBottom(context)],
               )),
-              notice.image.path == null
+              notice.image?.path == null
                   ? Container()
                   : Expanded(child: Center(child: buildImage(context))),
             ],
@@ -101,12 +101,12 @@ class NoticeView extends StatelessWidget {
     return Column(
       children: <Widget>[
         Screen.isLandscape(context) ? getTop(context) : Container(),
-        notice.image.path == null || Screen.isLandscape(context)
+        notice.image?.path == null || Screen.isLandscape(context)
             ? Container()
             : Padding(
                 padding: EdgeInsets.only(bottom: 10),
                 child: buildImage(context)),
-        notice.image.path == null || Screen.isLandscape(context)
+        notice.image?.path == null || Screen.isLandscape(context)
             ? Container()
             : Divider(color: Color(0xFF777777), height: 10),
         Padding(
