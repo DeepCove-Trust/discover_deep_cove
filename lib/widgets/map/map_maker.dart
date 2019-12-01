@@ -119,11 +119,10 @@ class _MapMakerState extends VerboseState<MapMaker>
     if (Env.debugMessages) print('Checking if reload required');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool reloadMap = prefs.getBool('reloadMap');
-    if(reloadMap ?? false){
+    if (reloadMap ?? false) {
       if (Env.debugMessages) print('Map reload is required...');
       loadTracks();
-    }
-    else if (Env.debugMessages) print('Map reload is not required...');
+    } else if (Env.debugMessages) print('Map reload is not required...');
   }
 
   @override

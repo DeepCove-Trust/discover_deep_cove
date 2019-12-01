@@ -9,12 +9,12 @@ import 'package:path/path.dart';
 class ImageHandler {
   /// Picks an image from specified source, then returns the file pointing
   /// to the image.
-  static Future<File> captureImage(
-      {@required BuildContext context,
-      ImageSource source = ImageSource.camera,
-      double maxWidth = 2048,
-      double maxHeight,
-      }) async {
+  static Future<File> captureImage({
+    @required BuildContext context,
+    ImageSource source = ImageSource.camera,
+    double maxWidth = 2048,
+    double maxHeight,
+  }) async {
     try {
       return await ImagePicker.pickImage(
         source: ImageSource.camera,

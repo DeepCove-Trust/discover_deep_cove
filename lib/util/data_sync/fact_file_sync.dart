@@ -40,8 +40,8 @@ class FactFileSync {
   }
 
   Future<List<FactFileCategory>> _getCategoriesSummary() async {
-    String jsonString =
-        await NetworkUtil.requestDataString(Env.factFileCategoriesListUrl(server));
+    String jsonString = await NetworkUtil.requestDataString(
+        Env.factFileCategoriesListUrl(server));
     List<dynamic> data = json.decode(jsonString);
     return data.map((m) => factFileCategoryBean.fromMap(m)).toList();
   }
@@ -71,7 +71,8 @@ class FactFileSync {
       await factFileNuggetBean.insertMany(nuggets);
     }
 
-    if (Env.debugMessages) print('Downloaded fact file $id (${entry.primaryName})');
+    if (Env.debugMessages)
+      print('Downloaded fact file $id (${entry.primaryName})');
   }
 
   Future<void> _deleteFactFile(int id) async {
@@ -172,14 +173,14 @@ class FactFileSync {
     for (int id in idSet) {
       if (!localEntries.any((e) => e.id == id)) {
         // Download new fact file
-        if(Env.asyncDownload){
+        if (Env.asyncDownload) {
           futures.add(_downloadFactFile(id));
         } else {
           await _downloadFactFile(id);
         }
       } else if (!serverEntries.any((e) => e.id == id)) {
         // Delete old fact file from local
-        if(Env.asyncDownload){
+        if (Env.asyncDownload) {
           futures.add(_deleteFactFile(id));
         } else {
           await _deleteFactFile(id);
@@ -193,7 +194,7 @@ class FactFileSync {
       }
     }
 
-    if(Env.asyncDownload){
+    if (Env.asyncDownload) {
       await Future.wait(futures);
       if (Env.debugMessages) print('Async fact files downloads have completed');
     }

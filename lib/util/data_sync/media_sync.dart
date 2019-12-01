@@ -122,7 +122,8 @@ class MediaSync {
     // Wait for all download jobs to complete
     await Future.wait(futures, cleanUp: (_) => print('error'));
 
-    if (Env.debugMessages) print('Download queue has been successfully processed.');
+    if (Env.debugMessages)
+      print('Download queue has been successfully processed.');
   }
 
   /// Downloads a file, and creates database records for it. An exception
@@ -165,7 +166,8 @@ class MediaSync {
     onProgress(SyncState.MediaDownload, getPercentage(),
         upTo: upTo, outOf: outOf, totalSize: totalSize);
 
-    if (Env.debugMessages) print('Downloaded media file ${mediaFile.id} (${mediaFile.name})');
+    if (Env.debugMessages)
+      print('Downloaded media file ${mediaFile.id} (${mediaFile.name})');
   }
 
   /// Adds supplied MediaFile record to both temp and main databases
@@ -219,7 +221,8 @@ class MediaSync {
           mediaFileBeanTemp.fromMap(json.decode(jsonString)),
           onlyNonNull: true);
 
-      if (Env.debugMessages) print('Media file ${mediaFile.id} (${mediaFile.name}) - updated');
+      if (Env.debugMessages)
+        print('Media file ${mediaFile.id} (${mediaFile.name}) - updated');
     }
   }
 
@@ -232,7 +235,8 @@ class MediaSync {
         if (Env.debugMessages) print('Error deleting ${mediaFile.name}');
       });
       await mediaFileBeanMain.remove(mediaFile.id);
-      if (Env.debugMessages) print('Deleted media file ${mediaFile.id} (${mediaFile.name})');
+      if (Env.debugMessages)
+        print('Deleted media file ${mediaFile.id} (${mediaFile.name})');
     }
   }
 

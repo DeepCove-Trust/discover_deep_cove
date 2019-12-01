@@ -12,7 +12,6 @@ import 'package:toast/toast.dart';
 
 /// Container class for general helper functions.
 class Util {
-
   /// Extract the supplied file [zip] to the supplied directory [dir]
   ///
   /// Returns true if successful.
@@ -65,16 +64,18 @@ class Util {
     try {
       _storageInfo = await PathProviderEx.getStorageInfo();
     } on PlatformException {
-      if (Env.debugMessages) print('Warning: Unable to determine bytes available!');
+      if (Env.debugMessages)
+        print('Warning: Unable to determine bytes available!');
       return -1;
     }
 
-    if (Env.debugMessages) print('Device has ${_storageInfo[0].availableBytes} bytes available');
+    if (Env.debugMessages)
+      print('Device has ${_storageInfo[0].availableBytes} bytes available');
 
     return _storageInfo[0].availableBytes;
   }
 
-  static String bytesToMBString(int bytes){
+  static String bytesToMBString(int bytes) {
     return '${(bytes / 1000000).toStringAsFixed(1)}MB';
   }
 

@@ -218,10 +218,12 @@ class SyncManager {
   /// internet CMS is available, else throws [ServerUnreachableException].
   Future<CmsServerLocation> _getServerLocation() async {
     if (await NetworkUtil.canAccessCMSLocal()) {
-      if (Env.debugMessages) print('Connectivity established with intranet server.');
+      if (Env.debugMessages)
+        print('Connectivity established with intranet server.');
       return CmsServerLocation.Intranet;
     } else if (await NetworkUtil.canAccessCMSRemote()) {
-      if (Env.debugMessages) print('Connectivity established with internet server.');
+      if (Env.debugMessages)
+        print('Connectivity established with internet server.');
       return CmsServerLocation.Internet;
     }
     throw ServerUnreachableException();

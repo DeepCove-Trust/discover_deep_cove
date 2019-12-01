@@ -141,9 +141,9 @@ class TrackSync {
         }
       } else if (!serverActivities.any((t) => t.id == id)) {
         // Delete the track (and all activities) if not on server
-        if(Env.asyncDownload) {
+        if (Env.asyncDownload) {
           futures.add(_deleteActivity(id));
-        } else{
+        } else {
           await _deleteActivity(id);
         }
       } else if (localActivities
@@ -151,14 +151,14 @@ class TrackSync {
           .updatedAt
           .isBefore(serverActivities.firstWhere((a) => a.id == id).updatedAt)) {
         // Update the existing, just in case name has change
-        if(Env.asyncDownload){
+        if (Env.asyncDownload) {
           futures.add(_updateActivity(id));
         } else {
           await _updateActivity(id);
         }
       }
     }
-    if(Env.asyncDownload) {
+    if (Env.asyncDownload) {
       await Future.wait(futures);
       if (Env.debugMessages) print('Async activity downloads complete');
     }
