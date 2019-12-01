@@ -69,7 +69,7 @@ class NoticeTile extends StatelessWidget {
                               style: TextStyle(
                                 color: Color(0xFF999999),
                                 fontSize: Screen.isTablet(context)
-                                    ? 23
+                                    ? 20
                                     : Screen.isSmall(context) ? 14 : 16,
                               ),
                             ),
@@ -81,7 +81,7 @@ class NoticeTile extends StatelessWidget {
                           child: BodyText(
                             "MORE",
                             size: Screen.isTablet(context)
-                                ? 23
+                                ? 20
                                 : Screen.isSmall(context) ? 14 : 16,
                           ),
                         )

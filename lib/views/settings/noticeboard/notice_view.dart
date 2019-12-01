@@ -117,7 +117,7 @@ class NoticeView extends StatelessWidget {
               BodyText(
                 notice.longDesc,
                 size: Screen.isTablet(context)
-                    ? 25
+                    ? 22
                     : Screen.isSmall(context) ? 16 : null,
                 align: TextAlign.left,
               ),
