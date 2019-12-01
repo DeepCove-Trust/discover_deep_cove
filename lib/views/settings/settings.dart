@@ -62,25 +62,25 @@ class _SettingsState extends State<Settings> {
                   onTap: savePhotosToGallery != null
                       ? () => _toggleSaveToGallery()
                       : null),
-              Divider(color: Color(0xFF999999), height: 1),
+              Divider(color: Theme.of(context).primaryColorLight, height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.undo,
                 text: "Reset Progress",
                 onTap: _confirmResetDialog,
               ),
-              Divider(color: Color(0xFF999999), height: 1),
+              Divider(color: Theme.of(context).primaryColorLight, height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.sync,
                 text: "Check for updates",
                 onTap: syncResources,
               ),
-              Divider(color: Color(0xFF999999), height: 1),
+              Divider(color: Theme.of(context).primaryColorLight, height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.newspaper,
                 text: "View Notices",
                 onTap: () => Navigator.of(context).pushNamed('/noticeboard'),
               ),
-              Divider(color: Color(0xFF999999), height: 1),
+              Divider(color: Theme.of(context).primaryColorLight, height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.infoCircle,
                 text: "About this app",
@@ -88,7 +88,7 @@ class _SettingsState extends State<Settings> {
                   Navigator.of(context).pushNamed('/about');
                 },
               ),
-              Divider(color: Color(0xFF999999), height: 1),
+              Divider(color: Theme.of(context).primaryColorLight, height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.qrcode,
                 text: "Manually Enter Code",
@@ -100,7 +100,7 @@ class _SettingsState extends State<Settings> {
                   );
                 },
               ),
-              Divider(color: Color(0xFF999999), height: 1),
+              Divider(color: Theme.of(context).primaryColorLight, height: 1),
             ],
           )
         ],

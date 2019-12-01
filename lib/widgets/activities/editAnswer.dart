@@ -9,7 +9,7 @@ class EditAnswer extends StatelessWidget {
       style: TextStyle(
         fontSize:
             Screen.isTablet(context) ? 25.0 : Screen.isSmall(context) ? 14 : 20,
-        color: Color(0xFF999999),
+        color: Theme.of(context).primaryColorLight,
       ),
       textAlign: TextAlign.center,
     );

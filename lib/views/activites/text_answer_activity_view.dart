@@ -106,7 +106,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                       horizontal: 20,
                     ),
                     child: Divider(
-                      color: Color(0xFF999999),
+                      color: Theme.of(context).primaryColorLight,
                     ),
                   )
                 : Container(),
