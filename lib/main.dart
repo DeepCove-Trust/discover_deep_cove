@@ -46,8 +46,10 @@ ThemeData appTheme() {
     accentColor: Color(0xFFFF5026),
     //Dark Gray
     backgroundColor: Color(0xFF363636),
-
-    //TODO: Add Colors for Grey body text and red urgent notice left indicator
+    //Urgent notice color
+    indicatorColor: Colors.red,
+    //Grey text color
+    primaryColorLight: Color(0xFF999999),
 
     fontFamily: 'Roboto',
   );

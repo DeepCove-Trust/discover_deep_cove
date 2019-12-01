@@ -31,7 +31,7 @@ class NoticeTile extends StatelessWidget {
         decoration: isUrgent
             ? BoxDecoration(
           border: Border(
-            left: BorderSide(color: Colors.red, width: 5),
+            left: BorderSide(color: Theme.of(context).indicatorColor, width: 5),
           ),
         )
             : null,
@@ -67,7 +67,7 @@ class NoticeTile extends StatelessWidget {
                             Text(
                               DateUtil.formatDate(date),
                               style: TextStyle(
-                                color: Color(0xFF999999),
+                                color: Theme.of(context).primaryColorLight,
                                 fontSize: Screen.isTablet(context)
                                     ? 20
                                     : Screen.isSmall(context) ? 14 : 16,
@@ -98,7 +98,7 @@ class NoticeTile extends StatelessWidget {
                   child: Text(
                     desc,
                     style: TextStyle(
-                      color: Color(0xFF999999),
+                      color: Theme.of(context).primaryColorLight,
                       fontSize: Screen.isTablet(context)
                           ? 20
                           : Screen.isSmall(context) ? 18 : 20,
