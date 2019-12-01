@@ -24,6 +24,10 @@ void main() async {
     print('Warning: Debug storage mode enabled. Disable for production release.');
   }
 
+  if(DotEnv().env['debugMessgaes'] == 'true'){
+    print('Warning: Debug messages enabled. Disable for production release.');
+  }
+
   runApp(
     DatabaseAdapter(
       adapter: await DB.instance.adapter,
