@@ -17,10 +17,6 @@ void main() async {
   // Force portrait orientation
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  //Create cron which schedules checking for updates and notices
-  // var cron = Cron();
-  // cron.schedule(Schedule.parse('* */1 * * *'), () async {});
-
   //Initializes local notifications
   LocalNotifications.initializeNotifications();
 

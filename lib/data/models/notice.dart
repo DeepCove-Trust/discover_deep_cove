@@ -18,16 +18,13 @@ class Notice {
     @required this.title,
     @required this.shortDesc,
     @required this.longDesc,
-  }) : dismissed = false;
+  });
 
   @PrimaryKey()
   int id;
 
   @Column()
   bool urgent;
-
-  @Column()
-  bool dismissed;
 
   @BelongsTo(MediaFileBean, isNullable: true)
   int imageId;

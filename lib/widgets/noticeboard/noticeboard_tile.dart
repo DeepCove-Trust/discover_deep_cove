@@ -36,7 +36,7 @@ class NoticeTile extends StatelessWidget {
         )
             : null,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(Screen.isTablet(context) ? 24 : 8),
           child: Container(
             child: Column(
               children: <Widget>[
@@ -57,12 +57,12 @@ class NoticeTile extends StatelessWidget {
                                 title,
                                 size: Screen.isTablet(context)
                                     ? 25
-                                    : Screen.isSmall(context) ? 16 : 18,
+                                    : Screen.isSmall(context) ? 20 : 22,
                                 align: TextAlign.left,
                               ),
                             ),
                             SizedBox(
-                              height: 2,
+                              height: 10,
                             ),
                             Text(
                               DateUtil.formatDate(date),
@@ -70,7 +70,7 @@ class NoticeTile extends StatelessWidget {
                                 color: Color(0xFF999999),
                                 fontSize: Screen.isTablet(context)
                                     ? 23
-                                    : Screen.isSmall(context) ? 12 : 14,
+                                    : Screen.isSmall(context) ? 14 : 16,
                               ),
                             ),
                           ],
@@ -82,7 +82,7 @@ class NoticeTile extends StatelessWidget {
                             "MORE",
                             size: Screen.isTablet(context)
                                 ? 23
-                                : Screen.isSmall(context) ? 12 : 14,
+                                : Screen.isSmall(context) ? 14 : 16,
                           ),
                         )
                             : Container(),
@@ -93,15 +93,18 @@ class NoticeTile extends StatelessWidget {
                 SizedBox(
                   height: 15,
                 ),
-                Text(
-                  desc,
-                  style: TextStyle(
-                    color: Color(0xFF999999),
-                    fontSize: Screen.isTablet(context)
-                        ? 20
-                        : Screen.isSmall(context) ? 14 : 16,
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    desc,
+                    style: TextStyle(
+                      color: Color(0xFF999999),
+                      fontSize: Screen.isTablet(context)
+                          ? 30
+                          : Screen.isSmall(context) ? 18 : 20,
+                    ),
+                    textAlign: TextAlign.left,
                   ),
-                  textAlign: TextAlign.left,
                 ),
                 SizedBox(
                   height: 20,

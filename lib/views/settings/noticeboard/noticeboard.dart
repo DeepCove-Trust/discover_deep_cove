@@ -1,7 +1,8 @@
 import 'package:discover_deep_cove/data/models/notice.dart';
-import 'package:discover_deep_cove/data/sample_notices.dart';
+import 'package:discover_deep_cove/util/noticeboard_sync.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:discover_deep_cove/widgets/noticeboard/noticeboard_separator.dart';
 import 'package:discover_deep_cove/widgets/noticeboard/noticeboard_tile.dart';
@@ -14,54 +15,60 @@ class Noticeboard extends StatefulWidget {
 }
 
 class _NoticeboardState extends State<Noticeboard> {
-  List<Notice> uNotices;
-  List<Notice> oNotices;
+  List<Notice> notices;
+
+  @override
+  void initState() {
+    loadNotices();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: loadNotices(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return Scaffold(
-              appBar: AppBar(
-                leading: Container(),
-                title: SubHeading(
-                  'Deep Cove Noticeboard',
-                  size: Screen.isTablet(context)
-                      ? 30
-                      : Screen.isSmall(context) ? 16 : 23,
-                ),
-                centerTitle: true,
-                actions: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(
-                      right: Screen.width(context, percentage: 1.25),
-                    ),
-                    child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.sync,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        //TODO: refresh the list of notices send to refesh indicator method?
-                      },
-                    ),
-                  ),
-                ],
-                backgroundColor: Theme.of(context).backgroundColor,
-                brightness: Brightness.dark,
-              ),
-              body: buildContent(),
-              backgroundColor: Theme.of(context).backgroundColor,
-              bottomNavigationBar: BottomBackButton(),
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-
-          // child:
-        });
+    return Scaffold(
+      appBar: AppBar(
+        leading: Container(),
+        title: SubHeading(
+          'Deep Cove Noticeboard',
+          size:
+              Screen.isTablet(context) ? 30 : Screen.isSmall(context) ? 20 : 23,
+        ),
+        centerTitle: true,
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(
+              right: Screen.width(context, percentage: 1.25),
+            ),
+            child: IconButton(
+              icon: Icon(FontAwesomeIcons.sync,
+                  color: Colors.white,
+                  size: Screen.isTablet(context) ? 25 : 18),
+              onPressed: () {
+                refreshNotices();
+                setState(() {
+                  notices = null;
+                });
+              },
+            ),
+          ),
+        ],
+        backgroundColor: Theme.of(context).backgroundColor,
+        brightness: Brightness.dark,
+      ),
+      body: notices == null
+          ? Center(
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                CircularProgressIndicator(),
+                SizedBox(height: 15),
+                BodyText('Loading notices...')
+              ],
+            ))
+          : buildContent(),
+      backgroundColor: Theme.of(context).backgroundColor,
+      bottomNavigationBar: BottomBackButton(),
+    );
   }
 
   buildContent() {
@@ -79,64 +86,48 @@ class _NoticeboardState extends State<Noticeboard> {
   }
 
   Future<Null> refreshNotices() async {
-    return null;
+    await NoticeboardSync.RetrieveNotices(context);
+    loadNotices();
+    setState(() {});
   }
 
-  List<Widget> getUrgent() {
-    List<Widget> urgent = uNotices
-        .map(
-          (data) => NoticeTile(
+  bool hasDivider(Notice notice, Iterable<Notice> notices) {
+    return notice != notices.last && notices.length != 1;
+  }
+
+  Iterable<Widget> getUrgent() =>
+      buildTiles(notices.where((n) => n.urgent), urgent: true);
+
+  Iterable<Widget> getOther() =>
+      buildTiles(notices.where((n) => !n.urgent), urgent: false);
+
+  List<Widget> buildTiles(Iterable<Notice> notices, {bool urgent}) {
+    Iterable<NoticeTile> noticeTiles = notices.map(
+      (data) => NoticeTile(
         title: data.title,
         date: data.updatedAt,
         desc: data.shortDesc,
-        isUrgent: true,
-        hasMore: data.longDesc != null ? true : false,
-        hasDivider: hasDivider(data, urgentNotices),
+        isUrgent: urgent,
+        hasMore: data.longDesc != null,
+        hasDivider: hasDivider(data, notices.where((n) => n.urgent == urgent)),
         onTap: data.longDesc != null
             ? () => Navigator.pushNamed(
-          context,
-          '/noticeView',
-          arguments: data,
-        )
+                  context,
+                  '/noticeView',
+                  arguments: data,
+                )
             : null,
       ),
-    )
-        .toList();
+    );
 
-    return urgent;
-  }
-
-  bool hasDivider(Notice notice, List<Notice> notices) {
-    return notice == notices.last || notices.length == 1 ? false : true;
-  }
-
-  List<Widget> getOther() {
-    List<Widget> other = oNotices
-        .map(
-          (data) => NoticeTile(
-        title: data.title,
-        date: data.updatedAt,
-        desc: data.shortDesc,
-        isUrgent: false,
-        hasMore: data.longDesc != null ? true : false,
-        hasDivider: hasDivider(data, otherNotices),
-        onTap: data.longDesc != null
-            ? () => Navigator.pushNamed(
-          context,
-          '/noticeView',
-          arguments: data,
-        )
-            : null,
-      ),
-    )
-        .toList();
-
-    return other;
+    return noticeTiles.length > 0
+        ? noticeTiles.toList()
+        : [Center(child: BodyText('No ${urgent ? 'important' : ''} notices'))];
   }
 
   Future<void> loadNotices() async {
-    uNotices =
-    await NoticeBean.of(context).preloadExtrasForRange(urgentNotices);
-    oNotices = await NoticeBean.of(context).preloadExtrasForRange(otherNotices);
+    notices = await NoticeBean.of(context).getAll();
+    await NoticeBean.of(context).preloadExtrasForRange(notices);
+    setState(() {});
   }
 }

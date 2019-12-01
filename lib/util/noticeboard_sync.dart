@@ -15,6 +15,9 @@ class NoticeboardSync {
     try {
       NoticeBean bean = NoticeBean.of(context);
 
+      // Ensure that table exists
+      bean.createTable(ifNotExists: true);
+
       // Check if server can be reached
       if (await NetworkUtil.canAccessCMSRemote()) {
         // Download list of notices
@@ -22,7 +25,7 @@ class NoticeboardSync {
             await NetworkUtil.requestDataString(Env.getNoticesUrl());
         List<dynamic> data = jsonDecode(jsonString);
         List<Notice> remoteNotices =
-            data.map((m) => bean.fromMap(m));
+            data.map((m) => bean.fromMap(m)).toList();
 
         // Gather local notices
         List<Notice> localNotices = await bean.getAll();

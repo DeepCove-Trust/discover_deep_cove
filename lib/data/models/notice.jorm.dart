@@ -9,7 +9,6 @@ part of 'notice.dart';
 abstract class _NoticeBean implements Bean<Notice> {
   final id = IntField('id');
   final urgent = BoolField('urgent');
-  final dismissed = BoolField('dismissed');
   final imageId = IntField('image_id');
   final updatedAt = DateTimeField('updated_at');
   final title = StrField('title');
@@ -19,7 +18,6 @@ abstract class _NoticeBean implements Bean<Notice> {
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
         urgent.name: urgent,
-        dismissed.name: dismissed,
         imageId.name: imageId,
         updatedAt.name: updatedAt,
         title.name: title,
@@ -30,7 +28,6 @@ abstract class _NoticeBean implements Bean<Notice> {
     Notice model = Notice();
     model.id = adapter.parseValue(map['id']);
     model.urgent = adapter.parseValue(map['urgent']);
-    model.dismissed = adapter.parseValue(map['dismissed']);
     model.imageId = adapter.parseValue(map['image_id']);
     model.updatedAt = adapter.parseValue(map['updated_at']);
     model.title = adapter.parseValue(map['title']);
@@ -47,7 +44,6 @@ abstract class _NoticeBean implements Bean<Notice> {
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
       ret.add(urgent.set(model.urgent));
-      ret.add(dismissed.set(model.dismissed));
       ret.add(imageId.set(model.imageId));
       ret.add(updatedAt.set(model.updatedAt));
       ret.add(title.set(model.title));
@@ -56,8 +52,6 @@ abstract class _NoticeBean implements Bean<Notice> {
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(urgent.name)) ret.add(urgent.set(model.urgent));
-      if (only.contains(dismissed.name))
-        ret.add(dismissed.set(model.dismissed));
       if (only.contains(imageId.name)) ret.add(imageId.set(model.imageId));
       if (only.contains(updatedAt.name))
         ret.add(updatedAt.set(model.updatedAt));
@@ -71,9 +65,6 @@ abstract class _NoticeBean implements Bean<Notice> {
       }
       if (model.urgent != null) {
         ret.add(urgent.set(model.urgent));
-      }
-      if (model.dismissed != null) {
-        ret.add(dismissed.set(model.dismissed));
       }
       if (model.imageId != null) {
         ret.add(imageId.set(model.imageId));
@@ -99,7 +90,6 @@ abstract class _NoticeBean implements Bean<Notice> {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
     st.addBool(urgent.name, isNullable: false);
-    st.addBool(dismissed.name, isNullable: false);
     st.addInt(imageId.name,
         foreignTable: mediaFileBean.tableName,
         foreignCol: 'id',
