@@ -1,5 +1,4 @@
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
 
 class ActivityPassSaveBar extends StatelessWidget {

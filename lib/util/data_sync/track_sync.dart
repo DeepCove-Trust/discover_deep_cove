@@ -1,16 +1,15 @@
-import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:discover_deep_cove/util/network_util.dart';
-import 'package:path/path.dart';
 import 'package:discover_deep_cove/data/db.dart';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/activity/activity_image.dart';
 import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/data/models/user_photo.dart';
 import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/network_util.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:path/path.dart';
 
 class ActivityData {
   int id;

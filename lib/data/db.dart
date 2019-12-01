@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/permissions.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';

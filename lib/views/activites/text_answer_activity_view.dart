@@ -9,10 +9,8 @@ import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_vertical_divider.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
 class TextAnswerActivityView extends StatefulWidget {
   final Activity activity;

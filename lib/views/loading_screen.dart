@@ -1,7 +1,3 @@
-import 'dart:ffi';
-
-import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/util/data_sync/sync_manager.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';

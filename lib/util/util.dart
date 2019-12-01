@@ -2,11 +2,8 @@ import 'dart:io' show File, Directory;
 
 import 'package:archive/archive.dart' show ZipDecoder, Archive, ArchiveFile;
 import 'package:discover_deep_cove/data/models/config.dart';
-import 'package:discover_deep_cove/data/models/media_file.dart';
-import 'package:discover_deep_cove/env.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' show Response;
 import 'package:meta/meta.dart' show required;
 import 'package:path/path.dart' show join;
 import 'package:path_provider_ex/path_provider_ex.dart';
