@@ -64,10 +64,10 @@ class LocalNotifications {
     @required String title,
     @required String body,
     @required String payload,
-    @required BuildContext cntxt,
+    @required BuildContext context,
     int id = 0,
   }) {
-    _context = cntxt;
+    _context = context;
 
     return _displayNotification(
         title: title,

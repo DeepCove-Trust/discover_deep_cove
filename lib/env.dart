@@ -202,6 +202,7 @@ class Env {
     return _getCmsUrl(server) + _activitiesUrl + '/$id';
   }
 
+  /// API endpoint to retrieve list of active notices
   static String getNoticesUrl(){
     return _getCmsUrl(CmsServerLocation.Internet) + _noticesUrl;
   }
