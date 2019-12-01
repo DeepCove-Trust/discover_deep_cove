@@ -29,7 +29,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                 disabledTextColor: Theme.of(context).primaryColorDark,
                 disabledBorderColor: Theme.of(context).primaryColorDark,
                 borderSide: BorderSide(
-                  color: Color(0xFF777777),
+                  color: Color(0xFF999999),
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
@@ -53,7 +53,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                 disabledTextColor: Theme.of(context).primaryColorDark,
                 disabledBorderColor: Theme.of(context).primaryColorDark,
                 borderSide: BorderSide(
-                  color: Color(0xFF777777),
+                  color: Color(0xFF999999),
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),

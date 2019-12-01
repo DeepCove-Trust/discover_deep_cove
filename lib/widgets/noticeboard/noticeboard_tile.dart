@@ -110,7 +110,7 @@ class NoticeTile extends StatelessWidget {
                   height: 20,
                 ),
                 hasDivider
-                    ? Divider(color: Color(0xFF777777), height: 1)
+                    ? Divider(color: Color(0xFF999999), height: 1)
                     : Container(),
               ],
             ),
