@@ -1,3 +1,4 @@
+import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/data_sync/sync_manager.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
@@ -5,8 +6,6 @@ import 'package:discover_deep_cove/widgets/misc/progress_bar.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../env.dart';
 
 class LoadingScreen extends StatefulWidget {
   final bool isFirstLoad;

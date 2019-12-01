@@ -6,7 +6,7 @@ import 'package:path/path.dart';
 
 import 'package:http/http.dart' as Http;
 
-import '../env.dart';
+import 'package:discover_deep_cove/env.dart';
 
 class NetworkUtil {
   /// Returns true if the application receives an HTTP response from the

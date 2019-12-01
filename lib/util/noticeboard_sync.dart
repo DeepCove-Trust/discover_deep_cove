@@ -1,11 +1,10 @@
 import 'dart:convert';
 
 import 'package:discover_deep_cove/data/models/notice.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/local_notifications.dart';
 import 'package:discover_deep_cove/util/network_util.dart';
 import 'package:flutter/cupertino.dart';
-
-import '../env.dart';
 
 class NoticeboardSync {
   static void retrieveNotices(BuildContext context) async {
@@ -49,7 +48,7 @@ class NoticeboardSync {
 
           await bean.insertMany(remoteNotices);
 
-          LocalNotifications.showNotification(title: 'New notices available', body: 'Visit the noticeboard in Discover Deep Cove!', payload: 'Notice', context: context);
+          LocalNotifications.showNotification(title: 'New notices available', body: 'Visit the noticeboard in Discover Deep Cove!', payload: 'Notice', context: context,);
         }
 
         // Notify user if new notices are downloaded

@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/network_util.dart';
-import 'package:flutter/cupertino.dart';
-
 import 'package:discover_deep_cove/data/db.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
+import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/network_util.dart';
+import 'package:flutter/cupertino.dart';
 
 class QuizData {
   int id;
