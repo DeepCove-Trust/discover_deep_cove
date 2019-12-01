@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:cron/cron.dart';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/util/noticeboard_sync.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/util/verbose_state.dart';
@@ -37,7 +39,8 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    super.initState();
+    super.initState();   
+    NoticeboardSync.RetrieveNotices(context);
     mapAnimateController = StreamController();
     mapController = MapController();
     // Initialize the list of page widgets.

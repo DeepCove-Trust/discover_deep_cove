@@ -184,6 +184,14 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
           await quizAnswerBean.insert(child, cascade: cascade);
         }
       }
+      if (model.notices != null) {
+        newModel ??= await find(model.id);
+        model.notices
+            .forEach((x) => noticeBean.associateMediaFile(x, newModel));
+        for (final child in model.notices) {
+          await noticeBean.insert(child, cascade: cascade);
+        }
+      }
     }
     return retId;
   }
@@ -294,6 +302,14 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
             .forEach((x) => quizAnswerBean.associateMediaFile(x, newModel));
         for (final child in model.quizAnswers) {
           await quizAnswerBean.upsert(child, cascade: cascade);
+        }
+      }
+      if (model.notices != null) {
+        newModel ??= await find(model.id);
+        model.notices
+            .forEach((x) => noticeBean.associateMediaFile(x, newModel));
+        for (final child in model.notices) {
+          await noticeBean.upsert(child, cascade: cascade);
         }
       }
     }
@@ -434,6 +450,17 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
               cascade: cascade, associate: associate);
         }
       }
+      if (model.notices != null) {
+        if (associate) {
+          newModel ??= await find(model.id);
+          model.notices
+              .forEach((x) => noticeBean.associateMediaFile(x, newModel));
+        }
+        for (final child in model.notices) {
+          await noticeBean.update(child,
+              cascade: cascade, associate: associate);
+        }
+      }
     }
     return ret;
   }
@@ -491,6 +518,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         await quizBean.removeByMediaFile(newModel.id);
         await quizQuestionBean.removeByMediaFile(newModel.id, newModel.id);
         await quizAnswerBean.removeByMediaFile(newModel.id);
+        await noticeBean.removeByMediaFile(newModel.id);
       }
     }
     final Remove remove = remover.where(this.id.eq(id));
@@ -531,6 +559,8 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         model.id, model.id,
         preload: cascade, cascade: cascade);
     model.quizAnswers = await quizAnswerBean.findByMediaFile(model.id,
+        preload: cascade, cascade: cascade);
+    model.notices = await noticeBean.findByMediaFile(model.id,
         preload: cascade, cascade: cascade);
     return model;
   }
@@ -630,6 +660,15 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         (MediaFile model, QuizAnswer child) =>
             model.quizAnswers = List.from(model.quizAnswers)..add(child),
         cascade: cascade);
+    models.forEach((MediaFile model) => model.notices ??= []);
+    await OneToXHelper.preloadAll<MediaFile, Notice>(
+        models,
+        (MediaFile model) => [model.id],
+        noticeBean.findByMediaFileList,
+        (Notice model) => [model.imageId],
+        (MediaFile model, Notice child) =>
+            model.notices = List.from(model.notices)..add(child),
+        cascade: cascade);
     return models;
   }
 
@@ -641,4 +680,5 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   QuizBean get quizBean;
   QuizQuestionBean get quizQuestionBean;
   QuizAnswerBean get quizAnswerBean;
+  NoticeBean get noticeBean;
 }

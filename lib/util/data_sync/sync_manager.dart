@@ -10,6 +10,7 @@ import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_image.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
 import 'package:discover_deep_cove/data/models/media_file.dart';
+import 'package:discover_deep_cove/data/models/notice.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
@@ -22,6 +23,7 @@ import 'package:discover_deep_cove/util/data_sync/quiz_sync.dart';
 import 'package:discover_deep_cove/util/data_sync/track_sync.dart';
 import 'package:discover_deep_cove/util/exeptions.dart';
 import 'package:discover_deep_cove/util/network_util.dart';
+import 'package:discover_deep_cove/util/noticeboard_sync.dart';
 import 'package:flutter/cupertino.dart';
 
 enum SyncState {
@@ -200,6 +202,9 @@ class SyncManager {
       // ** END CLEANUP PHASE **
       // ================================================================
 
+      // Check for new notices
+      NoticeboardSync.RetrieveNotices(context);
+
       // DATA SYNC COMPLETE!
       _updateProgress(SyncState.Done, 100);
     } on Exception catch (ex, stacktrace) {
@@ -238,5 +243,6 @@ class SyncManager {
     QuizAnswerBean(adapter).createTable(ifNotExists: true);
     MediaFileBean(adapter).createTable(ifNotExists: true);
     UserPhotoBean(adapter).createTable(ifNotExists: true);
+    NoticeBean(adapter).createTable(ifNotExists: true);
   }
 }

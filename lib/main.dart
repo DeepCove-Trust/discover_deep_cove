@@ -1,6 +1,7 @@
 import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/db.dart';
 import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/local_notifications.dart';
 import 'package:discover_deep_cove/util/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +16,9 @@ void main() async {
 
   // Force portrait orientation
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  //Initializes local notifications
+  LocalNotifications.initializeNotifications();
 
   if(DotEnv().env['debugStorageMode'] == 'true'){
     print('Warning: Debug storage mode enabled. Disable for production release.');
@@ -42,6 +46,8 @@ ThemeData appTheme() {
     accentColor: Color(0xFFFF5026),
     //Dark Gray
     backgroundColor: Color(0xFF363636),
+
+    //TODO: Add Colors for Grey body text and red urgent notice left indicator
 
     fontFamily: 'Roboto',
   );

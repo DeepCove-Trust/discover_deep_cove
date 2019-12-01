@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/network_util.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as Http;
 
 import 'package:discover_deep_cove/data/db.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';

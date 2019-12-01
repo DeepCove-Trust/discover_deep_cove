@@ -76,6 +76,12 @@ class _SettingsState extends State<Settings> {
               ),
               Divider(color: Color(0xFF777777), height: 1),
               SettingsButton(
+                iconData: FontAwesomeIcons.newspaper,
+                text: "View Notices",
+                onTap: () => Navigator.of(context).pushNamed('/noticeboard'),
+              ),
+              Divider(color: Color(0xFF777777), height: 1),
+              SettingsButton(
                 iconData: FontAwesomeIcons.infoCircle,
                 text: "About this app",
                 onTap: () {

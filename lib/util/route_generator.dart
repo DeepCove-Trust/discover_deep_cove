@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
+import 'package:discover_deep_cove/data/models/notice.dart';
 import 'package:discover_deep_cove/views/activites/activity_screen_args.dart';
 import 'package:discover_deep_cove/views/activites/activity_unlock.dart';
 import 'package:discover_deep_cove/views/activites/count_activity_view.dart';
@@ -13,6 +14,8 @@ import 'package:discover_deep_cove/views/quiz/quiz_view.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_view_args.dart';
 import 'package:discover_deep_cove/views/settings/about.dart';
 import 'package:discover_deep_cove/views/loading_screen.dart';
+import 'package:discover_deep_cove/views/settings/noticeboard/notice_view.dart';
+import 'package:discover_deep_cove/views/settings/noticeboard/noticeboard.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -28,6 +31,22 @@ class RouteGenerator {
 
       case '/about':
         return MaterialPageRoute(builder: (_) => About());
+
+    //Noticeboard routes
+      case '/noticeboard':
+        return MaterialPageRoute(builder: (_) => Noticeboard());
+
+      case '/noticeView':
+        if (args is Notice) {
+          final Notice args = settings.arguments;
+          return MaterialPageRoute(
+            builder: (_) => NoticeView(
+              notice: args,
+            ),
+          );
+        }
+
+        return _errorRoute();
 
       case '/update':
         return MaterialPageRoute(
