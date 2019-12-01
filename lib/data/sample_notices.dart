@@ -5,7 +5,7 @@ List<Notice> urgentNotices = [
     id: 1,
     urgent: true,
     imageId: 1,
-    activatedAt: DateTime(2019, 12, 09),
+    updatedAt: DateTime(2019, 12, 09),
     title: "This is an urgent test notice!",
     shortDesc:
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -18,7 +18,7 @@ List<Notice> urgentNotices = [
     id: 2,
     urgent: true,
     imageId: 2,
-    activatedAt: DateTime(2019, 07, 26),
+    updatedAt: DateTime(2019, 07, 26),
     title: "This is an duplicate urgent test notice that needs to be really long",
     shortDesc:
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -34,7 +34,7 @@ List<Notice> otherNotices = [
     id: 1,
     urgent: false,
     imageId: null,
-    activatedAt: DateTime(2020, 02, 29),
+    updatedAt: DateTime(2020, 02, 29),
     title: "This is not an urgent test notice",
     shortDesc:
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
