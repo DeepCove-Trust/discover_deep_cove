@@ -14,7 +14,7 @@ class Notice {
     @required this.id,
     @required this.urgent,
     @required this.imageId,
-    @required this.activatedAt,
+    @required this.updatedAt,
     @required this.title,
     @required this.shortDesc,
     @required this.longDesc,
@@ -33,7 +33,7 @@ class Notice {
   int imageId;
 
   @Column()
-  DateTime activatedAt;
+  DateTime updatedAt;
 
   @Column()
   String title;

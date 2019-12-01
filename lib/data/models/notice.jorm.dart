@@ -11,7 +11,7 @@ abstract class _NoticeBean implements Bean<Notice> {
   final urgent = BoolField('urgent');
   final dismissed = BoolField('dismissed');
   final imageId = IntField('image_id');
-  final activatedAt = DateTimeField('activated_at');
+  final updatedAt = DateTimeField('updated_at');
   final title = StrField('title');
   final shortDesc = StrField('short_desc');
   final longDesc = StrField('long_desc');
@@ -21,7 +21,7 @@ abstract class _NoticeBean implements Bean<Notice> {
         urgent.name: urgent,
         dismissed.name: dismissed,
         imageId.name: imageId,
-        activatedAt.name: activatedAt,
+        updatedAt.name: updatedAt,
         title.name: title,
         shortDesc.name: shortDesc,
         longDesc.name: longDesc,
@@ -32,7 +32,7 @@ abstract class _NoticeBean implements Bean<Notice> {
     model.urgent = adapter.parseValue(map['urgent']);
     model.dismissed = adapter.parseValue(map['dismissed']);
     model.imageId = adapter.parseValue(map['image_id']);
-    model.activatedAt = adapter.parseValue(map['activated_at']);
+    model.updatedAt = adapter.parseValue(map['updated_at']);
     model.title = adapter.parseValue(map['title']);
     model.shortDesc = adapter.parseValue(map['short_desc']);
     model.longDesc = adapter.parseValue(map['long_desc']);
@@ -49,7 +49,7 @@ abstract class _NoticeBean implements Bean<Notice> {
       ret.add(urgent.set(model.urgent));
       ret.add(dismissed.set(model.dismissed));
       ret.add(imageId.set(model.imageId));
-      ret.add(activatedAt.set(model.activatedAt));
+      ret.add(updatedAt.set(model.updatedAt));
       ret.add(title.set(model.title));
       ret.add(shortDesc.set(model.shortDesc));
       ret.add(longDesc.set(model.longDesc));
@@ -59,8 +59,8 @@ abstract class _NoticeBean implements Bean<Notice> {
       if (only.contains(dismissed.name))
         ret.add(dismissed.set(model.dismissed));
       if (only.contains(imageId.name)) ret.add(imageId.set(model.imageId));
-      if (only.contains(activatedAt.name))
-        ret.add(activatedAt.set(model.activatedAt));
+      if (only.contains(updatedAt.name))
+        ret.add(updatedAt.set(model.updatedAt));
       if (only.contains(title.name)) ret.add(title.set(model.title));
       if (only.contains(shortDesc.name))
         ret.add(shortDesc.set(model.shortDesc));
@@ -78,8 +78,8 @@ abstract class _NoticeBean implements Bean<Notice> {
       if (model.imageId != null) {
         ret.add(imageId.set(model.imageId));
       }
-      if (model.activatedAt != null) {
-        ret.add(activatedAt.set(model.activatedAt));
+      if (model.updatedAt != null) {
+        ret.add(updatedAt.set(model.updatedAt));
       }
       if (model.title != null) {
         ret.add(title.set(model.title));
@@ -104,7 +104,7 @@ abstract class _NoticeBean implements Bean<Notice> {
         foreignTable: mediaFileBean.tableName,
         foreignCol: 'id',
         isNullable: true);
-    st.addDateTime(activatedAt.name, isNullable: false);
+    st.addDateTime(updatedAt.name, isNullable: false);
     st.addStr(title.name, isNullable: false);
     st.addStr(shortDesc.name, isNullable: false);
     st.addStr(longDesc.name, isNullable: true);
