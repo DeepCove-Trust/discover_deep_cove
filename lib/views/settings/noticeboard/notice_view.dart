@@ -5,7 +5,6 @@ import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/date_util.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
 
@@ -75,7 +74,7 @@ class NoticeView extends StatelessWidget {
           Text(
             DateUtil.formatDate(notice.updatedAt),
             style: TextStyle(
-              color: Color(0xFF999999),
+              color: Theme.of(context).primaryColorLight,
               fontSize: Screen.isTablet(context)
                   ? 23
                   : Screen.isSmall(context) ? 15 : 17,
@@ -83,7 +82,7 @@ class NoticeView extends StatelessWidget {
           ),
           SizedBox(height: 20),
           Screen.isPortrait(context)
-              ? Divider(color: Color(0xFF777777), height: 0)
+              ? Divider(color: Theme.of(context).primaryColorLight, height: 0)
               : Container(),
         ],
       ),
@@ -108,7 +107,7 @@ class NoticeView extends StatelessWidget {
                 child: buildImage(context)),
         notice.image?.path == null || Screen.isLandscape(context)
             ? Container()
-            : Divider(color: Color(0xFF777777), height: 10),
+            : Divider(color: Theme.of(context).primaryColorLight, height: 10),
         Padding(
           padding: EdgeInsets.all(Screen.isTablet(context) ? 25 : 10),
           child: Column(
