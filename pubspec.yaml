@@ -50,6 +50,9 @@ dependencies:
   percent_indicator: ^2.1.1+1         # BSD
   gallery_saver: ^1.0.4               # Apache 2.0
   shared_preferences: ^0.5.4+6        # BSD
+  cron: ^0.2.2                        # BSD
+  flutter_local_notifications: ^0.8.3 # BSD
+  
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

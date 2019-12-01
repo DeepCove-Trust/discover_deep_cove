@@ -4,6 +4,7 @@ import 'package:discover_deep_cove/data/models/activity/activity_image.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_image.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
+import 'package:discover_deep_cove/data/models/notice.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
@@ -96,6 +97,9 @@ class MediaFile {
 
   @HasMany(QuizAnswerBean)
   List<QuizAnswer> quizAnswers;
+
+  @HasMany(NoticeBean)
+  List<Notice> notices;
 }
 
 /// Bean class used for database manipulation - auto generated mixin code
@@ -110,6 +114,7 @@ class MediaFileBean extends Bean<MediaFile> with _MediaFileBean {
         quizBean = QuizBean(adapter),
         quizQuestionBean = QuizQuestionBean(adapter),
         quizAnswerBean = QuizAnswerBean(adapter),
+        noticeBean = NoticeBean(adapter),
         super(adapter);
 
   MediaFileBean.of(BuildContext context)
@@ -121,6 +126,7 @@ class MediaFileBean extends Bean<MediaFile> with _MediaFileBean {
         quizBean = QuizBean(DatabaseAdapter.of(context)),
         quizQuestionBean = QuizQuestionBean.of(context),
         quizAnswerBean = QuizAnswerBean.of(context),
+        noticeBean = NoticeBean.of(context),
         super(DatabaseAdapter.of(context));
 
   final FactFileNuggetBean factFileNuggetBean;
@@ -131,6 +137,7 @@ class MediaFileBean extends Bean<MediaFile> with _MediaFileBean {
   final QuizBean quizBean;
   final QuizQuestionBean quizQuestionBean;
   final QuizAnswerBean quizAnswerBean;
+  final NoticeBean noticeBean;
 
   final String tableName = 'media_files';
 }
