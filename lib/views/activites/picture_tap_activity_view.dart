@@ -45,6 +45,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
 
   @override
   void dispose() {
+    super.dispose();
     // Return default orientations
     Screen.setOrientations(context);
   }
