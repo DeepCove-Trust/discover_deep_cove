@@ -47,6 +47,8 @@ class Env {
 
   static String get _activitiesUrl => DotEnv().env['activities'];
 
+  static String get _noticesUrl => DotEnv().env['notices'];
+
   //-------------------------------- PATHS  ------------------------------------
 
   // If `debugStorageMode` is true, then the application will store its files
@@ -198,5 +200,9 @@ class Env {
   /// API endpoint to retrieve details for a given activity ID.
   static String activityDetailsUrl(CmsServerLocation server, int id) {
     return _getCmsUrl(server) + _activitiesUrl + '/$id';
+  }
+
+  static String getNoticesUrl(){
+    return _getCmsUrl(CmsServerLocation.Internet) + _noticesUrl;
   }
 }
