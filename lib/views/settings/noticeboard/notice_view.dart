@@ -120,7 +120,7 @@ class NoticeView extends StatelessWidget {
                   color: Theme.of(context).primaryColorLight,
                   fontSize: Screen.isTablet(context)
                       ? 22
-                      : Screen.isSmall(context) ? 16 : null,
+                      : Screen.isSmall(context) ? 16 : 20,
                       height: 1.5,
                 ),
                 textAlign: TextAlign.left,
