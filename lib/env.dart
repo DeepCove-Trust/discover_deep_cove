@@ -64,7 +64,7 @@ class Env {
 
   /// If true diagnostic print messages will be written to console
   static bool get debugMessages =>
-      DotEnv().env['debugMessgaes'].toLowerCase() == 'true';
+      DotEnv().env['debugMessages'].toLowerCase() == 'true';
 
   static bool get asyncDownload =>
       DotEnv().env['asyncMediaDownload'].toLowerCase() == 'true';
