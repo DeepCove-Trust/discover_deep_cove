@@ -3,7 +3,7 @@ import 'package:discover_deep_cove/data/sample_notices.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
-import 'package:discover_deep_cove/widgets/noticeboard/noticeboard_seperator.dart';
+import 'package:discover_deep_cove/widgets/noticeboard/noticeboard_separator.dart';
 import 'package:discover_deep_cove/widgets/noticeboard/noticeboard_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -69,9 +69,9 @@ class _NoticeboardState extends State<Noticeboard> {
       onRefresh: refreshNotices,
       child: ListView(
         children: <Widget>[
-          Seperator("Important Notices"),
+          Separator("Important Notices"),
           ...getUrgent(),
-          Seperator("Other Notices"),
+          Separator("Other Notices"),
           ...getOther(),
         ],
       ),

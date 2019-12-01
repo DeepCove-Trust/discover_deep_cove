@@ -3,10 +3,10 @@ import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 
-class Seperator extends StatelessWidget {
+class Separator extends StatelessWidget {
   final String title;
 
-  Seperator(this.title);
+  Separator(this.title);
 
   @override
   Widget build(BuildContext context) {
