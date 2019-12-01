@@ -100,7 +100,7 @@ class NoticeTile extends StatelessWidget {
                     style: TextStyle(
                       color: Color(0xFF999999),
                       fontSize: Screen.isTablet(context)
-                          ? 30
+                          ? 20
                           : Screen.isSmall(context) ? 18 : 20,
                     ),
                     textAlign: TextAlign.left,
