@@ -203,7 +203,7 @@ class SyncManager {
       // ================================================================
 
       // Check for new notices
-      NoticeboardSync.RetrieveNotices(context);
+      NoticeboardSync.retrieveNotices(context);
 
       // DATA SYNC COMPLETE!
       _updateProgress(SyncState.Done, 100);

@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import '../env.dart';
 
 class NoticeboardSync {
-  static void RetrieveNotices(BuildContext context) async {
+  static void retrieveNotices(BuildContext context) async {
     bool hasUpdated = false;
     print('Checking for new notices');
 

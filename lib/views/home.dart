@@ -39,7 +39,7 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    NoticeboardSync.RetrieveNotices(context);
+    NoticeboardSync.retrieveNotices(context);
     mapAnimateController = StreamController();
     mapController = MapController();
     // Initialize the list of page widgets.
