@@ -115,11 +115,13 @@ class NoticeView extends StatelessWidget {
             children: <Widget>[
               Text(
                 notice.longDesc,
+                overflow: TextOverflow.fade,
                 style: TextStyle(
                   color: Theme.of(context).primaryColorLight,
                   fontSize: Screen.isTablet(context)
                       ? 22
                       : Screen.isSmall(context) ? 16 : null,
+                      height: 1.5,
                 ),
                 textAlign: TextAlign.left,
               ),
