@@ -87,7 +87,7 @@ class _NoticeboardState extends State<Noticeboard> {
         .map(
           (data) => NoticeTile(
         title: data.title,
-        date: data.activatedAt,
+        date: data.updatedAt,
         desc: data.shortDesc,
         isUrgent: true,
         hasMore: data.longDesc != null ? true : false,
@@ -115,7 +115,7 @@ class _NoticeboardState extends State<Noticeboard> {
         .map(
           (data) => NoticeTile(
         title: data.title,
-        date: data.activatedAt,
+        date: data.updatedAt,
         desc: data.shortDesc,
         isUrgent: false,
         hasMore: data.longDesc != null ? true : false,

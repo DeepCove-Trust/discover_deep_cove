@@ -72,7 +72,7 @@ class NoticeView extends StatelessWidget {
             height: 5,
           ),
           Text(
-            DateUtil.formatDate(notice.activatedAt),
+            DateUtil.formatDate(notice.updatedAt),
             style: TextStyle(
               color: Color(0xFF999999),
               fontSize: Screen.isTablet(context)
