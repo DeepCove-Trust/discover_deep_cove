@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:latlong/latlong.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 enum CmsServerLocation { Intranet, Internet }
 
@@ -61,6 +61,10 @@ class Env {
   /// used. ** Setting to true will break app for iOS. Turn off for release.
   static bool get debugStorageMode =>
       DotEnv().env['debugStorageMode'].toLowerCase() == 'true';
+
+  /// If true diagnostic print messages will be written to console
+  static bool get debugMessages =>
+      DotEnv().env['debugMessages'].toLowerCase() == 'true';
 
   static bool get asyncDownload =>
       DotEnv().env['asyncMediaDownload'].toLowerCase() == 'true';
@@ -203,7 +207,7 @@ class Env {
   }
 
   /// API endpoint to retrieve list of active notices
-  static String getNoticesUrl(){
+  static String getNoticesUrl() {
     return _getCmsUrl(CmsServerLocation.Internet) + _noticesUrl;
   }
 }

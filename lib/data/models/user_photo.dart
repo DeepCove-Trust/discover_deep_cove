@@ -1,9 +1,8 @@
 import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/material.dart' show BuildContext;
-import 'package:meta/meta.dart';
 import 'package:jaguar_orm/jaguar_orm.dart';
+import 'package:meta/meta.dart';
 
 part 'user_photo.jorm.dart';
 

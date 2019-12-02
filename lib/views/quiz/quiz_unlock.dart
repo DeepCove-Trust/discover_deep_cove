@@ -2,9 +2,7 @@ import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
-import 'package:discover_deep_cove/views/home.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
@@ -139,7 +137,13 @@ class _QuizUnlockState extends State<QuizUnlock> {
                   BoxDecoration(border: Border.all(color: Colors.white)),
               child: Column(
                 children: <Widget>[
-                  Text('Not a student?', style: TextStyle(decoration: TextDecoration.underline, fontSize: 30, color: Colors.white),),
+                  Text(
+                    'Not a student?',
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        fontSize: 30,
+                        color: Colors.white),
+                  ),
                   SizedBox(height: 12),
                   SubHeading(
                     'Use the code in the main hostel building to unlock all quizzes.',

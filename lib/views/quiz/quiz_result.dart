@@ -1,5 +1,4 @@
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
@@ -70,9 +69,8 @@ class QuizResult extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-          child: Heading(name, size: Screen.isTablet(context) ? 55 : 35)
-        ),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+            child: Heading(name, size: Screen.isTablet(context) ? 55 : 35)),
         SubHeading(
           "Quiz Completed!",
 //          size: Screen.isTablet(context) ? 40 : null,

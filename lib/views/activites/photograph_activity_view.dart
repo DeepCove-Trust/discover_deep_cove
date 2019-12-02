@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/user_photo.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/image_handler.dart';
@@ -12,7 +11,6 @@ import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
 import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
 import 'package:discover_deep_cove/widgets/misc/custom_vertical_divider.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
@@ -50,7 +48,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
   Future<Widget> _getSavedPhoto() async {
     String filepath = widget.activity.userPhoto?.path;
     if (filepath == null) {
-      print('Error loading stored image.');
+      if (Env.debugMessages) print('Error loading stored image.');
       return BodyText(
         'There was an error loading your image...',
         size: Screen.isTablet(context) ? 30 : null,
@@ -147,18 +145,16 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                   bottom: 6,
                 ),
                 child: FloatingActionButton(
-              onPressed: () {
-                _onImageButtonPressed(context);
-              },
-              child: const Icon( FontAwesomeIcons.camera),
-            ),
+                  onPressed: () {
+                    _onImageButtonPressed(context);
+                  },
+                  child: const Icon(FontAwesomeIcons.camera),
+                ),
               ),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
-
-  
 
   buildGraphic() {
     return Padding(

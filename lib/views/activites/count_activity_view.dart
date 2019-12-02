@@ -93,7 +93,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                     ),
                     child: Divider(
                       height: 40,
-                      color: Color(0xFF777777),
+                      color: Theme.of(context).primaryColorLight,
                     ),
                   )
                 : Container(),

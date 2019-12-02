@@ -1,16 +1,15 @@
-import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:discover_deep_cove/util/network_util.dart';
-import 'package:path/path.dart';
 import 'package:discover_deep_cove/data/db.dart';
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/activity/activity_image.dart';
 import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/data/models/user_photo.dart';
 import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/network_util.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:path/path.dart';
 
 class ActivityData {
   int id;
@@ -65,14 +64,14 @@ class TrackSync {
       if (!localTracks.any((t) => t.id == id)) {
         // Add track if not on local
         trackBean.insert(serverTracks.firstWhere((t) => t.id == id));
-        print('Track $id added');
+        if (Env.debugMessages) print('Track $id added');
       } else if (!serverTracks.any((t) => t.id == id)) {
         // Delete the track (and all activities) if not on server
         await _deleteTrack(id);
       } else {
         // Update the existing, just in case name has change
         await trackBean.update(serverTracks.firstWhere((t) => t.id == id));
-        print('Track $id updated/unchanged');
+        if (Env.debugMessages) print('Track $id updated/unchanged');
       }
     }
   }
@@ -100,7 +99,7 @@ class TrackSync {
       _deletionQueue.add(activity.userPhotoId);
     }
 
-    print('Deleted activity {$id} (${activity.title})');
+    if (Env.debugMessages) print('Deleted activity {$id} (${activity.title})');
   }
 
   /// Iterates through each user photo ID in the deletion queue, deleting the
@@ -142,9 +141,9 @@ class TrackSync {
         }
       } else if (!serverActivities.any((t) => t.id == id)) {
         // Delete the track (and all activities) if not on server
-        if(Env.asyncDownload) {
+        if (Env.asyncDownload) {
           futures.add(_deleteActivity(id));
-        } else{
+        } else {
           await _deleteActivity(id);
         }
       } else if (localActivities
@@ -152,23 +151,23 @@ class TrackSync {
           .updatedAt
           .isBefore(serverActivities.firstWhere((a) => a.id == id).updatedAt)) {
         // Update the existing, just in case name has change
-        if(Env.asyncDownload){
+        if (Env.asyncDownload) {
           futures.add(_updateActivity(id));
         } else {
           await _updateActivity(id);
         }
       }
     }
-    if(Env.asyncDownload) {
+    if (Env.asyncDownload) {
       await Future.wait(futures);
-      print('Async activity downloads complete');
+      if (Env.debugMessages) print('Async activity downloads complete');
     }
   }
 
   Future<void> _updateActivity(int id) async {
     await _deleteActivity(id);
     await _downloadActivity(id);
-    print('Activity $id updated');
+    if (Env.debugMessages) print('Activity $id updated');
   }
 
   Future<List<ActivityData>> _getActivitiesSummary() async {
@@ -199,7 +198,7 @@ class TrackSync {
     // Save activity image records
     await _createActivityImagesFor(id, imageIds);
 
-    print('Activity $id downloaded');
+    if (Env.debugMessages) print('Activity $id downloaded');
   }
 
   Future<void> _createActivityImagesFor(
@@ -220,7 +219,7 @@ class TrackSync {
     // Delete the track itself
     await trackBean.remove(id);
 
-    print('Track {$id} deleted');
+    if (Env.debugMessages) print('Track {$id} deleted');
   }
 
   Future<void> _deleteActivityImagesFor(int activityId) async {

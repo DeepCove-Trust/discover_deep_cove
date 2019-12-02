@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/network_util.dart';
-import 'package:flutter/cupertino.dart';
-
 import 'package:discover_deep_cove/data/db.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
+import 'package:discover_deep_cove/env.dart';
+import 'package:discover_deep_cove/util/network_util.dart';
+import 'package:flutter/cupertino.dart';
 
 class QuizData {
   int id;
@@ -50,7 +49,7 @@ class QuizSync {
     for (int id in idSet) {
       // If local quizzes doesn't have a copy, download from server
       if (!localQuizzes.any((q) => q.id == id)) {
-        if(Env.asyncDownload){
+        if (Env.asyncDownload) {
           futures.add(_downloadQuizData(id));
         } else {
           await _downloadQuizData(id);
@@ -67,18 +66,17 @@ class QuizSync {
           .firstWhere((q) => q.id == id)
           .updatedAt
           .isAfter(localQuizzes.firstWhere((q) => q.id == id).updatedAt)) {
-        if(Env.asyncDownload){
+        if (Env.asyncDownload) {
           futures.add(_replaceQuizData(id));
-        }
-        else {
+        } else {
           await _replaceQuizData(id);
         }
       }
     }
 
-    if(Env.asyncDownload){
+    if (Env.asyncDownload) {
       await Future.wait(futures);
-      print('Aysnc quiz downloads complete');
+      if (Env.debugMessages) print('Aysnc quiz downloads complete');
     }
   }
 
@@ -125,8 +123,9 @@ class QuizSync {
       await questionBean.insert(question);
 
       // Insert answers for this question
-      if( answers.where((a) => a.quizQuestionId == question.id).isNotEmpty){
-        await answerBean.insertMany(answers.where((a) => a.quizQuestionId == question.id).toList());
+      if (answers.where((a) => a.quizQuestionId == question.id).isNotEmpty) {
+        await answerBean.insertMany(
+            answers.where((a) => a.quizQuestionId == question.id).toList());
       }
 
       // Now replace the correct answer id for the question
@@ -134,7 +133,7 @@ class QuizSync {
       await questionBean.update(question);
     }
 
-    print('Downloaded quiz $id (${quiz.title})');
+    if (Env.debugMessages) print('Downloaded quiz $id (${quiz.title})');
   }
 
   /// Deletes the given quiz ID, as well as all question and answer records
@@ -161,14 +160,15 @@ class QuizSync {
     // Delete the quiz itself
     await quizBean.remove(id);
 
-    print('Deleted quiz $id (${quiz.title}');
+    if (Env.debugMessages) print('Deleted quiz $id (${quiz.title}');
   }
 
   /// Deletes and re-downloads the given quiz ID, persisting the unlock state
   /// of the original.
   Future<void> _replaceQuizData(int id) async {
     Quiz quiz = await quizBean.find(id);
-    print('Updating quiz $id (${quiz.title} - (will delete and re-download');
+    if (Env.debugMessages)
+      print('Updating quiz $id (${quiz.title} - (will delete and re-download');
     await _deleteQuiz(id);
     await _downloadQuizData(id, unlocked: quiz.unlocked);
   }
