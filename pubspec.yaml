@@ -11,7 +11,7 @@ description: Guided walk application for visitors to Deep Cove.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.1.8+18
+version: 1.2.1+19
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -45,8 +45,6 @@ dependencies:
   image_picker: ^0.6.0+15             # Apache 2.0
   flutter_launcher_icons: ^0.7.2+1    # MIT
   flutter_icons: 1.0.0+1              # Apache 2.0
-  # url_launcher: ^5.1.2                # BSD
-  # keyboard_visibility: ^0.5.6         # MIT
   percent_indicator: ^2.1.1+1         # BSD
   gallery_saver: ^1.0.4               # Apache 2.0
   shared_preferences: ^0.5.4+6        # BSD
