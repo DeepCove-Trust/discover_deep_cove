@@ -4,8 +4,8 @@ import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/verbose_state.dart';
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/util/verbose_state.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -116,14 +116,13 @@ class _MapMakerState extends VerboseState<MapMaker>
   }
 
   void checkIfReloadRequired() async {
-    print('Checking if reload required');
+    if (Env.debugMessages) print('Checking if reload required');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool reloadMap = prefs.getBool('reloadMap');
-    if(reloadMap ?? false){
-      print('Map reload is required...');
+    if (reloadMap ?? false) {
+      if (Env.debugMessages) print('Map reload is required...');
       loadTracks();
-    }
-    else print('Map reload is not required...');
+    } else if (Env.debugMessages) print('Map reload is not required...');
   }
 
   @override

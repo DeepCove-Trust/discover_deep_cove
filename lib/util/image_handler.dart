@@ -1,19 +1,20 @@
 import 'dart:io';
 
-import 'package:path/path.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 
 class ImageHandler {
   /// Picks an image from specified source, then returns the file pointing
   /// to the image.
-  static Future<File> captureImage(
-      {@required BuildContext context,
-      ImageSource source = ImageSource.camera,
-      double maxWidth = 2048,
-      double maxHeight,
-      }) async {
+  static Future<File> captureImage({
+    @required BuildContext context,
+    ImageSource source = ImageSource.camera,
+    double maxWidth = 2048,
+    double maxHeight,
+  }) async {
     try {
       return await ImagePicker.pickImage(
         source: ImageSource.camera,
@@ -43,10 +44,10 @@ class ImageHandler {
 
       // Copy the temporary image to the new location
       await File(filepath).writeAsBytes(await tempImage.readAsBytes());
-      print('Image saved to $filepath');
+      if (Env.debugMessages) print('Image saved to $filepath');
 
       await tempImage.delete();
-      print('Temporary image deleted');
+      if (Env.debugMessages) print('Temporary image deleted');
 
       return true;
     } catch (ex, stacktrace) {

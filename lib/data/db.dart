@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/permissions.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
@@ -51,7 +49,7 @@ class DB {
   /// Throws [InsufficientPermissionException] is user does not grant storage
   /// permission.
   Future<SqfliteAdapter> _initDb(bool temp) async {
-    print('Connecting to ${temp ? 'temporary' : ''} database...');
+   if (Env.debugMessages) print('Connecting to ${temp ? 'temporary' : ''} database...');
 
     // Request external storage permission if the app is configured to use
     // external storage.
@@ -59,7 +57,7 @@ class DB {
       // Throw exception if the user doesn't grant storage permission
       // TODO: Improve this exception and catch on the calling function
       if (!await Permissions.ensurePermission(PermissionGroup.storage)) {
-        print('Storage permissions not granted. Aborting...');
+        if (Env.debugMessages) print('Storage permissions not granted. Aborting...');
         throw Exception('Permission not granted: ${PermissionGroup.storage}');
       }
     }
@@ -73,7 +71,7 @@ class DB {
     SqfliteAdapter adapter = SqfliteAdapter(dbPath);
     await adapter.connect(); // TODO: Try-catch? Don't know what it throws...
 
-    print('Database connection initialized...');
+    if (Env.debugMessages) print('Database connection initialized...');
 
     return adapter;
   }

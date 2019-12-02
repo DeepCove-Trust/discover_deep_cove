@@ -2,11 +2,9 @@ import 'dart:io' show File, Directory;
 
 import 'package:archive/archive.dart' show ZipDecoder, Archive, ArchiveFile;
 import 'package:discover_deep_cove/data/models/config.dart';
-import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' show Response;
 import 'package:meta/meta.dart' show required;
 import 'package:path/path.dart' show join;
 import 'package:path_provider_ex/path_provider_ex.dart';
@@ -14,7 +12,6 @@ import 'package:toast/toast.dart';
 
 /// Container class for general helper functions.
 class Util {
-
   /// Extract the supplied file [zip] to the supplied directory [dir]
   ///
   /// Returns true if successful.
@@ -67,16 +64,18 @@ class Util {
     try {
       _storageInfo = await PathProviderEx.getStorageInfo();
     } on PlatformException {
-      print('Warning: Unable to determine bytes available!');
+      if (Env.debugMessages)
+        print('Warning: Unable to determine bytes available!');
       return -1;
     }
 
-    print('Device has ${_storageInfo[0].availableBytes} bytes available');
+    if (Env.debugMessages)
+      print('Device has ${_storageInfo[0].availableBytes} bytes available');
 
     return _storageInfo[0].availableBytes;
   }
 
-  static String bytesToMBString(int bytes){
+  static String bytesToMBString(int bytes) {
     return '${(bytes / 1000000).toStringAsFixed(1)}MB';
   }
 

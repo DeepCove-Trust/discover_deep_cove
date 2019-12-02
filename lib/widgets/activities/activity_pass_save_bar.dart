@@ -1,5 +1,4 @@
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
 
 class ActivityPassSaveBar extends StatelessWidget {
@@ -30,12 +29,12 @@ class ActivityPassSaveBar extends StatelessWidget {
                 disabledTextColor: Theme.of(context).primaryColorDark,
                 disabledBorderColor: Theme.of(context).primaryColorDark,
                 borderSide: BorderSide(
-                  color: Color(0xFF777777),
+                  color: Theme.of(context).primaryColorLight,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
-                child:  Text(
+                child: Text(
                   "Pass",
                   style: TextStyle(fontSize: 20),
                 ),
@@ -54,7 +53,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                 disabledTextColor: Theme.of(context).primaryColorDark,
                 disabledBorderColor: Theme.of(context).primaryColorDark,
                 borderSide: BorderSide(
-                  color: Color(0xFF777777),
+                  color: Theme.of(context).primaryColorLight,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),

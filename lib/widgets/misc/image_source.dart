@@ -20,7 +20,7 @@ class ImageSource extends StatelessWidget {
               Text(
                 isCopyright ? "© " + source : source,
                 style: TextStyle(
-                  color: Color(0xFF999999),
+                  color: Theme.of(context).primaryColorLight,
                   fontStyle: FontStyle.italic,
                   fontSize: size,
                 ),

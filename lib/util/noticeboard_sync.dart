@@ -1,16 +1,15 @@
 import 'dart:convert';
 
 import 'package:discover_deep_cove/data/models/notice.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/local_notifications.dart';
 import 'package:discover_deep_cove/util/network_util.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../env.dart';
-
 class NoticeboardSync {
-  static void RetrieveNotices(BuildContext context) async {
+  static void retrieveNotices(BuildContext context) async {
     bool hasUpdated = false;
-    print('Checking for new notices');
+    if (Env.debugMessages) print('Checking for new notices');
 
     try {
       NoticeBean bean = NoticeBean.of(context);
@@ -24,8 +23,7 @@ class NoticeboardSync {
         String jsonString =
             await NetworkUtil.requestDataString(Env.getNoticesUrl());
         List<dynamic> data = jsonDecode(jsonString);
-        List<Notice> remoteNotices =
-            data.map((m) => bean.fromMap(m)).toList();
+        List<Notice> remoteNotices = data.map((m) => bean.fromMap(m)).toList();
 
         // Gather local notices
         List<Notice> localNotices = await bean.getAll();
@@ -49,7 +47,12 @@ class NoticeboardSync {
 
           await bean.insertMany(remoteNotices);
 
-          LocalNotifications.showNotification(title: 'New notices available', body: 'Visit the noticeboard in Discover Deep Cove!', payload: 'Notice', context: context);
+          LocalNotifications.showNotification(
+            title: 'New notices available',
+            body: 'Visit the noticeboard in Discover Deep Cove!',
+            payload: 'Notice',
+            context: context,
+          );
         }
 
         // Notify user if new notices are downloaded

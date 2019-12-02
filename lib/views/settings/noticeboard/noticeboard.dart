@@ -86,7 +86,7 @@ class _NoticeboardState extends State<Noticeboard> {
   }
 
   Future<Null> refreshNotices() async {
-    await NoticeboardSync.RetrieveNotices(context);
+    await NoticeboardSync.retrieveNotices(context);
     loadNotices();
     setState(() {});
   }

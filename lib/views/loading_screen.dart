@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
-import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/config.dart';
+import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/data_sync/sync_manager.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
@@ -35,7 +32,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   Future<void> manualUpdate() async {
-    print('Checking for new content');
+    if (Env.debugMessages) print('Checking for new content');
     await SyncManager(onProgressChange: _onProgressUpdate, context: context)
         .sync();
     await Future.delayed(Duration(seconds: 2));
@@ -74,6 +71,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
         return widget.isFirstLoad
             ? 'Downloading initial content'
             : 'Preparing to update...';
+      default:
+        return '';
     }
   }
 
@@ -94,6 +93,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
       case SyncState.ServerDiscovered:
       case SyncState.DataDownload:
       case SyncState.None:
+        return null;
+      default:
         return null;
     }
   }
