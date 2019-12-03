@@ -7,9 +7,10 @@ import 'package:discover_deep_cove/util/network_util.dart';
 import 'package:flutter/cupertino.dart';
 
 class NoticeboardSync {
-  static void retrieveNotices(BuildContext context) async {
-    bool hasUpdated = false;
-    if (Env.debugMessages) print('Checking for new notices');
+  static Future<void> retrieveNotices(BuildContext context) async {
+    bool shouldRefresh = false;
+    bool hasNew = false;
+    print('Checking for new notices');
 
     try {
       NoticeBean bean = NoticeBean.of(context);
@@ -31,38 +32,52 @@ class NoticeboardSync {
         // Compare with existing notices
         for (Notice notice in remoteNotices) {
           if (!localNotices.any((n) => n.id == notice.id)) {
-            hasUpdated = true;
+            shouldRefresh = true;
+            hasNew = true;
           } else if (localNotices
               .firstWhere((n) => n.id == notice.id)
               .updatedAt
               .isBefore(notice.updatedAt)) {
-            hasUpdated = true;
+            shouldRefresh = true;
+            hasNew = true;
           }
         }
 
-        if (hasUpdated) {
-          // Remove all local notices and replace with remote
-
-          await bean.removeAll();
-
-          await bean.insertMany(remoteNotices);
-
-          LocalNotifications.showNotification(
-            title: 'New notices available',
-            body: 'Visit the noticeboard in Discover Deep Cove!',
-            payload: 'Notice',
-            context: context,
-          );
+        for (Notice notice in localNotices) {
+          if (!remoteNotices.any((n) => n.id == notice.id)) {
+            shouldRefresh = true;
+          }
         }
 
-        // Notify user if new notices are downloaded
-
-      } else {
-        // No internet connection, aborting
-        return;
+        if (shouldRefresh) {
+          await _refreshNotices(bean, remoteNotices, context, hasNew);
+        }
       }
     } catch (ex, trace) {
       print('Error checking for new notices: $ex');
+      print(trace);
+    }
+  }
+
+  static Future<void> _refreshNotices(
+      NoticeBean bean,
+      List<Notice> remoteNotices,
+      BuildContext context,
+      bool showNotification) async {
+    try {
+      // Remove all local notices and replace with remote
+      await bean.removeAll();
+      await bean.insertMany(remoteNotices);
+
+      if (showNotification) {
+        LocalNotifications.showNotification(
+            title: 'New notices available',
+            body: 'Visit the noticeboard in Discover Deep Cove!',
+            payload: 'Notice',
+            context: context);
+      }
+    } catch (ex, trace) {
+      print('Error refreshing notices: $ex');
       print(trace);
     }
   }
