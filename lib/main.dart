@@ -30,7 +30,7 @@ void main() async {
 
   runApp(
     DatabaseAdapter(
-      adapter: await DB.instance.adapter,
+      adapter: await getDbAdaptor(),
       child: MaterialApp(
         title: Env.appName,
         theme: appTheme(),
@@ -57,4 +57,14 @@ ThemeData appTheme() {
 
     fontFamily: 'Roboto',
   );
+}
+
+ Future<SqfliteAdapter> getDbAdaptor() async {
+  try{
+    return await DB.instance.adapter;
+  }
+  catch(ex){
+    SystemNavigator.pop();
+    return null;
+  }
 }
