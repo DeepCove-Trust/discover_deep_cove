@@ -120,9 +120,19 @@ class _SettingsState extends State<Settings> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Confirm Progress Reset?'),
-            content: Text('This will reset all quiz and activity progress, and '
-                'cannot be undone. Are you sure?'),
+            title: Text(
+              'Confirm Progress Reset?',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            content: Text(
+              'This will reset all quiz and activity progress, and '
+              'cannot be undone. Are you sure?',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
             actions: [
               FlatButton(
                 child: Text('Cancel'),
@@ -133,6 +143,11 @@ class _SettingsState extends State<Settings> {
                 onPressed: resetInProgress ? null : () => _resetProgress(),
               ),
             ],
+            backgroundColor: Theme.of(context).primaryColorDark,
+            shape: Border.all(
+              color: Theme.of(context).primaryColor,
+              width: 0.5,
+            ),
           );
         });
   }
