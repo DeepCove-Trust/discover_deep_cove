@@ -1,4 +1,5 @@
 import 'package:discover_deep_cove/util/screen.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 
@@ -19,25 +20,24 @@ class SettingsButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(
-            vertical: Screen.height(context, percentage: 5), horizontal: 12),
+          vertical: Screen.height(context, percentage: 2.5),
+          horizontal: 12,
+        ),
         child: Row(
-          mainAxisAlignment: Screen.isLandscape(context)
-              ? MainAxisAlignment.center
-              : MainAxisAlignment.spaceEvenly,
           children: [
-            Transform.scale(
-              scale: 1.5, // Todo: Is this different to setting icon size?
-              child: Icon(iconData, color: Colors.white),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: Screen.width(context, percentage: 10),
+              ),
+              child: Icon(
+                iconData,
+                color: Colors.white,
+                size: Screen.isTablet(context) ? 36 : 24,
+              ),
             ),
             Container(
-              width: Screen.width(
-                context,
-                percentage:
-                    Screen.isTablet(context) && Screen.isPortrait(context)
-                        ? 60
-                        : 50,
-              ),
-              child: SubHeading(text),
+              child:
+                  Screen.isTablet(context) ? SubHeading(text) : BodyText(text),
             ),
           ],
         ),
