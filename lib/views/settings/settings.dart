@@ -53,15 +53,16 @@ class _SettingsState extends State<Settings> {
           Column(
             children: [
               SettingsButton(
-                  iconData: FontAwesomeIcons.image,
-                  text: savePhotosToGallery == null
-                      ? '...'
-                      : savePhotosToGallery
-                          ? "Stop saving photos to gallery"
-                          : "Save photos to gallery",
-                  onTap: savePhotosToGallery != null
-                      ? () => _toggleSaveToGallery()
-                      : null),
+                iconData: FontAwesomeIcons.image,
+                text: savePhotosToGallery == null
+                    ? '...'
+                    : savePhotosToGallery
+                        ? "Stop saving photos to gallery"
+                        : "Save photos to gallery",
+                onTap: savePhotosToGallery != null
+                    ? () => _toggleSaveToGallery()
+                    : null,
+              ),
               Divider(color: Theme.of(context).primaryColorLight, height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.undo,
