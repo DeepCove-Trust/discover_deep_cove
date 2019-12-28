@@ -1,6 +1,6 @@
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
 
 class SettingsButton extends StatelessWidget {
@@ -32,9 +32,12 @@ class SettingsButton extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: Screen.width(context, percentage: 10),
-              ),
+              padding: EdgeInsets.fromLTRB(
+                  Screen.width(context,
+                      percentage: Screen.isLandscape(context) ? 25 : 10),
+                  0,
+                  Screen.width(context, percentage: 10),
+                  0),
               child: Icon(
                 iconData,
                 color: Colors.white,
@@ -42,18 +45,25 @@ class SettingsButton extends StatelessWidget {
               ),
             ),
             Container(
-              child:
-                  Screen.isTablet(context) ? SubHeading(text) : BodyText(text),
+              child: Screen.isTablet(context)
+                  ? Heading(text)
+                  : BodyText(
+                      text,
+                      size: Screen.isSmall(context) ? 13.5 : null,
+                    ),
             ),
             hasOnOff == true
                 ? Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: Screen.width(context, percentage: 2.5),
                     ),
-                    child: Switch(
-                      onChanged: hasOnOff ? onOffCallback : null,
-                      activeColor: Theme.of(context).primaryColor,
-                      value: initalValue,
+                    child: Transform.scale(
+                      scale: Screen.isTablet(context) ? 1.5 : 1,
+                      child: Switch(
+                        onChanged: hasOnOff ? onOffCallback : null,
+                        activeColor: Theme.of(context).primaryColor,
+                        value: initalValue,
+                      ),
                     ),
                   )
                 : Container(),
