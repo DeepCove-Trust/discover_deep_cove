@@ -7,11 +7,17 @@ class SettingsButton extends StatelessWidget {
   final IconData iconData;
   final String text;
   final VoidCallback onTap;
+  final bool hasOnOff;
+  final bool initalValue;
+  final void Function(bool) onOffCallback;
 
   SettingsButton({
     this.text,
     this.iconData,
     this.onTap,
+    this.hasOnOff,
+    this.initalValue,
+    this.onOffCallback,
   });
 
   @override
@@ -39,6 +45,18 @@ class SettingsButton extends StatelessWidget {
               child:
                   Screen.isTablet(context) ? SubHeading(text) : BodyText(text),
             ),
+            hasOnOff == true
+                ? Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Screen.width(context, percentage: 2.5),
+                    ),
+                    child: Switch(
+                      onChanged: hasOnOff ? onOffCallback : null,
+                      activeColor: Theme.of(context).primaryColor,
+                      value: initalValue,
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),

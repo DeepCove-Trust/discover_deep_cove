@@ -1,6 +1,7 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/settings/settings_button.dart';
 import 'package:flutter/material.dart';
@@ -52,16 +53,21 @@ class _SettingsState extends State<Settings> {
         children: [
           Column(
             children: [
-              SettingsButton(
-                iconData: FontAwesomeIcons.image,
-                text: savePhotosToGallery == null
-                    ? '...'
-                    : savePhotosToGallery
-                        ? "Stop saving photos to gallery"
-                        : "Save photos to gallery",
-                onTap: savePhotosToGallery != null
-                    ? () => _toggleSaveToGallery()
-                    : null,
+              Tooltip(
+                height: Screen.height(context, percentage: 5),
+                message:
+                    "Turning this feature on will make the photos you save visible in your photo gallery as well. (On by Default)",
+                child: SettingsButton(
+                  iconData: FontAwesomeIcons.image,
+                  text: savePhotosToGallery == null
+                      ? '...'
+                      : "Save photos to gallery",
+                  hasOnOff: savePhotosToGallery == null ? false : true,
+                  initalValue: savePhotosToGallery,
+                  onOffCallback: (newTest) => setState(() {
+                    _toggleSaveToGallery();
+                  }),
+                ),
               ),
               Divider(color: Theme.of(context).primaryColorLight, height: 1),
               SettingsButton(
