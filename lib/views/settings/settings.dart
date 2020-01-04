@@ -56,17 +56,18 @@ class _SettingsState extends State<Settings> {
               Tooltip(
                 height: Screen.height(context, percentage: 5),
                 message:
-                    "Turning this feature on will make the photos you save visible in your photo gallery as well. (Off by Default)",
+                    "Turning this feature on will make the photos you save visible in your photo gallery. (Off by Default)",
                 child: SettingsButton(
                   iconData: FontAwesomeIcons.image,
                   text: savePhotosToGallery == null
-                      ? '...'
+                      ? "..."
                       : "Save photos to gallery",
                   hasOnOff: savePhotosToGallery == null ? false : true,
                   initalValue: savePhotosToGallery,
-                  onOffCallback: (newTest) => setState(() {
+                  onOffCallback: (newVal) => setState(() {
                     _toggleSaveToGallery();
                   }),
+                  onTap: _toggleSaveToGallery,
                 ),
               ),
               Divider(color: Theme.of(context).primaryColorLight, height: 1),
