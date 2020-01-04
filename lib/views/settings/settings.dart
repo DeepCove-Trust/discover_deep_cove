@@ -1,6 +1,7 @@
 import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:discover_deep_cove/data/models/config.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
+import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/settings/settings_button.dart';
 import 'package:flutter/material.dart';
@@ -52,16 +53,23 @@ class _SettingsState extends State<Settings> {
         children: [
           Column(
             children: [
-              SettingsButton(
+              Tooltip(
+                height: Screen.height(context, percentage: 5),
+                message:
+                    "Turning this feature on will make the photos you save visible in your photo gallery. (Off by Default)",
+                child: SettingsButton(
                   iconData: FontAwesomeIcons.image,
                   text: savePhotosToGallery == null
-                      ? '...'
-                      : savePhotosToGallery
-                          ? "Stop saving photos to gallery"
-                          : "Save photos to gallery",
-                  onTap: savePhotosToGallery != null
-                      ? () => _toggleSaveToGallery()
-                      : null),
+                      ? "..."
+                      : "Save photos to gallery",
+                  hasOnOff: savePhotosToGallery == null ? false : true,
+                  initalValue: savePhotosToGallery,
+                  onOffCallback: (newVal) => setState(() {
+                    _toggleSaveToGallery();
+                  }),
+                  onTap: _toggleSaveToGallery,
+                ),
+              ),
               Divider(color: Theme.of(context).primaryColorLight, height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.undo,
@@ -120,9 +128,19 @@ class _SettingsState extends State<Settings> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Confirm Progress Reset?'),
-            content: Text('This will reset all quiz and activity progress, and '
-                'cannot be undone. Are you sure?'),
+            title: Text(
+              'Confirm Progress Reset?',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            content: Text(
+              'This will reset all quiz and activity progress, and '
+              'cannot be undone. Are you sure?',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
             actions: [
               FlatButton(
                 child: Text('Cancel'),
@@ -133,6 +151,11 @@ class _SettingsState extends State<Settings> {
                 onPressed: resetInProgress ? null : () => _resetProgress(),
               ),
             ],
+            backgroundColor: Theme.of(context).primaryColorDark,
+            shape: Border.all(
+              color: Theme.of(context).primaryColor,
+              width: 0.5,
+            ),
           );
         });
   }

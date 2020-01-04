@@ -1,16 +1,23 @@
 import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
+import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
 
 class SettingsButton extends StatelessWidget {
   final IconData iconData;
   final String text;
   final VoidCallback onTap;
+  final bool hasOnOff;
+  final bool initalValue;
+  final void Function(bool) onOffCallback;
 
   SettingsButton({
     this.text,
     this.iconData,
     this.onTap,
+    this.hasOnOff,
+    this.initalValue,
+    this.onOffCallback,
   });
 
   @override
@@ -19,26 +26,47 @@ class SettingsButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(
-            vertical: Screen.height(context, percentage: 5), horizontal: 12),
+          vertical: Screen.height(context, percentage: 2.5),
+          horizontal: 12,
+        ),
         child: Row(
-          mainAxisAlignment: Screen.isLandscape(context)
-              ? MainAxisAlignment.center
-              : MainAxisAlignment.spaceEvenly,
           children: [
-            Transform.scale(
-              scale: 1.5, // Todo: Is this different to setting icon size?
-              child: Icon(iconData, color: Colors.white),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  Screen.width(context,
+                      percentage: Screen.isLandscape(context) ? 25 : 10),
+                  0,
+                  Screen.width(context, percentage: 10),
+                  0),
+              child: Icon(
+                iconData,
+                color: Colors.white,
+                size: Screen.isTablet(context) ? 36 : 24,
+              ),
             ),
             Container(
-              width: Screen.width(
-                context,
-                percentage:
-                    Screen.isTablet(context) && Screen.isPortrait(context)
-                        ? 60
-                        : 50,
-              ),
-              child: SubHeading(text),
+              child: Screen.isTablet(context)
+                  ? Heading(text)
+                  : BodyText(
+                      text,
+                      size: Screen.isSmall(context) ? 13.5 : null,
+                    ),
             ),
+            hasOnOff == true
+                ? Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Screen.width(context, percentage: 2.5),
+                    ),
+                    child: Transform.scale(
+                      scale: Screen.isTablet(context) ? 1.5 : 1,
+                      child: Switch(
+                        onChanged: hasOnOff ? onOffCallback : null,
+                        activeColor: Theme.of(context).primaryColor,
+                        value: initalValue,
+                      ),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
