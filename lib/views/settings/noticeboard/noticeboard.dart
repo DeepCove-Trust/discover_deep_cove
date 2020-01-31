@@ -122,7 +122,14 @@ class _NoticeboardState extends State<Noticeboard> {
 
     return noticeTiles.length > 0
         ? noticeTiles.toList()
-        : [Center(child: BodyText('No ${urgent ? 'important' : ''} notices'))];
+        : [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: Screen.height(context, percentage: 5)),
+              child: Center(
+                child: BodyText('No ${urgent ? 'important' : 'general'} notices'),
+              ),
+            ),
+          ];
   }
 
   Future<void> loadNotices() async {
