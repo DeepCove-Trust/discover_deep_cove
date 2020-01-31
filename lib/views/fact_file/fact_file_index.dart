@@ -89,6 +89,8 @@ class _FactFileIndexState extends State<FactFileIndex>
   ///Returns a list of [FactFileTab] widgets that are passed the list of category entries
   List<FactFileTab> getTabs() {
     return categories.map((c) {
+      c.entries.sort((a, b) => a.primaryName.toString().compareTo(b.primaryName));
+      
       return FactFileTab(c.entries);
     }).toList();
   }
