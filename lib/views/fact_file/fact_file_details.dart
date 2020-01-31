@@ -280,7 +280,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Icon(
-              FontAwesomeIcons.volumeUp,
+              FontAwesomeIcons.music,
               color: listenColor,
               size: Screen.isSmall(context) ? 16 : 24,
             ),
@@ -320,7 +320,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Icon(
-              FontAwesomeIcons.music,
+              FontAwesomeIcons.volumeUp,
               color: pronounceColor,
               size: Screen.isSmall(context) ? 16 : 24,
             ),

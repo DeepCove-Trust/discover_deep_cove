@@ -78,7 +78,7 @@ class _NoticeboardState extends State<Noticeboard> {
         children: <Widget>[
           Separator("Important Notices"),
           ...getUrgent(),
-          Separator("Other Notices"),
+          Separator("General Notices"),
           ...getOther(),
         ],
       ),
