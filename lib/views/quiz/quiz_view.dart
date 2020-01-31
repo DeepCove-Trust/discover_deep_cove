@@ -41,6 +41,9 @@ class QuizViewState extends State<QuizView> {
   void initState() {
     super.initState();
     loadQuestions();
+
+    //Randomizes the order of the quiz questions
+    widget.quiz.questions.shuffle();
   }
 
   Future<void> loadQuestions() async {
@@ -171,6 +174,9 @@ class QuizViewState extends State<QuizView> {
         QuizTextButton(onTap: () => handleAnswer(0), text: 'False')
       ];
     }
+
+    //Randomizes the answers so the tiles are in different locations each time
+    currentQuestion.answers.shuffle();
 
     // does the question have any image answers?
     return currentQuestion.answers.any((a) => a.image != null)
