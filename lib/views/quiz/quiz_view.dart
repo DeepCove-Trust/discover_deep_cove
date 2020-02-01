@@ -43,7 +43,7 @@ class QuizViewState extends State<QuizView> {
     loadQuestions();
 
     //Randomizes the order of the quiz questions
-    widget.quiz.questions.shuffle();
+    //widget.quiz.questions.shuffle();
   }
 
   Future<void> loadQuestions() async {
