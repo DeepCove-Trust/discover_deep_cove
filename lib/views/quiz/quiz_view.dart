@@ -41,15 +41,15 @@ class QuizViewState extends State<QuizView> {
   void initState() {
     super.initState();
     loadQuestions();
-
-    //Randomizes the order of the quiz questions
-    //widget.quiz.questions.shuffle();
   }
 
   Future<void> loadQuestions() async {
     widget.quiz.questions = await QuizQuestionBean.of(context)
         .preloadAllRelationships(widget.quiz.questions);
     setState(() => questionsLoaded = true);
+
+    //Randomizes the order of the quiz questions
+    widget.quiz.questions.shuffle();
   }
 
   Future<void> updateHighScore(int score) async {
