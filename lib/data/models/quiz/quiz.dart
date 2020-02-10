@@ -29,6 +29,9 @@ class Quiz {
   String unlockCode;
 
   @Column()
+  bool shuffle;
+
+  @Column()
   String title;
 
   @Column(name: 'attempts', isNullable: true)

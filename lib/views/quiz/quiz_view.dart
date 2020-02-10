@@ -49,7 +49,7 @@ class QuizViewState extends State<QuizView> {
     setState(() => questionsLoaded = true);
 
     //Randomizes the order of the quiz questions
-    widget.quiz.questions.shuffle();
+    if(widget.quiz.shuffle)widget.quiz.questions.shuffle();
   }
 
   Future<void> updateHighScore(int score) async {
@@ -176,7 +176,7 @@ class QuizViewState extends State<QuizView> {
     }
 
     //Randomizes the answers so the tiles are in different locations each time
-    currentQuestion.answers.shuffle();
+    if(widget.quiz.shuffle)currentQuestion.answers.shuffle();
 
     // does the question have any image answers?
     return currentQuestion.answers.any((a) => a.image != null)
