@@ -44,11 +44,16 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
     return (Screen.isTablet(context) && !Screen.isPortrait(context))
         ? SingleChildScrollView(
             child: Row(
-            children: <Widget>[
-              Expanded(child: Column(children: buildQRExample(),)),
-              Expanded(child: buildInputs())
-            ],
-          ))
+              children: <Widget>[
+                Expanded(
+                  child: Column(
+                    children: buildQRExample(),
+                  ),
+                ),
+                Expanded(child: buildInputs())
+              ],
+            ),
+          )
         : SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
