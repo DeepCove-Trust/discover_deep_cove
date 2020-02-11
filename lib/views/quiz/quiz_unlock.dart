@@ -110,25 +110,9 @@ class _QuizUnlockState extends State<QuizUnlock> {
           )
         : SingleChildScrollView(
             child: Column(
-              children: <Widget>[getBottomHalf(), getTopHalf()],
+              children: <Widget>[getTopHalf(), getBottomHalf()],
             ),
           );
-
-//        : Column(
-//            mainAxisAlignment: MainAxisAlignment.center,
-//            children: [
-//              Expanded(flex: 2, child: getTopHalf()),
-//              Expanded(
-//                child: Row(
-//                  children: <Widget>[
-//                    Expanded(
-//                      child: getBottomHalf(),
-//                    )
-//                  ],
-//                ),
-//              ),
-//            ],
-//          );
   }
 
   getTopHalf() {
@@ -174,7 +158,9 @@ class _QuizUnlockState extends State<QuizUnlock> {
       color: Theme.of(context).primaryColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[Container(width: Screen.width(context), child: buildUnlockForm())],
+        children: <Widget>[
+          Container(width: Screen.width(context), child: buildUnlockForm())
+        ],
       ),
     );
   }
