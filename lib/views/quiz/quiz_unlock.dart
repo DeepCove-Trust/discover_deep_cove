@@ -3,6 +3,7 @@ import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
@@ -98,30 +99,30 @@ class _QuizUnlockState extends State<QuizUnlock> {
   buildContent() {
     return Screen.isLandscape(context)
         ? Row(
-          children: <Widget>[
-            Expanded(child: getBottomHalf()),
-            Expanded(
-              child: Column(
-                children: <Widget>[Expanded(child: getTopHalf())],
+            children: <Widget>[
+              Expanded(child: getBottomHalf()),
+              Expanded(
+                child: Column(
+                  children: <Widget>[Expanded(child: getTopHalf())],
+                ),
               ),
-            ),
-          ],
-        )
+            ],
+          )
         : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(flex: 2, child: getTopHalf()),
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: getBottomHalf(),
-                  )
-                ],
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(flex: 2, child: getTopHalf()),
+              Expanded(
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: getBottomHalf(),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
-        );
+            ],
+          );
   }
 
   getTopHalf() {
@@ -130,27 +131,28 @@ class _QuizUnlockState extends State<QuizUnlock> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Heading('Your teacher will give you codes to unlock quizzes.'),
+          SubHeading('Your teacher will give you codes to unlock quizzes.'),
           SizedBox(height: 40),
           Container(
-              padding: EdgeInsets.all(16),
-              decoration:
-                  BoxDecoration(border: Border.all(color: Colors.white)),
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    'Not a student?',
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        fontSize: 30,
-                        color: Colors.white),
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  'Not a student?',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    fontSize: 24,
+                    color: Colors.white,
                   ),
-                  SizedBox(height: 12),
-                  SubHeading(
-                    'Use the code in the main hostel building to unlock all quizzes.',
-                  ),
-                ],
-              ))
+                ),
+                SizedBox(height: 12),
+                BodyText(
+                  'Use the code in the main hostel building to unlock all quizzes.',
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
