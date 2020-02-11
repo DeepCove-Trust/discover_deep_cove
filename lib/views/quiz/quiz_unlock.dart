@@ -131,7 +131,10 @@ class _QuizUnlockState extends State<QuizUnlock> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SubHeading('Your teacher will give you codes to unlock quizzes.'),
+          SubHeading(
+            'Your teacher will give you codes to unlock quizzes.',
+            size: Screen.isTablet(context) ? 40 : 20,
+          ),
           SizedBox(height: 40),
           Container(
             padding: EdgeInsets.all(16),
@@ -142,7 +145,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                   'Not a student?',
                   style: TextStyle(
                     decoration: TextDecoration.underline,
-                    fontSize: 24,
+                    fontSize: Screen.isTablet(context) ? 30 : 24,
                     color: Colors.white,
                   ),
                 ),
