@@ -108,25 +108,32 @@ class _QuizUnlockState extends State<QuizUnlock> {
               ),
             ],
           )
-        : Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(flex: 2, child: getTopHalf()),
-              Expanded(
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: getBottomHalf(),
-                    )
-                  ],
-                ),
-              ),
-            ],
+        : SingleChildScrollView(
+            child: Column(
+              children: <Widget>[getBottomHalf(), getTopHalf()],
+            ),
           );
+
+//        : Column(
+//            mainAxisAlignment: MainAxisAlignment.center,
+//            children: [
+//              Expanded(flex: 2, child: getTopHalf()),
+//              Expanded(
+//                child: Row(
+//                  children: <Widget>[
+//                    Expanded(
+//                      child: getBottomHalf(),
+//                    )
+//                  ],
+//                ),
+//              ),
+//            ],
+//          );
   }
 
   getTopHalf() {
-    return Padding(
+    return Container(
+      height: Screen.height(context, percentage: 45),
       padding: EdgeInsets.all(Screen.isTablet(context) ? 40 : 24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -163,9 +170,11 @@ class _QuizUnlockState extends State<QuizUnlock> {
 
   getBottomHalf() {
     return Container(
+      height: Screen.height(context, percentage: 45),
       color: Theme.of(context).primaryColor,
       child: Column(
-        children: <Widget>[Expanded(child: buildUnlockForm())],
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[Container(width: Screen.width(context), child: buildUnlockForm())],
       ),
     );
   }
@@ -176,8 +185,8 @@ class _QuizUnlockState extends State<QuizUnlock> {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(
-            top: Screen.width(context, percentage: 2.5),
-            bottom: Screen.width(context, percentage: 2.5),
+            top: Screen.width(context, percentage: 5),
+            bottom: Screen.width(context, percentage: 5),
           ),
           child: Heading(
             "Enter unlock code:",
