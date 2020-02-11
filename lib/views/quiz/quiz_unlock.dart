@@ -176,8 +176,8 @@ class _QuizUnlockState extends State<QuizUnlock> {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(
-            top: Screen.width(context, percentage: 5),
-            bottom: Screen.width(context, percentage: 5),
+            top: Screen.width(context, percentage: 2.5),
+            bottom: Screen.width(context, percentage: 2.5),
           ),
           child: Heading(
             "Enter unlock code:",
