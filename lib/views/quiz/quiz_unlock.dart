@@ -98,29 +98,30 @@ class _QuizUnlockState extends State<QuizUnlock> {
   buildContent() {
     return Screen.isLandscape(context)
         ? Row(
-            children: <Widget>[
-              Expanded(child: getBottomHalf()),
-              Expanded(
-                child: Column(
-                  children: <Widget>[Expanded(child: getTopHalf())],
-                ),
-              )
-            ],
-          )
+          children: <Widget>[
+            Expanded(child: getBottomHalf()),
+            Expanded(
+              child: Column(
+                children: <Widget>[Expanded(child: getTopHalf())],
+              ),
+            ),
+          ],
+        )
         : Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(flex: 2, child: getTopHalf()),
-              Expanded(
-                  child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(child: getTopHalf()),
+            Expanded(
+              child: Row(
                 children: <Widget>[
                   Expanded(
                     child: getBottomHalf(),
                   )
                 ],
-              ))
-            ],
-          );
+              ),
+            ),
+          ],
+        );
   }
 
   getTopHalf() {
