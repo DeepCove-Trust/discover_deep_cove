@@ -110,7 +110,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
         : Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(child: getTopHalf()),
+            Expanded(flex: 2, child: getTopHalf()),
             Expanded(
               child: Row(
                 children: <Widget>[
