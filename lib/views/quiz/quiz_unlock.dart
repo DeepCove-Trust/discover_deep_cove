@@ -48,7 +48,11 @@ class _QuizUnlockState extends State<QuizUnlock> {
     Config config = await ConfigBean.of(context).find(1);
 
     if (textController.text == config.masterUnlockCode) {
-      return await unlockAllQuizzes();
+      await unlockAllQuizzes();
+      widget.refreshCallback();
+      Util.showToast(context, 'All quizzes unlocked');
+      Navigator.pop(context);
+      return;
     }
 
     Quiz quiz = await QuizBean.of(context).findByCode(textController.text);
