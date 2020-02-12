@@ -172,7 +172,7 @@ class QuizViewState extends State<QuizView> {
       return [
         QuizTextButton(onTap: () => handleAnswer(1), text: 'True'),
         QuizTextButton(onTap: () => handleAnswer(0), text: 'False')
-      ];
+      ].toList();
     }
 
     //Randomizes the answers so the tiles are in different locations each time
