@@ -3,6 +3,7 @@ import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/util/util.dart';
 import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,11 @@ class _QuizUnlockState extends State<QuizUnlock> {
     Config config = await ConfigBean.of(context).find(1);
 
     if (textController.text == config.masterUnlockCode) {
-      return await unlockAllQuizzes();
+      await unlockAllQuizzes();
+      widget.refreshCallback();
+      Util.showToast(context, 'All quizzes unlocked');
+      Navigator.pop(context);
+      return;
     }
 
     Quiz quiz = await QuizBean.of(context).findByCode(textController.text);
@@ -97,59 +102,62 @@ class _QuizUnlockState extends State<QuizUnlock> {
 
   buildContent() {
     return Screen.isLandscape(context)
-        ? Row(
-            children: <Widget>[
-              Expanded(child: getBottomHalf()),
-              Expanded(
-                child: Column(
-                  children: <Widget>[Expanded(child: getTopHalf())],
+        ? Container(
+            child: Row(
+              children: <Widget>[
+                Container(
+                    height: Screen.height(context, percentage: 100),
+                    width: Screen.width(context, percentage: 50),
+                    child: getBottomHalf()),
+                Container(
+                  width: Screen.width(context, percentage: 50),
+                  height: Screen.height(context, percentage: 100),
+                  child: Column(
+                    children: <Widget>[Expanded(child: getTopHalf())],
+                  ),
                 ),
-              )
-            ],
+              ],
+            ),
           )
-        : Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(flex: 2, child: getTopHalf()),
-              Expanded(
-                  child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: getBottomHalf(),
-                  )
-                ],
-              ))
-            ],
+        : SingleChildScrollView(
+            child: Column(
+              children: <Widget>[getTopHalf(), getBottomHalf()],
+            ),
           );
   }
 
   getTopHalf() {
-    return Padding(
+    return Container(
+      height: Screen.height(context, percentage: 45),
       padding: EdgeInsets.all(Screen.isTablet(context) ? 40 : 24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Heading('Your teacher will give you codes to unlock quizzes.'),
+          SubHeading(
+            'Your teacher will give you codes to unlock quizzes.',
+            size: Screen.isTablet(context) ? 40 : 20,
+          ),
           SizedBox(height: 40),
           Container(
-              padding: EdgeInsets.all(16),
-              decoration:
-                  BoxDecoration(border: Border.all(color: Colors.white)),
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    'Not a student?',
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        fontSize: 30,
-                        color: Colors.white),
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  'Not a student?',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    fontSize: Screen.isTablet(context) ? 30 : 24,
+                    color: Colors.white,
                   ),
-                  SizedBox(height: 12),
-                  SubHeading(
-                    'Use the code in the main hostel building to unlock all quizzes.',
-                  ),
-                ],
-              ))
+                ),
+                SizedBox(height: 12),
+                BodyText(
+                  'Use the code in the main hostel building to unlock all quizzes.',
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -157,9 +165,13 @@ class _QuizUnlockState extends State<QuizUnlock> {
 
   getBottomHalf() {
     return Container(
+      height: Screen.height(context, percentage: 45),
       color: Theme.of(context).primaryColor,
       child: Column(
-        children: <Widget>[Expanded(child: buildUnlockForm())],
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(width: Screen.width(context), child: buildUnlockForm())
+        ],
       ),
     );
   }

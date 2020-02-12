@@ -47,6 +47,9 @@ class QuizViewState extends State<QuizView> {
     widget.quiz.questions = await QuizQuestionBean.of(context)
         .preloadAllRelationships(widget.quiz.questions);
     setState(() => questionsLoaded = true);
+
+    //Randomizes the order of the quiz questions
+    if(widget.quiz.shuffle)widget.quiz.questions.shuffle();
   }
 
   Future<void> updateHighScore(int score) async {
@@ -169,8 +172,11 @@ class QuizViewState extends State<QuizView> {
       return [
         QuizTextButton(onTap: () => handleAnswer(1), text: 'True'),
         QuizTextButton(onTap: () => handleAnswer(0), text: 'False')
-      ];
+      ].toList();
     }
+
+    //Randomizes the answers so the tiles are in different locations each time
+    if(widget.quiz.shuffle)currentQuestion.answers.shuffle();
 
     // does the question have any image answers?
     return currentQuestion.answers.any((a) => a.image != null)

@@ -11,6 +11,7 @@ abstract class _QuizBean implements Bean<Quiz> {
   final updatedAt = DateTimeField('updated_at');
   final _unlocked = BoolField('unlocked');
   final unlockCode = StrField('unlock_code');
+  final _shuffle = IntField('shuffle');
   final title = StrField('title');
   final _attempts = IntField('attempts');
   final _highScore = IntField('high_score');
@@ -21,6 +22,7 @@ abstract class _QuizBean implements Bean<Quiz> {
         updatedAt.name: updatedAt,
         _unlocked.name: _unlocked,
         unlockCode.name: unlockCode,
+        _shuffle.name: _shuffle,
         title.name: title,
         _attempts.name: _attempts,
         _highScore.name: _highScore,
@@ -32,6 +34,7 @@ abstract class _QuizBean implements Bean<Quiz> {
     model.updatedAt = adapter.parseValue(map['updated_at']);
     model._unlocked = adapter.parseValue(map['unlocked']);
     model.unlockCode = adapter.parseValue(map['unlock_code']);
+    model._shuffle = adapter.parseValue(map['shuffle']);
     model.title = adapter.parseValue(map['title']);
     model._attempts = adapter.parseValue(map['attempts']);
     model._highScore = adapter.parseValue(map['high_score']);
@@ -49,6 +52,7 @@ abstract class _QuizBean implements Bean<Quiz> {
       ret.add(updatedAt.set(model.updatedAt));
       ret.add(_unlocked.set(model._unlocked));
       ret.add(unlockCode.set(model.unlockCode));
+      ret.add(_shuffle.set(model._shuffle));
       ret.add(title.set(model.title));
       ret.add(_attempts.set(model._attempts));
       ret.add(_highScore.set(model._highScore));
@@ -61,6 +65,7 @@ abstract class _QuizBean implements Bean<Quiz> {
         ret.add(_unlocked.set(model._unlocked));
       if (only.contains(unlockCode.name))
         ret.add(unlockCode.set(model.unlockCode));
+      if (only.contains(_shuffle.name)) ret.add(_shuffle.set(model._shuffle));
       if (only.contains(title.name)) ret.add(title.set(model.title));
       if (only.contains(_attempts.name))
         ret.add(_attempts.set(model._attempts));
@@ -79,6 +84,9 @@ abstract class _QuizBean implements Bean<Quiz> {
       }
       if (model.unlockCode != null) {
         ret.add(unlockCode.set(model.unlockCode));
+      }
+      if (model._shuffle != null) {
+        ret.add(_shuffle.set(model._shuffle));
       }
       if (model.title != null) {
         ret.add(title.set(model.title));
@@ -103,6 +111,7 @@ abstract class _QuizBean implements Bean<Quiz> {
     st.addDateTime(updatedAt.name, isNullable: false);
     st.addBool(_unlocked.name, isNullable: true);
     st.addStr(unlockCode.name, isNullable: true);
+    st.addInt(_shuffle.name, isNullable: false);
     st.addStr(title.name, isNullable: false);
     st.addInt(_attempts.name, isNullable: true);
     st.addInt(_highScore.name, isNullable: true);
