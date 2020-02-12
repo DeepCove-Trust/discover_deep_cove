@@ -28,8 +28,11 @@ class Quiz {
   @Column(isNullable: true)
   String unlockCode;
 
-  @Column()
-  bool shuffle;
+  @Column(name: 'shuffle')
+  int _shuffle;
+
+  @IgnoreColumn()
+  bool get shuffle => _shuffle == 1;
 
   @Column()
   String title;
