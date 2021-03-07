@@ -153,7 +153,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
                 ),
                 SizedBox(height: 12),
                 BodyText(
-                  'Use the code in the main hostel building to unlock all quizzes.',
+                  'Use the code in the office to unlock all quizzes.',
                 ),
               ],
             ),
