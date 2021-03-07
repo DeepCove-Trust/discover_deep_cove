@@ -26,14 +26,14 @@ dependencies:
   jaguar_query_sqflite: ^2.2.9        # BSD
 
   # Map related packages
-  flutter_map: ^0.5.6
+  flutter_map: ^0.8.0
   flutter_map_marker_cluster: ^0.2.1  # BSD
 
   # Misc
   http: ^0.12.0+2                     # BSD
   archive: ^2.0.8                     # Apache 2.0
   path_provider: ^1.3.0               # BSD
-  path_provider_ex: ^1.0.1             # MIT
+  path_provider_ex: ^1.0.1            # MIT
   flutter_dotenv: ^2.0.1              # MIT
   permission_handler: ^3.0.1          # MIT
   majascan:

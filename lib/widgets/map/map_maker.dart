@@ -183,7 +183,7 @@ class _MapMakerState extends VerboseState<MapMaker>
           swPanBoundary: Env.swPanBoundary,
           nePanBoundary: Env.nePanBoundary,
           plugins: [MarkerClusterPlugin()],
-          onPositionChanged: (mapPosition, hasGesture, isGesture) {
+          onPositionChanged: (mapPosition, hasGesture) {
             if (mapPosition.center != Env.mapDefaultCenter) {
               WidgetsBinding.instance.addPostFrameCallback((_) =>
                   _onAfterBuild(context, mapPosition.center, mapPosition.zoom));
@@ -210,9 +210,7 @@ class _MapMakerState extends VerboseState<MapMaker>
   MarkerClusterLayerOptions _buildMarkerClusterOptions() {
     return MarkerClusterLayerOptions(
       maxClusterRadius: 30,
-      height: 30,
-      width: 30,
-      anchorPos: AnchorPos.align(AnchorAlign.center),
+      anchor: AnchorPos.align(AnchorAlign.center),
       fitBoundsOptions: FitBoundsOptions(
         maxZoom: 18,
       ),
