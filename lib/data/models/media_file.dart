@@ -1,17 +1,18 @@
-import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/activity/activity_image.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_image.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
-import 'package:discover_deep_cove/data/models/notice.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 import 'package:meta/meta.dart';
+
+import '../database_adapter.dart';
+import 'activity/activity.dart';
+import 'activity/activity_image.dart';
+import 'factfile/fact_file_entry.dart';
+import 'factfile/fact_file_entry_image.dart';
+import 'factfile/fact_file_nugget.dart';
+import 'notice.dart';
+import 'quiz/quiz.dart';
+import 'quiz/quiz_answer.dart';
+import 'quiz/quiz_question.dart';
 
 part 'media_file.jorm.dart';
 
@@ -19,8 +20,8 @@ part 'media_file.jorm.dart';
 class MediaFile {
   MediaFile();
 
-  MediaFile.create({
-      @required this.path,
+  MediaFile.create(
+      {@required this.path,
       @required this.category,
       @required this.name,
       @required this.source,

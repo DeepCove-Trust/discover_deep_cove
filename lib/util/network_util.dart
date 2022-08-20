@@ -1,12 +1,12 @@
 import 'dart:io';
-import 'package:discover_deep_cove/util/exeptions.dart';
-import 'package:discover_deep_cove/util/permissions.dart';
+
+import 'package:http/http.dart' as Http;
 import 'package:meta/meta.dart';
 import 'package:path/path.dart';
 
-import 'package:http/http.dart' as Http;
-
-import 'package:discover_deep_cove/env.dart';
+import '../env.dart';
+import 'exeptions.dart';
+import 'permissions.dart';
 
 class NetworkUtil {
   /// Returns true if the application receives an HTTP response from the
@@ -67,9 +67,7 @@ class NetworkUtil {
   static Future<Http.Response> _requestResponse(String url) async {
     Http.Response response = await Http.get(url);
     if (response.statusCode != 200)
-      throw ApiException(
-          message: 'Request to $url returned non-OK response',
-          statusCode: response.statusCode);
+      throw ApiException(message: 'Request to $url returned non-OK response', statusCode: response.statusCode);
     return response;
   }
 
@@ -77,20 +75,15 @@ class NetworkUtil {
   /// [absPath] and [filename]. Will create directories that do not exist.
   /// Use within try-catch.
   static Future<File> httpResponseToFile(
-      {@required Http.Response response,
-      @required String absPath,
-      @required String filename}) async {
-    return await bytesToFile(
-        bytes: response.bodyBytes, absPath: absPath, filename: filename);
+      {@required Http.Response response, @required String absPath, @required String filename}) async {
+    return await bytesToFile(bytes: response.bodyBytes, absPath: absPath, filename: filename);
   }
 
   /// Stores the supplied [List<int>] as a file, using the specified [absPath]
   /// and [filename].
   /// Creates directories if required.
   static Future<File> bytesToFile(
-      {@required List<int> bytes,
-      @required String absPath,
-      @required String filename}) async {
+      {@required List<int> bytes, @required String absPath, @required String filename}) async {
     // Check for storage permissions before saving file
     if (!(await Permissions.ensurePermission(PermissionGroup.storage))) {
       throw Exception('Application does not have permission to save file.');

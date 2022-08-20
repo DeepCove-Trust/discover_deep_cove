@@ -1,9 +1,10 @@
-import 'package:meta/meta.dart';
-import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
+import 'package:meta/meta.dart';
+
+import '../../database_adapter.dart';
+import '../media_file.dart';
+import 'activity.dart';
 
 part 'activity_image.jorm.dart';
 
@@ -23,8 +24,7 @@ class ActivityImage {
 class ActivityImageBean extends Bean<ActivityImage> with _ActivityImageBean {
   ActivityImageBean(Adapter adapter) : super(adapter);
 
-  ActivityImageBean.of(BuildContext context)
-      : super(DatabaseAdapter.of(context));
+  ActivityImageBean.of(BuildContext context) : super(DatabaseAdapter.of(context));
 
   ActivityBean _activityBean;
 

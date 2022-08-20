@@ -1,12 +1,13 @@
-import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_image.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
-import 'package:discover_deep_cove/data/models/media_file.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 import 'package:meta/meta.dart';
+
+import '../../database_adapter.dart';
+import '../media_file.dart';
+import 'fact_file_category.dart';
+import 'fact_file_entry_image.dart';
+import 'fact_file_nugget.dart';
 
 part 'fact_file_entry.jorm.dart';
 
@@ -84,8 +85,7 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
         super(adapter);
 
   FactFileEntryBean.of(BuildContext context)
-      : factFileEntryImageBean =
-            FactFileEntryImageBean(DatabaseAdapter.of(context)),
+      : factFileEntryImageBean = FactFileEntryImageBean(DatabaseAdapter.of(context)),
         factFileNuggetBean = FactFileNuggetBean(DatabaseAdapter.of(context)),
         super(DatabaseAdapter.of(context));
 
@@ -98,8 +98,7 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
 
   FactFileCategoryBean _factFileCategoryBean;
 
-  FactFileCategoryBean get factFileCategoryBean =>
-      _factFileCategoryBean ??= FactFileCategoryBean(adapter);
+  FactFileCategoryBean get factFileCategoryBean => _factFileCategoryBean ??= FactFileCategoryBean(adapter);
 
   final String tableName = 'fact_file_entries';
 
@@ -137,11 +136,9 @@ class FactFileEntryBean extends Bean<FactFileEntry> with _FactFileEntryBean {
 
     entry.mainImage = await mediaFileBean.find(entry.mainImageId);
 
-    if (entry.pronounceAudioId != null)
-      entry.pronounceAudio = await mediaFileBean.find(entry.pronounceAudioId);
+    if (entry.pronounceAudioId != null) entry.pronounceAudio = await mediaFileBean.find(entry.pronounceAudioId);
 
-    if (entry.listenAudioId != null)
-      entry.listenAudio = await mediaFileBean.find(entry.listenAudioId);
+    if (entry.listenAudioId != null) entry.listenAudio = await mediaFileBean.find(entry.listenAudioId);
 
     for (FactFileNugget nugget in entry.nuggets) {
       nugget = await factFileNuggetBean.preloadImage(nugget);

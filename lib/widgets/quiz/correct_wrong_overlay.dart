@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
-import 'package:discover_deep_cove/widgets/quiz/quiz_image_button.dart';
+import '../../data/models/quiz/quiz_answer.dart';
+import '../../util/screen.dart';
+import '../misc/text/body_text.dart';
+import '../misc/text/heading.dart';
+import '../misc/text/sub_heading.dart';
+import 'quiz_image_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -30,8 +30,7 @@ class CorrectWrongOverlay extends StatefulWidget {
   State createState() => CorrectWrongOverlayState();
 }
 
-class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
-    with SingleTickerProviderStateMixin {
+class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTickerProviderStateMixin {
   Animation<double> _iconAnimation;
   AnimationController _iconAnimationController;
   bool isImageQuestion;
@@ -39,10 +38,8 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
   @override
   void initState() {
     super.initState();
-    _iconAnimationController =
-        AnimationController(duration: Duration(seconds: 2), vsync: this);
-    _iconAnimation = CurvedAnimation(
-        parent: _iconAnimationController, curve: Curves.elasticOut);
+    _iconAnimationController = AnimationController(duration: Duration(seconds: 2), vsync: this);
+    _iconAnimation = CurvedAnimation(parent: _iconAnimationController, curve: Curves.elasticOut);
     _iconAnimation.addListener(() => this.setState(() {}));
     _iconAnimationController.forward();
     isImageQuestion = widget.imageGuess != null ? true : false;
@@ -83,9 +80,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
           child: Transform.rotate(
             angle: _iconAnimation.value * 2 * pi,
             child: Icon(
-              widget.isCorrect
-                  ? FontAwesomeIcons.check
-                  : FontAwesomeIcons.times,
+              widget.isCorrect ? FontAwesomeIcons.check : FontAwesomeIcons.times,
               size: Screen.width(context, percentage: 15),
               color: widget.isCorrect ? Colors.green : Colors.red,
             ),
@@ -207,9 +202,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay>
           child: Transform.rotate(
             angle: _iconAnimation.value * 2 * pi,
             child: Icon(
-              widget.isCorrect
-                  ? FontAwesomeIcons.check
-                  : FontAwesomeIcons.times,
+              widget.isCorrect ? FontAwesomeIcons.check : FontAwesomeIcons.times,
               size: Screen.isTablet(context) ? 100 : 80,
               color: widget.isCorrect ? Colors.green : Colors.red,
             ),

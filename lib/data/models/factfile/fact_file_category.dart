@@ -1,9 +1,10 @@
-import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 import 'package:meta/meta.dart';
+
+import '../../database_adapter.dart';
+import 'fact_file_entry.dart';
 
 part 'fact_file_category.jorm.dart';
 
@@ -29,8 +30,7 @@ class FactFileCategory {
 
 /// Bean class for database manipulation - generated mixin code
 @GenBean()
-class FactFileCategoryBean extends Bean<FactFileCategory>
-    with _FactFileCategoryBean {
+class FactFileCategoryBean extends Bean<FactFileCategory> with _FactFileCategoryBean {
   FactFileCategoryBean(Adapter adapter)
       : factFileEntryBean = FactFileEntryBean(adapter),
         super(adapter);
@@ -46,11 +46,10 @@ class FactFileCategoryBean extends Bean<FactFileCategory>
   // Pre-loads all categories with their entries, and in turn preloads all
   // entries with their media files.
   Future<List<FactFileCategory>> getAllWithPreloadedEntries() async {
-
     List<FactFileCategory> categories = await getAll();
     categories = await preloadAll(categories);
 
-    for(FactFileCategory category in categories){
+    for (FactFileCategory category in categories) {
       await factFileEntryBean.preloadAll(category.entries);
       await factFileEntryBean.preloadExtras(category.entries);
     }

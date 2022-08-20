@@ -1,30 +1,31 @@
 import 'dart:io';
 
-import 'package:discover_deep_cove/data/db.dart';
-import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/activity/activity_image.dart';
-import 'package:discover_deep_cove/data/models/activity/track.dart';
-import 'package:discover_deep_cove/data/models/config.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_image.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
-import 'package:discover_deep_cove/data/models/media_file.dart';
-import 'package:discover_deep_cove/data/models/notice.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
-import 'package:discover_deep_cove/data/models/user_photo.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/data_sync/config_sync.dart';
-import 'package:discover_deep_cove/util/data_sync/fact_file_sync.dart';
-import 'package:discover_deep_cove/util/data_sync/media_sync.dart';
-import 'package:discover_deep_cove/util/data_sync/quiz_sync.dart';
-import 'package:discover_deep_cove/util/data_sync/track_sync.dart';
-import 'package:discover_deep_cove/util/exeptions.dart';
-import 'package:discover_deep_cove/util/network_util.dart';
-import 'package:discover_deep_cove/util/noticeboard_sync.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/db.dart';
+import '../../data/models/activity/activity.dart';
+import '../../data/models/activity/activity_image.dart';
+import '../../data/models/activity/track.dart';
+import '../../data/models/config.dart';
+import '../../data/models/factfile/fact_file_category.dart';
+import '../../data/models/factfile/fact_file_entry.dart';
+import '../../data/models/factfile/fact_file_entry_image.dart';
+import '../../data/models/factfile/fact_file_nugget.dart';
+import '../../data/models/media_file.dart';
+import '../../data/models/notice.dart';
+import '../../data/models/quiz/quiz.dart';
+import '../../data/models/quiz/quiz_answer.dart';
+import '../../data/models/quiz/quiz_question.dart';
+import '../../data/models/user_photo.dart';
+import '../../env.dart';
+import '../exeptions.dart';
+import '../network_util.dart';
+import '../noticeboard_sync.dart';
+import 'config_sync.dart';
+import 'fact_file_sync.dart';
+import 'media_sync.dart';
+import 'quiz_sync.dart';
+import 'track_sync.dart';
 
 enum SyncState {
   /// The sync process has not yet begun

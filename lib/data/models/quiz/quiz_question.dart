@@ -1,9 +1,10 @@
-import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/media_file.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
+
+import '../../database_adapter.dart';
+import '../media_file.dart';
+import 'quiz.dart';
+import 'quiz_answer.dart';
 
 part 'quiz_question.jorm.dart';
 
@@ -20,8 +21,7 @@ class QuizQuestion {
   int _trueFalseAnswer;
 
   @IgnoreColumn()
-  bool get trueFalseAnswer =>
-      _trueFalseAnswer != null ? _trueFalseAnswer == 1 : null;
+  bool get trueFalseAnswer => _trueFalseAnswer != null ? _trueFalseAnswer == 1 : null;
 
   @Column()
   String text;
@@ -78,13 +78,11 @@ class QuizQuestionBean extends Bean<QuizQuestion> with _QuizQuestionBean {
     if (question.audioId != null) {
       question.audio = await mediaFileBean.find(question.audioId);
     }
-    question.answers =
-        await quizAnswerBean.preloadAllRelationships(question.answers);
+    question.answers = await quizAnswerBean.preloadAllRelationships(question.answers);
     return question;
   }
 
-  Future<List<QuizQuestion>> preloadAllRelationships(
-      List<QuizQuestion> questions) async {
+  Future<List<QuizQuestion>> preloadAllRelationships(List<QuizQuestion> questions) async {
     for (QuizQuestion question in questions) {
       question = await preloadRelationships(question);
     }

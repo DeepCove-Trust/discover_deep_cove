@@ -1,12 +1,13 @@
 import 'dart:io';
 
-import 'package:discover_deep_cove/data/models/media_file.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/image_source.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/models/media_file.dart';
+import '../../env.dart';
+import '../../util/screen.dart';
+import '../misc/image_source.dart';
+import '../misc/text/body_text.dart';
+import '../misc/text/sub_heading.dart';
 
 class Tile extends StatelessWidget {
   final String title;

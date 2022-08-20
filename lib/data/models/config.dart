@@ -1,17 +1,15 @@
-import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:meta/meta.dart';
+
+import '../database_adapter.dart';
 
 part 'config.jorm.dart';
 
 class Config {
   Config();
 
-  Config.make({
-    @required this.id,
-    @required this.masterUnlockCode
-  });
+  Config.make({@required this.id, @required this.masterUnlockCode});
 
   @PrimaryKey()
   int id;

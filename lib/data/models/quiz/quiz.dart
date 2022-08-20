@@ -1,6 +1,6 @@
-import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/media_file.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
+import '../../database_adapter.dart';
+import '../media_file.dart';
+import 'quiz_question.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 
@@ -51,7 +51,6 @@ class Quiz {
   int get highScore => _highScore ?? 0;
   void setHighScore(val) => _highScore = val;
 
-
   @HasMany(QuizQuestionBean)
   List<QuizQuestion> questions;
 
@@ -87,7 +86,7 @@ class QuizBean extends Bean<Quiz> with _QuizBean {
     return quizzes;
   }
 
-  Future<Quiz> preloadExtras(Quiz quiz)async{
+  Future<Quiz> preloadExtras(Quiz quiz) async {
     quiz.image = await mediaFileBean.find(quiz.imageId);
     return quiz;
   }
@@ -105,8 +104,7 @@ class QuizBean extends Bean<Quiz> with _QuizBean {
     return await preloadExtrasForAll(quizzes);
   }
 
-  Future<Quiz> findByCode(String code,
-      {bool preload = false, bool cascade = false}) async {
+  Future<Quiz> findByCode(String code, {bool preload = false, bool cascade = false}) async {
     final Find find = finder.where(this.unlockCode.eq(code));
     final Quiz model = await findOne(find);
     if (preload && model != null) {

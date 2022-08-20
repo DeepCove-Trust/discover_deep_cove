@@ -1,8 +1,9 @@
-import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/media_file.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
+
+import '../../database_adapter.dart';
+import '../media_file.dart';
+import 'quiz_question.dart';
 
 part 'quiz_answer.jorm.dart';
 
@@ -40,8 +41,7 @@ class QuizAnswerBean extends Bean<QuizAnswer> with _QuizAnswerBean {
 
   QuizQuestionBean _quizQuestionBean;
 
-  QuizQuestionBean get quizQuestionBean =>
-      _quizQuestionBean ?? QuizQuestionBean(adapter);
+  QuizQuestionBean get quizQuestionBean => _quizQuestionBean ?? QuizQuestionBean(adapter);
 
   final String tableName = 'quiz_answers';
 
@@ -53,9 +53,8 @@ class QuizAnswerBean extends Bean<QuizAnswer> with _QuizAnswerBean {
     return answer;
   }
 
-  Future<List<QuizAnswer>> preloadAllRelationships(
-      List<QuizAnswer> answers) async {
-    for(QuizAnswer answer in answers){
+  Future<List<QuizAnswer>> preloadAllRelationships(List<QuizAnswer> answers) async {
+    for (QuizAnswer answer in answers) {
       answer = await preloadRelationships(answer);
     }
     return answers;

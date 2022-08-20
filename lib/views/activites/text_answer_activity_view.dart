@@ -1,16 +1,17 @@
 import 'dart:io';
 
-import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
-import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
-import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
-import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/custom_vertical_divider.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/models/activity/activity.dart';
+import '../../env.dart';
+import '../../util/screen.dart';
+import '../../widgets/activities/activity_app_bar.dart';
+import '../../widgets/activities/activity_pass_save_bar.dart';
+import '../../widgets/activities/editAnswer.dart';
+import '../../widgets/misc/bottom_back_button.dart';
+import '../../widgets/misc/custom_vertical_divider.dart';
+import '../../widgets/misc/text/body_text.dart';
+import '../../widgets/misc/text/sub_heading.dart';
 
 class TextAnswerActivityView extends StatefulWidget {
   final Activity activity;
@@ -42,9 +43,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
       child: Scaffold(
         appBar: ActivityAppBar(
           text: widget.activity.title,
-          onTap: widget.activity.factFileId != null
-              ? () => displayFactFile(widget.activity.factFileId)
-              : null,
+          onTap: widget.activity.factFileId != null ? () => displayFactFile(widget.activity.factFileId) : null,
         ),
         body: Stack(
           fit: StackFit.expand,
@@ -52,9 +51,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
             buildContent(),
           ],
         ),
-        bottomNavigationBar: widget.isReview
-            ? BottomBackButton()
-            : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
+        bottomNavigationBar: widget.isReview ? BottomBackButton() : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
         backgroundColor: Theme.of(context).backgroundColor,
       ),
     );
@@ -63,11 +60,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
   buildContent() {
     return (Screen.isTablet(context) && Screen.isLandscape(context))
         ? Row(
-            children: [
-              Expanded(child: getTopHalf()),
-              CustomVerticalDivider(),
-              Expanded(child: getBottomHalf())
-            ],
+            children: [Expanded(child: getTopHalf()), CustomVerticalDivider(), Expanded(child: getBottomHalf())],
           )
         : Scrollbar(
             child: SingleChildScrollView(
@@ -170,16 +163,16 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                             height: Screen.height(context,
                                 percentage: Screen.isTablet(context)
                                     ? 45.0
-                                    : Screen.isSmall(context) ? 30.0 : 38.0),
+                                    : Screen.isSmall(context)
+                                        ? 30.0
+                                        : 38.0),
                             color: Colors.white,
                             child: TextField(
                               focusNode: _textFieldFocus,
                               keyboardType: TextInputType.multiline,
                               textCapitalization: TextCapitalization.sentences,
                               maxLines: 10,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: Screen.isTablet(context) ? 30 : 20),
+                              style: TextStyle(color: Colors.black, fontSize: Screen.isTablet(context) ? 30 : 20),
                               controller: controller,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -200,20 +193,16 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
 
   buildGraphic() {
     return Padding(
-      padding:
-          EdgeInsets.symmetric(vertical: Screen.isTablet(context) ? 20 : 10),
+      padding: EdgeInsets.symmetric(vertical: Screen.isTablet(context) ? 20 : 10),
       child: widget.activity.image == null
           ? null
           : Container(
-              width: Screen.width(context,
-                  percentage: Screen.isLandscape(context) ? 33 : 85),
-              height: Screen.width(context,
-                  percentage: Screen.isLandscape(context) ? 33 : 85),
+              width: Screen.width(context, percentage: Screen.isLandscape(context) ? 33 : 85),
+              height: Screen.width(context, percentage: Screen.isLandscape(context) ? 33 : 85),
               decoration: BoxDecoration(
                   image: DecorationImage(
                 fit: BoxFit.cover,
-                image: FileImage(
-                    File(Env.getResourcePath(widget.activity.image.path))),
+                image: FileImage(File(Env.getResourcePath(widget.activity.image.path))),
               )),
               child: Container()),
     );

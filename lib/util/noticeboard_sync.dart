@@ -1,10 +1,11 @@
 import 'dart:convert';
 
-import 'package:discover_deep_cove/data/models/notice.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/local_notifications.dart';
-import 'package:discover_deep_cove/util/network_util.dart';
 import 'package:flutter/material.dart';
+
+import '../data/models/notice.dart';
+import '../env.dart';
+import 'local_notifications.dart';
+import 'network_util.dart';
 
 class NoticeboardSync {
   static Future<void> retrieveNotices(BuildContext context) async {

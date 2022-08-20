@@ -1,13 +1,14 @@
 import 'dart:io';
 
-import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
-import 'package:discover_deep_cove/widgets/fact_file/fact_file_tab.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/models/factfile/fact_file_category.dart';
+import '../../data/models/factfile/fact_file_entry.dart';
+import '../../env.dart';
+import '../../util/screen.dart';
+import '../../widgets/fact_file/fact_file_tab.dart';
+import '../../widgets/misc/text/body_text.dart';
+import '../../widgets/misc/text/sub_heading.dart';
 
 /// Displays the tabs and a [tile] representing each [FactFileEntry]
 class FactFileIndex extends StatefulWidget {
@@ -15,8 +16,7 @@ class FactFileIndex extends StatefulWidget {
   _FactFileIndexState createState() => _FactFileIndexState();
 }
 
-class _FactFileIndexState extends State<FactFileIndex>
-    with TickerProviderStateMixin {
+class _FactFileIndexState extends State<FactFileIndex> with TickerProviderStateMixin {
   TabController controller;
   FactFileCategoryBean factFileCategoryBean;
   List<FactFileCategory> categories;
@@ -26,14 +26,15 @@ class _FactFileIndexState extends State<FactFileIndex>
     super.initState();
     factFileCategoryBean = FactFileCategoryBean.of(context);
 
-    categories =
-        PageStorage.of(context).readState(context, identifier: 'FactFiles');
+    categories = PageStorage.of(context).readState(context, identifier: 'FactFiles');
     if (categories == null) refreshData();
 
     controller = TabController(
         vsync: this,
         length: categories?.length != null
-            ? categories.length == 0 ? 1 : categories.length
+            ? categories.length == 0
+                ? 1
+                : categories.length
             : 1);
   }
 
@@ -44,16 +45,14 @@ class _FactFileIndexState extends State<FactFileIndex>
   }
 
   Future<void> refreshData() async {
-    List<FactFileCategory> data =
-        await factFileCategoryBean.getAllWithPreloadedEntries();
+    List<FactFileCategory> data = await factFileCategoryBean.getAllWithPreloadedEntries();
 
     PageStorage.of(context).writeState(context, data, identifier: 'FactFiles');
 
     if (mounted) {
       setState(() {
         categories = data;
-        controller = TabController(
-            vsync: this, length: data.length == 0 ? 1 : data.length);
+        controller = TabController(vsync: this, length: data.length == 0 ? 1 : data.length);
       });
     }
 
@@ -72,14 +71,12 @@ class _FactFileIndexState extends State<FactFileIndex>
         ? [
             Container(
               width: Screen.width(context),
-              child:
-                  BodyText(categories == null ? 'Loading Fact Files...' : ''),
+              child: BodyText(categories == null ? 'Loading Fact Files...' : ''),
             )
           ]
         : categories.map((c) {
             return Container(
-              width: Screen.width(context) /
-                  (categories.length > 2 ? 3 : categories.length),
+              width: Screen.width(context) / (categories.length > 2 ? 3 : categories.length),
               // Todo: better way?
               child: BodyText(c.name),
             );
@@ -90,7 +87,7 @@ class _FactFileIndexState extends State<FactFileIndex>
   List<FactFileTab> getTabs() {
     return categories.map((c) {
       c.entries.sort((a, b) => a.primaryName.toString().compareTo(b.primaryName));
-      
+
       return FactFileTab(c.entries);
     }).toList();
   }
@@ -105,9 +102,7 @@ class _FactFileIndexState extends State<FactFileIndex>
             )
           : TabBarView(
               controller: controller,
-              children: categories.length == 0
-                  ? [Center(child: SubHeading('No content...'))]
-                  : getTabs()),
+              children: categories.length == 0 ? [Center(child: SubHeading('No content...'))] : getTabs()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }

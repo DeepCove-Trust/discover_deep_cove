@@ -1,22 +1,23 @@
 import 'dart:async';
 
-import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/util/noticeboard_sync.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/util/util.dart';
-import 'package:discover_deep_cove/util/verbose_state.dart';
-import 'package:discover_deep_cove/views/activites/activity_screen_args.dart';
-import 'package:discover_deep_cove/views/fact_file/fact_file_index.dart';
-import 'package:discover_deep_cove/views/quiz/quiz_index.dart';
-import 'package:discover_deep_cove/views/settings/settings.dart';
-import 'package:discover_deep_cove/widgets/map/map_maker.dart';
-import 'package:discover_deep_cove/widgets/misc/custom_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:majascan/majascan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+
+import '../data/models/activity/activity.dart';
+import '../util/noticeboard_sync.dart';
+import '../util/screen.dart';
+import '../util/util.dart';
+import '../util/verbose_state.dart';
+import '../widgets/map/map_maker.dart';
+import '../widgets/misc/custom_fab.dart';
+import 'activites/activity_screen_args.dart';
+import 'fact_file/fact_file_index.dart';
+import 'quiz/quiz_index.dart';
+import 'settings/settings.dart';
 
 enum Page { FactFile, Scan, Map, Quiz, Settings }
 
@@ -119,8 +120,8 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
 
     activity = await ActivityBean.of(context).preloadRelationships(activity);
 
-    if (activity.activityType == ActivityType.informational &&
-        !activity.isCompleted()) activity.informationActivityUnlocked = true;
+    if (activity.activityType == ActivityType.informational && !activity.isCompleted())
+      activity.informationActivityUnlocked = true;
 
     if (pageIs(Page.Map)) {
       mapAnimateController.sink.add(activity.id);
@@ -129,8 +130,7 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
     // allow time to animate
     await Future.delayed(Duration(milliseconds: 1100));
 
-    await Navigator.pushNamed(context, '/activity',
-        arguments: ActivityScreenArgs(activity: activity));
+    await Navigator.pushNamed(context, '/activity', arguments: ActivityScreenArgs(activity: activity));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('reloadMap', true);

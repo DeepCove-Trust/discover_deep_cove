@@ -1,10 +1,11 @@
-import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/views/quiz/quiz_view_args.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
-import 'package:discover_deep_cove/widgets/quiz/quiz_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../data/models/quiz/quiz.dart';
+import '../../util/screen.dart';
+import '../../widgets/misc/text/sub_heading.dart';
+import '../../widgets/quiz/quiz_tile.dart';
+import 'quiz_view_args.dart';
 
 class QuizIndex extends StatefulWidget {
   @override
@@ -24,10 +25,8 @@ class _QuizIndexState extends State<QuizIndex> {
 
   Future<void> refreshData() async {
     List<Quiz> activeQuizzes = await QuizBean.of(context).getAllAndPreload();
-    List<Quiz> unlockedQuizzes =
-        activeQuizzes.where((q) => q.unlocked).toList();
-    PageStorage.of(context)
-        .writeState(context, unlockedQuizzes, identifier: 'Quizzes');
+    List<Quiz> unlockedQuizzes = activeQuizzes.where((q) => q.unlocked).toList();
+    PageStorage.of(context).writeState(context, unlockedQuizzes, identifier: 'Quizzes');
     setState(() => quizzes = unlockedQuizzes);
   }
 
@@ -43,8 +42,7 @@ class _QuizIndexState extends State<QuizIndex> {
         actions: <Widget>[
           FlatButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/quizUnlock',
-                  arguments: refreshData);
+              Navigator.pushNamed(context, '/quizUnlock', arguments: refreshData);
             },
             color: Colors.transparent,
             padding: EdgeInsets.only(top: 7.0),
@@ -80,7 +78,9 @@ class _QuizIndexState extends State<QuizIndex> {
                       mainAxisSpacing: Screen.width(context, percentage: 2.5),
                       crossAxisSpacing: Screen.width(context, percentage: 2.5),
                       crossAxisCount: (Screen.isTablet(context)
-                          ? Screen.isPortrait(context) ? 2 : 3
+                          ? Screen.isPortrait(context)
+                              ? 2
+                              : 3
                           : 1),
                       padding: EdgeInsets.all(
                         Screen.width(context, percentage: 2.5),
@@ -102,8 +102,8 @@ class _QuizIndexState extends State<QuizIndex> {
       return Tile(
         onTap: () {
           addAttempt(quiz);
-          Navigator.of(context).pushNamed('/quizQuestions',
-              arguments: QuizViewArgs(quiz: quiz, onComplete: refreshData));
+          Navigator.of(context)
+              .pushNamed('/quizQuestions', arguments: QuizViewArgs(quiz: quiz, onComplete: refreshData));
         },
         title: quiz.title,
         subheading: quiz.attempts > 0

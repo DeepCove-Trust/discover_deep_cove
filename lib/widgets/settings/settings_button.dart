@@ -1,7 +1,8 @@
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
+
+import '../../util/screen.dart';
+import '../misc/text/body_text.dart';
+import '../misc/text/heading.dart';
 
 class SettingsButton extends StatelessWidget {
   final IconData iconData;
@@ -32,12 +33,8 @@ class SettingsButton extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(
-                  Screen.width(context,
-                      percentage: Screen.isLandscape(context) ? 25 : 10),
-                  0,
-                  Screen.width(context, percentage: 10),
-                  0),
+              padding: EdgeInsets.fromLTRB(Screen.width(context, percentage: Screen.isLandscape(context) ? 25 : 10), 0,
+                  Screen.width(context, percentage: 10), 0),
               child: Icon(
                 iconData,
                 color: Colors.white,

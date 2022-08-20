@@ -1,22 +1,23 @@
-import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/notice.dart';
-import 'package:discover_deep_cove/views/activites/activity_screen_args.dart';
-import 'package:discover_deep_cove/views/activites/activity_unlock.dart';
-import 'package:discover_deep_cove/views/activites/count_activity_view.dart';
-import 'package:discover_deep_cove/views/activites/photograph_activity_view.dart';
-import 'package:discover_deep_cove/views/activites/picture_select_activity_view.dart';
-import 'package:discover_deep_cove/views/activites/picture_tap_activity_view.dart';
-import 'package:discover_deep_cove/views/activites/text_answer_activity_view.dart';
-import 'package:discover_deep_cove/views/fact_file/fact_file_details.dart';
-import 'package:discover_deep_cove/views/home.dart';
-import 'package:discover_deep_cove/views/quiz/quiz_unlock.dart';
-import 'package:discover_deep_cove/views/quiz/quiz_view.dart';
-import 'package:discover_deep_cove/views/quiz/quiz_view_args.dart';
-import 'package:discover_deep_cove/views/settings/about.dart';
-import 'package:discover_deep_cove/views/loading_screen.dart';
-import 'package:discover_deep_cove/views/settings/noticeboard/notice_view.dart';
-import 'package:discover_deep_cove/views/settings/noticeboard/noticeboard.dart';
 import 'package:flutter/material.dart';
+
+import '../data/models/activity/activity.dart';
+import '../data/models/notice.dart';
+import '../views/activites/activity_screen_args.dart';
+import '../views/activites/activity_unlock.dart';
+import '../views/activites/count_activity_view.dart';
+import '../views/activites/photograph_activity_view.dart';
+import '../views/activites/picture_select_activity_view.dart';
+import '../views/activites/picture_tap_activity_view.dart';
+import '../views/activites/text_answer_activity_view.dart';
+import '../views/fact_file/fact_file_details.dart';
+import '../views/home.dart';
+import '../views/loading_screen.dart';
+import '../views/quiz/quiz_unlock.dart';
+import '../views/quiz/quiz_view.dart';
+import '../views/quiz/quiz_view_args.dart';
+import '../views/settings/about.dart';
+import '../views/settings/noticeboard/notice_view.dart';
+import '../views/settings/noticeboard/noticeboard.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -32,7 +33,7 @@ class RouteGenerator {
       case '/about':
         return MaterialPageRoute(builder: (_) => About());
 
-    //Noticeboard routes
+      //Noticeboard routes
       case '/noticeboard':
         return MaterialPageRoute(builder: (_) => Noticeboard());
 
@@ -105,39 +106,32 @@ class RouteGenerator {
           }
           if (aArgs.activity.activityType == ActivityType.countActivity) {
             return MaterialPageRoute(
-              builder: (_) => CountActivityView(
-                  activity: aArgs.activity, isReview: aArgs.isReview),
+              builder: (_) => CountActivityView(activity: aArgs.activity, isReview: aArgs.isReview),
             );
           }
           if (aArgs.activity.activityType == ActivityType.photographActivity) {
             return MaterialPageRoute(
-              builder: (_) => PhotographActivityView(
-                  activity: aArgs.activity, isReview: aArgs.isReview),
+              builder: (_) => PhotographActivityView(activity: aArgs.activity, isReview: aArgs.isReview),
             );
           }
-          if (aArgs.activity.activityType ==
-              ActivityType.pictureSelectActivity) {
+          if (aArgs.activity.activityType == ActivityType.pictureSelectActivity) {
             return MaterialPageRoute(
-              builder: (_) => PictureSelectActivityView(
-                  activity: aArgs.activity, isReview: aArgs.isReview),
+              builder: (_) => PictureSelectActivityView(activity: aArgs.activity, isReview: aArgs.isReview),
             );
           }
           if (aArgs.activity.activityType == ActivityType.pictureTapActivity) {
             return MaterialPageRoute(
-              builder: (_) => PictureTapActivityView(
-                  activity: aArgs.activity, isReview: aArgs.isReview),
+              builder: (_) => PictureTapActivityView(activity: aArgs.activity, isReview: aArgs.isReview),
             );
           }
           if (aArgs.activity.activityType == ActivityType.textAnswerActivity) {
             return MaterialPageRoute(
-              builder: (_) => TextAnswerActivityView(
-                  activity: aArgs.activity, isReview: aArgs.isReview),
+              builder: (_) => TextAnswerActivityView(activity: aArgs.activity, isReview: aArgs.isReview),
             );
           }
           if (aArgs.activity.activityType == ActivityType.informational) {
             return MaterialPageRoute(
-              builder: (_) =>
-                  FactFileDetails(entryId: aArgs.activity.factFileId),
+              builder: (_) => FactFileDetails(entryId: aArgs.activity.factFileId),
             );
           }
         }

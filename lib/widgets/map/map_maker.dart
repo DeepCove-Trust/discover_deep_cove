@@ -1,12 +1,5 @@
 import 'dart:async';
 
-import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/activity/track.dart';
-import 'package:discover_deep_cove/data/models/config.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/util/verbose_state.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
@@ -15,6 +8,13 @@ import 'package:latlong/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../data/models/activity/activity.dart';
+import '../../data/models/activity/track.dart';
+import '../../data/models/config.dart';
+import '../../env.dart';
+import '../../util/screen.dart';
+import '../../util/verbose_state.dart';
+import '../misc/text/sub_heading.dart';
 import 'custom_marker.dart';
 
 class MapMaker extends StatefulWidget {
@@ -35,8 +35,7 @@ class MapMaker extends StatefulWidget {
   State createState() => _MapMakerState();
 }
 
-class _MapMakerState extends VerboseState<MapMaker>
-    with TickerProviderStateMixin {
+class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixin {
   List<Track> tracks;
   int currentTrackNum;
   StreamController<String> trackStreamController;
@@ -66,16 +65,13 @@ class _MapMakerState extends VerboseState<MapMaker>
 
     // Determine whether previous map state has been saved, otherwise use
     // default values from the env file
-    mapState =
-        PageStorage.of(context).readState(context, identifier: 'MapState') ??
-            MapState(center: Env.mapDefaultCenter, zoom: Env.mapDefaultZoom);
+    mapState = PageStorage.of(context).readState(context, identifier: 'MapState') ??
+        MapState(center: Env.mapDefaultCenter, zoom: Env.mapDefaultZoom);
 
     tracks = PageStorage.of(context).readState(context, identifier: 'Tracks');
 
     // Load track data if not in storage OR reload has been flagged
-    if (tracks == null ||
-        (PageStorage.of(context).readState(context, identifier: 'ReloadMap') ??
-            false)) loadTracks();
+    if (tracks == null || (PageStorage.of(context).readState(context, identifier: 'ReloadMap') ?? false)) loadTracks();
   }
 
   @override
@@ -160,7 +156,9 @@ class _MapMakerState extends VerboseState<MapMaker>
                     snapshot.hasData ? snapshot.data : '',
                     size: Screen.isTablet(context)
                         ? 30
-                        : Screen.isSmall(context) ? 16 : null,
+                        : Screen.isSmall(context)
+                            ? 16
+                            : null,
                   );
                 },
               )
@@ -168,7 +166,9 @@ class _MapMakerState extends VerboseState<MapMaker>
                 'Loading tracks...',
                 size: Screen.isTablet(context)
                     ? 30
-                    : Screen.isSmall(context) ? 16 : null,
+                    : Screen.isSmall(context)
+                        ? 16
+                        : null,
               ),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColorDark,
@@ -185,8 +185,8 @@ class _MapMakerState extends VerboseState<MapMaker>
           plugins: [MarkerClusterPlugin()],
           onPositionChanged: (mapPosition, hasGesture, isGesture) {
             if (mapPosition.center != Env.mapDefaultCenter) {
-              WidgetsBinding.instance.addPostFrameCallback((_) =>
-                  _onAfterBuild(context, mapPosition.center, mapPosition.zoom));
+              WidgetsBinding.instance
+                  .addPostFrameCallback((_) => _onAfterBuild(context, mapPosition.center, mapPosition.zoom));
             }
           },
         ),
@@ -220,13 +220,11 @@ class _MapMakerState extends VerboseState<MapMaker>
       showPolygon: false,
       builder: (context, markers) {
         // Cluster will only show red if every marker belongs to current track.
-        bool isForCurrent = markers
-            .every((marker) => (marker as CustomMarker).track == currentTrack);
+        bool isForCurrent = markers.every((marker) => (marker as CustomMarker).track == currentTrack);
 
         return FloatingActionButton(
           child: Text(markers.length.toString()),
-          backgroundColor:
-              isForCurrent ? Theme.of(context).accentColor : Colors.grey,
+          backgroundColor: isForCurrent ? Theme.of(context).accentColor : Colors.grey,
           onPressed: null,
           heroTag: null,
         );
@@ -251,23 +249,17 @@ class _MapMakerState extends VerboseState<MapMaker>
   }
 
   void animatedMove({LatLng latLng, double zoom}) {
-    final _latTween = Tween<double>(
-        begin: widget.mapController.center.latitude, end: latLng.latitude);
-    final _lngTween = Tween<double>(
-        begin: widget.mapController.center.longitude, end: latLng.longitude);
-    final _zoomTween =
-        Tween<double>(begin: widget.mapController.zoom, end: zoom);
+    final _latTween = Tween<double>(begin: widget.mapController.center.latitude, end: latLng.latitude);
+    final _lngTween = Tween<double>(begin: widget.mapController.center.longitude, end: latLng.longitude);
+    final _zoomTween = Tween<double>(begin: widget.mapController.zoom, end: zoom);
 
-    var controller = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
+    var controller = AnimationController(duration: const Duration(milliseconds: 1000), vsync: this);
 
-    Animation<double> animation =
-        CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
+    Animation<double> animation = CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
 
     controller.addListener(() {
-      widget.mapController.move(
-          LatLng(_latTween.evaluate(animation), _lngTween.evaluate(animation)),
-          _zoomTween.evaluate(animation));
+      widget.mapController
+          .move(LatLng(_latTween.evaluate(animation), _lngTween.evaluate(animation)), _zoomTween.evaluate(animation));
     });
 
     animation.addStatusListener((status) {
@@ -287,9 +279,7 @@ class _MapMakerState extends VerboseState<MapMaker>
         child: GestureDetector(
       onTap: () => widget.onMarkerTap(activity),
       child: Icon(
-        activity.isCompleted()
-            ? FontAwesomeIcons.lockOpen
-            : FontAwesomeIcons.lock,
+        activity.isCompleted() ? FontAwesomeIcons.lockOpen : FontAwesomeIcons.lock,
         size: isCurrentTrack ? 20 : 15,
         color: isCurrentTrack ? Theme.of(context).accentColor : Colors.grey,
       ),
@@ -303,9 +293,8 @@ class _MapMakerState extends VerboseState<MapMaker>
       Duration(milliseconds: 100),
     );
 
-    currentTrackNum = increase
-        ? (currentTrackNum + 1) % tracks.length
-        : (currentTrackNum + tracks.length - 1) % tracks.length;
+    currentTrackNum =
+        increase ? (currentTrackNum + 1) % tracks.length : (currentTrackNum + tracks.length - 1) % tracks.length;
 
     trackStreamController.sink.add(currentTrack.name);
     animatedMove(latLng: currentTrack.activities[0].latLng, zoom: 16.0);
@@ -315,8 +304,7 @@ class _MapMakerState extends VerboseState<MapMaker>
     Activity activity = await activityBean.find(activityId);
 
     if (activity.trackId != currentTrack.id)
-      currentTrackNum =
-          tracks.indexWhere((track) => track.id == activity.trackId);
+      currentTrackNum = tracks.indexWhere((track) => track.id == activity.trackId);
 
     if (!trackStreamController.isClosed) {
       trackStreamController.sink.add(currentTrack.name);

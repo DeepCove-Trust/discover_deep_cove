@@ -1,12 +1,13 @@
-import 'package:discover_deep_cove/data/models/config.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/util/util.dart';
-import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/models/config.dart';
+import '../../data/models/quiz/quiz.dart';
+import '../../util/screen.dart';
+import '../../util/util.dart';
+import '../../widgets/misc/bottom_back_button.dart';
+import '../../widgets/misc/text/body_text.dart';
+import '../../widgets/misc/text/heading.dart';
+import '../../widgets/misc/text/sub_heading.dart';
 
 enum UnlockStatus { success, alreadyUnlocked, failure }
 
@@ -65,8 +66,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
         await QuizBean.of(context).update(quiz);
         // This will discard any stored quizzes so the the index page fetches fresh
         // data on next view.
-        PageStorage.of(context)
-            .writeState(context, null, identifier: 'Quizzes');
+        PageStorage.of(context).writeState(context, null, identifier: 'Quizzes');
         status = UnlockStatus.success;
       }
 
@@ -169,9 +169,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
       color: Theme.of(context).primaryColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(width: Screen.width(context), child: buildUnlockForm())
-        ],
+        children: <Widget>[Container(width: Screen.width(context), child: buildUnlockForm())],
       ),
     );
   }
@@ -189,7 +187,9 @@ class _QuizUnlockState extends State<QuizUnlock> {
             "Enter unlock code:",
             size: Screen.width(context) >= 600
                 ? 30
-                : Screen.width(context) <= 350 ? 16 : 20,
+                : Screen.width(context) <= 350
+                    ? 16
+                    : 20,
           ),
         ),
         ClipRRect(
@@ -204,9 +204,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
               focusNode: _textFieldFocus,
               controller: textController,
               keyboardType: TextInputType.number,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: Screen.isTablet(context) ? 35 : 25),
+              style: TextStyle(color: Colors.black, fontSize: Screen.isTablet(context) ? 35 : 25),
               decoration: InputDecoration(
                 hintText: 'Enter code...',
                 border: InputBorder.none,
@@ -226,7 +224,9 @@ class _QuizUnlockState extends State<QuizUnlock> {
                 "Unlock",
                 size: Screen.width(context) >= 600
                     ? 30
-                    : Screen.width(context) <= 350 ? 16 : 20,
+                    : Screen.width(context) <= 350
+                        ? 16
+                        : 20,
               ),
             ),
             onPressed: () => verifyCode(context),

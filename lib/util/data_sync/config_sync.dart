@@ -1,10 +1,11 @@
 import 'dart:convert';
 
-import 'package:discover_deep_cove/data/db.dart';
-import 'package:discover_deep_cove/data/models/config.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/network_util.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/db.dart';
+import '../../data/models/config.dart';
+import '../../env.dart';
+import '../network_util.dart';
 
 class ConfigSync {
   CmsServerLocation server;

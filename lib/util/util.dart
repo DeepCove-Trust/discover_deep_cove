@@ -1,8 +1,6 @@
 import 'dart:io' show File, Directory;
 
 import 'package:archive/archive.dart' show ZipDecoder, Archive, ArchiveFile;
-import 'package:discover_deep_cove/data/models/config.dart';
-import 'package:discover_deep_cove/env.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart' show required;
@@ -10,13 +8,15 @@ import 'package:path/path.dart' show join;
 import 'package:path_provider_ex/path_provider_ex.dart';
 import 'package:toast/toast.dart';
 
+import '../data/models/config.dart';
+import '../env.dart';
+
 /// Container class for general helper functions.
 class Util {
   /// Extract the supplied file [zip] to the supplied directory [dir]
   ///
   /// Returns true if successful.
-  static Future<bool> extractZip(
-      {@required File zip, @required Directory dir}) async {
+  static Future<bool> extractZip({@required File zip, @required Directory dir}) async {
     try {
       Archive archive = ZipDecoder().decodeBytes(await zip.readAsBytes());
       // note that [file] may be file OR directory
@@ -64,13 +64,11 @@ class Util {
     try {
       _storageInfo = await PathProviderEx.getStorageInfo();
     } on PlatformException {
-      if (Env.debugMessages)
-        print('Warning: Unable to determine bytes available!');
+      if (Env.debugMessages) print('Warning: Unable to determine bytes available!');
       return -1;
     }
 
-    if (Env.debugMessages)
-      print('Device has ${_storageInfo[0].availableBytes} bytes available');
+    if (Env.debugMessages) print('Device has ${_storageInfo[0].availableBytes} bytes available');
 
     return _storageInfo[0].availableBytes;
   }

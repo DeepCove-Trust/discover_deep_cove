@@ -1,5 +1,6 @@
-import 'package:discover_deep_cove/util/screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../util/screen.dart';
 
 class SelectedPhoto extends StatelessWidget {
   final int numberOfDots;
@@ -17,8 +18,7 @@ class SelectedPhoto extends StatelessWidget {
           width: Screen.height(context, percentage: 1.5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100.0),
-            border: Border.all(
-                color: Colors.grey, width: 1.0, style: BorderStyle.solid),
+            border: Border.all(color: Colors.grey, width: 1.0, style: BorderStyle.solid),
           ),
         ),
       ),
@@ -44,8 +44,7 @@ class SelectedPhoto extends StatelessWidget {
   List<Widget> _buildDots() {
     List<Widget> dots = [];
 
-    for (int i = 0; i < numberOfDots; ++i)
-      dots.add(i == photoIndex ? _activePhoto() : _inactivePhoto());
+    for (int i = 0; i < numberOfDots; ++i) dots.add(i == photoIndex ? _activePhoto() : _inactivePhoto());
 
     return dots;
   }

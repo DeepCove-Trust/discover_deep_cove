@@ -1,9 +1,9 @@
-import 'package:discover_deep_cove/data/database_adapter.dart';
 import 'package:flutter/material.dart' show BuildContext;
+import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:meta/meta.dart';
 
-import 'package:discover_deep_cove/data/models/media_file.dart';
-import 'package:jaguar_orm/jaguar_orm.dart';
+import '../database_adapter.dart';
+import 'media_file.dart';
 
 part 'notice.jorm.dart';
 
@@ -49,8 +49,7 @@ class Notice {
 class NoticeBean extends Bean<Notice> with _NoticeBean {
   NoticeBean(Adapter adapter) : super(adapter);
 
-  NoticeBean.of(BuildContext context)
-      : super(DatabaseAdapter.of(context));
+  NoticeBean.of(BuildContext context) : super(DatabaseAdapter.of(context));
 
   MediaFileBean _mediaFileBean;
 
@@ -59,7 +58,7 @@ class NoticeBean extends Bean<Notice> with _NoticeBean {
   final String tableName = 'notices';
 
   Future<List<Notice>> preloadExtrasForRange(List<Notice> notices) async {
-    for(Notice notice in notices){
+    for (Notice notice in notices) {
       await preloadExtras(notice);
     }
     return notices;

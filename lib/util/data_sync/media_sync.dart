@@ -2,18 +2,19 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:discover_deep_cove/data/models/media_file.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/data_sync/sync_manager.dart';
-import 'package:discover_deep_cove/util/exeptions.dart';
-import 'package:discover_deep_cove/util/network_util.dart';
-import 'package:discover_deep_cove/util/permissions.dart';
-import 'package:discover_deep_cove/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as Http;
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart';
+
+import '../../data/models/media_file.dart';
+import '../../env.dart';
+import '../exeptions.dart';
+import '../network_util.dart';
+import '../permissions.dart';
+import '../util.dart';
+import 'sync_manager.dart';
 
 /// Class to which the media list API data will deserialize into.
 class MediaData {

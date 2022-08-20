@@ -1,5 +1,6 @@
-import 'package:discover_deep_cove/util/screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../util/screen.dart';
 
 class CustomGrid extends StatelessWidget {
   final List<Widget> children;
@@ -53,9 +54,9 @@ class CustomGrid extends StatelessWidget {
               ),
               if (children.length > 2) children[2],
               if (children.length > 2)
-              SizedBox(
-                height: Screen.height(context, percentage: 5),
-              ),
+                SizedBox(
+                  height: Screen.height(context, percentage: 5),
+                ),
               if (children.length > 3) children[3],
               if (children.length > 3)
                 SizedBox(

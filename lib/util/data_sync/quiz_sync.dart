@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:discover_deep_cove/data/db.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/network_util.dart';
+import '../../data/db.dart';
+import '../../data/models/quiz/quiz.dart';
+import '../../data/models/quiz/quiz_answer.dart';
+import '../../data/models/quiz/quiz_question.dart';
+import '../../env.dart';
+import '../network_util.dart';
 import 'package:flutter/material.dart';
 
 class QuizData {

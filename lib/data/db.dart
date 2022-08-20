@@ -1,10 +1,10 @@
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/permissions.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 import 'package:path/path.dart';
 
-export 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart'
-    show SqfliteAdapter;
+import '../env.dart';
+import '../util/permissions.dart';
+
+export 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart' show SqfliteAdapter;
 
 /// Singleton class (lazy instantiation) for database provision.
 class DB {
@@ -27,8 +27,7 @@ class DB {
   Future<SqfliteAdapter> get adapter async => _adapter ??= await _initDb(false);
 
   /// Return _tempAdapter if not null, else initialize
-  Future<SqfliteAdapter> get tempAdapter async =>
-      _tempAdapter ??= await _initDb(true);
+  Future<SqfliteAdapter> get tempAdapter async => _tempAdapter ??= await _initDb(true);
 
   /// Removes the [_adapter] so that the database will be re-initialized
   /// the next time [adapter] is retrieved.
@@ -49,7 +48,7 @@ class DB {
   /// Throws [InsufficientPermissionException] is user does not grant storage
   /// permission.
   Future<SqfliteAdapter> _initDb(bool temp) async {
-   if (Env.debugMessages) print('Connecting to ${temp ? 'temporary' : ''} database...');
+    if (Env.debugMessages) print('Connecting to ${temp ? 'temporary' : ''} database...');
 
     // Request external storage permission if the app is configured to use
     // external storage.

@@ -1,7 +1,8 @@
-import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/activity/activity.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
+
+import '../../database_adapter.dart';
+import 'activity.dart';
 
 part 'track.jorm.dart';
 

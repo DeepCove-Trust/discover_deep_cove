@@ -1,8 +1,9 @@
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/fact_file/fact_file_tile.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/models/factfile/fact_file_entry.dart';
+import '../../env.dart';
+import '../../util/screen.dart';
+import 'fact_file_tile.dart';
 
 class FactFileTab extends StatefulWidget {
   final List<FactFileEntry> entries;
@@ -38,10 +39,7 @@ class _FactFileTabState extends State<FactFileTab> {
           child: GridView.count(
             mainAxisSpacing: Screen.width(context, percentage: 2.5),
             crossAxisSpacing: Screen.width(context, percentage: 2.5),
-            crossAxisCount:
-                (Screen.isTablet(context) && Screen.isLandscape(context))
-                    ? 3
-                    : 2,
+            crossAxisCount: (Screen.isTablet(context) && Screen.isLandscape(context)) ? 3 : 2,
             padding: EdgeInsets.all(
               Screen.width(context, percentage: 2.5),
             ),

@@ -1,11 +1,12 @@
-import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/db.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/local_notifications.dart';
-import 'package:discover_deep_cove/util/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'data/database_adapter.dart';
+import 'data/db.dart';
+import 'env.dart';
+import 'util/local_notifications.dart';
+import 'util/route_generator.dart';
 
 void main() async {
   // Initialize the env singleton
@@ -20,11 +21,11 @@ void main() async {
   //Initializes local notifications
   LocalNotifications.initializeNotifications();
 
-  if(DotEnv().env['debugStorageMode'] == 'true'){
+  if (DotEnv().env['debugStorageMode'] == 'true') {
     print('Warning: Debug storage mode enabled. Disable for production release.');
   }
 
-  if(DotEnv().env['debugMessgaes'] == 'true'){
+  if (DotEnv().env['debugMessgaes'] == 'true') {
     print('Warning: Debug messages enabled. Disable for production release.');
   }
 
@@ -59,11 +60,10 @@ ThemeData appTheme() {
   );
 }
 
- Future<SqfliteAdapter> getDbAdaptor() async {
-  try{
+Future<SqfliteAdapter> getDbAdaptor() async {
+  try {
     return await DB.instance.adapter;
-  }
-  catch(ex){
+  } catch (ex) {
     SystemNavigator.pop();
     return null;
   }

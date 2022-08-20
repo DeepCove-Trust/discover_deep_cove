@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:discover_deep_cove/data/db.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_category.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry_image.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_nugget.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/network_util.dart';
+import '../../data/db.dart';
+import '../../data/models/factfile/fact_file_category.dart';
+import '../../data/models/factfile/fact_file_entry.dart';
+import '../../data/models/factfile/fact_file_entry_image.dart';
+import '../../data/models/factfile/fact_file_nugget.dart';
+import '../../env.dart';
+import '../network_util.dart';
 
 class FactFileData {
   int id;
@@ -40,24 +40,21 @@ class FactFileSync {
   }
 
   Future<List<FactFileCategory>> _getCategoriesSummary() async {
-    String jsonString = await NetworkUtil.requestDataString(
-        Env.factFileCategoriesListUrl(server));
+    String jsonString = await NetworkUtil.requestDataString(Env.factFileCategoriesListUrl(server));
     List<dynamic> data = json.decode(jsonString);
     return data.map((m) => factFileCategoryBean.fromMap(m)).toList();
   }
 
   Future<void> _downloadFactFile(int id) async {
     // Request json string from server
-    String jsonString =
-        await NetworkUtil.requestDataString(Env.factFileDetailsUrl(server, id));
+    String jsonString = await NetworkUtil.requestDataString(Env.factFileDetailsUrl(server, id));
     Map<String, dynamic> decodedJson = json.decode(jsonString);
 
     // Deserialize all data
     FactFileEntry entry = factFileEntryBean.fromMap(decodedJson);
     List<dynamic> imageData = decodedJson['images'];
     List<dynamic> nuggetData = decodedJson['nuggets'];
-    List<FactFileNugget> nuggets =
-        nuggetData.map((map) => factFileNuggetBean.fromMap(map)).toList();
+    List<FactFileNugget> nuggets = nuggetData.map((map) => factFileNuggetBean.fromMap(map)).toList();
 
     // Insert fact file entry into database
     await factFileEntryBean.insert(entry);
@@ -71,8 +68,7 @@ class FactFileSync {
       await factFileNuggetBean.insertMany(nuggets);
     }
 
-    if (Env.debugMessages)
-      print('Downloaded fact file $id (${entry.primaryName})');
+    if (Env.debugMessages) print('Downloaded fact file $id (${entry.primaryName})');
   }
 
   Future<void> _deleteFactFile(int id) async {
@@ -100,8 +96,7 @@ class FactFileSync {
   }
 
   Future<void> _deleteFactFilesFor(int categoryId) async {
-    List<FactFileEntry> entries =
-        await factFileEntryBean.findByFactFileCategory(categoryId);
+    List<FactFileEntry> entries = await factFileEntryBean.findByFactFileCategory(categoryId);
 
     for (FactFileEntry entry in entries) {
       _deleteFactFile(entry.id);
@@ -120,8 +115,7 @@ class FactFileSync {
     if (mediaIds.length == 0) return;
 
     // Create list of entry image objects
-    List<FactFileEntryImage> entryImages =
-        mediaIds.map((m) => FactFileEntryImage.make(factFileId, m)).toList();
+    List<FactFileEntryImage> entryImages = mediaIds.map((m) => FactFileEntryImage.make(factFileId, m)).toList();
 
     // Insert to database
     await factFileEntryImageBean.insertMany(entryImages);
@@ -134,24 +128,19 @@ class FactFileSync {
     // Get summary of all fact files from server
     List<FactFileCategory> serverCats = await _getCategoriesSummary();
 
-    Set<int> idSet = localCats
-        .map((c) => c.id)
-        .toSet()
-        .union(serverCats.map((c) => c.id).toSet());
+    Set<int> idSet = localCats.map((c) => c.id).toSet().union(serverCats.map((c) => c.id).toSet());
 
     for (int id in idSet) {
       // If local doesn't have a copy, insert
       if (!localCats.any((c) => c.id == id)) {
-        await factFileCategoryBean
-            .insert(serverCats.firstWhere((c) => c.id == id));
+        await factFileCategoryBean.insert(serverCats.firstWhere((c) => c.id == id));
       }
       // If server doesn't have, delete from local, cascading
       else if (!serverCats.any((c) => c.id == id)) {
         await _deleteCategory(id);
       } else {
         // Update local with server, just in case the name has changed
-        await factFileCategoryBean
-            .update(serverCats.firstWhere((c) => c.id == id));
+        await factFileCategoryBean.update(serverCats.firstWhere((c) => c.id == id));
       }
     }
   }
@@ -163,10 +152,7 @@ class FactFileSync {
     // Get server entries
     List<FactFileData> serverEntries = await _getFactFilesSummary();
 
-    Set<int> idSet = localEntries
-        .map((e) => e.id)
-        .toSet()
-        .union(serverEntries.map((e) => e.id).toSet());
+    Set<int> idSet = localEntries.map((e) => e.id).toSet().union(serverEntries.map((e) => e.id).toSet());
 
     List<Future> futures = List<Future>();
 
@@ -201,8 +187,7 @@ class FactFileSync {
   }
 
   Future<List<FactFileData>> _getFactFilesSummary() async {
-    String jsonString =
-        await NetworkUtil.requestDataString(Env.factFilesListUrl(server));
+    String jsonString = await NetworkUtil.requestDataString(Env.factFilesListUrl(server));
     List<dynamic> decodedJson = json.decode(jsonString);
     return decodedJson.map((map) => FactFileData.fromMap(map)).toList();
   }

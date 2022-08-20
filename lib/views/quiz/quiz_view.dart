@@ -1,17 +1,18 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/views/quiz/quiz_result.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
-import 'package:discover_deep_cove/widgets/quiz/correct_wrong_overlay.dart';
-import 'package:discover_deep_cove/widgets/quiz/image_question.dart';
-import 'package:discover_deep_cove/widgets/quiz/quiz_image_button.dart';
-import 'package:discover_deep_cove/widgets/quiz/quiz_text_button.dart';
-import 'package:discover_deep_cove/widgets/quiz/text_only_question.dart';
-import 'package:discover_deep_cove/widgets/quiz/text_question.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/models/quiz/quiz.dart';
+import '../../data/models/quiz/quiz_answer.dart';
+import '../../data/models/quiz/quiz_question.dart';
+import '../../util/screen.dart';
+import '../../widgets/misc/text/sub_heading.dart';
+import '../../widgets/quiz/correct_wrong_overlay.dart';
+import '../../widgets/quiz/image_question.dart';
+import '../../widgets/quiz/quiz_image_button.dart';
+import '../../widgets/quiz/quiz_text_button.dart';
+import '../../widgets/quiz/text_only_question.dart';
+import '../../widgets/quiz/text_question.dart';
+import 'quiz_result.dart';
 
 class QuizView extends StatefulWidget {
   QuizView({this.quiz, this.onComplete});
@@ -44,12 +45,11 @@ class QuizViewState extends State<QuizView> {
   }
 
   Future<void> loadQuestions() async {
-    widget.quiz.questions = await QuizQuestionBean.of(context)
-        .preloadAllRelationships(widget.quiz.questions);
+    widget.quiz.questions = await QuizQuestionBean.of(context).preloadAllRelationships(widget.quiz.questions);
     setState(() => questionsLoaded = true);
 
     //Randomizes the order of the quiz questions
-    if(widget.quiz.shuffle)widget.quiz.questions.shuffle();
+    if (widget.quiz.shuffle) widget.quiz.questions.shuffle();
   }
 
   Future<void> updateHighScore(int score) async {
@@ -66,14 +66,11 @@ class QuizViewState extends State<QuizView> {
     } else if (currentQuestion.answers.any((a) => a.image != null)) {
       isCorrect = answerId == currentQuestion.correctAnswerId;
       imageGuess = currentQuestion.answers.firstWhere((a) => a.id == answerId);
-      imageAnswer = currentQuestion.answers
-          .firstWhere((a) => a.id == currentQuestion.correctAnswerId);
+      imageAnswer = currentQuestion.answers.firstWhere((a) => a.id == currentQuestion.correctAnswerId);
     } else {
       isCorrect = answerId == currentQuestion.correctAnswerId;
       guess = currentQuestion.answers.firstWhere((a) => a.id == answerId).text;
-      answer = currentQuestion.answers
-          .firstWhere((a) => a.id == currentQuestion.correctAnswerId)
-          .text;
+      answer = currentQuestion.answers.firstWhere((a) => a.id == currentQuestion.correctAnswerId).text;
     }
 
     if (isCorrect) score++;
@@ -91,7 +88,9 @@ class QuizViewState extends State<QuizView> {
                 widget.quiz.title,
                 size: Screen.isTablet(context)
                     ? 30
-                    : Screen.isSmall(context) ? 16 : 25,
+                    : Screen.isSmall(context)
+                        ? 16
+                        : 25,
               ),
               centerTitle: true,
               leading: Container(),
@@ -103,7 +102,9 @@ class QuizViewState extends State<QuizView> {
                       '${questionIndex + 1}/${widget.quiz.questions.length}',
                       size: Screen.isTablet(context)
                           ? 30
-                          : Screen.isSmall(context) ? 16 : 25,
+                          : Screen.isSmall(context)
+                              ? 16
+                              : 25,
                     ),
                   ),
                 )
@@ -176,7 +177,7 @@ class QuizViewState extends State<QuizView> {
     }
 
     //Randomizes the answers so the tiles are in different locations each time
-    if(widget.quiz.shuffle)currentQuestion.answers.shuffle();
+    if (widget.quiz.shuffle) currentQuestion.answers.shuffle();
 
     // does the question have any image answers?
     return currentQuestion.answers.any((a) => a.image != null)

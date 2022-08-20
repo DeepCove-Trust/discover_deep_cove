@@ -1,22 +1,23 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/user_photo.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/image_handler.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/util/util.dart';
-import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
-import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
-import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
-import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/custom_vertical_divider.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gallery_saver/gallery_saver.dart';
+
+import '../../data/models/activity/activity.dart';
+import '../../data/models/user_photo.dart';
+import '../../env.dart';
+import '../../util/image_handler.dart';
+import '../../util/screen.dart';
+import '../../util/util.dart';
+import '../../widgets/activities/activity_app_bar.dart';
+import '../../widgets/activities/activity_pass_save_bar.dart';
+import '../../widgets/activities/editAnswer.dart';
+import '../../widgets/misc/bottom_back_button.dart';
+import '../../widgets/misc/custom_vertical_divider.dart';
+import '../../widgets/misc/text/body_text.dart';
+import '../../widgets/misc/text/sub_heading.dart';
 
 class PhotographActivityView extends StatefulWidget {
   final Activity activity;
@@ -54,8 +55,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
         size: Screen.isTablet(context) ? 30 : null,
       );
     }
-    await precacheImage(
-        FileImage(File(Env.getResourcePath(filepath))), context);
+    await precacheImage(FileImage(File(Env.getResourcePath(filepath))), context);
 
     return Image.file(File(Env.getResourcePath(filepath)));
   }
@@ -73,15 +73,12 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
     return Container(
       margin: EdgeInsets.only(bottom: 24),
       decoration: BoxDecoration(border: Border.all(color: Colors.white30)),
-      width: Screen.width(context,
-          percentage: Screen.isPortrait(context) ? 90 : 45),
-      height: Screen.width(context,
-          percentage: Screen.isPortrait(context) ? 90 : 45),
+      width: Screen.width(context, percentage: Screen.isPortrait(context) ? 90 : 45),
+      height: Screen.width(context, percentage: Screen.isPortrait(context) ? 90 : 45),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.camera_alt,
-              size: Screen.isSmall(context) ? 100 : 150, color: Colors.white30),
+          Icon(Icons.camera_alt, size: Screen.isSmall(context) ? 100 : 150, color: Colors.white30),
           SizedBox(
             height: 10,
           ),
@@ -124,9 +121,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
     return Scaffold(
       appBar: ActivityAppBar(
         text: widget.activity.title,
-        onTap: widget.activity.factFileId != null
-            ? () => displayFactFile(widget.activity.factFileId)
-            : null,
+        onTap: widget.activity.factFileId != null ? () => displayFactFile(widget.activity.factFileId) : null,
       ),
       body: buildContent(),
       bottomNavigationBar: widget.isReview
@@ -158,15 +153,12 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
 
   buildGraphic() {
     return Padding(
-      padding:
-          EdgeInsets.symmetric(vertical: Screen.isTablet(context) ? 20 : 10),
+      padding: EdgeInsets.symmetric(vertical: Screen.isTablet(context) ? 20 : 10),
       child: widget.activity.image == null
           ? null
           : Container(
-              width: Screen.width(context,
-                  percentage: Screen.isLandscape(context) ? 35 : 85),
-              height: Screen.width(context,
-                  percentage: Screen.isLandscape(context) ? 35 : 85),
+              width: Screen.width(context, percentage: Screen.isLandscape(context) ? 35 : 85),
+              height: Screen.width(context, percentage: Screen.isLandscape(context) ? 35 : 85),
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
@@ -290,12 +282,10 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
         ".jpg",
       );
 
-      if (await Util.savePhotosToGallery(context))
-        await GallerySaver.saveImage(_image.path);
+      if (await Util.savePhotosToGallery(context)) await GallerySaver.saveImage(_image.path);
 
       // Save the image to the users photos directory, and delete temp image
-      ImageHandler.saveImage(
-          tempImage: _image, directory: directory, name: filename);
+      ImageHandler.saveImage(tempImage: _image, directory: directory, name: filename);
 
       // Add a database record for the new image
       UserPhoto image = UserPhoto.create(

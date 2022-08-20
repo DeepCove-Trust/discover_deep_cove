@@ -1,10 +1,11 @@
 import 'dart:io';
 
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
+
+import '../../../env.dart';
+import '../../../util/screen.dart';
+import '../../misc/text/body_text.dart';
+import '../../misc/text/sub_heading.dart';
 
 class FactNugget extends StatelessWidget {
   final String path;
@@ -29,10 +30,7 @@ class FactNugget extends StatelessWidget {
       ),
       width: Screen.width(context, percentage: 90),
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 10
-        ),
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
@@ -41,10 +39,8 @@ class FactNugget extends StatelessWidget {
                 ? Expanded(
                     flex: 1,
                     child: Container(
-                      height: Screen.width(context,
-                          percentage: Screen.isPortrait(context) ? 25 : 12),
-                      width: Screen.width(context,
-                          percentage: Screen.isPortrait(context) ? 25 : 12),
+                      height: Screen.width(context, percentage: Screen.isPortrait(context) ? 25 : 12),
+                      width: Screen.width(context, percentage: Screen.isPortrait(context) ? 25 : 12),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(

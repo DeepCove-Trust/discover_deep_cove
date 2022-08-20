@@ -1,5 +1,6 @@
-import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/models/quiz/quiz.dart';
 
 class QuizViewArgs {
   final Quiz quiz;

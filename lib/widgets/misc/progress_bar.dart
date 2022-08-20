@@ -1,6 +1,7 @@
-import 'package:discover_deep_cove/util/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+
+import '../../util/screen.dart';
 
 class ProgressBar extends StatelessWidget {
   final double percent;

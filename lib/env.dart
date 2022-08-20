@@ -1,11 +1,12 @@
 import 'dart:io';
 
-import 'package:discover_deep_cove/util/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:latlong/latlong.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'util/screen.dart';
 
 enum CmsServerLocation { Intranet, Internet }
 
@@ -17,9 +18,7 @@ class Env {
   // referring to them in code, via the [Env] class.
 
   static Future<void> load() async {
-    Directory dir = debugStorageMode
-        ? await getExternalStorageDirectory()
-        : await getApplicationDocumentsDirectory();
+    Directory dir = debugStorageMode ? await getExternalStorageDirectory() : await getApplicationDocumentsDirectory();
 
     _rootStorageDirPath = join(dir.path, 'discover_deep_cove');
   }
@@ -59,15 +58,12 @@ class Env {
   /// If true, application storage paths will be relative to the external
   /// storage directory, otherwise the internal storage directory will be
   /// used. ** Setting to true will break app for iOS. Turn off for release.
-  static bool get debugStorageMode =>
-      DotEnv().env['debugStorageMode'].toLowerCase() == 'true';
+  static bool get debugStorageMode => DotEnv().env['debugStorageMode'].toLowerCase() == 'true';
 
   /// If true diagnostic print messages will be written to console
-  static bool get debugMessages =>
-      DotEnv().env['debugMessages'].toLowerCase() == 'true';
+  static bool get debugMessages => DotEnv().env['debugMessages'].toLowerCase() == 'true';
 
-  static bool get asyncDownload =>
-      DotEnv().env['asyncMediaDownload'].toLowerCase() == 'true';
+  static bool get asyncDownload => DotEnv().env['asyncMediaDownload'].toLowerCase() == 'true';
 
   static String _rootStorageDirPath;
 
@@ -92,9 +88,8 @@ class Env {
 
   static double get mapDefaultZoom => double.parse(DotEnv().env['defaultZoom']);
 
-  static LatLng get swPanBoundary => LatLng(
-      double.parse(DotEnv().env['swPanBoundaryLat']),
-      double.parse(DotEnv().env['swPanBoundaryLong']));
+  static LatLng get swPanBoundary =>
+      LatLng(double.parse(DotEnv().env['swPanBoundaryLat']), double.parse(DotEnv().env['swPanBoundaryLong']));
 
   static LatLng get nePanBoundary => LatLng(
         double.parse(DotEnv().env['nePanBoundaryLat']),
@@ -142,23 +137,16 @@ class Env {
 
   /// API endpoint to return summary of all required media files.
   static String mediaListUrl(CmsServerLocation server, BuildContext context) {
-    return _getCmsUrl(server) +
-        _mediaUrl +
-        '?width=${Screen.isTablet(context) ? 500 : null}';
+    return _getCmsUrl(server) + _mediaUrl + '?width=${Screen.isTablet(context) ? 500 : null}';
   }
 
   /// API endpoint to return details of a single media file.
-  static String mediaDetailsUrl(
-      CmsServerLocation server, int id, BuildContext context) {
-    return _getCmsUrl(server) +
-        _mediaUrl +
-        '/$id' +
-        '?width=${Screen.isTablet(context) ? 500 : null}';
+  static String mediaDetailsUrl(CmsServerLocation server, int id, BuildContext context) {
+    return _getCmsUrl(server) + _mediaUrl + '/$id' + '?width=${Screen.isTablet(context) ? 500 : null}';
   }
 
   /// API endpoint to return the specified media file.
-  static String mediaDownloadUrl(
-      CmsServerLocation server, String filename, BuildContext context) {
+  static String mediaDownloadUrl(CmsServerLocation server, String filename, BuildContext context) {
     return _getCmsUrl(server) +
         _mediaDownloadUrl +
         '?filename=$filename&width=${Screen.isTablet(context) ? 500 : null}';

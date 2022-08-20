@@ -1,7 +1,7 @@
-
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
+
+import '../../util/screen.dart';
+import '../misc/text/sub_heading.dart';
 
 class Separator extends StatelessWidget {
   final String title;
@@ -16,8 +16,11 @@ class Separator extends StatelessWidget {
       child: Center(
         child: SubHeading(
           title,
-          size:
-          Screen.isTablet(context) ? 30 : Screen.isSmall(context) ? 16 : 20,
+          size: Screen.isTablet(context)
+              ? 30
+              : Screen.isSmall(context)
+                  ? 16
+                  : 20,
         ),
       ),
     );

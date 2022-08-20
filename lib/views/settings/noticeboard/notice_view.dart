@@ -1,12 +1,13 @@
 import 'dart:io';
 
-import 'package:discover_deep_cove/data/models/notice.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/date_util.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:flutter/material.dart';
+
+import '../../../data/models/notice.dart';
+import '../../../env.dart';
+import '../../../util/date_util.dart';
+import '../../../util/screen.dart';
+import '../../../widgets/misc/bottom_back_button.dart';
+import '../../../widgets/misc/text/heading.dart';
 
 class NoticeView extends StatelessWidget {
   final Notice notice;
@@ -30,9 +31,7 @@ class NoticeView extends StatelessWidget {
                   child: ListView(
                 children: <Widget>[getBottom(context)],
               )),
-              notice.image?.path == null
-                  ? Container()
-                  : Expanded(child: Center(child: buildImage(context))),
+              notice.image?.path == null ? Container() : Expanded(child: Center(child: buildImage(context))),
             ],
           )
         : Column(
@@ -77,13 +76,13 @@ class NoticeView extends StatelessWidget {
               color: Theme.of(context).primaryColorLight,
               fontSize: Screen.isTablet(context)
                   ? 23
-                  : Screen.isSmall(context) ? 15 : 17,
+                  : Screen.isSmall(context)
+                      ? 15
+                      : 17,
             ),
           ),
           SizedBox(height: 20),
-          Screen.isPortrait(context)
-              ? Divider(color: Theme.of(context).primaryColorLight, height: 0)
-              : Container(),
+          Screen.isPortrait(context) ? Divider(color: Theme.of(context).primaryColorLight, height: 0) : Container(),
         ],
       ),
     );
@@ -93,7 +92,9 @@ class NoticeView extends StatelessWidget {
     return Screen.width(context,
         percentage: Screen.isLandscape(context)
             ? 40
-            : Screen.isTablet(context) ? 75 : 85);
+            : Screen.isTablet(context)
+                ? 75
+                : 85);
   }
 
   getBottom(BuildContext context) {
@@ -102,9 +103,7 @@ class NoticeView extends StatelessWidget {
         Screen.isLandscape(context) ? getTop(context) : Container(),
         notice.image?.path == null || Screen.isLandscape(context)
             ? Container()
-            : Padding(
-                padding: EdgeInsets.only(bottom: 10),
-                child: buildImage(context)),
+            : Padding(padding: EdgeInsets.only(bottom: 10), child: buildImage(context)),
         notice.image?.path == null || Screen.isLandscape(context)
             ? Container()
             : Divider(color: Theme.of(context).primaryColorLight, height: 10),
@@ -120,8 +119,10 @@ class NoticeView extends StatelessWidget {
                   color: Theme.of(context).primaryColorLight,
                   fontSize: Screen.isTablet(context)
                       ? 22
-                      : Screen.isSmall(context) ? 16 : 20,
-                      height: 1.5,
+                      : Screen.isSmall(context)
+                          ? 16
+                          : 20,
+                  height: 1.5,
                 ),
                 textAlign: TextAlign.left,
               ),

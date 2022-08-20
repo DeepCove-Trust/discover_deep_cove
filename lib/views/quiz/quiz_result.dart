@@ -1,8 +1,9 @@
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
+
+import '../../util/screen.dart';
+import '../../widgets/misc/bottom_back_button.dart';
+import '../../widgets/misc/text/heading.dart';
+import '../../widgets/misc/text/sub_heading.dart';
 
 class QuizResult extends StatelessWidget {
   final String name;
@@ -57,10 +58,7 @@ class QuizResult extends StatelessWidget {
           )
         : Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(child: getTopHalf(context)),
-              Expanded(child: getBottomHalf(context))
-            ],
+            children: [Expanded(child: getTopHalf(context)), Expanded(child: getBottomHalf(context))],
           );
   }
 

@@ -1,5 +1,6 @@
-import 'package:discover_deep_cove/util/screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../../util/screen.dart';
 
 class BodyText extends StatelessWidget {
   final String text;

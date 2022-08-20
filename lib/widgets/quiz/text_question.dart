@@ -2,15 +2,16 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/custom_grid.dart';
-import 'package:discover_deep_cove/widgets/misc/image_source.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
-import 'package:discover_deep_cove/widgets/quiz/quiz_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../data/models/quiz/quiz_question.dart';
+import '../../env.dart';
+import '../../util/screen.dart';
+import '../misc/custom_grid.dart';
+import '../misc/image_source.dart';
+import '../misc/text/sub_heading.dart';
+import 'quiz_text_button.dart';
 
 class TextQuestion extends StatefulWidget {
   final QuizQuestion question;
@@ -23,8 +24,7 @@ class TextQuestion extends StatefulWidget {
   _TextQuestionState createState() => _TextQuestionState();
 }
 
-class _TextQuestionState extends State<TextQuestion>
-    with WidgetsBindingObserver {
+class _TextQuestionState extends State<TextQuestion> with WidgetsBindingObserver {
   Color playingColor = Colors.white;
   double height;
   StreamSubscription _playerCompleteSubscription, _playerStoppedSubscription;
@@ -33,8 +33,7 @@ class _TextQuestionState extends State<TextQuestion>
 
   void playAudio() {
     setState(() => playingColor = Theme.of(context).primaryColor);
-    widget.player
-        .play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
+    widget.player.play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
   }
 
   @override
@@ -42,18 +41,16 @@ class _TextQuestionState extends State<TextQuestion>
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
-    _playerCompleteSubscription =
-        widget.player.onPlayerCompletion.listen((event) {
+    _playerCompleteSubscription = widget.player.onPlayerCompletion.listen((event) {
       _onComplete();
     });
-    _playerStoppedSubscription =
-        widget.player.onPlayerStateChanged.listen((event){
-          if(widget.player.state == AudioPlayerState.STOPPED){
-            setState(() {
-              playingColor = Colors.white;
-            });
-          }
+    _playerStoppedSubscription = widget.player.onPlayerStateChanged.listen((event) {
+      if (widget.player.state == AudioPlayerState.STOPPED) {
+        setState(() {
+          playingColor = Colors.white;
         });
+      }
+    });
   }
 
   @override

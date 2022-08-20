@@ -1,11 +1,12 @@
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/data_sync/sync_manager.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/util/util.dart';
-import 'package:discover_deep_cove/widgets/misc/progress_bar.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../env.dart';
+import '../util/data_sync/sync_manager.dart';
+import '../util/screen.dart';
+import '../util/util.dart';
+import '../widgets/misc/progress_bar.dart';
+import '../widgets/misc/text/body_text.dart';
 
 class LoadingScreen extends StatefulWidget {
   final bool isFirstLoad;
@@ -33,13 +34,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   Future<void> manualUpdate() async {
     if (Env.debugMessages) print('Checking for new content');
-    await SyncManager(onProgressChange: _onProgressUpdate, context: context)
-        .sync();
+    await SyncManager(onProgressChange: _onProgressUpdate, context: context).sync();
     await Future.delayed(Duration(seconds: 2));
 
-    widget.isFirstLoad
-        ? Navigator.of(context).pushReplacementNamed('/')
-        : Navigator.of(context).pop();
+    widget.isFirstLoad ? Navigator.of(context).pushReplacementNamed('/') : Navigator.of(context).pop();
   }
 
   String _getMessage() {
@@ -68,9 +66,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         return 'You device has insufficient storage space. '
             'Please free some space and try again.';
       case SyncState.Initialization:
-        return widget.isFirstLoad
-            ? 'Downloading initial content'
-            : 'Preparing to update...';
+        return widget.isFirstLoad ? 'Downloading initial content' : 'Preparing to update...';
       default:
         return '';
     }
@@ -84,8 +80,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       case SyncState.Error_ServerUnreachable:
         return Icon(Icons.error_outline, color: Colors.red, size: 50);
       case SyncState.Done:
-        return Icon(Icons.check_circle_outline,
-            color: Colors.lightGreen, size: 50);
+        return Icon(Icons.check_circle_outline, color: Colors.lightGreen, size: 50);
       case SyncState.Cleanup:
       case SyncState.Initialization:
       case SyncState.MediaDiscovery:
@@ -99,8 +94,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     }
   }
 
-  void _onProgressUpdate(
-      SyncState syncState, int percent, int upTo, int outOf, int totalSize) {
+  void _onProgressUpdate(SyncState syncState, int percent, int upTo, int outOf, int totalSize) {
     setState(() {
       this.syncState = syncState;
       percentComplete = percent.toDouble();

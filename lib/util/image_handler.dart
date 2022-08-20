@@ -1,10 +1,11 @@
 import 'dart:io';
 
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
+
+import '../env.dart';
+import 'util.dart';
 
 class ImageHandler {
   /// Picks an image from specified source, then returns the file pointing

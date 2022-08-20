@@ -1,14 +1,15 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/custom_grid.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
-import 'package:discover_deep_cove/widgets/quiz/quiz_image_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../data/models/quiz/quiz_question.dart';
+import '../../env.dart';
+import '../../util/screen.dart';
+import '../misc/custom_grid.dart';
+import '../misc/text/sub_heading.dart';
+import 'quiz_image_button.dart';
 
 class ImageQuestion extends StatefulWidget {
   final QuizQuestion question;
@@ -21,8 +22,7 @@ class ImageQuestion extends StatefulWidget {
   _ImageQuestionState createState() => _ImageQuestionState();
 }
 
-class _ImageQuestionState extends State<ImageQuestion>
-    with WidgetsBindingObserver {
+class _ImageQuestionState extends State<ImageQuestion> with WidgetsBindingObserver {
   Color playingColor = Colors.white;
 
   bool get hasAudio => widget.question.audio != null;
@@ -31,20 +31,17 @@ class _ImageQuestionState extends State<ImageQuestion>
 
   void playAudio() {
     setState(() => playingColor = Theme.of(context).primaryColor);
-    widget.player
-        .play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
+    widget.player.play(Env.getResourcePath(widget.question.audio.path), isLocal: true);
   }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _playerCompleteSubscription =
-        widget.player.onPlayerCompletion.listen((event) {
+    _playerCompleteSubscription = widget.player.onPlayerCompletion.listen((event) {
       _onComplete();
     });
-    _playerStoppedSubscription =
-        widget.player.onPlayerStateChanged.listen((event) {
+    _playerStoppedSubscription = widget.player.onPlayerStateChanged.listen((event) {
       if (widget.player.state == AudioPlayerState.STOPPED) {
         setState(() {
           playingColor = Colors.white;
@@ -86,9 +83,8 @@ class _ImageQuestionState extends State<ImageQuestion>
     return Container(
       margin: EdgeInsets.all(20),
       padding: EdgeInsets.all(7.5),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: 1.5),
-          borderRadius: BorderRadius.circular(15)),
+      decoration:
+          BoxDecoration(border: Border.all(color: Colors.white, width: 1.5), borderRadius: BorderRadius.circular(15)),
       child: IconButton(
         onPressed: () => playAudio(),
         icon: Icon(
@@ -116,10 +112,7 @@ class _ImageQuestionState extends State<ImageQuestion>
   buildContent() {
     return (Screen.isTablet(context) && !Screen.isPortrait(context))
         ? Row(
-            children: <Widget>[
-              Expanded(child: questionComponentLandscape()),
-              answerComponent()
-            ],
+            children: <Widget>[Expanded(child: questionComponentLandscape()), answerComponent()],
           )
         : Column(
             children: <Widget>[
@@ -140,10 +133,7 @@ class _ImageQuestionState extends State<ImageQuestion>
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SubHeading(widget.question.text),
-                hasAudio ? buildAudioButton() : Container()
-              ],
+              children: <Widget>[SubHeading(widget.question.text), hasAudio ? buildAudioButton() : Container()],
             ),
           ),
         ),
@@ -157,10 +147,7 @@ class _ImageQuestionState extends State<ImageQuestion>
       padding: EdgeInsets.all(24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          SubHeading(widget.question.text),
-          hasAudio ? buildAudioButton() : Container()
-        ],
+        children: <Widget>[SubHeading(widget.question.text), hasAudio ? buildAudioButton() : Container()],
       ),
     );
   }

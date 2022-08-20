@@ -1,13 +1,14 @@
-import 'package:discover_deep_cove/data/models/notice.dart';
-import 'package:discover_deep_cove/util/noticeboard_sync.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
-import 'package:discover_deep_cove/widgets/noticeboard/noticeboard_separator.dart';
-import 'package:discover_deep_cove/widgets/noticeboard/noticeboard_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../../data/models/notice.dart';
+import '../../../util/noticeboard_sync.dart';
+import '../../../util/screen.dart';
+import '../../../widgets/misc/bottom_back_button.dart';
+import '../../../widgets/misc/text/body_text.dart';
+import '../../../widgets/misc/text/sub_heading.dart';
+import '../../../widgets/noticeboard/noticeboard_separator.dart';
+import '../../../widgets/noticeboard/noticeboard_tile.dart';
 
 class Noticeboard extends StatefulWidget {
   @override
@@ -30,8 +31,11 @@ class _NoticeboardState extends State<Noticeboard> {
         leading: Container(),
         title: SubHeading(
           'Deep Cove Noticeboard',
-          size:
-              Screen.isTablet(context) ? 30 : Screen.isSmall(context) ? 20 : 23,
+          size: Screen.isTablet(context)
+              ? 30
+              : Screen.isSmall(context)
+                  ? 20
+                  : 23,
         ),
         centerTitle: true,
         actions: <Widget>[
@@ -40,9 +44,7 @@ class _NoticeboardState extends State<Noticeboard> {
               right: Screen.width(context, percentage: 1.25),
             ),
             child: IconButton(
-              icon: Icon(FontAwesomeIcons.sync,
-                  color: Colors.white,
-                  size: Screen.isTablet(context) ? 25 : 18),
+              icon: Icon(FontAwesomeIcons.sync, color: Colors.white, size: Screen.isTablet(context) ? 25 : 18),
               onPressed: () {
                 refreshNotices();
                 setState(() {
@@ -59,11 +61,7 @@ class _NoticeboardState extends State<Noticeboard> {
           ? Center(
               child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CircularProgressIndicator(),
-                SizedBox(height: 15),
-                BodyText('Loading notices...')
-              ],
+              children: <Widget>[CircularProgressIndicator(), SizedBox(height: 15), BodyText('Loading notices...')],
             ))
           : buildContent(),
       backgroundColor: Theme.of(context).backgroundColor,
@@ -95,11 +93,9 @@ class _NoticeboardState extends State<Noticeboard> {
     return notice != notices.last && notices.length != 1;
   }
 
-  Iterable<Widget> getUrgent() =>
-      buildTiles(notices.where((n) => n.urgent), urgent: true);
+  Iterable<Widget> getUrgent() => buildTiles(notices.where((n) => n.urgent), urgent: true);
 
-  Iterable<Widget> getOther() =>
-      buildTiles(notices.where((n) => !n.urgent), urgent: false);
+  Iterable<Widget> getOther() => buildTiles(notices.where((n) => !n.urgent), urgent: false);
 
   List<Widget> buildTiles(Iterable<Notice> notices, {bool urgent}) {
     Iterable<NoticeTile> noticeTiles = notices.map(

@@ -1,6 +1,7 @@
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
+
+import '../../util/screen.dart';
+import 'text/sub_heading.dart';
 
 class CustomFab extends StatelessWidget {
   final IconData icon;

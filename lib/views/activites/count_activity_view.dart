@@ -1,17 +1,18 @@
 import 'dart:io';
 
-import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/activities/activity_app_bar.dart';
-import 'package:discover_deep_cove/widgets/activities/activity_pass_save_bar.dart';
-import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
-import 'package:discover_deep_cove/widgets/misc/custom_vertical_divider.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../data/models/activity/activity.dart';
+import '../../env.dart';
+import '../../util/screen.dart';
+import '../../widgets/activities/activity_app_bar.dart';
+import '../../widgets/activities/activity_pass_save_bar.dart';
+import '../../widgets/activities/editAnswer.dart';
+import '../../widgets/misc/bottom_back_button.dart';
+import '../../widgets/misc/custom_vertical_divider.dart';
+import '../../widgets/misc/text/body_text.dart';
+import '../../widgets/misc/text/sub_heading.dart';
 
 class CountActivityView extends StatefulWidget {
   final Activity activity;
@@ -34,9 +35,7 @@ class _CountActivityViewState extends State<CountActivityView> {
     return Scaffold(
         appBar: ActivityAppBar(
           text: widget.activity.title,
-          onTap: widget.activity.factFileId != null
-              ? () => displayFactFile(widget.activity.factFileId)
-              : null,
+          onTap: widget.activity.factFileId != null ? () => displayFactFile(widget.activity.factFileId) : null,
         ),
         body: buildContent(),
         bottomNavigationBar: widget.isReview
@@ -50,11 +49,7 @@ class _CountActivityViewState extends State<CountActivityView> {
   buildContent() {
     return Screen.isLandscape(context)
         ? Row(
-            children: [
-              Expanded(child: getTopHalf()),
-              CustomVerticalDivider(),
-              Expanded(child: getBottomHalf())
-            ],
+            children: [Expanded(child: getTopHalf()), CustomVerticalDivider(), Expanded(child: getBottomHalf())],
           )
         : Scrollbar(
             child: SingleChildScrollView(
@@ -131,13 +126,10 @@ class _CountActivityViewState extends State<CountActivityView> {
                   : Container()),
           widget.isReview
               ? Container(
-                  width: Screen.width(context,
-                      percentage: Screen.isLandscape(context) ? 30 : 65),
-                  height: Screen.width(context,
-                      percentage: Screen.isLandscape(context) ? 15 : 35),
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(15)),
+                  width: Screen.width(context, percentage: Screen.isLandscape(context) ? 30 : 65),
+                  height: Screen.width(context, percentage: Screen.isLandscape(context) ? 15 : 35),
+                  decoration:
+                      BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(15)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -152,13 +144,10 @@ class _CountActivityViewState extends State<CountActivityView> {
                   ),
                 )
               : Container(
-                  width: Screen.width(context,
-                      percentage: Screen.isLandscape(context) ? 30 : 65),
-                  height: Screen.width(context,
-                      percentage: Screen.isLandscape(context) ? 15 : 35),
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(15)),
+                  width: Screen.width(context, percentage: Screen.isLandscape(context) ? 30 : 65),
+                  height: Screen.width(context, percentage: Screen.isLandscape(context) ? 15 : 35),
+                  decoration:
+                      BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(15)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -211,20 +200,16 @@ class _CountActivityViewState extends State<CountActivityView> {
 
   buildGraphic() {
     return Padding(
-      padding:
-          EdgeInsets.symmetric(vertical: Screen.isTablet(context) ? 20 : 10),
+      padding: EdgeInsets.symmetric(vertical: Screen.isTablet(context) ? 20 : 10),
       child: widget.activity.image == null
           ? null
           : Container(
-              width: Screen.width(context,
-                  percentage: Screen.isLandscape(context) ? 30 : 85),
-              height: Screen.width(context,
-                  percentage: Screen.isLandscape(context) ? 30 : 85),
+              width: Screen.width(context, percentage: Screen.isLandscape(context) ? 30 : 85),
+              height: Screen.width(context, percentage: Screen.isLandscape(context) ? 30 : 85),
               decoration: BoxDecoration(
                   image: DecorationImage(
                 fit: BoxFit.cover,
-                image: FileImage(
-                    File(Env.getResourcePath(widget.activity.image.path))),
+                image: FileImage(File(Env.getResourcePath(widget.activity.image.path))),
               )),
               child: Container()),
     );

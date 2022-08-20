@@ -1,7 +1,8 @@
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/activities/editAnswer.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:flutter/material.dart';
+
+import '../../util/screen.dart';
+import '../activities/editAnswer.dart';
+import 'text/body_text.dart';
 
 class BottomBackButton extends StatelessWidget {
   final bool isReview;

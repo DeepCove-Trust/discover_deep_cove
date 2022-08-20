@@ -3,20 +3,20 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:discover_deep_cove/data/models/factfile/fact_file_entry.dart';
-import 'package:discover_deep_cove/data/models/media_file.dart';
-import 'package:discover_deep_cove/env.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/fact_file/nuggets/fact_nugget.dart';
-import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/custom_vertical_divider.dart';
-import 'package:discover_deep_cove/widgets/misc/image_source.dart';
-import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../data/models/factfile/fact_file_entry.dart';
+import '../../data/models/media_file.dart';
+import '../../env.dart';
+import '../../util/screen.dart';
+import '../../widgets/fact_file/nuggets/fact_nugget.dart';
+import '../../widgets/misc/bottom_back_button.dart';
+import '../../widgets/misc/custom_vertical_divider.dart';
+import '../../widgets/misc/image_source.dart';
+import '../../widgets/misc/text/body_text.dart';
+import '../../widgets/misc/text/heading.dart';
+import '../../widgets/misc/text/sub_heading.dart';
 
 class FactFileDetails extends StatefulWidget {
   final int entryId;

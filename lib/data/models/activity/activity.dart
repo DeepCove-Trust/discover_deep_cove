@@ -1,11 +1,12 @@
-import 'package:discover_deep_cove/data/database_adapter.dart';
-import 'package:discover_deep_cove/data/models/activity/activity_image.dart';
-import 'package:discover_deep_cove/data/models/activity/track.dart';
-import 'package:discover_deep_cove/data/models/media_file.dart';
-import 'package:discover_deep_cove/data/models/user_photo.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
 import 'package:latlong/latlong.dart' show LatLng;
+
+import '../../database_adapter.dart';
+import '../media_file.dart';
+import '../user_photo.dart';
+import 'activity_image.dart';
+import 'track.dart';
 
 part 'activity.jorm.dart';
 
@@ -173,8 +174,7 @@ class ActivityBean extends Bean<Activity> with _ActivityBean {
     }
 
     if (activity.selectedPictureId != null) {
-      activity.selectedPicture =
-          await mediaFileBean.find(activity.selectedPictureId);
+      activity.selectedPicture = await mediaFileBean.find(activity.selectedPictureId);
     }
 
     return activity;

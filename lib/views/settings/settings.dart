@@ -1,11 +1,12 @@
-import 'package:discover_deep_cove/data/models/activity/activity.dart';
-import 'package:discover_deep_cove/data/models/config.dart';
-import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/util/util.dart';
-import 'package:discover_deep_cove/widgets/settings/settings_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../data/models/activity/activity.dart';
+import '../../data/models/config.dart';
+import '../../data/models/quiz/quiz.dart';
+import '../../util/screen.dart';
+import '../../util/util.dart';
+import '../../widgets/settings/settings_button.dart';
 
 class Settings extends StatefulWidget {
   final void Function(String code) onCodeEntry;
@@ -59,9 +60,7 @@ class _SettingsState extends State<Settings> {
                     "Turning this feature on will make the photos you save visible in your photo gallery. (Off by Default)",
                 child: SettingsButton(
                   iconData: FontAwesomeIcons.image,
-                  text: savePhotosToGallery == null
-                      ? "..."
-                      : "Save photos to gallery",
+                  text: savePhotosToGallery == null ? "..." : "Save photos to gallery",
                   hasOnOff: savePhotosToGallery == null ? false : true,
                   initalValue: savePhotosToGallery,
                   onOffCallback: (newVal) => setState(() {

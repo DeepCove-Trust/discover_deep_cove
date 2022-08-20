@@ -1,8 +1,9 @@
-import 'package:discover_deep_cove/util/screen.dart';
-import 'package:discover_deep_cove/widgets/misc/bottom_back_button.dart';
-import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
-import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:flutter/material.dart';
+
+import '../../util/screen.dart';
+import '../../widgets/misc/bottom_back_button.dart';
+import '../../widgets/misc/text/heading.dart';
+import '../../widgets/misc/text/sub_heading.dart';
 
 class ActivityUnlock extends StatefulWidget {
   final void Function(String code) onCodeEntry;
@@ -69,9 +70,7 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
   buildInputs() {
     return Container(
       width: 1500, // will not overflow
-      height: Screen.isLandscape(context)
-          ? Screen.height(context) - 50
-          : Screen.height(context) * 0.4,
+      height: Screen.isLandscape(context) ? Screen.height(context) - 50 : Screen.height(context) * 0.4,
       color: Theme.of(context).primaryColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -85,7 +84,9 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
               "Enter QR unlock code:",
               size: Screen.width(context) >= 600
                   ? 30
-                  : Screen.width(context) <= 350 ? 16 : 20,
+                  : Screen.width(context) <= 350
+                      ? 16
+                      : 20,
             ),
           ),
           Transform.scale(
@@ -123,7 +124,9 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
                   "Unlock",
                   size: Screen.width(context) >= 600
                       ? 30
-                      : Screen.width(context) <= 350 ? 16 : 20,
+                      : Screen.width(context) <= 350
+                          ? 16
+                          : 20,
                 ),
               ),
               onPressed: () => verifyCode(context),
