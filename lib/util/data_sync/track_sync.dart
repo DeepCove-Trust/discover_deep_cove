@@ -8,7 +8,7 @@ import 'package:discover_deep_cove/data/models/activity/track.dart';
 import 'package:discover_deep_cove/data/models/user_photo.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/network_util.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 
 class ActivityData {
@@ -49,16 +49,11 @@ class TrackSync {
     List<Track> localTracks = await trackBean.getAll();
 
     // Get tracks active on the server
-    String jsonString =
-        await NetworkUtil.requestDataString(Env.tracksListUrl(server));
+    String jsonString = await NetworkUtil.requestDataString(Env.tracksListUrl(server));
     List<dynamic> decodedJson = json.decode(jsonString);
-    List<Track> serverTracks =
-        decodedJson.map((map) => trackBean.fromMap(map)).toList();
+    List<Track> serverTracks = decodedJson.map((map) => trackBean.fromMap(map)).toList();
 
-    Set<int> idSet = localTracks
-        .map((t) => t.id)
-        .toSet()
-        .union(serverTracks.map((t) => t.id).toSet());
+    Set<int> idSet = localTracks.map((t) => t.id).toSet().union(serverTracks.map((t) => t.id).toSet());
 
     for (int id in idSet) {
       if (!localTracks.any((t) => t.id == id)) {
@@ -110,8 +105,7 @@ class TrackSync {
       // Delete the file itself
       await File(Env.getResourcePath(join('user_photos', photo.path)))
           .delete()
-          .catchError((e) => print(
-              'Error attempting to delete user photo: \n ${e.toString()}'));
+          .catchError((e) => print('Error attempting to delete user photo: \n ${e.toString()}'));
       // Then delete the database record in the main database
       await UserPhotoBean(mainAdapter).remove(id);
     }
@@ -124,10 +118,7 @@ class TrackSync {
     // Get server activities
     List<ActivityData> serverActivities = await _getActivitiesSummary();
 
-    Set<int> idSet = localActivities
-        .map((t) => t.id)
-        .toSet()
-        .union(serverActivities.map((t) => t.id).toSet());
+    Set<int> idSet = localActivities.map((t) => t.id).toSet().union(serverActivities.map((t) => t.id).toSet());
 
     List<Future> futures = List<Future>();
 
@@ -172,16 +163,14 @@ class TrackSync {
 
   Future<List<ActivityData>> _getActivitiesSummary() async {
     // Get json string from server
-    String jsonString =
-        await NetworkUtil.requestDataString(Env.activitiesListUrl(server));
+    String jsonString = await NetworkUtil.requestDataString(Env.activitiesListUrl(server));
     List<dynamic> data = json.decode(jsonString);
     return data.map((map) => ActivityData.fromMap(map)).toList();
   }
 
   Future<void> _downloadActivity(int id) async {
     // Get the json string from the server
-    String jsonString =
-        await NetworkUtil.requestDataString(Env.activityDetailsUrl(server, id));
+    String jsonString = await NetworkUtil.requestDataString(Env.activityDetailsUrl(server, id));
     Map<String, dynamic> data = json.decode(jsonString);
 
     // Deserialize the activity
@@ -201,13 +190,11 @@ class TrackSync {
     if (Env.debugMessages) print('Activity $id downloaded');
   }
 
-  Future<void> _createActivityImagesFor(
-      int activityId, List<int> imageIds) async {
+  Future<void> _createActivityImagesFor(int activityId, List<int> imageIds) async {
     if (imageIds.length == 0) return;
 
-    List<ActivityImage> activityImages = imageIds
-        .map((i) => ActivityImage.make(imageId: i, activityId: activityId))
-        .toList();
+    List<ActivityImage> activityImages =
+        imageIds.map((i) => ActivityImage.make(imageId: i, activityId: activityId)).toList();
 
     await activityImageBean.insertMany(activityImages);
   }

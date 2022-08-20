@@ -6,7 +6,7 @@ import 'package:discover_deep_cove/data/models/quiz/quiz_answer.dart';
 import 'package:discover_deep_cove/data/models/quiz/quiz_question.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/network_util.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class QuizData {
   int id;
@@ -39,10 +39,7 @@ class QuizSync {
     List<QuizData> serverQuizzes = await _getQuizSummary();
 
     // Get set of all IDs on both remote and local databases
-    Set<int> idSet = localQuizzes
-        .map((q) => q.id)
-        .toSet()
-        .union(serverQuizzes.map((q) => q.id).toSet());
+    Set<int> idSet = localQuizzes.map((q) => q.id).toSet().union(serverQuizzes.map((q) => q.id).toSet());
 
     List<Future> futures = List<Future>();
 
@@ -84,16 +81,14 @@ class QuizSync {
   /// the CMS server.
   Future<List<QuizData>> _getQuizSummary() async {
     // Request summary
-    String jsonString =
-        await NetworkUtil.requestDataString(Env.quizzesUrl(server));
+    String jsonString = await NetworkUtil.requestDataString(Env.quizzesUrl(server));
     List<dynamic> decodedJson = json.decode(jsonString);
     return decodedJson.map((map) => QuizData.fromMap(map)).toList();
   }
 
   Future<void> _downloadQuizData(int id, {bool unlocked}) async {
     // Request full json string of quiz and all questions/answers
-    String jsonString =
-        await NetworkUtil.requestDataString(Env.quizDetailsUrl(server, id));
+    String jsonString = await NetworkUtil.requestDataString(Env.quizDetailsUrl(server, id));
     Map<String, dynamic> map = json.decode(jsonString);
 
     // Deserialize quiz object
@@ -101,8 +96,7 @@ class QuizSync {
 
     // Deserialize question objects
     List<dynamic> questionData = map['questions'];
-    List<QuizQuestion> questions =
-        questionData.map((map) => questionBean.fromMap(map)).toList();
+    List<QuizQuestion> questions = questionData.map((map) => questionBean.fromMap(map)).toList();
 
     // Deserialize answer objects for each question
     List<QuizAnswer> answers = List<QuizAnswer>();
@@ -124,8 +118,7 @@ class QuizSync {
 
       // Insert answers for this question
       if (answers.where((a) => a.quizQuestionId == question.id).isNotEmpty) {
-        await answerBean.insertMany(
-            answers.where((a) => a.quizQuestionId == question.id).toList());
+        await answerBean.insertMany(answers.where((a) => a.quizQuestionId == question.id).toList());
       }
 
       // Now replace the correct answer id for the question
@@ -149,8 +142,7 @@ class QuizSync {
       question.correctAnswerId = null;
       await questionBean.update(question);
 
-      List<QuizAnswer> answers =
-          await answerBean.findByQuizQuestion(question.id);
+      List<QuizAnswer> answers = await answerBean.findByQuizQuestion(question.id);
       for (QuizAnswer answer in answers) {
         await answerBean.remove(answer.id);
       }
@@ -167,8 +159,7 @@ class QuizSync {
   /// of the original.
   Future<void> _replaceQuizData(int id) async {
     Quiz quiz = await quizBean.find(id);
-    if (Env.debugMessages)
-      print('Updating quiz $id (${quiz.title} - (will delete and re-download');
+    if (Env.debugMessages) print('Updating quiz $id (${quiz.title} - (will delete and re-download');
     await _deleteQuiz(id);
     await _downloadQuizData(id, unlocked: quiz.unlocked);
   }

@@ -4,7 +4,7 @@ import 'package:discover_deep_cove/data/models/notice.dart';
 import 'package:discover_deep_cove/env.dart';
 import 'package:discover_deep_cove/util/local_notifications.dart';
 import 'package:discover_deep_cove/util/network_util.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class NoticeboardSync {
   static Future<void> retrieveNotices(BuildContext context) async {
@@ -21,8 +21,7 @@ class NoticeboardSync {
       // Check if server can be reached
       if (await NetworkUtil.canAccessCMSRemote()) {
         // Download list of notices
-        String jsonString =
-            await NetworkUtil.requestDataString(Env.getNoticesUrl());
+        String jsonString = await NetworkUtil.requestDataString(Env.getNoticesUrl());
         List<dynamic> data = jsonDecode(jsonString);
         List<Notice> remoteNotices = data.map((m) => bean.fromMap(m)).toList();
 
@@ -34,10 +33,7 @@ class NoticeboardSync {
           if (!localNotices.any((n) => n.id == notice.id)) {
             shouldRefresh = true;
             hasNew = true;
-          } else if (localNotices
-              .firstWhere((n) => n.id == notice.id)
-              .updatedAt
-              .isBefore(notice.updatedAt)) {
+          } else if (localNotices.firstWhere((n) => n.id == notice.id).updatedAt.isBefore(notice.updatedAt)) {
             shouldRefresh = true;
             hasNew = true;
           }
@@ -60,10 +56,7 @@ class NoticeboardSync {
   }
 
   static Future<void> _refreshNotices(
-      NoticeBean bean,
-      List<Notice> remoteNotices,
-      BuildContext context,
-      bool showNotification) async {
+      NoticeBean bean, List<Notice> remoteNotices, BuildContext context, bool showNotification) async {
     try {
       // Remove all local notices and replace with remote
       await bean.removeAll();

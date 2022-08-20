@@ -14,7 +14,6 @@ import 'package:discover_deep_cove/widgets/misc/image_source.dart';
 import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/heading.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -28,8 +27,7 @@ class FactFileDetails extends StatefulWidget {
   State<StatefulWidget> createState() => _FactFileDetailsState();
 }
 
-class _FactFileDetailsState extends State<FactFileDetails>
-    with WidgetsBindingObserver {
+class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingObserver {
   AudioPlayer player = AudioPlayer();
   Color pronounceColor = Colors.white;
   Color listenColor = Colors.white;
@@ -95,8 +93,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
     return FutureBuilder(
         future: loadData(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done ||
-              entry != null) {
+          if (snapshot.connectionState == ConnectionState.done || entry != null) {
             return Scaffold(
               backgroundColor: Theme.of(context).backgroundColor,
               body: buildContent(),
@@ -160,20 +157,10 @@ class _FactFileDetailsState extends State<FactFileDetails>
                     stream: imageIdStream,
                     initialData: 0,
                     builder: (context, snapshot) {
-                      return entry
-                                  .galleryImages[
-                                      snapshot.hasData ? snapshot.data : 0]
-                                  .source !=
-                              null
+                      return entry.galleryImages[snapshot.hasData ? snapshot.data : 0].source != null
                           ? ImageSource(
-                              isCopyright: entry
-                                  .galleryImages[
-                                      snapshot.hasData ? snapshot.data : 0]
-                                  .showCopyright,
-                              source: entry
-                                  .galleryImages[
-                                      snapshot.hasData ? snapshot.data : 0]
-                                  .source,
+                              isCopyright: entry.galleryImages[snapshot.hasData ? snapshot.data : 0].showCopyright,
+                              source: entry.galleryImages[snapshot.hasData ? snapshot.data : 0].source,
                             )
                           : Container();
                     },
@@ -217,16 +204,14 @@ class _FactFileDetailsState extends State<FactFileDetails>
     setState(() => pronounceColor = Theme.of(context).primaryColor);
     _isButtonDisabled = true;
 
-    return player.play(Env.getResourcePath(entry.pronounceAudio.path),
-        isLocal: true);
+    return player.play(Env.getResourcePath(entry.pronounceAudio.path), isLocal: true);
   }
 
   playListen() {
     setState(() => listenColor = Theme.of(context).primaryColor);
     _isButtonDisabled = true;
 
-    return player.play(Env.getResourcePath(entry.listenAudio.path),
-        isLocal: true);
+    return player.play(Env.getResourcePath(entry.listenAudio.path), isLocal: true);
   }
 
   getContent() {
@@ -244,9 +229,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
           Divider(color: Colors.white, height: 5),
           Column(children: getNuggets()),
           Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: Screen.width(context, percentage: 1.25),
-                vertical: 15.0),
+            padding: EdgeInsets.symmetric(horizontal: Screen.width(context, percentage: 1.25), vertical: 15.0),
             child: BodyText(entry.bodyText, align: TextAlign.left, height: 1.5),
           ),
         ],
@@ -257,10 +240,7 @@ class _FactFileDetailsState extends State<FactFileDetails>
   buildAudioClipRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        if (entry.hasPronouceClip()) buildPronounceButton(),
-        if (entry.hasListenClip()) buildListenButton()
-      ],
+      children: [if (entry.hasPronouceClip()) buildPronounceButton(), if (entry.hasListenClip()) buildListenButton()],
     );
   }
 

@@ -1,16 +1,16 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 abstract class VerboseState<T extends StatefulWidget> extends State<T> {
   String name;
 
-  VerboseState(){
+  VerboseState() {
     name = this.runtimeType.toString();
   }
 
   @override
   @mustCallSuper
-  Widget build(BuildContext context){
-      print('$name built');
+  Widget build(BuildContext context) {
+    print('$name built');
   }
 
   @override
@@ -54,6 +54,4 @@ abstract class VerboseState<T extends StatefulWidget> extends State<T> {
     print('$name initialized');
     super.initState();
   }
-
-
 }

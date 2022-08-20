@@ -24,7 +24,7 @@ import 'package:discover_deep_cove/util/data_sync/track_sync.dart';
 import 'package:discover_deep_cove/util/exeptions.dart';
 import 'package:discover_deep_cove/util/network_util.dart';
 import 'package:discover_deep_cove/util/noticeboard_sync.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 enum SyncState {
   /// The sync process has not yet begun
@@ -68,13 +68,11 @@ class SyncManager {
   // State, percentage complete, up to file, out of files, total size bytes
   void Function(SyncState, int, int, int, int) onProgressChange;
 
-  SyncManager({this.onProgressChange, @required this.context})
-      : _syncState = SyncState.None;
+  SyncManager({this.onProgressChange, @required this.context}) : _syncState = SyncState.None;
 
   /// Returns progress information to the widget that called the sync
   /// method.
-  void _updateProgress(SyncState syncState, int percent,
-      {int upTo, int outOf, int totalSize}) {
+  void _updateProgress(SyncState syncState, int percent, {int upTo, int outOf, int totalSize}) {
     this._syncState = syncState;
     onProgressChange(syncState, percent, upTo, outOf, totalSize);
   }
@@ -218,12 +216,10 @@ class SyncManager {
   /// internet CMS is available, else throws [ServerUnreachableException].
   Future<CmsServerLocation> _getServerLocation() async {
     if (await NetworkUtil.canAccessCMSLocal()) {
-      if (Env.debugMessages)
-        print('Connectivity established with intranet server.');
+      if (Env.debugMessages) print('Connectivity established with intranet server.');
       return CmsServerLocation.Intranet;
     } else if (await NetworkUtil.canAccessCMSRemote()) {
-      if (Env.debugMessages)
-        print('Connectivity established with internet server.');
+      if (Env.debugMessages) print('Connectivity established with internet server.');
       return CmsServerLocation.Internet;
     }
     throw ServerUnreachableException();
