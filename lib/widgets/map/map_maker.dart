@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+import 'package:flutter_map_mbtiles_provider/flutter_map_mbtiles_provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -188,7 +189,7 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
           swPanBoundary: Env.swPanBoundary,
           nePanBoundary: Env.nePanBoundary,
           plugins: [MarkerClusterPlugin()],
-          onPositionChanged: (mapPosition, hasGesture, isGesture) {
+          onPositionChanged: (mapPosition, hasGesture) {
             if (mapPosition.center != Env.mapDefaultCenter) {
               WidgetsBinding.instance
                   .addPostFrameCallback((_) => _onAfterBuild(context, mapPosition.center, mapPosition.zoom));
@@ -215,9 +216,8 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
   MarkerClusterLayerOptions _buildMarkerClusterOptions() {
     return MarkerClusterLayerOptions(
       maxClusterRadius: 30,
-      height: 30,
-      width: 30,
-      anchorPos: AnchorPos.align(AnchorAlign.center),
+      size: const Size(30, 30),
+      anchor: AnchorPos.align(AnchorAlign.center),
       fitBoundsOptions: const FitBoundsOptions(
         maxZoom: 18,
       ),
