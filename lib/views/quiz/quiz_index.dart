@@ -47,8 +47,14 @@ class _QuizIndexState extends State<QuizIndex> {
             onPressed: () {
               Navigator.pushNamed(context, '/quizUnlock', arguments: refreshData);
             },
-            color: Colors.transparent,
-            padding: const EdgeInsets.only(top: 7.0),
+            style: ButtonStyle(
+              padding: MaterialStateProperty.all(
+                const EdgeInsets.only(top: 7.0),
+              ),
+              backgroundColor: MaterialStateProperty.all(
+                Colors.transparent,
+              ),
+            ),
             child: Column(
               children: const <Widget>[
                 Icon(
