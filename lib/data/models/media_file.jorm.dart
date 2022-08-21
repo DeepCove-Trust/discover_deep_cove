@@ -37,8 +37,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
     return model;
   }
 
-  List<SetColumn> toSetColumns(MediaFile model,
-      {bool update = false, Set<String> only, bool onlyNonNull = false}) {
+  List<SetColumn> toSetColumns(MediaFile model, {bool update = false, Set<String> only, bool onlyNonNull = false}) {
     List<SetColumn> ret = [];
 
     if (only == null && !onlyNonNull) {
@@ -55,10 +54,8 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       if (only.contains(name.name)) ret.add(name.set(model.name));
       if (only.contains(path.name)) ret.add(path.set(model.path));
       if (only.contains(source.name)) ret.add(source.set(model.source));
-      if (only.contains(showCopyright.name))
-        ret.add(showCopyright.set(model.showCopyright));
-      if (only.contains(updatedAt.name))
-        ret.add(updatedAt.set(model.updatedAt));
+      if (only.contains(showCopyright.name)) ret.add(showCopyright.set(model.showCopyright));
+      if (only.contains(updatedAt.name)) ret.add(updatedAt.set(model.updatedAt));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
@@ -98,35 +95,28 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
     return adapter.createTable(st);
   }
 
-  Future<dynamic> insert(MediaFile model,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
-    final Insert insert = inserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+  Future<dynamic> insert(MediaFile model, {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+    final Insert insert = inserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     var retId = await adapter.insert(insert);
     if (cascade) {
       MediaFile newModel;
       if (model.mainImageEntries != null) {
         newModel ??= await find(model.id);
-        model.mainImageEntries
-            .forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
+        model.mainImageEntries.forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         for (final child in model.mainImageEntries) {
           await factFileEntryBean.insert(child, cascade: cascade);
         }
       }
       if (model.listenEntries != null) {
         newModel ??= await find(model.id);
-        model.listenEntries
-            .forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
+        model.listenEntries.forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         for (final child in model.listenEntries) {
           await factFileEntryBean.insert(child, cascade: cascade);
         }
       }
       if (model.pronunciationEntries != null) {
         newModel ??= await find(model.id);
-        model.pronunciationEntries
-            .forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
+        model.pronunciationEntries.forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         for (final child in model.pronunciationEntries) {
           await factFileEntryBean.insert(child, cascade: cascade);
         }
@@ -140,16 +130,14 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       }
       if (model.nuggets != null) {
         newModel ??= await find(model.id);
-        model.nuggets
-            .forEach((x) => factFileNuggetBean.associateMediaFile(x, newModel));
+        model.nuggets.forEach((x) => factFileNuggetBean.associateMediaFile(x, newModel));
         for (final child in model.nuggets) {
           await factFileNuggetBean.insert(child, cascade: cascade);
         }
       }
       if (model.activities != null) {
         newModel ??= await find(model.id);
-        model.activities
-            .forEach((x) => activityBean.associateMediaFile(x, newModel));
+        model.activities.forEach((x) => activityBean.associateMediaFile(x, newModel));
         for (final child in model.activities) {
           await activityBean.insert(child, cascade: cascade);
         }
@@ -170,24 +158,21 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       }
       if (model.quizQuestions != null) {
         newModel ??= await find(model.id);
-        model.quizQuestions
-            .forEach((x) => quizQuestionBean.associateMediaFile(x, newModel));
+        model.quizQuestions.forEach((x) => quizQuestionBean.associateMediaFile(x, newModel));
         for (final child in model.quizQuestions) {
           await quizQuestionBean.insert(child, cascade: cascade);
         }
       }
       if (model.quizAnswers != null) {
         newModel ??= await find(model.id);
-        model.quizAnswers
-            .forEach((x) => quizAnswerBean.associateMediaFile(x, newModel));
+        model.quizAnswers.forEach((x) => quizAnswerBean.associateMediaFile(x, newModel));
         for (final child in model.quizAnswers) {
           await quizAnswerBean.insert(child, cascade: cascade);
         }
       }
       if (model.notices != null) {
         newModel ??= await find(model.id);
-        model.notices
-            .forEach((x) => noticeBean.associateMediaFile(x, newModel));
+        model.notices.forEach((x) => noticeBean.associateMediaFile(x, newModel));
         for (final child in model.notices) {
           await noticeBean.insert(child, cascade: cascade);
         }
@@ -197,9 +182,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   }
 
   Future<void> insertMany(List<MediaFile> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -208,45 +191,36 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       await Future.wait(futures);
       return;
     } else {
-      final List<List<SetColumn>> data = models
-          .map((model) =>
-              toSetColumns(model, only: only, onlyNonNull: onlyNonNull))
-          .toList();
+      final List<List<SetColumn>> data =
+          models.map((model) => toSetColumns(model, only: only, onlyNonNull: onlyNonNull)).toList();
       final InsertMany insert = inserters.addAll(data);
       await adapter.insertMany(insert);
       return;
     }
   }
 
-  Future<dynamic> upsert(MediaFile model,
-      {bool cascade = false,
-      Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Upsert upsert = upserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+  Future<dynamic> upsert(MediaFile model, {bool cascade = false, Set<String> only, bool onlyNonNull = false}) async {
+    final Upsert upsert = upserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     var retId = await adapter.upsert(upsert);
     if (cascade) {
       MediaFile newModel;
       if (model.mainImageEntries != null) {
         newModel ??= await find(model.id);
-        model.mainImageEntries
-            .forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
+        model.mainImageEntries.forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         for (final child in model.mainImageEntries) {
           await factFileEntryBean.upsert(child, cascade: cascade);
         }
       }
       if (model.listenEntries != null) {
         newModel ??= await find(model.id);
-        model.listenEntries
-            .forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
+        model.listenEntries.forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         for (final child in model.listenEntries) {
           await factFileEntryBean.upsert(child, cascade: cascade);
         }
       }
       if (model.pronunciationEntries != null) {
         newModel ??= await find(model.id);
-        model.pronunciationEntries
-            .forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
+        model.pronunciationEntries.forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         for (final child in model.pronunciationEntries) {
           await factFileEntryBean.upsert(child, cascade: cascade);
         }
@@ -260,16 +234,14 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       }
       if (model.nuggets != null) {
         newModel ??= await find(model.id);
-        model.nuggets
-            .forEach((x) => factFileNuggetBean.associateMediaFile(x, newModel));
+        model.nuggets.forEach((x) => factFileNuggetBean.associateMediaFile(x, newModel));
         for (final child in model.nuggets) {
           await factFileNuggetBean.upsert(child, cascade: cascade);
         }
       }
       if (model.activities != null) {
         newModel ??= await find(model.id);
-        model.activities
-            .forEach((x) => activityBean.associateMediaFile(x, newModel));
+        model.activities.forEach((x) => activityBean.associateMediaFile(x, newModel));
         for (final child in model.activities) {
           await activityBean.upsert(child, cascade: cascade);
         }
@@ -290,24 +262,21 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       }
       if (model.quizQuestions != null) {
         newModel ??= await find(model.id);
-        model.quizQuestions
-            .forEach((x) => quizQuestionBean.associateMediaFile(x, newModel));
+        model.quizQuestions.forEach((x) => quizQuestionBean.associateMediaFile(x, newModel));
         for (final child in model.quizQuestions) {
           await quizQuestionBean.upsert(child, cascade: cascade);
         }
       }
       if (model.quizAnswers != null) {
         newModel ??= await find(model.id);
-        model.quizAnswers
-            .forEach((x) => quizAnswerBean.associateMediaFile(x, newModel));
+        model.quizAnswers.forEach((x) => quizAnswerBean.associateMediaFile(x, newModel));
         for (final child in model.quizAnswers) {
           await quizAnswerBean.upsert(child, cascade: cascade);
         }
       }
       if (model.notices != null) {
         newModel ??= await find(model.id);
-        model.notices
-            .forEach((x) => noticeBean.associateMediaFile(x, newModel));
+        model.notices.forEach((x) => noticeBean.associateMediaFile(x, newModel));
         for (final child in model.notices) {
           await noticeBean.upsert(child, cascade: cascade);
         }
@@ -317,9 +286,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   }
 
   Future<void> upsertMany(List<MediaFile> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -331,8 +298,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       final List<List<SetColumn>> data = [];
       for (var i = 0; i < models.length; ++i) {
         var model = models[i];
-        data.add(
-            toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
+        data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
       }
       final UpsertMany upsert = upserters.addAll(data);
       await adapter.upsertMany(upsert);
@@ -341,88 +307,71 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   }
 
   Future<int> update(MediaFile model,
-      {bool cascade = false,
-      bool associate = false,
-      Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Update update = updater
-        .where(this.id.eq(model.id))
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+    final Update update =
+        updater.where(this.id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
     if (cascade) {
       MediaFile newModel;
       if (model.mainImageEntries != null) {
         if (associate) {
           newModel ??= await find(model.id);
-          model.mainImageEntries.forEach(
-              (x) => factFileEntryBean.associateMediaFile(x, newModel));
+          model.mainImageEntries.forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         }
         for (final child in model.mainImageEntries) {
-          await factFileEntryBean.update(child,
-              cascade: cascade, associate: associate);
+          await factFileEntryBean.update(child, cascade: cascade, associate: associate);
         }
       }
       if (model.listenEntries != null) {
         if (associate) {
           newModel ??= await find(model.id);
-          model.listenEntries.forEach(
-              (x) => factFileEntryBean.associateMediaFile(x, newModel));
+          model.listenEntries.forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         }
         for (final child in model.listenEntries) {
-          await factFileEntryBean.update(child,
-              cascade: cascade, associate: associate);
+          await factFileEntryBean.update(child, cascade: cascade, associate: associate);
         }
       }
       if (model.pronunciationEntries != null) {
         if (associate) {
           newModel ??= await find(model.id);
-          model.pronunciationEntries.forEach(
-              (x) => factFileEntryBean.associateMediaFile(x, newModel));
+          model.pronunciationEntries.forEach((x) => factFileEntryBean.associateMediaFile(x, newModel));
         }
         for (final child in model.pronunciationEntries) {
-          await factFileEntryBean.update(child,
-              cascade: cascade, associate: associate);
+          await factFileEntryBean.update(child, cascade: cascade, associate: associate);
         }
       }
       if (model.galleryImageEntries != null) {
         for (final child in model.galleryImageEntries) {
-          await factFileEntryBean.update(child,
-              cascade: cascade, associate: associate);
+          await factFileEntryBean.update(child, cascade: cascade, associate: associate);
         }
       }
       if (model.nuggets != null) {
         if (associate) {
           newModel ??= await find(model.id);
-          model.nuggets.forEach(
-              (x) => factFileNuggetBean.associateMediaFile(x, newModel));
+          model.nuggets.forEach((x) => factFileNuggetBean.associateMediaFile(x, newModel));
         }
         for (final child in model.nuggets) {
-          await factFileNuggetBean.update(child,
-              cascade: cascade, associate: associate);
+          await factFileNuggetBean.update(child, cascade: cascade, associate: associate);
         }
       }
       if (model.activities != null) {
         if (associate) {
           newModel ??= await find(model.id);
-          model.activities
-              .forEach((x) => activityBean.associateMediaFile(x, newModel));
+          model.activities.forEach((x) => activityBean.associateMediaFile(x, newModel));
         }
         for (final child in model.activities) {
-          await activityBean.update(child,
-              cascade: cascade, associate: associate);
+          await activityBean.update(child, cascade: cascade, associate: associate);
         }
       }
       if (model.multiSelectActivities != null) {
         for (final child in model.multiSelectActivities) {
-          await activityBean.update(child,
-              cascade: cascade, associate: associate);
+          await activityBean.update(child, cascade: cascade, associate: associate);
         }
       }
       if (model.quizzes != null) {
         if (associate) {
           newModel ??= await find(model.id);
-          model.quizzes
-              .forEach((x) => quizBean.associateMediaFile(x, newModel));
+          model.quizzes.forEach((x) => quizBean.associateMediaFile(x, newModel));
         }
         for (final child in model.quizzes) {
           await quizBean.update(child, cascade: cascade, associate: associate);
@@ -431,34 +380,28 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       if (model.quizQuestions != null) {
         if (associate) {
           newModel ??= await find(model.id);
-          model.quizQuestions
-              .forEach((x) => quizQuestionBean.associateMediaFile(x, newModel));
+          model.quizQuestions.forEach((x) => quizQuestionBean.associateMediaFile(x, newModel));
         }
         for (final child in model.quizQuestions) {
-          await quizQuestionBean.update(child,
-              cascade: cascade, associate: associate);
+          await quizQuestionBean.update(child, cascade: cascade, associate: associate);
         }
       }
       if (model.quizAnswers != null) {
         if (associate) {
           newModel ??= await find(model.id);
-          model.quizAnswers
-              .forEach((x) => quizAnswerBean.associateMediaFile(x, newModel));
+          model.quizAnswers.forEach((x) => quizAnswerBean.associateMediaFile(x, newModel));
         }
         for (final child in model.quizAnswers) {
-          await quizAnswerBean.update(child,
-              cascade: cascade, associate: associate);
+          await quizAnswerBean.update(child, cascade: cascade, associate: associate);
         }
       }
       if (model.notices != null) {
         if (associate) {
           newModel ??= await find(model.id);
-          model.notices
-              .forEach((x) => noticeBean.associateMediaFile(x, newModel));
+          model.notices.forEach((x) => noticeBean.associateMediaFile(x, newModel));
         }
         for (final child in model.notices) {
-          await noticeBean.update(child,
-              cascade: cascade, associate: associate);
+          await noticeBean.update(child, cascade: cascade, associate: associate);
         }
       }
     }
@@ -466,9 +409,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   }
 
   Future<void> updateMany(List<MediaFile> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -481,8 +422,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       final List<Expression> where = [];
       for (var i = 0; i < models.length; ++i) {
         var model = models[i];
-        data.add(
-            toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
+        data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
         where.add(this.id.eq(model.id));
       }
       final UpdateMany update = updaters.addAll(data, where);
@@ -491,8 +431,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
     }
   }
 
-  Future<MediaFile> find(int id,
-      {bool preload = false, bool cascade = false}) async {
+  Future<MediaFile> find(int id, {bool preload = false, bool cascade = false}) async {
     final Find find = finder.where(this.id.eq(id));
     final MediaFile model = await findOne(find);
     if (preload && model != null) {
@@ -505,12 +444,9 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
     if (cascade) {
       final MediaFile newModel = await find(id);
       if (newModel != null) {
-        await factFileEntryBean.removeByMediaFile(
-            newModel.id, newModel.id, newModel.id);
-        await factFileEntryBean.removeByMediaFile(
-            newModel.id, newModel.id, newModel.id);
-        await factFileEntryBean.removeByMediaFile(
-            newModel.id, newModel.id, newModel.id);
+        await factFileEntryBean.removeByMediaFile(newModel.id, newModel.id, newModel.id);
+        await factFileEntryBean.removeByMediaFile(newModel.id, newModel.id, newModel.id);
+        await factFileEntryBean.removeByMediaFile(newModel.id, newModel.id, newModel.id);
         await factFileEntryImageBean.detachMediaFile(newModel);
         await factFileNuggetBean.removeByMediaFile(newModel.id);
         await activityBean.removeByMediaFile(newModel.id, newModel.id);
@@ -536,72 +472,56 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   }
 
   Future<MediaFile> preload(MediaFile model, {bool cascade = false}) async {
-    model.mainImageEntries = await factFileEntryBean.findByMediaFile(
-        model.id, model.id, model.id,
-        preload: cascade, cascade: cascade);
-    model.listenEntries = await factFileEntryBean.findByMediaFile(
-        model.id, model.id, model.id,
-        preload: cascade, cascade: cascade);
-    model.pronunciationEntries = await factFileEntryBean.findByMediaFile(
-        model.id, model.id, model.id,
-        preload: cascade, cascade: cascade);
-    model.galleryImageEntries =
-        await factFileEntryImageBean.fetchByMediaFile(model);
-    model.nuggets = await factFileNuggetBean.findByMediaFile(model.id,
-        preload: cascade, cascade: cascade);
-    model.activities = await activityBean.findByMediaFile(model.id, model.id,
-        preload: cascade, cascade: cascade);
-    model.multiSelectActivities =
-        await activityImageBean.fetchByMediaFile(model);
-    model.quizzes = await quizBean.findByMediaFile(model.id,
-        preload: cascade, cascade: cascade);
-    model.quizQuestions = await quizQuestionBean.findByMediaFile(
-        model.id, model.id,
-        preload: cascade, cascade: cascade);
-    model.quizAnswers = await quizAnswerBean.findByMediaFile(model.id,
-        preload: cascade, cascade: cascade);
-    model.notices = await noticeBean.findByMediaFile(model.id,
-        preload: cascade, cascade: cascade);
+    model.mainImageEntries =
+        await factFileEntryBean.findByMediaFile(model.id, model.id, model.id, preload: cascade, cascade: cascade);
+    model.listenEntries =
+        await factFileEntryBean.findByMediaFile(model.id, model.id, model.id, preload: cascade, cascade: cascade);
+    model.pronunciationEntries =
+        await factFileEntryBean.findByMediaFile(model.id, model.id, model.id, preload: cascade, cascade: cascade);
+    model.galleryImageEntries = await factFileEntryImageBean.fetchByMediaFile(model);
+    model.nuggets = await factFileNuggetBean.findByMediaFile(model.id, preload: cascade, cascade: cascade);
+    model.activities = await activityBean.findByMediaFile(model.id, model.id, preload: cascade, cascade: cascade);
+    model.multiSelectActivities = await activityImageBean.fetchByMediaFile(model);
+    model.quizzes = await quizBean.findByMediaFile(model.id, preload: cascade, cascade: cascade);
+    model.quizQuestions =
+        await quizQuestionBean.findByMediaFile(model.id, model.id, preload: cascade, cascade: cascade);
+    model.quizAnswers = await quizAnswerBean.findByMediaFile(model.id, preload: cascade, cascade: cascade);
+    model.notices = await noticeBean.findByMediaFile(model.id, preload: cascade, cascade: cascade);
     return model;
   }
 
-  Future<List<MediaFile>> preloadAll(List<MediaFile> models,
-      {bool cascade = false}) async {
+  Future<List<MediaFile>> preloadAll(List<MediaFile> models, {bool cascade = false}) async {
     models.forEach((MediaFile model) => model.mainImageEntries ??= []);
     await OneToXHelper.preloadAll<MediaFile, FactFileEntry>(
         models,
         (MediaFile model) => [model.id, model.id, model.id],
         factFileEntryBean.findByMediaFileList,
-        (FactFileEntry model) =>
-            [model.mainImageId, model.pronounceAudioId, model.listenAudioId],
-        (MediaFile model, FactFileEntry child) => model.mainImageEntries =
-            List.from(model.mainImageEntries)..add(child),
+        (FactFileEntry model) => [model.mainImageId, model.pronounceAudioId, model.listenAudioId],
+        (MediaFile model, FactFileEntry child) =>
+            model.mainImageEntries = List.from(model.mainImageEntries)..add(child),
         cascade: cascade);
     models.forEach((MediaFile model) => model.listenEntries ??= []);
     await OneToXHelper.preloadAll<MediaFile, FactFileEntry>(
         models,
         (MediaFile model) => [model.id, model.id, model.id],
         factFileEntryBean.findByMediaFileList,
-        (FactFileEntry model) =>
-            [model.mainImageId, model.pronounceAudioId, model.listenAudioId],
-        (MediaFile model, FactFileEntry child) =>
-            model.listenEntries = List.from(model.listenEntries)..add(child),
+        (FactFileEntry model) => [model.mainImageId, model.pronounceAudioId, model.listenAudioId],
+        (MediaFile model, FactFileEntry child) => model.listenEntries = List.from(model.listenEntries)..add(child),
         cascade: cascade);
     models.forEach((MediaFile model) => model.pronunciationEntries ??= []);
     await OneToXHelper.preloadAll<MediaFile, FactFileEntry>(
         models,
         (MediaFile model) => [model.id, model.id, model.id],
         factFileEntryBean.findByMediaFileList,
-        (FactFileEntry model) =>
-            [model.mainImageId, model.pronounceAudioId, model.listenAudioId],
-        (MediaFile model, FactFileEntry child) => model.pronunciationEntries =
-            List.from(model.pronunciationEntries)..add(child),
+        (FactFileEntry model) => [model.mainImageId, model.pronounceAudioId, model.listenAudioId],
+        (MediaFile model, FactFileEntry child) =>
+            model.pronunciationEntries = List.from(model.pronunciationEntries)..add(child),
         cascade: cascade);
     for (MediaFile model in models) {
       var temp = await factFileEntryImageBean.fetchByMediaFile(model);
-      if (model.galleryImageEntries == null)
+      if (model.galleryImageEntries == null) {
         model.galleryImageEntries = temp;
-      else {
+      } else {
         model.galleryImageEntries.clear();
         model.galleryImageEntries.addAll(temp);
       }
@@ -612,8 +532,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         (MediaFile model) => [model.id],
         factFileNuggetBean.findByMediaFileList,
         (FactFileNugget model) => [model.imageId],
-        (MediaFile model, FactFileNugget child) =>
-            model.nuggets = List.from(model.nuggets)..add(child),
+        (MediaFile model, FactFileNugget child) => model.nuggets = List.from(model.nuggets)..add(child),
         cascade: cascade);
     models.forEach((MediaFile model) => model.activities ??= []);
     await OneToXHelper.preloadAll<MediaFile, Activity>(
@@ -621,14 +540,13 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         (MediaFile model) => [model.id, model.id],
         activityBean.findByMediaFileList,
         (Activity model) => [model.imageId, model.selectedPictureId],
-        (MediaFile model, Activity child) =>
-            model.activities = List.from(model.activities)..add(child),
+        (MediaFile model, Activity child) => model.activities = List.from(model.activities)..add(child),
         cascade: cascade);
     for (MediaFile model in models) {
       var temp = await activityImageBean.fetchByMediaFile(model);
-      if (model.multiSelectActivities == null)
+      if (model.multiSelectActivities == null) {
         model.multiSelectActivities = temp;
-      else {
+      } else {
         model.multiSelectActivities.clear();
         model.multiSelectActivities.addAll(temp);
       }
@@ -639,8 +557,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         (MediaFile model) => [model.id],
         quizBean.findByMediaFileList,
         (Quiz model) => [model.imageId],
-        (MediaFile model, Quiz child) =>
-            model.quizzes = List.from(model.quizzes)..add(child),
+        (MediaFile model, Quiz child) => model.quizzes = List.from(model.quizzes)..add(child),
         cascade: cascade);
     models.forEach((MediaFile model) => model.quizQuestions ??= []);
     await OneToXHelper.preloadAll<MediaFile, QuizQuestion>(
@@ -648,8 +565,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         (MediaFile model) => [model.id, model.id],
         quizQuestionBean.findByMediaFileList,
         (QuizQuestion model) => [model.imageId, model.audioId],
-        (MediaFile model, QuizQuestion child) =>
-            model.quizQuestions = List.from(model.quizQuestions)..add(child),
+        (MediaFile model, QuizQuestion child) => model.quizQuestions = List.from(model.quizQuestions)..add(child),
         cascade: cascade);
     models.forEach((MediaFile model) => model.quizAnswers ??= []);
     await OneToXHelper.preloadAll<MediaFile, QuizAnswer>(
@@ -657,8 +573,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         (MediaFile model) => [model.id],
         quizAnswerBean.findByMediaFileList,
         (QuizAnswer model) => [model.imageId],
-        (MediaFile model, QuizAnswer child) =>
-            model.quizAnswers = List.from(model.quizAnswers)..add(child),
+        (MediaFile model, QuizAnswer child) => model.quizAnswers = List.from(model.quizAnswers)..add(child),
         cascade: cascade);
     models.forEach((MediaFile model) => model.notices ??= []);
     await OneToXHelper.preloadAll<MediaFile, Notice>(
@@ -666,8 +581,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
         (MediaFile model) => [model.id],
         noticeBean.findByMediaFileList,
         (Notice model) => [model.imageId],
-        (MediaFile model, Notice child) =>
-            model.notices = List.from(model.notices)..add(child),
+        (MediaFile model, Notice child) => model.notices = List.from(model.notices)..add(child),
         cascade: cascade);
     return models;
   }

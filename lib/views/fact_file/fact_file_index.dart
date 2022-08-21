@@ -57,11 +57,12 @@ class _FactFileIndexState extends State<FactFileIndex> with TickerProviderStateM
     }
 
     for (FactFileCategory category in categories) {
-      for (FactFileEntry entry in category.entries)
+      for (FactFileEntry entry in category.entries) {
         precacheImage(
           FileImage(File(Env.getResourcePath(entry.mainImage.path))),
           context,
         );
+      }
     }
   }
 

@@ -112,13 +112,15 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
   }
 
   void checkIfReloadRequired() async {
-    if (Env.debugMessages) print('Checking if reload required');
+    if (Env.debugMessages) debugPrint('Checking if reload required');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool reloadMap = prefs.getBool('reloadMap');
     if (reloadMap ?? false) {
-      if (Env.debugMessages) print('Map reload is required...');
+      if (Env.debugMessages) debugPrint('Map reload is required...');
       loadTracks();
-    } else if (Env.debugMessages) print('Map reload is not required...');
+    } else if (Env.debugMessages) {
+      debugPrint('Map reload is not required...');
+    }
   }
 
   @override
@@ -302,8 +304,9 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
   void animateToActivity(int activityId) async {
     Activity activity = await activityBean.find(activityId);
 
-    if (activity.trackId != currentTrack.id)
+    if (activity.trackId != currentTrack.id) {
       currentTrackNum = tracks.indexWhere((track) => track.id == activity.trackId);
+    }
 
     if (!trackStreamController.isClosed) {
       trackStreamController.sink.add(currentTrack.name);

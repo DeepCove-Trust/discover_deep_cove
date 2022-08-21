@@ -21,8 +21,7 @@ abstract class _ActivityBean implements Bean<Activity> {
   final imageId = IntField('image_id');
   final userPhotoId = IntField('user_photo_id');
   final selectedPictureId = IntField('selected_picture_id');
-  final informationActivityUnlocked =
-      BoolField('information_activity_unlocked');
+  final informationActivityUnlocked = BoolField('information_activity_unlocked');
   final userCoordX = DoubleField('user_coord_x');
   final userCoordY = DoubleField('user_coord_y');
   final userCount = IntField('user_count');
@@ -65,8 +64,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     model.imageId = adapter.parseValue(map['image_id']);
     model.userPhotoId = adapter.parseValue(map['user_photo_id']);
     model.selectedPictureId = adapter.parseValue(map['selected_picture_id']);
-    model.informationActivityUnlocked =
-        adapter.parseValue(map['information_activity_unlocked']);
+    model.informationActivityUnlocked = adapter.parseValue(map['information_activity_unlocked']);
     model.userCoordX = adapter.parseValue(map['user_coord_x']);
     model.userCoordY = adapter.parseValue(map['user_coord_y']);
     model.userCount = adapter.parseValue(map['user_count']);
@@ -75,8 +73,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     return model;
   }
 
-  List<SetColumn> toSetColumns(Activity model,
-      {bool update = false, Set<String> only, bool onlyNonNull = false}) {
+  List<SetColumn> toSetColumns(Activity model, {bool update = false, Set<String> only, bool onlyNonNull = false}) {
     List<SetColumn> ret = [];
 
     if (only == null && !onlyNonNull) {
@@ -94,42 +91,32 @@ abstract class _ActivityBean implements Bean<Activity> {
       ret.add(imageId.set(model.imageId));
       ret.add(userPhotoId.set(model.userPhotoId));
       ret.add(selectedPictureId.set(model.selectedPictureId));
-      ret.add(
-          informationActivityUnlocked.set(model.informationActivityUnlocked));
+      ret.add(informationActivityUnlocked.set(model.informationActivityUnlocked));
       ret.add(userCoordX.set(model.userCoordX));
       ret.add(userCoordY.set(model.userCoordY));
       ret.add(userCount.set(model.userCount));
       ret.add(userText.set(model.userText));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
-      if (only.contains(updatedAt.name))
-        ret.add(updatedAt.set(model.updatedAt));
+      if (only.contains(updatedAt.name)) ret.add(updatedAt.set(model.updatedAt));
       if (only.contains(trackId.name)) ret.add(trackId.set(model.trackId));
-      if (only.contains(factFileId.name))
-        ret.add(factFileId.set(model.factFileId));
-      if (only.contains(_activityType.name))
-        ret.add(_activityType.set(model._activityType));
+      if (only.contains(factFileId.name)) ret.add(factFileId.set(model.factFileId));
+      if (only.contains(_activityType.name)) ret.add(_activityType.set(model._activityType));
       if (only.contains(qrCode.name)) ret.add(qrCode.set(model.qrCode));
       if (only.contains(coordX.name)) ret.add(coordX.set(model.coordX));
       if (only.contains(coordY.name)) ret.add(coordY.set(model.coordY));
       if (only.contains(title.name)) ret.add(title.set(model.title));
-      if (only.contains(description.name))
-        ret.add(description.set(model.description));
+      if (only.contains(description.name)) ret.add(description.set(model.description));
       if (only.contains(task.name)) ret.add(task.set(model.task));
       if (only.contains(imageId.name)) ret.add(imageId.set(model.imageId));
-      if (only.contains(userPhotoId.name))
-        ret.add(userPhotoId.set(model.userPhotoId));
-      if (only.contains(selectedPictureId.name))
-        ret.add(selectedPictureId.set(model.selectedPictureId));
-      if (only.contains(informationActivityUnlocked.name))
-        ret.add(
-            informationActivityUnlocked.set(model.informationActivityUnlocked));
-      if (only.contains(userCoordX.name))
-        ret.add(userCoordX.set(model.userCoordX));
-      if (only.contains(userCoordY.name))
-        ret.add(userCoordY.set(model.userCoordY));
-      if (only.contains(userCount.name))
-        ret.add(userCount.set(model.userCount));
+      if (only.contains(userPhotoId.name)) ret.add(userPhotoId.set(model.userPhotoId));
+      if (only.contains(selectedPictureId.name)) ret.add(selectedPictureId.set(model.selectedPictureId));
+      if (only.contains(informationActivityUnlocked.name)) {
+        ret.add(informationActivityUnlocked.set(model.informationActivityUnlocked));
+      }
+      if (only.contains(userCoordX.name)) ret.add(userCoordX.set(model.userCoordX));
+      if (only.contains(userCoordY.name)) ret.add(userCoordY.set(model.userCoordY));
+      if (only.contains(userCount.name)) ret.add(userCount.set(model.userCount));
       if (only.contains(userText.name)) ret.add(userText.set(model.userText));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
@@ -175,8 +162,7 @@ abstract class _ActivityBean implements Bean<Activity> {
         ret.add(selectedPictureId.set(model.selectedPictureId));
       }
       if (model.informationActivityUnlocked != null) {
-        ret.add(
-            informationActivityUnlocked.set(model.informationActivityUnlocked));
+        ret.add(informationActivityUnlocked.set(model.informationActivityUnlocked));
       }
       if (model.userCoordX != null) {
         ret.add(userCoordX.set(model.userCoordX));
@@ -199,8 +185,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
     st.addDateTime(updatedAt.name, isNullable: false);
-    st.addInt(trackId.name,
-        foreignTable: trackBean.tableName, foreignCol: 'id', isNullable: false);
+    st.addInt(trackId.name, foreignTable: trackBean.tableName, foreignCol: 'id', isNullable: false);
     st.addInt(factFileId.name, isNullable: true);
     st.addInt(_activityType.name, isNullable: false);
     st.addStr(qrCode.name, isNullable: false);
@@ -209,18 +194,9 @@ abstract class _ActivityBean implements Bean<Activity> {
     st.addStr(title.name, isNullable: false);
     st.addStr(description.name, isNullable: false);
     st.addStr(task.name, isNullable: true);
-    st.addInt(imageId.name,
-        foreignTable: mediaFileBean.tableName,
-        foreignCol: 'id',
-        isNullable: true);
-    st.addInt(userPhotoId.name,
-        foreignTable: userPhotoBean.tableName,
-        foreignCol: 'id',
-        isNullable: true);
-    st.addInt(selectedPictureId.name,
-        foreignTable: mediaFileBean.tableName,
-        foreignCol: 'id',
-        isNullable: true);
+    st.addInt(imageId.name, foreignTable: mediaFileBean.tableName, foreignCol: 'id', isNullable: true);
+    st.addInt(userPhotoId.name, foreignTable: userPhotoBean.tableName, foreignCol: 'id', isNullable: true);
+    st.addInt(selectedPictureId.name, foreignTable: mediaFileBean.tableName, foreignCol: 'id', isNullable: true);
     st.addBool(informationActivityUnlocked.name, isNullable: false);
     st.addDouble(userCoordX.name, isNullable: true);
     st.addDouble(userCoordY.name, isNullable: true);
@@ -229,12 +205,8 @@ abstract class _ActivityBean implements Bean<Activity> {
     return adapter.createTable(st);
   }
 
-  Future<dynamic> insert(Activity model,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
-    final Insert insert = inserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+  Future<dynamic> insert(Activity model, {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+    final Insert insert = inserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     var retId = await adapter.insert(insert);
     if (cascade) {
       Activity newModel;
@@ -250,9 +222,7 @@ abstract class _ActivityBean implements Bean<Activity> {
   }
 
   Future<void> insertMany(List<Activity> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -261,22 +231,16 @@ abstract class _ActivityBean implements Bean<Activity> {
       await Future.wait(futures);
       return;
     } else {
-      final List<List<SetColumn>> data = models
-          .map((model) =>
-              toSetColumns(model, only: only, onlyNonNull: onlyNonNull))
-          .toList();
+      final List<List<SetColumn>> data =
+          models.map((model) => toSetColumns(model, only: only, onlyNonNull: onlyNonNull)).toList();
       final InsertMany insert = inserters.addAll(data);
       await adapter.insertMany(insert);
       return;
     }
   }
 
-  Future<dynamic> upsert(Activity model,
-      {bool cascade = false,
-      Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Upsert upsert = upserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+  Future<dynamic> upsert(Activity model, {bool cascade = false, Set<String> only, bool onlyNonNull = false}) async {
+    final Upsert upsert = upserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     var retId = await adapter.upsert(upsert);
     if (cascade) {
       Activity newModel;
@@ -292,9 +256,7 @@ abstract class _ActivityBean implements Bean<Activity> {
   }
 
   Future<void> upsertMany(List<Activity> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -306,8 +268,7 @@ abstract class _ActivityBean implements Bean<Activity> {
       final List<List<SetColumn>> data = [];
       for (var i = 0; i < models.length; ++i) {
         var model = models[i];
-        data.add(
-            toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
+        data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
       }
       final UpsertMany upsert = upserters.addAll(data);
       await adapter.upsertMany(upsert);
@@ -316,20 +277,15 @@ abstract class _ActivityBean implements Bean<Activity> {
   }
 
   Future<int> update(Activity model,
-      {bool cascade = false,
-      bool associate = false,
-      Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Update update = updater
-        .where(this.id.eq(model.id))
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+    final Update update =
+        updater.where(this.id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
     if (cascade) {
       Activity newModel;
       if (model.imageOptions != null) {
         for (final child in model.imageOptions) {
-          await mediaFileBean.update(child,
-              cascade: cascade, associate: associate);
+          await mediaFileBean.update(child, cascade: cascade, associate: associate);
         }
       }
     }
@@ -337,9 +293,7 @@ abstract class _ActivityBean implements Bean<Activity> {
   }
 
   Future<void> updateMany(List<Activity> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -352,8 +306,7 @@ abstract class _ActivityBean implements Bean<Activity> {
       final List<Expression> where = [];
       for (var i = 0; i < models.length; ++i) {
         var model = models[i];
-        data.add(
-            toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
+        data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
         where.add(this.id.eq(model.id));
       }
       final UpdateMany update = updaters.addAll(data, where);
@@ -362,8 +315,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     }
   }
 
-  Future<Activity> find(int id,
-      {bool preload = false, bool cascade = false}) async {
+  Future<Activity> find(int id, {bool preload = false, bool cascade = false}) async {
     final Find find = finder.where(this.id.eq(id));
     final Activity model = await findOne(find);
     if (preload && model != null) {
@@ -393,8 +345,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     return adapter.remove(remove);
   }
 
-  Future<List<Activity>> findByTrack(int trackId,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<Activity>> findByTrack(int trackId, {bool preload = false, bool cascade = false}) async {
     final Find find = finder.where(this.trackId.eq(trackId));
     final List<Activity> models = await findMany(find);
     if (preload) {
@@ -403,8 +354,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     return models;
   }
 
-  Future<List<Activity>> findByTrackList(List<Track> models,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<Activity>> findByTrackList(List<Track> models, {bool preload = false, bool cascade = false}) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
@@ -429,9 +379,7 @@ abstract class _ActivityBean implements Bean<Activity> {
 
   Future<List<Activity>> findByMediaFile(int imageId, int selectedPictureId,
       {bool preload = false, bool cascade = false}) async {
-    final Find find = finder
-        .where(this.imageId.eq(imageId))
-        .where(this.selectedPictureId.eq(selectedPictureId));
+    final Find find = finder.where(this.imageId.eq(imageId)).where(this.selectedPictureId.eq(selectedPictureId));
     final List<Activity> models = await findMany(find);
     if (preload) {
       await this.preloadAll(models, cascade: cascade);
@@ -455,9 +403,7 @@ abstract class _ActivityBean implements Bean<Activity> {
   }
 
   Future<int> removeByMediaFile(int imageId, int selectedPictureId) async {
-    final Remove rm = remover
-        .where(this.imageId.eq(imageId))
-        .where(this.selectedPictureId.eq(selectedPictureId));
+    final Remove rm = remover.where(this.imageId.eq(imageId)).where(this.selectedPictureId.eq(selectedPictureId));
     return await adapter.remove(rm);
   }
 
@@ -466,8 +412,7 @@ abstract class _ActivityBean implements Bean<Activity> {
     child.selectedPictureId = parent.id;
   }
 
-  Future<List<Activity>> findByUserPhoto(int userPhotoId,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<Activity>> findByUserPhoto(int userPhotoId, {bool preload = false, bool cascade = false}) async {
     final Find find = finder.where(this.userPhotoId.eq(userPhotoId));
     final List<Activity> models = await findMany(find);
     if (preload) {
@@ -505,13 +450,12 @@ abstract class _ActivityBean implements Bean<Activity> {
     return model;
   }
 
-  Future<List<Activity>> preloadAll(List<Activity> models,
-      {bool cascade = false}) async {
+  Future<List<Activity>> preloadAll(List<Activity> models, {bool cascade = false}) async {
     for (Activity model in models) {
       var temp = await activityImageBean.fetchByActivity(model);
-      if (model.imageOptions == null)
+      if (model.imageOptions == null) {
         model.imageOptions = temp;
-      else {
+      } else {
         model.imageOptions.clear();
         model.imageOptions.addAll(temp);
       }

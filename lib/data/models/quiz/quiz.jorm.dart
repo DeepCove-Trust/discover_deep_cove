@@ -43,8 +43,7 @@ abstract class _QuizBean implements Bean<Quiz> {
     return model;
   }
 
-  List<SetColumn> toSetColumns(Quiz model,
-      {bool update = false, Set<String> only, bool onlyNonNull = false}) {
+  List<SetColumn> toSetColumns(Quiz model, {bool update = false, Set<String> only, bool onlyNonNull = false}) {
     List<SetColumn> ret = [];
 
     if (only == null && !onlyNonNull) {
@@ -59,18 +58,13 @@ abstract class _QuizBean implements Bean<Quiz> {
       ret.add(imageId.set(model.imageId));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
-      if (only.contains(updatedAt.name))
-        ret.add(updatedAt.set(model.updatedAt));
-      if (only.contains(_unlocked.name))
-        ret.add(_unlocked.set(model._unlocked));
-      if (only.contains(unlockCode.name))
-        ret.add(unlockCode.set(model.unlockCode));
+      if (only.contains(updatedAt.name)) ret.add(updatedAt.set(model.updatedAt));
+      if (only.contains(_unlocked.name)) ret.add(_unlocked.set(model._unlocked));
+      if (only.contains(unlockCode.name)) ret.add(unlockCode.set(model.unlockCode));
       if (only.contains(_shuffle.name)) ret.add(_shuffle.set(model._shuffle));
       if (only.contains(title.name)) ret.add(title.set(model.title));
-      if (only.contains(_attempts.name))
-        ret.add(_attempts.set(model._attempts));
-      if (only.contains(_highScore.name))
-        ret.add(_highScore.set(model._highScore));
+      if (only.contains(_attempts.name)) ret.add(_attempts.set(model._attempts));
+      if (only.contains(_highScore.name)) ret.add(_highScore.set(model._highScore));
       if (only.contains(imageId.name)) ret.add(imageId.set(model.imageId));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
@@ -115,26 +109,18 @@ abstract class _QuizBean implements Bean<Quiz> {
     st.addStr(title.name, isNullable: false);
     st.addInt(_attempts.name, isNullable: true);
     st.addInt(_highScore.name, isNullable: true);
-    st.addInt(imageId.name,
-        foreignTable: mediaFileBean.tableName,
-        foreignCol: 'id',
-        isNullable: true);
+    st.addInt(imageId.name, foreignTable: mediaFileBean.tableName, foreignCol: 'id', isNullable: true);
     return adapter.createTable(st);
   }
 
-  Future<dynamic> insert(Quiz model,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
-    final Insert insert = inserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+  Future<dynamic> insert(Quiz model, {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+    final Insert insert = inserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     var retId = await adapter.insert(insert);
     if (cascade) {
       Quiz newModel;
       if (model.questions != null) {
         newModel ??= await find(model.id);
-        model.questions
-            .forEach((x) => quizQuestionBean.associateQuiz(x, newModel));
+        model.questions.forEach((x) => quizQuestionBean.associateQuiz(x, newModel));
         for (final child in model.questions) {
           await quizQuestionBean.insert(child, cascade: cascade);
         }
@@ -143,10 +129,7 @@ abstract class _QuizBean implements Bean<Quiz> {
     return retId;
   }
 
-  Future<void> insertMany(List<Quiz> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+  Future<void> insertMany(List<Quiz> models, {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -155,29 +138,22 @@ abstract class _QuizBean implements Bean<Quiz> {
       await Future.wait(futures);
       return;
     } else {
-      final List<List<SetColumn>> data = models
-          .map((model) =>
-              toSetColumns(model, only: only, onlyNonNull: onlyNonNull))
-          .toList();
+      final List<List<SetColumn>> data =
+          models.map((model) => toSetColumns(model, only: only, onlyNonNull: onlyNonNull)).toList();
       final InsertMany insert = inserters.addAll(data);
       await adapter.insertMany(insert);
       return;
     }
   }
 
-  Future<dynamic> upsert(Quiz model,
-      {bool cascade = false,
-      Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Upsert upsert = upserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+  Future<dynamic> upsert(Quiz model, {bool cascade = false, Set<String> only, bool onlyNonNull = false}) async {
+    final Upsert upsert = upserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     var retId = await adapter.upsert(upsert);
     if (cascade) {
       Quiz newModel;
       if (model.questions != null) {
         newModel ??= await find(model.id);
-        model.questions
-            .forEach((x) => quizQuestionBean.associateQuiz(x, newModel));
+        model.questions.forEach((x) => quizQuestionBean.associateQuiz(x, newModel));
         for (final child in model.questions) {
           await quizQuestionBean.upsert(child, cascade: cascade);
         }
@@ -186,10 +162,7 @@ abstract class _QuizBean implements Bean<Quiz> {
     return retId;
   }
 
-  Future<void> upsertMany(List<Quiz> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+  Future<void> upsertMany(List<Quiz> models, {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -201,8 +174,7 @@ abstract class _QuizBean implements Bean<Quiz> {
       final List<List<SetColumn>> data = [];
       for (var i = 0; i < models.length; ++i) {
         var model = models[i];
-        data.add(
-            toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
+        data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
       }
       final UpsertMany upsert = upserters.addAll(data);
       await adapter.upsertMany(upsert);
@@ -211,35 +183,26 @@ abstract class _QuizBean implements Bean<Quiz> {
   }
 
   Future<int> update(Quiz model,
-      {bool cascade = false,
-      bool associate = false,
-      Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Update update = updater
-        .where(this.id.eq(model.id))
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+    final Update update =
+        updater.where(this.id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
     if (cascade) {
       Quiz newModel;
       if (model.questions != null) {
         if (associate) {
           newModel ??= await find(model.id);
-          model.questions
-              .forEach((x) => quizQuestionBean.associateQuiz(x, newModel));
+          model.questions.forEach((x) => quizQuestionBean.associateQuiz(x, newModel));
         }
         for (final child in model.questions) {
-          await quizQuestionBean.update(child,
-              cascade: cascade, associate: associate);
+          await quizQuestionBean.update(child, cascade: cascade, associate: associate);
         }
       }
     }
     return ret;
   }
 
-  Future<void> updateMany(List<Quiz> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+  Future<void> updateMany(List<Quiz> models, {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -252,8 +215,7 @@ abstract class _QuizBean implements Bean<Quiz> {
       final List<Expression> where = [];
       for (var i = 0; i < models.length; ++i) {
         var model = models[i];
-        data.add(
-            toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
+        data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
         where.add(this.id.eq(model.id));
       }
       final UpdateMany update = updaters.addAll(data, where);
@@ -262,8 +224,7 @@ abstract class _QuizBean implements Bean<Quiz> {
     }
   }
 
-  Future<Quiz> find(int id,
-      {bool preload = false, bool cascade = false}) async {
+  Future<Quiz> find(int id, {bool preload = false, bool cascade = false}) async {
     final Find find = finder.where(this.id.eq(id));
     final Quiz model = await findOne(find);
     if (preload && model != null) {
@@ -293,8 +254,7 @@ abstract class _QuizBean implements Bean<Quiz> {
     return adapter.remove(remove);
   }
 
-  Future<List<Quiz>> findByMediaFile(int imageId,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<Quiz>> findByMediaFile(int imageId, {bool preload = false, bool cascade = false}) async {
     final Find find = finder.where(this.imageId.eq(imageId));
     final List<Quiz> models = await findMany(find);
     if (preload) {
@@ -303,8 +263,7 @@ abstract class _QuizBean implements Bean<Quiz> {
     return models;
   }
 
-  Future<List<Quiz>> findByMediaFileList(List<MediaFile> models,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<Quiz>> findByMediaFileList(List<MediaFile> models, {bool preload = false, bool cascade = false}) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
@@ -328,21 +287,18 @@ abstract class _QuizBean implements Bean<Quiz> {
   }
 
   Future<Quiz> preload(Quiz model, {bool cascade = false}) async {
-    model.questions = await quizQuestionBean.findByQuiz(model.id,
-        preload: cascade, cascade: cascade);
+    model.questions = await quizQuestionBean.findByQuiz(model.id, preload: cascade, cascade: cascade);
     return model;
   }
 
-  Future<List<Quiz>> preloadAll(List<Quiz> models,
-      {bool cascade = false}) async {
+  Future<List<Quiz>> preloadAll(List<Quiz> models, {bool cascade = false}) async {
     models.forEach((Quiz model) => model.questions ??= []);
     await OneToXHelper.preloadAll<Quiz, QuizQuestion>(
         models,
         (Quiz model) => [model.id],
         quizQuestionBean.findByQuizList,
         (QuizQuestion model) => [model.quizId],
-        (Quiz model, QuizQuestion child) =>
-            model.questions = List.from(model.questions)..add(child),
+        (Quiz model, QuizQuestion child) => model.questions = List.from(model.questions)..add(child),
         cascade: cascade);
     return models;
   }

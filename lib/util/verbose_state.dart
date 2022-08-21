@@ -10,48 +10,48 @@ abstract class VerboseState<T extends StatefulWidget> extends State<T> {
   @override
   @mustCallSuper
   Widget build(BuildContext context) {
-    print('$name built');
+    debugPrint('$name built');
   }
 
   @override
   @mustCallSuper
   void deactivate() {
-    print('$name deactivated');
+    debugPrint('$name deactivated');
     super.deactivate();
   }
 
   @override
   @mustCallSuper
   void didUpdateWidget(StatefulWidget oldWidget) {
-    print('$name updated');
+    debugPrint('$name updated');
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   @mustCallSuper
   void didChangeDependencies() {
-    print('$name changed dependencies');
+    debugPrint('$name changed dependencies');
     super.didChangeDependencies();
   }
 
   @override
   @mustCallSuper
   void dispose() {
-    print('$name disposed');
+    debugPrint('$name disposed');
     super.dispose();
   }
 
   @override
   @mustCallSuper
   void reassemble() {
-    print('$name reassembled');
+    debugPrint('$name reassembled');
     super.reassemble();
   }
 
   @override
   @mustCallSuper
   void initState() {
-    print('$name initialized');
+    debugPrint('$name initialized');
     super.initState();
   }
 }

@@ -23,8 +23,8 @@ class ImageHandler {
         maxHeight: maxHeight,
       );
     } catch (ex, stacktrace) {
-      print('Error capturing image: ${ex.toString()}');
-      print(stacktrace.toString());
+      debugPrint('Error capturing image: ${ex.toString()}');
+      debugPrint(stacktrace.toString());
       Util.showToast(context, 'Something went wrong. Please try again later.');
       return null;
     }
@@ -45,15 +45,15 @@ class ImageHandler {
 
       // Copy the temporary image to the new location
       await File(filepath).writeAsBytes(await tempImage.readAsBytes());
-      if (Env.debugMessages) print('Image saved to $filepath');
+      if (Env.debugMessages) debugPrint('Image saved to $filepath');
 
       await tempImage.delete();
-      if (Env.debugMessages) print('Temporary image deleted');
+      if (Env.debugMessages) debugPrint('Temporary image deleted');
 
       return true;
     } catch (ex, stacktrace) {
-      print('Error saving image: ${ex.toString()}');
-      print(stacktrace.toString());
+      debugPrint('Error saving image: ${ex.toString()}');
+      debugPrint(stacktrace.toString());
       return false;
     }
   }

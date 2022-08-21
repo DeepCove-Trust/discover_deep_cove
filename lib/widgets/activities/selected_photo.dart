@@ -40,7 +40,9 @@ class SelectedPhoto extends StatelessWidget {
   List<Widget> _buildDots() {
     List<Widget> dots = [];
 
-    for (int i = 0; i < numberOfDots; ++i) dots.add(i == photoIndex ? _activePhoto() : _inactivePhoto());
+    for (int i = 0; i < numberOfDots; ++i) {
+      dots.add(i == photoIndex ? _activePhoto() : _inactivePhoto());
+    }
 
     return dots;
   }

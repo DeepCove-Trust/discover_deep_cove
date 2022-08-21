@@ -60,14 +60,14 @@ class TrackSync {
       if (!localTracks.any((t) => t.id == id)) {
         // Add track if not on local
         trackBean.insert(serverTracks.firstWhere((t) => t.id == id));
-        if (Env.debugMessages) print('Track $id added');
+        if (Env.debugMessages) debugPrint('Track $id added');
       } else if (!serverTracks.any((t) => t.id == id)) {
         // Delete the track (and all activities) if not on server
         await _deleteTrack(id);
       } else {
         // Update the existing, just in case name has change
         await trackBean.update(serverTracks.firstWhere((t) => t.id == id));
-        if (Env.debugMessages) print('Track $id updated/unchanged');
+        if (Env.debugMessages) debugPrint('Track $id updated/unchanged');
       }
     }
   }
@@ -95,7 +95,7 @@ class TrackSync {
       _deletionQueue.add(activity.userPhotoId);
     }
 
-    if (Env.debugMessages) print('Deleted activity {$id} (${activity.title})');
+    if (Env.debugMessages) debugPrint('Deleted activity {$id} (${activity.title})');
   }
 
   /// Iterates through each user photo ID in the deletion queue, deleting the
@@ -106,7 +106,7 @@ class TrackSync {
       // Delete the file itself
       await File(Env.getResourcePath(join('user_photos', photo.path)))
           .delete()
-          .catchError((e) => print('Error attempting to delete user photo: \n ${e.toString()}'));
+          .catchError((e) => debugPrint('Error attempting to delete user photo: \n ${e.toString()}'));
       // Then delete the database record in the main database
       await UserPhotoBean(mainAdapter).remove(id);
     }
@@ -152,14 +152,14 @@ class TrackSync {
     }
     if (Env.asyncDownload) {
       await Future.wait(futures);
-      if (Env.debugMessages) print('Async activity downloads complete');
+      if (Env.debugMessages) debugPrint('Async activity downloads complete');
     }
   }
 
   Future<void> _updateActivity(int id) async {
     await _deleteActivity(id);
     await _downloadActivity(id);
-    if (Env.debugMessages) print('Activity $id updated');
+    if (Env.debugMessages) debugPrint('Activity $id updated');
   }
 
   Future<List<ActivityData>> _getActivitiesSummary() async {
@@ -188,7 +188,7 @@ class TrackSync {
     // Save activity image records
     await _createActivityImagesFor(id, imageIds);
 
-    if (Env.debugMessages) print('Activity $id downloaded');
+    if (Env.debugMessages) debugPrint('Activity $id downloaded');
   }
 
   Future<void> _createActivityImagesFor(int activityId, List<int> imageIds) async {
@@ -207,7 +207,7 @@ class TrackSync {
     // Delete the track itself
     await trackBean.remove(id);
 
-    if (Env.debugMessages) print('Track {$id} deleted');
+    if (Env.debugMessages) debugPrint('Track {$id} deleted');
   }
 
   Future<void> _deleteActivityImagesFor(int activityId) async {

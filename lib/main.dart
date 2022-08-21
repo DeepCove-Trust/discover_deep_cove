@@ -22,11 +22,11 @@ void main() async {
   LocalNotifications.initializeNotifications();
 
   if (DotEnv().env['debugStorageMode'] == 'true') {
-    print('Warning: Debug storage mode enabled. Disable for production release.');
+    debugPrint('Warning: Debug storage mode enabled. Disable for production release.');
   }
 
   if (DotEnv().env['debugMessgaes'] == 'true') {
-    print('Warning: Debug messages enabled. Disable for production release.');
+    debugPrint('Warning: Debug messages enabled. Disable for production release.');
   }
 
   runApp(

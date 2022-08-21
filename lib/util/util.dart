@@ -28,13 +28,13 @@ class Util {
             ..writeAsBytesSync(file.content);
         } else {
           // is a directory
-          Directory(join(dir.path, file.name))..create(recursive: true);
+          Directory(join(dir.path, file.name)).create(recursive: true);
         }
       }
       return true;
     } catch (ex) {
-      print('Could not extract file:');
-      print(ex.toString());
+      debugPrint('Could not extract file:');
+      debugPrint(ex.toString());
       return false;
     }
   }
@@ -64,11 +64,11 @@ class Util {
     try {
       _storageInfo = await PathProviderEx.getStorageInfo();
     } on PlatformException {
-      if (Env.debugMessages) print('Warning: Unable to determine bytes available!');
+      if (Env.debugMessages) debugPrint('Warning: Unable to determine bytes available!');
       return -1;
     }
 
-    if (Env.debugMessages) print('Device has ${_storageInfo[0].availableBytes} bytes available');
+    if (Env.debugMessages) debugPrint('Device has ${_storageInfo[0].availableBytes} bytes available');
 
     return _storageInfo[0].availableBytes;
   }

@@ -28,8 +28,7 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     return model;
   }
 
-  List<SetColumn> toSetColumns(QuizAnswer model,
-      {bool update = false, Set<String> only, bool onlyNonNull = false}) {
+  List<SetColumn> toSetColumns(QuizAnswer model, {bool update = false, Set<String> only, bool onlyNonNull = false}) {
     List<SetColumn> ret = [];
 
     if (only == null && !onlyNonNull) {
@@ -39,8 +38,7 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
       ret.add(imageId.set(model.imageId));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
-      if (only.contains(quizQuestionId.name))
-        ret.add(quizQuestionId.set(model.quizQuestionId));
+      if (only.contains(quizQuestionId.name)) ret.add(quizQuestionId.set(model.quizQuestionId));
       if (only.contains(text.name)) ret.add(text.set(model.text));
       if (only.contains(imageId.name)) ret.add(imageId.set(model.imageId));
     } else /* if (onlyNonNull) */ {
@@ -64,42 +62,28 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addInt(id.name, primary: true, isNullable: false);
-    st.addInt(quizQuestionId.name,
-        foreignTable: quizQuestionBean.tableName,
-        foreignCol: 'id',
-        isNullable: false);
+    st.addInt(quizQuestionId.name, foreignTable: quizQuestionBean.tableName, foreignCol: 'id', isNullable: false);
     st.addStr(text.name, isNullable: true);
-    st.addInt(imageId.name,
-        foreignTable: mediaFileBean.tableName,
-        foreignCol: 'id',
-        isNullable: true);
+    st.addInt(imageId.name, foreignTable: mediaFileBean.tableName, foreignCol: 'id', isNullable: true);
     return adapter.createTable(st);
   }
 
-  Future<dynamic> insert(QuizAnswer model,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
-    final Insert insert = inserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+  Future<dynamic> insert(QuizAnswer model, {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+    final Insert insert = inserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     var retId = await adapter.insert(insert);
     if (cascade) {
       QuizAnswer newModel;
       if (model.correctForQuestion != null) {
         newModel ??= await find(model.id);
-        quizQuestionBean.associateQuizAnswer(
-            model.correctForQuestion, newModel);
-        await quizQuestionBean.insert(model.correctForQuestion,
-            cascade: cascade);
+        quizQuestionBean.associateQuizAnswer(model.correctForQuestion, newModel);
+        await quizQuestionBean.insert(model.correctForQuestion, cascade: cascade);
       }
     }
     return retId;
   }
 
   Future<void> insertMany(List<QuizAnswer> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -108,40 +92,30 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
       await Future.wait(futures);
       return;
     } else {
-      final List<List<SetColumn>> data = models
-          .map((model) =>
-              toSetColumns(model, only: only, onlyNonNull: onlyNonNull))
-          .toList();
+      final List<List<SetColumn>> data =
+          models.map((model) => toSetColumns(model, only: only, onlyNonNull: onlyNonNull)).toList();
       final InsertMany insert = inserters.addAll(data);
       await adapter.insertMany(insert);
       return;
     }
   }
 
-  Future<dynamic> upsert(QuizAnswer model,
-      {bool cascade = false,
-      Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Upsert upsert = upserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+  Future<dynamic> upsert(QuizAnswer model, {bool cascade = false, Set<String> only, bool onlyNonNull = false}) async {
+    final Upsert upsert = upserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     var retId = await adapter.upsert(upsert);
     if (cascade) {
       QuizAnswer newModel;
       if (model.correctForQuestion != null) {
         newModel ??= await find(model.id);
-        quizQuestionBean.associateQuizAnswer(
-            model.correctForQuestion, newModel);
-        await quizQuestionBean.upsert(model.correctForQuestion,
-            cascade: cascade);
+        quizQuestionBean.associateQuizAnswer(model.correctForQuestion, newModel);
+        await quizQuestionBean.upsert(model.correctForQuestion, cascade: cascade);
       }
     }
     return retId;
   }
 
   Future<void> upsertMany(List<QuizAnswer> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -153,8 +127,7 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
       final List<List<SetColumn>> data = [];
       for (var i = 0; i < models.length; ++i) {
         var model = models[i];
-        data.add(
-            toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
+        data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
       }
       final UpsertMany upsert = upserters.addAll(data);
       await adapter.upsertMany(upsert);
@@ -163,33 +136,25 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
   }
 
   Future<int> update(QuizAnswer model,
-      {bool cascade = false,
-      bool associate = false,
-      Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Update update = updater
-        .where(this.id.eq(model.id))
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+    final Update update =
+        updater.where(this.id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
     if (cascade) {
       QuizAnswer newModel;
       if (model.correctForQuestion != null) {
         if (associate) {
           newModel ??= await find(model.id);
-          quizQuestionBean.associateQuizAnswer(
-              model.correctForQuestion, newModel);
+          quizQuestionBean.associateQuizAnswer(model.correctForQuestion, newModel);
         }
-        await quizQuestionBean.update(model.correctForQuestion,
-            cascade: cascade, associate: associate);
+        await quizQuestionBean.update(model.correctForQuestion, cascade: cascade, associate: associate);
       }
     }
     return ret;
   }
 
   Future<void> updateMany(List<QuizAnswer> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -202,8 +167,7 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
       final List<Expression> where = [];
       for (var i = 0; i < models.length; ++i) {
         var model = models[i];
-        data.add(
-            toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
+        data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
         where.add(this.id.eq(model.id));
       }
       final UpdateMany update = updaters.addAll(data, where);
@@ -212,8 +176,7 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     }
   }
 
-  Future<QuizAnswer> find(int id,
-      {bool preload = false, bool cascade = false}) async {
+  Future<QuizAnswer> find(int id, {bool preload = false, bool cascade = false}) async {
     final Find find = finder.where(this.id.eq(id));
     final QuizAnswer model = await findOne(find);
     if (preload && model != null) {
@@ -243,8 +206,7 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     return adapter.remove(remove);
   }
 
-  Future<List<QuizAnswer>> findByQuizQuestion(int quizQuestionId,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<QuizAnswer>> findByQuizQuestion(int quizQuestionId, {bool preload = false, bool cascade = false}) async {
     final Find find = finder.where(this.quizQuestionId.eq(quizQuestionId));
     final List<QuizAnswer> models = await findMany(find);
     if (preload) {
@@ -277,8 +239,7 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     child.quizQuestionId = parent.id;
   }
 
-  Future<List<QuizAnswer>> findByMediaFile(int imageId,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<QuizAnswer>> findByMediaFile(int imageId, {bool preload = false, bool cascade = false}) async {
     final Find find = finder.where(this.imageId.eq(imageId));
     final List<QuizAnswer> models = await findMany(find);
     if (preload) {
@@ -312,20 +273,17 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
   }
 
   Future<QuizAnswer> preload(QuizAnswer model, {bool cascade = false}) async {
-    model.correctForQuestion = await quizQuestionBean.findByQuizAnswer(model.id,
-        preload: cascade, cascade: cascade);
+    model.correctForQuestion = await quizQuestionBean.findByQuizAnswer(model.id, preload: cascade, cascade: cascade);
     return model;
   }
 
-  Future<List<QuizAnswer>> preloadAll(List<QuizAnswer> models,
-      {bool cascade = false}) async {
+  Future<List<QuizAnswer>> preloadAll(List<QuizAnswer> models, {bool cascade = false}) async {
     await OneToXHelper.preloadAll<QuizAnswer, QuizQuestion>(
         models,
         (QuizAnswer model) => [model.id],
         quizQuestionBean.findByQuizAnswerList,
         (QuizQuestion model) => [model.correctAnswerId],
-        (QuizAnswer model, QuizQuestion child) =>
-            model.correctForQuestion = child,
+        (QuizAnswer model, QuizQuestion child) => model.correctForQuestion = child,
         cascade: cascade);
     return models;
   }

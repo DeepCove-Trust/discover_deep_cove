@@ -41,15 +41,15 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
 
       setState(() => _image = _pickedImage);
     } catch (ex, stacktrace) {
-      print('Exception thrown: ' + ex.toString());
-      print(stacktrace.toString());
+      debugPrint('Exception thrown: ' + ex.toString());
+      debugPrint(stacktrace.toString());
     }
   }
 
   Future<Widget> _getSavedPhoto() async {
     String filepath = widget.activity.userPhoto?.path;
     if (filepath == null) {
-      if (Env.debugMessages) print('Error loading stored image.');
+      if (Env.debugMessages) debugPrint('Error loading stored image.');
       return BodyText(
         'There was an error loading your image...',
         size: Screen.isTablet(context) ? 30 : null,
@@ -301,8 +301,8 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       // Return to the map
       Navigator.of(context).pop();
     } catch (ex, stacktrace) {
-      print('Error saving photo: ' + ex.toString());
-      print(stacktrace.toString());
+      debugPrint('Error saving photo: ' + ex.toString());
+      debugPrint(stacktrace.toString());
     }
   }
 

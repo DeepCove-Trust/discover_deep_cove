@@ -120,8 +120,9 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
 
     activity = await ActivityBean.of(context).preloadRelationships(activity);
 
-    if (activity.activityType == ActivityType.informational && !activity.isCompleted())
+    if (activity.activityType == ActivityType.informational && !activity.isCompleted()) {
       activity.informationActivityUnlocked = true;
+    }
 
     if (pageIs(Page.map)) {
       mapAnimateController.sink.add(activity.id);

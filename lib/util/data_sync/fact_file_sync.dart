@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 import '../../data/db.dart';
 import '../../data/models/factfile/fact_file_category.dart';
 import '../../data/models/factfile/fact_file_entry.dart';
@@ -68,7 +70,7 @@ class FactFileSync {
       await factFileNuggetBean.insertMany(nuggets);
     }
 
-    if (Env.debugMessages) print('Downloaded fact file $id (${entry.primaryName})');
+    if (Env.debugMessages) debugPrint('Downloaded fact file $id (${entry.primaryName})');
   }
 
   Future<void> _deleteFactFile(int id) async {
@@ -81,7 +83,7 @@ class FactFileSync {
     // Delete the fact file itself
     factFileEntryBean.remove(id);
 
-    if (Env.debugMessages) print('Deleted fact file $id');
+    if (Env.debugMessages) debugPrint('Deleted fact file $id');
   }
 
   Future<void> _updateFactFile(int id) async {
@@ -92,7 +94,7 @@ class FactFileSync {
   Future<void> _deleteCategory(int categoryId) async {
     await _deleteFactFilesFor(categoryId);
     await factFileCategoryBean.remove(categoryId);
-    if (Env.debugMessages) print('Deleted category $categoryId');
+    if (Env.debugMessages) debugPrint('Deleted category $categoryId');
   }
 
   Future<void> _deleteFactFilesFor(int categoryId) async {
@@ -182,7 +184,7 @@ class FactFileSync {
 
     if (Env.asyncDownload) {
       await Future.wait(futures);
-      if (Env.debugMessages) print('Async fact files downloads have completed');
+      if (Env.debugMessages) debugPrint('Async fact files downloads have completed');
     }
   }
 

@@ -22,16 +22,13 @@ abstract class _ConfigBean implements Bean<Config> {
     Config model = Config();
     model.id = adapter.parseValue(map['id']);
     model.masterUnlockCode = adapter.parseValue(map['master_unlock_code']);
-    model._savePhotosToGallery =
-        adapter.parseValue(map['save_photos_to_gallery']);
-    model.savePhotosToGallery =
-        adapter.parseValue(map['save_photos_to_gallery']);
+    model._savePhotosToGallery = adapter.parseValue(map['save_photos_to_gallery']);
+    model.savePhotosToGallery = adapter.parseValue(map['save_photos_to_gallery']);
 
     return model;
   }
 
-  List<SetColumn> toSetColumns(Config model,
-      {bool update = false, Set<String> only, bool onlyNonNull = false}) {
+  List<SetColumn> toSetColumns(Config model, {bool update = false, Set<String> only, bool onlyNonNull = false}) {
     List<SetColumn> ret = [];
 
     if (only == null && !onlyNonNull) {
@@ -41,12 +38,9 @@ abstract class _ConfigBean implements Bean<Config> {
       ret.add(savePhotosToGallery.set(model.savePhotosToGallery));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
-      if (only.contains(masterUnlockCode.name))
-        ret.add(masterUnlockCode.set(model.masterUnlockCode));
-      if (only.contains(_savePhotosToGallery.name))
-        ret.add(_savePhotosToGallery.set(model._savePhotosToGallery));
-      if (only.contains(savePhotosToGallery.name))
-        ret.add(savePhotosToGallery.set(model.savePhotosToGallery));
+      if (only.contains(masterUnlockCode.name)) ret.add(masterUnlockCode.set(model.masterUnlockCode));
+      if (only.contains(_savePhotosToGallery.name)) ret.add(_savePhotosToGallery.set(model._savePhotosToGallery));
+      if (only.contains(savePhotosToGallery.name)) ret.add(savePhotosToGallery.set(model.savePhotosToGallery));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
@@ -74,42 +68,29 @@ abstract class _ConfigBean implements Bean<Config> {
     return adapter.createTable(st);
   }
 
-  Future<dynamic> insert(Config model,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
-    final Insert insert = inserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+  Future<dynamic> insert(Config model, {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+    final Insert insert = inserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.insert(insert);
   }
 
-  Future<void> insertMany(List<Config> models,
-      {bool onlyNonNull = false, Set<String> only}) async {
-    final List<List<SetColumn>> data = models
-        .map((model) =>
-            toSetColumns(model, only: only, onlyNonNull: onlyNonNull))
-        .toList();
+  Future<void> insertMany(List<Config> models, {bool onlyNonNull = false, Set<String> only}) async {
+    final List<List<SetColumn>> data =
+        models.map((model) => toSetColumns(model, only: only, onlyNonNull: onlyNonNull)).toList();
     final InsertMany insert = inserters.addAll(data);
     await adapter.insertMany(insert);
     return;
   }
 
-  Future<dynamic> upsert(Config model,
-      {bool cascade = false,
-      Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Upsert upsert = upserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+  Future<dynamic> upsert(Config model, {bool cascade = false, Set<String> only, bool onlyNonNull = false}) async {
+    final Upsert upsert = upserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.upsert(upsert);
   }
 
-  Future<void> upsertMany(List<Config> models,
-      {bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> upsertMany(List<Config> models, {bool onlyNonNull = false, Set<String> only}) async {
     final List<List<SetColumn>> data = [];
     for (var i = 0; i < models.length; ++i) {
       var model = models[i];
-      data.add(
-          toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
+      data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
     }
     final UpsertMany upsert = upserters.addAll(data);
     await adapter.upsertMany(upsert);
@@ -117,24 +98,18 @@ abstract class _ConfigBean implements Bean<Config> {
   }
 
   Future<int> update(Config model,
-      {bool cascade = false,
-      bool associate = false,
-      Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Update update = updater
-        .where(this.id.eq(model.id))
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+    final Update update =
+        updater.where(this.id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.update(update);
   }
 
-  Future<void> updateMany(List<Config> models,
-      {bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> updateMany(List<Config> models, {bool onlyNonNull = false, Set<String> only}) async {
     final List<List<SetColumn>> data = [];
     final List<Expression> where = [];
     for (var i = 0; i < models.length; ++i) {
       var model = models[i];
-      data.add(
-          toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
+      data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
       where.add(this.id.eq(model.id));
     }
     final UpdateMany update = updaters.addAll(data, where);
@@ -142,8 +117,7 @@ abstract class _ConfigBean implements Bean<Config> {
     return;
   }
 
-  Future<Config> find(int id,
-      {bool preload = false, bool cascade = false}) async {
+  Future<Config> find(int id, {bool preload = false, bool cascade = false}) async {
     final Find find = finder.where(this.id.eq(id));
     return await findOne(find);
   }

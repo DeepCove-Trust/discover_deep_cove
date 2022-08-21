@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as Http;
 import 'package:meta/meta.dart';
 import 'package:path/path.dart';
@@ -25,10 +26,10 @@ class NetworkUtil {
   /// a GET request to the supplied address.
   static Future<bool> _returnsResponse(String address) async {
     try {
-      if (Env.debugMessages) print('Attempting to contact content server at $address');
+      if (Env.debugMessages) debugPrint('Attempting to contact content server at $address');
       Http.Response response = await Http.get(address);
-      if (Env.debugMessages) print('Response:');
-      if (Env.debugMessages) print(response.statusCode);
+      if (Env.debugMessages) debugPrint('Response:');
+      if (Env.debugMessages) debugPrint(response.statusCode.toString());
       return response.statusCode == 200;
     } catch (ex) {
       // no DNS resolution, invalid url, etc
@@ -66,8 +67,9 @@ class NetworkUtil {
   /// Throws [ApiException] if status code is not 200 (OK).
   static Future<Http.Response> _requestResponse(String url) async {
     Http.Response response = await Http.get(url);
-    if (response.statusCode != 200)
+    if (response.statusCode != 200) {
       throw ApiException(message: 'Request to $url returned non-OK response', statusCode: response.statusCode);
+    }
     return response;
   }
 

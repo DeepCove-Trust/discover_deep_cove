@@ -33,7 +33,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   Future<void> manualUpdate() async {
-    if (Env.debugMessages) print('Checking for new content');
+    if (Env.debugMessages) debugPrint('Checking for new content');
     await SyncManager(onProgressChange: _onProgressUpdate, context: context).sync();
     await Future.delayed(const Duration(seconds: 2));
 

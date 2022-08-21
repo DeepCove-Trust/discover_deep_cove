@@ -30,10 +30,8 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
       ret.add(factFileEntryId.set(model.factFileEntryId));
       ret.add(mediaFileId.set(model.mediaFileId));
     } else if (only != null) {
-      if (only.contains(factFileEntryId.name))
-        ret.add(factFileEntryId.set(model.factFileEntryId));
-      if (only.contains(mediaFileId.name))
-        ret.add(mediaFileId.set(model.mediaFileId));
+      if (only.contains(factFileEntryId.name)) ret.add(factFileEntryId.set(model.factFileEntryId));
+      if (only.contains(mediaFileId.name)) ret.add(mediaFileId.set(model.mediaFileId));
     } else /* if (onlyNonNull) */ {
       if (model.factFileEntryId != null) {
         ret.add(factFileEntryId.set(model.factFileEntryId));
@@ -48,67 +46,48 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
 
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
-    st.addInt(factFileEntryId.name,
-        foreignTable: factFileEntryBean.tableName,
-        foreignCol: 'id',
-        isNullable: false);
-    st.addInt(mediaFileId.name,
-        foreignTable: mediaFileBean.tableName,
-        foreignCol: 'id',
-        isNullable: false);
+    st.addInt(factFileEntryId.name, foreignTable: factFileEntryBean.tableName, foreignCol: 'id', isNullable: false);
+    st.addInt(mediaFileId.name, foreignTable: mediaFileBean.tableName, foreignCol: 'id', isNullable: false);
     return adapter.createTable(st);
   }
 
   Future<dynamic> insert(FactFileEntryImage model,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
-    final Insert insert = inserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+    final Insert insert = inserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.insert(insert);
   }
 
-  Future<void> insertMany(List<FactFileEntryImage> models,
-      {bool onlyNonNull = false, Set<String> only}) async {
-    final List<List<SetColumn>> data = models
-        .map((model) =>
-            toSetColumns(model, only: only, onlyNonNull: onlyNonNull))
-        .toList();
+  Future<void> insertMany(List<FactFileEntryImage> models, {bool onlyNonNull = false, Set<String> only}) async {
+    final List<List<SetColumn>> data =
+        models.map((model) => toSetColumns(model, only: only, onlyNonNull: onlyNonNull)).toList();
     final InsertMany insert = inserters.addAll(data);
     await adapter.insertMany(insert);
     return;
   }
 
   Future<dynamic> upsert(FactFileEntryImage model,
-      {bool cascade = false,
-      Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Upsert upsert = upserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      {bool cascade = false, Set<String> only, bool onlyNonNull = false}) async {
+    final Upsert upsert = upserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.upsert(upsert);
   }
 
-  Future<void> upsertMany(List<FactFileEntryImage> models,
-      {bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> upsertMany(List<FactFileEntryImage> models, {bool onlyNonNull = false, Set<String> only}) async {
     final List<List<SetColumn>> data = [];
     for (var i = 0; i < models.length; ++i) {
       var model = models[i];
-      data.add(
-          toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
+      data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
     }
     final UpsertMany upsert = upserters.addAll(data);
     await adapter.upsertMany(upsert);
     return;
   }
 
-  Future<void> updateMany(List<FactFileEntryImage> models,
-      {bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> updateMany(List<FactFileEntryImage> models, {bool onlyNonNull = false, Set<String> only}) async {
     final List<List<SetColumn>> data = [];
     final List<Expression> where = [];
     for (var i = 0; i < models.length; ++i) {
       var model = models[i];
-      data.add(
-          toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
+      data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
       where.add(null);
     }
     final UpdateMany update = updaters.addAll(data, where);
@@ -122,10 +101,8 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     return findMany(find);
   }
 
-  Future<List<FactFileEntryImage>> findByFactFileEntryList(
-      List<FactFileEntry> models,
-      {bool preload = false,
-      bool cascade = false}) async {
+  Future<List<FactFileEntryImage>> findByFactFileEntryList(List<FactFileEntry> models,
+      {bool preload = false, bool cascade = false}) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
@@ -218,8 +195,7 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     return await factFileEntryBean.findWhere(exp);
   }
 
-  Future<dynamic> attach(MediaFile one, FactFileEntry two,
-      {bool upsert = false}) async {
+  Future<dynamic> attach(MediaFile one, FactFileEntry two, {bool upsert = false}) async {
     final ret = FactFileEntryImage();
     ret.mediaFileId = one.id;
     ret.factFileEntryId = two.id;

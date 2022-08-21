@@ -81,14 +81,15 @@ class SyncManager {
   Future<void> _failUpdate(Exception exception) async {
     SyncState errorState;
 
-    if (exception is ServerUnreachableException)
+    if (exception is ServerUnreachableException) {
       errorState = SyncState.errorServerUnreachable;
-    else if (exception is InsufficientStorageException)
+    } else if (exception is InsufficientStorageException) {
       errorState = SyncState.errorStorage;
-    else if (exception is InsufficientPermissionException)
+    } else if (exception is InsufficientPermissionException) {
       errorState = SyncState.errorPermission;
-    else
+    } else {
       errorState = SyncState.rrorOther;
+    }
 
     // Delete temp database - ignore exception if it wasn't yet created
     await File(Env.tempDbPath).delete().catchError((_) {});
@@ -207,8 +208,8 @@ class SyncManager {
       // DATA SYNC COMPLETE!
       _updateProgress(SyncState.done, 100);
     } on Exception catch (ex, stacktrace) {
-      print(ex);
-      print(stacktrace);
+      debugPrint(ex.toString());
+      debugPrint(stacktrace.toString());
       _failUpdate(ex);
     }
   }
@@ -217,10 +218,10 @@ class SyncManager {
   /// internet CMS is available, else throws [ServerUnreachableException].
   Future<CmsServerLocation> _getServerLocation() async {
     if (await NetworkUtil.canAccessCMSLocal()) {
-      if (Env.debugMessages) print('Connectivity established with intranet server.');
+      if (Env.debugMessages) debugPrint('Connectivity established with intranet server.');
       return CmsServerLocation.intranet;
     } else if (await NetworkUtil.canAccessCMSRemote()) {
-      if (Env.debugMessages) print('Connectivity established with internet server.');
+      if (Env.debugMessages) debugPrint('Connectivity established with internet server.');
       return CmsServerLocation.internet;
     }
     throw ServerUnreachableException();

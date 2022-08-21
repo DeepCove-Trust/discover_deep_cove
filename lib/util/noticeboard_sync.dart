@@ -11,7 +11,7 @@ class NoticeboardSync {
   static Future<void> retrieveNotices(BuildContext context) async {
     bool shouldRefresh = false;
     bool hasNew = false;
-    print('Checking for new notices');
+    debugPrint('Checking for new notices');
 
     try {
       NoticeBean bean = NoticeBean.of(context);
@@ -51,8 +51,8 @@ class NoticeboardSync {
         }
       }
     } catch (ex, trace) {
-      print('Error checking for new notices: $ex');
-      print(trace);
+      debugPrint('Error checking for new notices: $ex');
+      debugPrint(trace.toString());
     }
   }
 
@@ -71,8 +71,8 @@ class NoticeboardSync {
             context: context);
       }
     } catch (ex, trace) {
-      print('Error refreshing notices: $ex');
-      print(trace);
+      debugPrint('Error refreshing notices: $ex');
+      debugPrint(trace.toString());
     }
   }
 }

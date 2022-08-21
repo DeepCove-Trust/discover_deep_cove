@@ -103,8 +103,8 @@ class MediaSync {
 
       if (Env.asyncDownload) {
         futures.add(downloadMediaFile(mediaData).catchError((ex, stacktrace) {
-          print(ex);
-          print(stacktrace);
+          debugPrint(ex);
+          debugPrint(stacktrace);
           throw FailedDownloadException(message: 'One or more file downloads failed.');
         }));
       } else {
@@ -113,9 +113,9 @@ class MediaSync {
     }
 
     // Wait for all download jobs to complete
-    await Future.wait(futures, cleanUp: (_) => print('error'));
+    await Future.wait(futures, cleanUp: (_) => debugPrint('error'));
 
-    if (Env.debugMessages) print('Download queue has been successfully processed.');
+    if (Env.debugMessages) debugPrint('Download queue has been successfully processed.');
   }
 
   /// Downloads a file, and creates database records for it. An exception
@@ -143,8 +143,8 @@ class MediaSync {
       await NetworkUtil.httpResponseToFile(response: response, absPath: absPath, filename: filename);
     } catch (ex, stacktrace) {
       // Exception while saving file, remove database records
-      print(ex);
-      print(stacktrace);
+      debugPrint(ex);
+      debugPrint(stacktrace.toString());
       await removeMediaRecord(mediaFile);
       throw FailedDownloadException(message: 'Download failed for file ID {${mediaFile.id}');
     }
@@ -153,7 +153,7 @@ class MediaSync {
     upTo++;
     onProgress(SyncState.mediaDownload, getPercentage(), upTo: upTo, outOf: outOf, totalSize: totalSize);
 
-    if (Env.debugMessages) print('Downloaded media file ${mediaFile.id} (${mediaFile.name})');
+    if (Env.debugMessages) debugPrint('Downloaded media file ${mediaFile.id} (${mediaFile.name})');
   }
 
   /// Adds supplied MediaFile record to both temp and main databases
@@ -171,9 +171,9 @@ class MediaSync {
   /// Returns true if the device has enough available space to download
   /// required media files (with > 10MB spare)
   Future<bool> sufficientStorageAvailable(int requiredSize) async {
-    if (Env.debugMessages) print('Calculating storage availablity...');
+    if (Env.debugMessages) debugPrint('Calculating storage availablity...');
 
-    if (Env.debugMessages) print('Download requires $requiredSize bytes');
+    if (Env.debugMessages) debugPrint('Download requires $requiredSize bytes');
 
     // Calculate available storage space
     int availableSize = await Util.getAvailableStorageSpace();
@@ -183,14 +183,14 @@ class MediaSync {
       return true;
     }
 
-    if (Env.debugMessages) print('Device has $availableSize bytes available');
+    if (Env.debugMessages) debugPrint('Device has $availableSize bytes available');
 
     if (requiredSize > availableSize - 10000000) {
-      if (Env.debugMessages) print('Device has insufficient storage');
+      if (Env.debugMessages) debugPrint('Device has insufficient storage');
       return false;
     }
 
-    if (Env.debugMessages) print('Device has sufficient storage');
+    if (Env.debugMessages) debugPrint('Device has sufficient storage');
     return true;
   }
 
@@ -204,20 +204,20 @@ class MediaSync {
       // Update the database using the deserialized, updated, media file
       await mediaFileBeanTemp.update(mediaFileBeanTemp.fromMap(json.decode(jsonString)), onlyNonNull: true);
 
-      if (Env.debugMessages) print('Media file ${mediaFile.id} (${mediaFile.name}) - updated');
+      if (Env.debugMessages) debugPrint('Media file ${mediaFile.id} (${mediaFile.name}) - updated');
     }
   }
 
   /// Iterates through the deletion queue and deletes both the file and
   /// the database record that points to the file.
   Future<void> processDeletionQueue() async {
-    if (Env.debugMessages) print('Deleting unneeded media files...');
+    if (Env.debugMessages) debugPrint('Deleting unneeded media files...');
     for (MediaFile mediaFile in _deletionQueue) {
       await File(Env.getResourcePath(mediaFile.path)).delete().catchError((_) {
-        if (Env.debugMessages) print('Error deleting ${mediaFile.name}');
+        if (Env.debugMessages) debugPrint('Error deleting ${mediaFile.name}');
       });
       await mediaFileBeanMain.remove(mediaFile.id);
-      if (Env.debugMessages) print('Deleted media file ${mediaFile.id} (${mediaFile.name})');
+      if (Env.debugMessages) debugPrint('Deleted media file ${mediaFile.id} (${mediaFile.name})');
     }
   }
 
