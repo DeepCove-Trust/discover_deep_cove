@@ -29,7 +29,7 @@ class TrackSync {
   final ActivityImageBean activityImageBean;
   final UserPhotoBean userPhotoBean;
 
-  List<int> _deletionQueue = List<int>();
+  final List<int> _deletionQueue = <int>[];
 
   TrackSync(SqfliteAdapter adapter, {@required this.server})
       : trackBean = TrackBean(adapter),
@@ -121,7 +121,7 @@ class TrackSync {
 
     Set<int> idSet = localActivities.map((t) => t.id).toSet().union(serverActivities.map((t) => t.id).toSet());
 
-    List<Future> futures = List<Future>();
+    List<Future> futures = <Future>[];
 
     for (int id in idSet) {
       if (!localActivities.any((t) => t.id == id)) {

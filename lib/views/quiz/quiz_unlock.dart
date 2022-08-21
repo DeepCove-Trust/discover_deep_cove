@@ -23,7 +23,7 @@ class QuizUnlock extends StatefulWidget {
 ///Allows the user to unlock a [quiz]
 class _QuizUnlockState extends State<QuizUnlock> {
   TextEditingController textController = TextEditingController();
-  FocusNode _textFieldFocus = new FocusNode();
+  final FocusNode _textFieldFocus = FocusNode();
   List<Quiz> quizzes;
 
   @override

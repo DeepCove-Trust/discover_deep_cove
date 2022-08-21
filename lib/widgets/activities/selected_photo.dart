@@ -49,7 +49,7 @@ class SelectedPhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Center(
+    return Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: _buildDots(),

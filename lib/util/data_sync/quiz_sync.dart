@@ -41,7 +41,7 @@ class QuizSync {
     // Get set of all IDs on both remote and local databases
     Set<int> idSet = localQuizzes.map((q) => q.id).toSet().union(serverQuizzes.map((q) => q.id).toSet());
 
-    List<Future> futures = List<Future>();
+    List<Future> futures = <Future>[];
 
     for (int id in idSet) {
       // If local quizzes doesn't have a copy, download from server
@@ -99,7 +99,7 @@ class QuizSync {
     List<QuizQuestion> questions = questionData.map((map) => questionBean.fromMap(map)).toList();
 
     // Deserialize answer objects for each question
-    List<QuizAnswer> answers = List<QuizAnswer>();
+    List<QuizAnswer> answers = <QuizAnswer>[];
     for (Map<String, dynamic> map in questionData) {
       List<dynamic> answerData = map['answers'];
       answers.addAll(answerData.map((map) => answerBean.fromMap(map)).toList());

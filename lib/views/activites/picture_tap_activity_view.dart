@@ -32,7 +32,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
   double posY = 0;
   double posX = 0;
 
-  GlobalKey _keyImage = GlobalKey();
+  final GlobalKey _keyImage = GlobalKey();
 
   _afterLayout(_) {
     _getImagePositions();

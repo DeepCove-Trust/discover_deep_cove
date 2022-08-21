@@ -182,7 +182,7 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
 
   // This future won't return until all images have been pre-cached.
   Future<List<Image>> loadImages() async {
-    List<Image> images = List<Image>();
+    List<Image> images = <Image>[];
     for (MediaFile media in entry.galleryImages) {
       ImageProvider provider = FileImage(
         File(

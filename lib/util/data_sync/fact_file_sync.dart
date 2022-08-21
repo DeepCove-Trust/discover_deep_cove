@@ -156,7 +156,7 @@ class FactFileSync {
 
     Set<int> idSet = localEntries.map((e) => e.id).toSet().union(serverEntries.map((e) => e.id).toSet());
 
-    List<Future> futures = List<Future>();
+    List<Future> futures = <Future>[];
 
     for (int id in idSet) {
       if (!localEntries.any((e) => e.id == id)) {

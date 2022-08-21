@@ -96,7 +96,7 @@ class MediaSync {
 
     // This list will contain all of our download jobs if downloading
     // asynchronously.
-    List<Future<void>> futures = new List<Future<void>>();
+    List<Future<void>> futures = <Future<void>>[];
 
     while (_downloadQueue.isNotEmpty) {
       MediaData mediaData = _downloadQueue.removeFirst();

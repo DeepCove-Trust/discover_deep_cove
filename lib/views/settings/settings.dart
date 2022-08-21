@@ -146,8 +146,8 @@ class _SettingsState extends State<Settings> {
                 onPressed: () => Navigator.of(context).pop(),
               ),
               FlatButton(
-                child: const Text('Reset'),
                 onPressed: resetInProgress ? null : () => _resetProgress(),
+                child: const Text('Reset'),
               ),
             ],
             backgroundColor: Theme.of(context).primaryColorDark,

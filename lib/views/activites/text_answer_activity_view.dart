@@ -28,7 +28,7 @@ class TextAnswerActivityView extends StatefulWidget {
 
 class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
   final controller = TextEditingController();
-  FocusNode _textFieldFocus = new FocusNode();
+  final FocusNode _textFieldFocus = FocusNode();
 
   @override
   void dispose() {

@@ -16,7 +16,7 @@ class ActivityUnlock extends StatefulWidget {
 
 class _ActivityUnlockState extends State<ActivityUnlock> {
   final TextEditingController textController = TextEditingController();
-  FocusNode _textFieldFocus = new FocusNode();
+  final FocusNode _textFieldFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {

@@ -225,17 +225,17 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
         bool isForCurrent = markers.every((marker) => (marker as CustomMarker).track == currentTrack);
 
         return FloatingActionButton(
-          child: Text(markers.length.toString()),
           backgroundColor: isForCurrent ? Theme.of(context).accentColor : Colors.grey,
           onPressed: null,
           heroTag: null,
+          child: Text(markers.length.toString()),
         );
       },
     );
   }
 
   List<CustomMarker> _getMarkers() {
-    List<CustomMarker> markers = List<CustomMarker>();
+    List<CustomMarker> markers = <CustomMarker>[];
     if (tracksLoaded) {
       for (Track track in tracks) {
         for (Activity activity in track.activities) {
@@ -251,9 +251,9 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
   }
 
   void animatedMove({LatLng latLng, double zoom}) {
-    final _latTween = Tween<double>(begin: widget.mapController.center.latitude, end: latLng.latitude);
-    final _lngTween = Tween<double>(begin: widget.mapController.center.longitude, end: latLng.longitude);
-    final _zoomTween = Tween<double>(begin: widget.mapController.zoom, end: zoom);
+    final latTween = Tween<double>(begin: widget.mapController.center.latitude, end: latLng.latitude);
+    final lngTween = Tween<double>(begin: widget.mapController.center.longitude, end: latLng.longitude);
+    final zoomTween = Tween<double>(begin: widget.mapController.zoom, end: zoom);
 
     var controller = AnimationController(duration: const Duration(milliseconds: 1000), vsync: this);
 
@@ -261,7 +261,7 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
 
     controller.addListener(() {
       widget.mapController
-          .move(LatLng(_latTween.evaluate(animation), _lngTween.evaluate(animation)), _zoomTween.evaluate(animation));
+          .move(LatLng(latTween.evaluate(animation), lngTween.evaluate(animation)), zoomTween.evaluate(animation));
     });
 
     animation.addStatusListener((status) {

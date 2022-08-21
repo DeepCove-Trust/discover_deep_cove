@@ -60,17 +60,17 @@ class Util {
   /// Returns the amount of free storage space available to the app, in bytes.
   /// Returns -1 if unable to calculate.
   static Future<int> getAvailableStorageSpace() async {
-    List<StorageInfo> _storageInfo;
+    List<StorageInfo> storageInfo;
     try {
-      _storageInfo = await PathProviderEx.getStorageInfo();
+      storageInfo = await PathProviderEx.getStorageInfo();
     } on PlatformException {
       if (Env.debugMessages) debugPrint('Warning: Unable to determine bytes available!');
       return -1;
     }
 
-    if (Env.debugMessages) debugPrint('Device has ${_storageInfo[0].availableBytes} bytes available');
+    if (Env.debugMessages) debugPrint('Device has ${storageInfo[0].availableBytes} bytes available');
 
-    return _storageInfo[0].availableBytes;
+    return storageInfo[0].availableBytes;
   }
 
   static String bytesToMBString(int bytes) {

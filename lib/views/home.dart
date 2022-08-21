@@ -31,7 +31,7 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
   StreamController<int> mapAnimateController;
 
   Widget currentPage;
-  List<Widget> pages = List<Widget>();
+  List<Widget> pages = <Widget>[];
 
   final PageStorageBucket bucket = PageStorageBucket();
 
@@ -147,8 +147,8 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: PageStorage(
-        child: currentPage,
         bucket: bucket,
+        child: currentPage,
       ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(

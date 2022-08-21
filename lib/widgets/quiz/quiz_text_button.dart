@@ -16,16 +16,17 @@ class QuizTextButton extends StatelessWidget {
       child: Container(
         width: Screen.width(context, percentage: 40.0),
         height: Screen.height(context, percentage: 13.5),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColorDark,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: const [BoxShadow(offset: Offset(1, 1), blurRadius: 3)],
+        ),
         child: Center(
           child: SubHeading(
             text,
             size: Screen.isTablet(context) ? 25 : 20,
           ),
         ),
-        decoration: new BoxDecoration(
-            color: Theme.of(context).primaryColorDark,
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: const [BoxShadow(offset: Offset(1, 1), blurRadius: 3)]),
       ),
     );
   }

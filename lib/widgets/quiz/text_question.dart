@@ -251,8 +251,8 @@ class _TextQuestionState extends State<TextQuestion> with WidgetsBindingObserver
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           CustomGrid(
-            children: widget.answers,
             showAsColumn: Screen.isLandscape(context),
+            children: widget.answers,
           ),
         ]),
       ),

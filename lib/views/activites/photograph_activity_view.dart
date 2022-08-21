@@ -37,9 +37,9 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
 
   void _onImageButtonPressed(BuildContext context) async {
     try {
-      File _pickedImage = await ImageHandler.captureImage(context: context);
+      File pickedImage = await ImageHandler.captureImage(context: context);
 
-      setState(() => _image = _pickedImage);
+      setState(() => _image = pickedImage);
     } catch (ex, stacktrace) {
       debugPrint('Exception thrown: ' + ex.toString());
       debugPrint(stacktrace.toString());

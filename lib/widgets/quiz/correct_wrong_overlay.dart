@@ -96,7 +96,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
   }
 
   getResultImagesPortrait() {
-    List<Widget> widgets = new List<Widget>();
+    List<Widget> widgets = <Widget>[];
 
     widgets.add(
       Column(children: <Widget>[
@@ -126,7 +126,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
   }
 
   getResultImagesLandscape() {
-    List<Widget> widgets = new List<Widget>();
+    List<Widget> widgets = <Widget>[];
 
     widgets.add(
       Column(children: <Widget>[
