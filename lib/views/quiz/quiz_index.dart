@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../data/models/quiz/quiz.dart';
@@ -40,7 +41,7 @@ class _QuizIndexState extends State<QuizIndex> {
         ),
         centerTitle: true,
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             onPressed: () {
               Navigator.pushNamed(context, '/quizUnlock', arguments: refreshData);
             },
@@ -64,7 +65,7 @@ class _QuizIndexState extends State<QuizIndex> {
           ),
         ],
         backgroundColor: Theme.of(context).primaryColor,
-        brightness: Brightness.dark,
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: quizzes == null

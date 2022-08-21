@@ -47,8 +47,6 @@ ThemeData appTheme() {
     primaryColor: const Color(0xFF8BC34A),
     //Charcoal
     primaryColorDark: const Color(0xFF262626),
-    //Orange
-    accentColor: const Color(0xFFFF5026),
     //Dark Gray
     backgroundColor: const Color(0xFF363636),
     //Urgent notice color
@@ -56,7 +54,7 @@ ThemeData appTheme() {
     //Grey text color
     primaryColorLight: const Color(0xFF999999),
 
-    fontFamily: 'Roboto',
+    fontFamily: 'Roboto', colorScheme: ColorScheme.fromSwatch().copyWith(secondary: const Color(0xFFFF5026)),
   );
 }
 

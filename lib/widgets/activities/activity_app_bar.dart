@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../util/screen.dart';
@@ -35,7 +36,7 @@ class ActivityAppBar extends StatelessWidget with PreferredSizeWidget {
       ],
       centerTitle: true,
       backgroundColor: Theme.of(context).primaryColor,
-      brightness: Brightness.dark,
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
     );
   }
 

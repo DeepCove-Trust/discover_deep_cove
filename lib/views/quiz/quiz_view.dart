@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../data/models/quiz/quiz.dart';
 import '../../data/models/quiz/quiz_answer.dart';
@@ -83,7 +84,6 @@ class QuizViewState extends State<QuizView> {
     return Scaffold(
       appBar: questionIndex < widget.quiz.questions.length
           ? AppBar(
-              brightness: Brightness.dark,
               title: SubHeading(
                 widget.quiz.title,
                 size: Screen.isTablet(context)
@@ -110,6 +110,7 @@ class QuizViewState extends State<QuizView> {
                 )
               ],
               backgroundColor: Theme.of(context).primaryColor,
+              systemOverlayStyle: SystemUiOverlayStyle.dark,
             )
           : null,
       body: questionsLoaded

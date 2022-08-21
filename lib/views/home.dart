@@ -89,8 +89,8 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
   Future<void> scan() async {
     String qrString = await MajaScan.startScan(
       title: 'Scan QR Code',
-      qRCornerColor: Theme.of(context).accentColor,
-      qRScannerColor: Theme.of(context).accentColor,
+      qRCornerColor: Theme.of(context).colorScheme.secondary,
+      qRScannerColor: Theme.of(context).colorScheme.secondary,
     );
     handleScanResult(qrString);
   }

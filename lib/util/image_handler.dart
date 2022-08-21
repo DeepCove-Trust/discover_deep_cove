@@ -17,6 +17,7 @@ class ImageHandler {
     double maxHeight,
   }) async {
     try {
+      // ignore: deprecated_member_use
       return await ImagePicker.pickImage(
         source: ImageSource.camera,
         maxWidth: maxWidth,

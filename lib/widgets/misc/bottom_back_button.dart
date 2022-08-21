@@ -25,7 +25,7 @@ class BottomBackButton extends StatelessWidget {
           Container(
             width: Screen.width(context),
             color: Theme.of(context).primaryColorDark,
-            child: FlatButton(
+            child: TextButton(
               onPressed: () => Navigator.pop(context),
               child: Padding(
                 padding: EdgeInsets.symmetric(

@@ -141,11 +141,11 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             actions: [
-              FlatButton(
+              TextButton(
                 child: const Text('Cancel'),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: resetInProgress ? null : () => _resetProgress(),
                 child: const Text('Reset'),
               ),

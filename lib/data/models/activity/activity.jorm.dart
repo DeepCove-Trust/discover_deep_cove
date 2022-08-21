@@ -282,6 +282,7 @@ abstract class _ActivityBean implements Bean<Activity> {
         updater.where(this.id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
     if (cascade) {
+      // ignore: unused_local_variable
       Activity newModel;
       if (model.imageOptions != null) {
         for (final child in model.imageOptions) {

@@ -1,6 +1,9 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -45,11 +48,11 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
 
   MapState mapState;
 
-  Track get currentTrack => tracks.length > 0 ? tracks[currentTrackNum] : null;
+  Track get currentTrack => tracks.isNotEmpty ? tracks[currentTrackNum] : null;
 
   bool get tracksLoaded => tracks != null;
 
-  bool get hasTracks => tracks.length > 0;
+  bool get hasTracks => tracks.isNotEmpty;
 
   @override
   void initState() {
@@ -84,7 +87,7 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
     try {
       // Determine if initial sync has been completed
       List<Config> config = await ConfigBean.of(context).getAll();
-      if (config.length == 0) {
+      if (config.isEmpty) {
         await Future.delayed(const Duration(seconds: 5));
         Navigator.pushReplacementNamed(context, '/update', arguments: true);
       }
@@ -132,7 +135,6 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        brightness: Brightness.dark,
         leading: tracksLoaded && hasTracks
             ? IconButton(
                 icon: const Icon(FontAwesomeIcons.arrowLeft),
@@ -174,6 +176,7 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
               ),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColorDark,
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: FlutterMap(
         mapController: widget.mapController,
@@ -225,7 +228,7 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
         bool isForCurrent = markers.every((marker) => (marker as CustomMarker).track == currentTrack);
 
         return FloatingActionButton(
-          backgroundColor: isForCurrent ? Theme.of(context).accentColor : Colors.grey,
+          backgroundColor: isForCurrent ? Theme.of(context).colorScheme.secondary : Colors.grey,
           onPressed: null,
           heroTag: null,
           child: Text(markers.length.toString()),
@@ -282,7 +285,7 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
       child: Icon(
         activity.isCompleted() ? FontAwesomeIcons.lockOpen : FontAwesomeIcons.lock,
         size: isCurrentTrack ? 20 : 15,
-        color: isCurrentTrack ? Theme.of(context).accentColor : Colors.grey,
+        color: isCurrentTrack ? Theme.of(context).colorScheme.secondary : Colors.grey,
       ),
     );
   }

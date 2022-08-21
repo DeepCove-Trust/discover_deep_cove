@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../data/models/notice.dart';
@@ -55,7 +56,7 @@ class _NoticeboardState extends State<Noticeboard> {
           ),
         ],
         backgroundColor: Theme.of(context).backgroundColor,
-        brightness: Brightness.dark,
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: notices == null
           ? Center(

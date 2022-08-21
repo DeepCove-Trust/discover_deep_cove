@@ -27,7 +27,7 @@ class CustomFab extends StatelessWidget {
         ),
         onPressed: onPressed,
         heroTag: null,
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
     );
   }
