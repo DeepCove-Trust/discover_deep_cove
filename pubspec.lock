@@ -42,7 +42,7 @@ packages:
       name: audioplayers
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.7"
+    version: "0.16.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -182,7 +182,7 @@ packages:
       name: cron
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.4"
+    version: "0.5.0"
   crypto:
     dependency: transitive
     description:
@@ -250,7 +250,7 @@ packages:
       name: flutter_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0+1"
+    version: "1.1.0"
   flutter_image:
     dependency: transitive
     description:
@@ -264,7 +264,7 @@ packages:
       name: flutter_launcher_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.5"
+    version: "0.8.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -316,7 +316,7 @@ packages:
       name: font_awesome_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.12.0"
+    version: "10.1.0"
   front_end:
     dependency: transitive
     description:
@@ -330,7 +330,7 @@ packages:
       name: gallery_saver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.7"
+    version: "2.0.3"
   glob:
     dependency: transitive
     description:
@@ -484,7 +484,7 @@ packages:
       name: majascan
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.5"
+    version: "0.5.0"
   matcher:
     dependency: transitive
     description:
@@ -589,7 +589,7 @@ packages:
       name: percent_indicator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.9+1"
+    version: "4.2.2"
   permission_handler:
     dependency: "direct main"
     description:
@@ -870,4 +870,4 @@ packages:
     version: "2.2.1"
 sdks:
   dart: ">=2.17.0-206.0.dev <3.0.0"
-  flutter: ">=1.22.2"
+  flutter: ">=2.12.0"
