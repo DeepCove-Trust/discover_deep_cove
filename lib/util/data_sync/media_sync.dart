@@ -138,7 +138,7 @@ class MediaSync {
 
     // Save file to directory
     try {
-      // Todo: Monitor whether this try-catch works in async
+      // TODO: Monitor whether this try-catch works in async
       await NetworkUtil.httpResponseToFile(response: response, absPath: absPath, filename: filename);
     } catch (ex, stacktrace) {
       // Exception while saving file, remove database records

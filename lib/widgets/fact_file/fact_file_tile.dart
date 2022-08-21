@@ -51,6 +51,6 @@ class SmallTile extends StatelessWidget {
       ),
     );
 
-    // Todo: Handle long titles
+    // TODO: Handle long titles
   }
 }

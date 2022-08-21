@@ -39,13 +39,13 @@ class NetworkUtil {
   /// Returns the decoded JSON list that is received in response to a get
   /// request to the supplied URL.
   // static Future<List<dynamic>> requestJsonList(String url) {
-  //   // Todo: Complete this
+  //   // TODO: Complete this
   // }
 
   /// Returns the decoded JSON map that is received in response to a get
   /// request to the supplied URL.
   // static Future<Map<String, dynamic>> requestJsonMap(String url) {
-  //   // Todo: Complete this
+  //   // TODO: Complete this
   // }
 
   /// Returns the body of the response that is returned in response to

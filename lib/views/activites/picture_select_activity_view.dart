@@ -90,7 +90,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
               ),
               child: BodyText(
                 widget.activity.description + widget.activity.description,
-                // Todo
+                // TODO
                 align: TextAlign.left,
                 size: Screen.isTablet(context) ? 25 : null,
               ),

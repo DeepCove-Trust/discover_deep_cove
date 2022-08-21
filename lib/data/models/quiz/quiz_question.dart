@@ -45,7 +45,7 @@ class QuizQuestion {
   MediaFile audio;
 
   @IgnoreColumn()
-  QuizAnswer correctAnswer; // Todo: Don't think we need this one
+  QuizAnswer correctAnswer; // TODO: Don't think we need this one
 }
 
 @GenBean()

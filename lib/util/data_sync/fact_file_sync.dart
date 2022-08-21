@@ -78,7 +78,7 @@ class FactFileSync {
     await _deleteEntryImagesFor(id);
     await _deleteNuggetsFor(id);
 
-    // Todo: Potential issue if activities are linked to this fact file...
+    // TODO: Potential issue if activities are linked to this fact file...
 
     // Delete the fact file itself
     factFileEntryBean.remove(id);

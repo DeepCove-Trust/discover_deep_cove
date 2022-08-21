@@ -13,7 +13,7 @@ class FactFileEntryImage {
 
   FactFileEntryImage.make(int factFileId, this.mediaFileId) : factFileEntryId = factFileId;
 
-  // Todo: Confirm whether these two should be BelongsTo.many
+  // TODO: Confirm whether these two should be BelongsTo.many
   @BelongsTo(FactFileEntryBean)
   int factFileEntryId;
 

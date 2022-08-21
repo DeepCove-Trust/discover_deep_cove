@@ -78,7 +78,7 @@ class _FactFileIndexState extends State<FactFileIndex> with TickerProviderStateM
         : categories.map((c) {
             return SizedBox(
               width: Screen.width(context) / (categories.length > 2 ? 3 : categories.length),
-              // Todo: better way?
+              // TODO: better way?
               child: BodyText(c.name),
             );
           }).toList();
