@@ -17,7 +17,7 @@ environment:
 
 dependencies:
   archive: ^2.0.8                         # Apache 2.0
-  audioplayers: ^0.16.1                   # MIT
+  audioplayers: ^0.17.4                   # MIT
   carousel_pro: ^1.0.0                    # MIT
   cron: ^0.5.0                            # BSD
   flutter:
