@@ -41,11 +41,10 @@ class Util {
   static void showToast(BuildContext context, String text) {
     Toast.show(
       text,
-      context,
-      duration: Toast.LENGTH_LONG,
-      gravity: Toast.BOTTOM,
+      duration: Toast.lengthLong,
+      gravity: Toast.bottom,
       backgroundColor: Theme.of(context).primaryColor,
-      textColor: Colors.black,
+      textStyle: const TextStyle(fontSize: 15, color: Colors.black),
     );
   }
 

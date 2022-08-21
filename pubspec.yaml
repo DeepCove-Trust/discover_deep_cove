@@ -38,7 +38,7 @@ dependencies:
   percent_indicator: ^4.2.2               # BSD
   permission_handler: ^3.0.1 
   shared_preferences: ^0.5.4+6            # BSD
-  toast: ^0.1.4                           # MIT
+  toast: ^0.3.0                           # MIT
 
   # Database related packages
   jaguar_orm: ^2.2.6                      # BSD

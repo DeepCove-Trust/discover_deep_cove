@@ -73,11 +73,10 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
     } else {
       Toast.show(
         'Activity is locked, please scan qr-code',
-        context,
-        duration: Toast.LENGTH_SHORT,
-        gravity: Toast.BOTTOM,
+        duration: Toast.lengthShort,
+        gravity: Toast.bottom,
         backgroundColor: Theme.of(context).primaryColor,
-        textColor: Colors.black,
+        textStyle: const TextStyle(fontSize: 15, color: Colors.black),
       );
     }
   }
