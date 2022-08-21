@@ -311,7 +311,7 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Icon(
-              FontAwesomeIcons.volumeUp,
+              FontAwesomeIcons.volumeHigh,
               color: pronounceColor,
               size: Screen.isSmall(context) ? 16 : 24,
             ),

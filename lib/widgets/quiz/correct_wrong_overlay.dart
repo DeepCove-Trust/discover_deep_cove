@@ -80,7 +80,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
           child: Transform.rotate(
             angle: _iconAnimation.value * 2 * pi,
             child: Icon(
-              widget.isCorrect ? FontAwesomeIcons.check : FontAwesomeIcons.times,
+              widget.isCorrect ? FontAwesomeIcons.check : FontAwesomeIcons.xmark,
               size: Screen.width(context, percentage: 15),
               color: widget.isCorrect ? Colors.green : Colors.red,
             ),
@@ -150,7 +150,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
         child: Transform.rotate(
           angle: _iconAnimation.value * 2 * pi,
           child: Icon(
-            widget.isCorrect ? FontAwesomeIcons.check : FontAwesomeIcons.times,
+            widget.isCorrect ? FontAwesomeIcons.check : FontAwesomeIcons.xmark,
             size: Screen.width(context, percentage: 15),
             color: widget.isCorrect ? Colors.green : Colors.red,
           ),
@@ -202,7 +202,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
           child: Transform.rotate(
             angle: _iconAnimation.value * 2 * pi,
             child: Icon(
-              widget.isCorrect ? FontAwesomeIcons.check : FontAwesomeIcons.times,
+              widget.isCorrect ? FontAwesomeIcons.check : FontAwesomeIcons.xmark,
               size: Screen.isTablet(context) ? 100 : 80,
               color: widget.isCorrect ? Colors.green : Colors.red,
             ),

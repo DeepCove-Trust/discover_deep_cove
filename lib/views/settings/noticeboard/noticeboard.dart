@@ -45,7 +45,7 @@ class _NoticeboardState extends State<Noticeboard> {
               right: Screen.width(context, percentage: 1.25),
             ),
             child: IconButton(
-              icon: Icon(FontAwesomeIcons.sync, color: Colors.white, size: Screen.isTablet(context) ? 25 : 18),
+              icon: Icon(FontAwesomeIcons.arrowsRotate, color: Colors.white, size: Screen.isTablet(context) ? 25 : 18),
               onPressed: () {
                 refreshNotices();
                 setState(() {

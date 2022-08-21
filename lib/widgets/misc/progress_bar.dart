@@ -17,7 +17,7 @@ class ProgressBar extends StatelessWidget {
 //      lineHeight: 5.0,
 //      animationDuration: 500,
       percent: percent,
-      linearStrokeCap: LinearStrokeCap.roundAll,
+      barRadius: const Radius.circular(16),
       progressColor: Theme.of(context).colorScheme.secondary,
       backgroundColor: const Color(0xFF3B160D),
     );

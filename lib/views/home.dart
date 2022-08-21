@@ -175,7 +175,7 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
             _buildNavItem(title: 'Scan', icon: FontAwesomeIcons.qrcode),
             _buildNavItem(title: 'Map', icon: FontAwesomeIcons.map),
             _buildNavItem(title: 'Quiz', icon: FontAwesomeIcons.question),
-            _buildNavItem(title: 'More', icon: FontAwesomeIcons.ellipsisV),
+            _buildNavItem(title: 'More', icon: FontAwesomeIcons.ellipsisVertical),
           ],
         ),
       ),
