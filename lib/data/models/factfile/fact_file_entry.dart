@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
-import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
+
 import 'package:meta/meta.dart';
 
 import '../../database_adapter.dart';

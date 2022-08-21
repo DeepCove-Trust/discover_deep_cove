@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:jaguar_orm/jaguar_orm.dart';
-import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
-
 import '../../database_adapter.dart';
 import '../media_file.dart';
 import 'fact_file_entry.dart';
@@ -13,9 +11,7 @@ part 'fact_file_entry_image.jorm.dart';
 class FactFileEntryImage {
   FactFileEntryImage();
 
-  FactFileEntryImage.make(int factFileId, int mediaFileId)
-      : factFileEntryId = factFileId,
-        mediaFileId = mediaFileId;
+  FactFileEntryImage.make(int factFileId, this.mediaFileId) : factFileEntryId = factFileId;
 
   // Todo: Confirm whether these two should be BelongsTo.many
   @BelongsTo(FactFileEntryBean)

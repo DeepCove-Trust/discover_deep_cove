@@ -13,7 +13,7 @@ import '../../util/screen.dart';
 import '../../util/util.dart';
 import '../../widgets/activities/activity_app_bar.dart';
 import '../../widgets/activities/activity_pass_save_bar.dart';
-import '../../widgets/activities/editAnswer.dart';
+import '../../widgets/activities/edit_answer.dart';
 import '../../widgets/misc/bottom_back_button.dart';
 import '../../widgets/misc/custom_vertical_divider.dart';
 import '../../widgets/misc/text/body_text.dart';
@@ -41,7 +41,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
 
       setState(() => _image = pickedImage);
     } catch (ex, stacktrace) {
-      debugPrint('Exception thrown: ' + ex.toString());
+      debugPrint('Exception thrown: $ex.toString()');
       debugPrint(stacktrace.toString());
     }
   }
@@ -301,7 +301,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       // Return to the map
       Navigator.of(context).pop();
     } catch (ex, stacktrace) {
-      debugPrint('Error saving photo: ' + ex.toString());
+      debugPrint('Error saving photo: $ex.toString()');
       debugPrint(stacktrace.toString());
     }
   }

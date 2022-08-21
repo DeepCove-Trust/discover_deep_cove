@@ -3,11 +3,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as Http;
-import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
-import 'package:meta/meta.dart';
+import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
+import '../../data/db.dart';
 import '../../data/models/media_file.dart';
 import '../../env.dart';
 import '../exeptions.dart';
@@ -129,7 +128,7 @@ class MediaSync {
     // is a tablet.
     String absPath = Env.getResourcePath(mediaFile.category);
     String filename = mediaData.filename;
-    Http.Response response = await Http.get(Env.mediaDownloadUrl(server, filename, context));
+    http.Response response = await http.get(Env.mediaDownloadUrl(server, filename, context));
 
     // Assign path to mediaFile object
     mediaFile.path = join(mediaFile.category, mediaData.filename);

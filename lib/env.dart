@@ -139,19 +139,17 @@ class Env {
 
   /// API endpoint to return summary of all required media files.
   static String mediaListUrl(CmsServerLocation server, BuildContext context) {
-    return _getCmsUrl(server) + _mediaUrl + '?width=${Screen.isTablet(context) ? 500 : null}';
+    return '${_getCmsUrl(server)}$_mediaUrl?width=${Screen.isTablet(context) ? 500 : null}';
   }
 
   /// API endpoint to return details of a single media file.
   static String mediaDetailsUrl(CmsServerLocation server, int id, BuildContext context) {
-    return _getCmsUrl(server) + _mediaUrl + '/$id' + '?width=${Screen.isTablet(context) ? 500 : null}';
+    return '${_getCmsUrl(server)}$_mediaUrl/$id?width=${Screen.isTablet(context) ? 500 : null}';
   }
 
   /// API endpoint to return the specified media file.
   static String mediaDownloadUrl(CmsServerLocation server, String filename, BuildContext context) {
-    return _getCmsUrl(server) +
-        _mediaDownloadUrl +
-        '?filename=$filename&width=${Screen.isTablet(context) ? 500 : null}';
+    return '${_getCmsUrl(server)}$_mediaDownloadUrl?filename=$filename&width=${Screen.isTablet(context) ? 500 : null}';
   }
 
   /// API endpoint to return a summary of active quizzes.
@@ -162,7 +160,7 @@ class Env {
   /// API endpoint to return details, questions and answers for a given
   /// quiz ID.
   static String quizDetailsUrl(CmsServerLocation server, int id) {
-    return _getCmsUrl(server) + _quizzesUrl + '/$id';
+    return '${_getCmsUrl(server)}$_quizzesUrl/$id';
   }
 
   /// API endpoint to retrieve summary of active fact files.
@@ -173,12 +171,12 @@ class Env {
   /// API endpoint to retrieve details, including nuggets and gallery
   /// image IDs, for a given fact file ID.
   static String factFileDetailsUrl(CmsServerLocation server, int id) {
-    return _getCmsUrl(server) + _factFilesUrl + '/$id';
+    return '${_getCmsUrl(server)}$_factFilesUrl/$id';
   }
 
   /// API endpoint to retrieve summary of active fact file categories.
   static String factFileCategoriesListUrl(CmsServerLocation server) {
-    return _getCmsUrl(server) + _factFilesUrl + '/categories';
+    return '${_getCmsUrl(server)}$_factFilesUrl/categories';
   }
 
   /// API endpoint to retrieve list of active tracks, and their names.
@@ -193,7 +191,7 @@ class Env {
 
   /// API endpoint to retrieve details for a given activity ID.
   static String activityDetailsUrl(CmsServerLocation server, int id) {
-    return _getCmsUrl(server) + _activitiesUrl + '/$id';
+    return '${_getCmsUrl(server)}$_activitiesUrl/$id';
   }
 
   /// API endpoint to retrieve list of active notices

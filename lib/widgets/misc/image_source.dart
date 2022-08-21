@@ -18,7 +18,7 @@ class ImageSource extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Text(
-                isCopyright ? '© ' + source : source,
+                isCopyright ? '© $source' : source,
                 style: TextStyle(
                   color: Theme.of(context).primaryColorLight,
                   fontStyle: FontStyle.italic,

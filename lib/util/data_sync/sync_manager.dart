@@ -61,6 +61,7 @@ enum SyncState {
 }
 
 class SyncManager {
+  // ignore: unused_field
   SyncState _syncState = SyncState.none;
   CmsServerLocation _serverLocation;
   SqfliteAdapter _tempAdapter, _adapter;

@@ -3,7 +3,6 @@ import 'dart:io' show File, Directory;
 import 'package:archive/archive.dart' show ZipDecoder, Archive, ArchiveFile;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:meta/meta.dart' show required;
 import 'package:path/path.dart' show join;
 import 'package:path_provider_ex/path_provider_ex.dart';
 import 'package:toast/toast.dart';
@@ -54,7 +53,7 @@ class Util {
   /// and adding the correct file extension based on supplied type.
   static String getAntiCollisionName(String name, String extension) {
     String suffix = DateTime.now().millisecondsSinceEpoch.toString();
-    return name.replaceAll(' ', '_') + '_' + suffix + extension;
+    return '${name.replaceAll(' ', '_')}_$suffix$extension';
   }
 
   /// Returns the amount of free storage space available to the app, in bytes.

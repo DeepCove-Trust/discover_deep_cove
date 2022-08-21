@@ -106,6 +106,7 @@ class TrackSync {
       // Delete the file itself
       await File(Env.getResourcePath(join('user_photos', photo.path)))
           .delete()
+          // ignore: invalid_return_type_for_catch_error
           .catchError((e) => debugPrint('Error attempting to delete user photo: \n ${e.toString()}'));
       // Then delete the database record in the main database
       await UserPhotoBean(mainAdapter).remove(id);

@@ -9,6 +9,7 @@ abstract class VerboseState<T extends StatefulWidget> extends State<T> {
 
   @override
   @mustCallSuper
+  // ignore: missing_return
   Widget build(BuildContext context) {
     debugPrint('$name built');
   }

@@ -1,8 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as Http;
-import 'package:meta/meta.dart';
+import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
 import '../env.dart';
@@ -27,7 +26,7 @@ class NetworkUtil {
   static Future<bool> _returnsResponse(String address) async {
     try {
       if (Env.debugMessages) debugPrint('Attempting to contact content server at $address');
-      Http.Response response = await Http.get(address);
+      http.Response response = await http.get(address);
       if (Env.debugMessages) debugPrint('Response:');
       if (Env.debugMessages) debugPrint(response.statusCode.toString());
       return response.statusCode == 200;
@@ -39,34 +38,34 @@ class NetworkUtil {
 
   /// Returns the decoded JSON list that is received in response to a get
   /// request to the supplied URL.
-  static Future<List<dynamic>> requestJsonList(String url) {
-    // Todo: Complete this
-  }
+  // static Future<List<dynamic>> requestJsonList(String url) {
+  //   // Todo: Complete this
+  // }
 
   /// Returns the decoded JSON map that is received in response to a get
   /// request to the supplied URL.
-  static Future<Map<String, dynamic>> requestJsonMap(String url) {
-    // Todo: Complete this
-  }
+  // static Future<Map<String, dynamic>> requestJsonMap(String url) {
+  //   // Todo: Complete this
+  // }
 
   /// Returns the body of the response that is returned in response to
   /// a GET request to the supplied URL, as a string.
   static Future<String> requestDataString(String url) async {
-    Http.Response response = await _requestResponse(url);
+    http.Response response = await _requestResponse(url);
     return response.body;
   }
 
   /// Returns the body of the response that is returned in response to
   /// a GET request to the supplied URL, as an array of ints.
   static Future<List<int>> requestDataBytes(String url) async {
-    Http.Response response = await _requestResponse(url);
+    http.Response response = await _requestResponse(url);
     return response.bodyBytes;
   }
 
   /// Returns [Response] object for a GET request to the provided URL.
   /// Throws [ApiException] if status code is not 200 (OK).
-  static Future<Http.Response> _requestResponse(String url) async {
-    Http.Response response = await Http.get(url);
+  static Future<http.Response> _requestResponse(String url) async {
+    http.Response response = await http.get(url);
     if (response.statusCode != 200) {
       throw ApiException(message: 'Request to $url returned non-OK response', statusCode: response.statusCode);
     }
@@ -77,7 +76,7 @@ class NetworkUtil {
   /// [absPath] and [filename]. Will create directories that do not exist.
   /// Use within try-catch.
   static Future<File> httpResponseToFile(
-      {@required Http.Response response, @required String absPath, @required String filename}) async {
+      {@required http.Response response, @required String absPath, @required String filename}) async {
     return await bytesToFile(bytes: response.bodyBytes, absPath: absPath, filename: filename);
   }
 

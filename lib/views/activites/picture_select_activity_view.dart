@@ -8,7 +8,7 @@ import '../../env.dart';
 import '../../util/screen.dart';
 import '../../widgets/activities/activity_app_bar.dart';
 import '../../widgets/activities/activity_pass_save_bar.dart';
-import '../../widgets/activities/editAnswer.dart';
+import '../../widgets/activities/edit_answer.dart';
 import '../../widgets/activities/selected_photo.dart';
 import '../../widgets/misc/bottom_back_button.dart';
 import '../../widgets/misc/custom_vertical_divider.dart';
