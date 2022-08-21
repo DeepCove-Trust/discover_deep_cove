@@ -10,7 +10,7 @@ class LocalNotifications {
 
     var initializationSettingsAndroid = const AndroidInitializationSettings('icon');
 
-    var initializationSettings = InitializationSettings(initializationSettingsAndroid, null);
+    var initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
 
     _notifications.initialize(initializationSettings, onSelectNotification: _onSelectNotification);
   }
@@ -29,33 +29,33 @@ class LocalNotifications {
   }
 
   static NotificationDetails get _notice {
-    final androidChannelSpecifics = AndroidNotificationDetails(
+    const androidChannelSpecifics = AndroidNotificationDetails(
       '0',
       'Notices',
       'New notice notification',
-      importance: Importance.Max,
-      priority: Priority.High,
+      importance: Importance(5),
+      priority: Priority(1),
       ongoing: false,
       autoCancel: true,
-      color: const Color(0xFF8BC34A),
+      color: Color(0xFF8BC34A),
     );
 
-    return NotificationDetails(androidChannelSpecifics, null);
+    return const NotificationDetails(android: androidChannelSpecifics);
   }
 
   static NotificationDetails get _download {
-    final androidChannelSpecifics = AndroidNotificationDetails(
+    const androidChannelSpecifics = AndroidNotificationDetails(
       '1',
       'New content',
       'New content available notification',
-      importance: Importance.Max,
-      priority: Priority.High,
+      importance: Importance(5),
+      priority: Priority(1),
       ongoing: false,
       autoCancel: true,
-      color: const Color(0xFF8BC34A),
+      color: Color(0xFF8BC34A),
     );
 
-    return NotificationDetails(androidChannelSpecifics, null);
+    return const NotificationDetails(android: androidChannelSpecifics);
   }
 
   static Future showNotification({
@@ -68,7 +68,12 @@ class LocalNotifications {
     _context = context;
 
     return _displayNotification(
-        title: title, body: body, id: id, type: payload == 'Notice' ? _notice : _download, payload: payload);
+      title: title,
+      body: body,
+      id: id,
+      type: payload == 'Notice' ? _notice : _download,
+      payload: payload,
+    );
   }
 
   static Future _displayNotification({
