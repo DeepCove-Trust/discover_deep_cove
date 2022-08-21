@@ -22,8 +22,7 @@ abstract class _TrackBean implements Bean<Track> {
     return model;
   }
 
-  List<SetColumn> toSetColumns(Track model,
-      {bool update = false, Set<String> only, bool onlyNonNull = false}) {
+  List<SetColumn> toSetColumns(Track model, {bool update = false, Set<String> only, bool onlyNonNull = false}) {
     List<SetColumn> ret = [];
 
     if (only == null && !onlyNonNull) {
@@ -51,19 +50,14 @@ abstract class _TrackBean implements Bean<Track> {
     return adapter.createTable(st);
   }
 
-  Future<dynamic> insert(Track model,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
-    final Insert insert = inserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+  Future<dynamic> insert(Track model, {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+    final Insert insert = inserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     var retId = await adapter.insert(insert);
     if (cascade) {
       Track newModel;
       if (model.activities != null) {
         newModel ??= await find(model.id);
-        model.activities
-            .forEach((x) => activityBean.associateTrack(x, newModel));
+        model.activities.forEach((x) => activityBean.associateTrack(x, newModel));
         for (final child in model.activities) {
           await activityBean.insert(child, cascade: cascade);
         }
@@ -73,9 +67,7 @@ abstract class _TrackBean implements Bean<Track> {
   }
 
   Future<void> insertMany(List<Track> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -84,29 +76,22 @@ abstract class _TrackBean implements Bean<Track> {
       await Future.wait(futures);
       return;
     } else {
-      final List<List<SetColumn>> data = models
-          .map((model) =>
-              toSetColumns(model, only: only, onlyNonNull: onlyNonNull))
-          .toList();
+      final List<List<SetColumn>> data =
+          models.map((model) => toSetColumns(model, only: only, onlyNonNull: onlyNonNull)).toList();
       final InsertMany insert = inserters.addAll(data);
       await adapter.insertMany(insert);
       return;
     }
   }
 
-  Future<dynamic> upsert(Track model,
-      {bool cascade = false,
-      Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Upsert upsert = upserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+  Future<dynamic> upsert(Track model, {bool cascade = false, Set<String> only, bool onlyNonNull = false}) async {
+    final Upsert upsert = upserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     var retId = await adapter.upsert(upsert);
     if (cascade) {
       Track newModel;
       if (model.activities != null) {
         newModel ??= await find(model.id);
-        model.activities
-            .forEach((x) => activityBean.associateTrack(x, newModel));
+        model.activities.forEach((x) => activityBean.associateTrack(x, newModel));
         for (final child in model.activities) {
           await activityBean.upsert(child, cascade: cascade);
         }
@@ -116,9 +101,7 @@ abstract class _TrackBean implements Bean<Track> {
   }
 
   Future<void> upsertMany(List<Track> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -130,8 +113,7 @@ abstract class _TrackBean implements Bean<Track> {
       final List<List<SetColumn>> data = [];
       for (var i = 0; i < models.length; ++i) {
         var model = models[i];
-        data.add(
-            toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
+        data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
       }
       final UpsertMany upsert = upserters.addAll(data);
       await adapter.upsertMany(upsert);
@@ -140,25 +122,19 @@ abstract class _TrackBean implements Bean<Track> {
   }
 
   Future<int> update(Track model,
-      {bool cascade = false,
-      bool associate = false,
-      Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Update update = updater
-        .where(this.id.eq(model.id))
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+    final Update update =
+        updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
     if (cascade) {
       Track newModel;
       if (model.activities != null) {
         if (associate) {
           newModel ??= await find(model.id);
-          model.activities
-              .forEach((x) => activityBean.associateTrack(x, newModel));
+          model.activities.forEach((x) => activityBean.associateTrack(x, newModel));
         }
         for (final child in model.activities) {
-          await activityBean.update(child,
-              cascade: cascade, associate: associate);
+          await activityBean.update(child, cascade: cascade, associate: associate);
         }
       }
     }
@@ -166,9 +142,7 @@ abstract class _TrackBean implements Bean<Track> {
   }
 
   Future<void> updateMany(List<Track> models,
-      {bool cascade = false,
-      bool onlyNonNull = false,
-      Set<String> only}) async {
+      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -181,9 +155,8 @@ abstract class _TrackBean implements Bean<Track> {
       final List<Expression> where = [];
       for (var i = 0; i < models.length; ++i) {
         var model = models[i];
-        data.add(
-            toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
-        where.add(this.id.eq(model.id));
+        data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
+        where.add(id.eq(model.id));
       }
       final UpdateMany update = updaters.addAll(data, where);
       await adapter.updateMany(update);
@@ -191,8 +164,7 @@ abstract class _TrackBean implements Bean<Track> {
     }
   }
 
-  Future<Track> find(int id,
-      {bool preload = false, bool cascade = false}) async {
+  Future<Track> find(int id, {bool preload = false, bool cascade = false}) async {
     final Find find = finder.where(this.id.eq(id));
     final Track model = await findOne(find);
     if (preload && model != null) {
@@ -217,27 +189,24 @@ abstract class _TrackBean implements Bean<Track> {
     if (models == null || models.isEmpty) return 0;
     final Remove remove = remover;
     for (final model in models) {
-      remove.or(this.id.eq(model.id));
+      remove.or(id.eq(model.id));
     }
     return adapter.remove(remove);
   }
 
   Future<Track> preload(Track model, {bool cascade = false}) async {
-    model.activities = await activityBean.findByTrack(model.id,
-        preload: cascade, cascade: cascade);
+    model.activities = await activityBean.findByTrack(model.id, preload: cascade, cascade: cascade);
     return model;
   }
 
-  Future<List<Track>> preloadAll(List<Track> models,
-      {bool cascade = false}) async {
+  Future<List<Track>> preloadAll(List<Track> models, {bool cascade = false}) async {
     models.forEach((Track model) => model.activities ??= []);
     await OneToXHelper.preloadAll<Track, Activity>(
         models,
         (Track model) => [model.id],
         activityBean.findByTrackList,
         (Activity model) => [model.trackId],
-        (Track model, Activity child) =>
-            model.activities = List.from(model.activities)..add(child),
+        (Track model, Activity child) => model.activities = List.from(model.activities)..add(child),
         cascade: cascade);
     return models;
   }

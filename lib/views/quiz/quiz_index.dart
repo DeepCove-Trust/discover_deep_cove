@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_if_null_operators
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -74,7 +76,7 @@ class _QuizIndexState extends State<QuizIndex> {
             )
           : RefreshIndicator(
               onRefresh: () => refreshData(),
-              child: quizzes.length > 0
+              child: quizzes.isNotEmpty
                   ? GridView.count(
                       mainAxisSpacing: Screen.width(context, percentage: 2.5),
                       crossAxisSpacing: Screen.width(context, percentage: 2.5),

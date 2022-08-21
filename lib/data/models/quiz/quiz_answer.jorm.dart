@@ -138,7 +138,7 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
   Future<int> update(QuizAnswer model,
       {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
     final Update update =
-        updater.where(this.id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+        updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
     if (cascade) {
       QuizAnswer newModel;
@@ -168,7 +168,7 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
       for (var i = 0; i < models.length; ++i) {
         var model = models[i];
         data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
-        where.add(this.id.eq(model.id));
+        where.add(id.eq(model.id));
       }
       final UpdateMany update = updaters.addAll(data, where);
       await adapter.updateMany(update);
@@ -201,7 +201,7 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     if (models == null || models.isEmpty) return 0;
     final Remove remove = remover;
     for (final model in models) {
-      remove.or(this.id.eq(model.id));
+      remove.or(id.eq(model.id));
     }
     return adapter.remove(remove);
   }
@@ -210,7 +210,7 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     final Find find = finder.where(this.quizQuestionId.eq(quizQuestionId));
     final List<QuizAnswer> models = await findMany(find);
     if (preload) {
-      await this.preloadAll(models, cascade: cascade);
+      await preloadAll(models, cascade: cascade);
     }
     return models;
   }
@@ -221,11 +221,11 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (QuizQuestion model in models) {
-      find.or(this.quizQuestionId.eq(model.id));
+      find.or(quizQuestionId.eq(model.id));
     }
     final List<QuizAnswer> retModels = await findMany(find);
     if (preload) {
-      await this.preloadAll(retModels, cascade: cascade);
+      await preloadAll(retModels, cascade: cascade);
     }
     return retModels;
   }
@@ -243,7 +243,7 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     final Find find = finder.where(this.imageId.eq(imageId));
     final List<QuizAnswer> models = await findMany(find);
     if (preload) {
-      await this.preloadAll(models, cascade: cascade);
+      await preloadAll(models, cascade: cascade);
     }
     return models;
   }
@@ -254,11 +254,11 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (MediaFile model in models) {
-      find.or(this.imageId.eq(model.id));
+      find.or(imageId.eq(model.id));
     }
     final List<QuizAnswer> retModels = await findMany(find);
     if (preload) {
-      await this.preloadAll(retModels, cascade: cascade);
+      await preloadAll(retModels, cascade: cascade);
     }
     return retModels;
   }

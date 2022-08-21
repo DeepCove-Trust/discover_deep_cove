@@ -185,7 +185,7 @@ abstract class _QuizBean implements Bean<Quiz> {
   Future<int> update(Quiz model,
       {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
     final Update update =
-        updater.where(this.id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+        updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
     if (cascade) {
       Quiz newModel;
@@ -216,7 +216,7 @@ abstract class _QuizBean implements Bean<Quiz> {
       for (var i = 0; i < models.length; ++i) {
         var model = models[i];
         data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
-        where.add(this.id.eq(model.id));
+        where.add(id.eq(model.id));
       }
       final UpdateMany update = updaters.addAll(data, where);
       await adapter.updateMany(update);
@@ -249,7 +249,7 @@ abstract class _QuizBean implements Bean<Quiz> {
     if (models == null || models.isEmpty) return 0;
     final Remove remove = remover;
     for (final model in models) {
-      remove.or(this.id.eq(model.id));
+      remove.or(id.eq(model.id));
     }
     return adapter.remove(remove);
   }
@@ -258,7 +258,7 @@ abstract class _QuizBean implements Bean<Quiz> {
     final Find find = finder.where(this.imageId.eq(imageId));
     final List<Quiz> models = await findMany(find);
     if (preload) {
-      await this.preloadAll(models, cascade: cascade);
+      await preloadAll(models, cascade: cascade);
     }
     return models;
   }
@@ -268,11 +268,11 @@ abstract class _QuizBean implements Bean<Quiz> {
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (MediaFile model in models) {
-      find.or(this.imageId.eq(model.id));
+      find.or(imageId.eq(model.id));
     }
     final List<Quiz> retModels = await findMany(find);
     if (preload) {
-      await this.preloadAll(retModels, cascade: cascade);
+      await preloadAll(retModels, cascade: cascade);
     }
     return retModels;
   }

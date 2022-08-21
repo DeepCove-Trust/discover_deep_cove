@@ -88,6 +88,7 @@ class _NoticeboardState extends State<Noticeboard> {
     );
   }
 
+  // ignore: prefer_void_to_null
   Future<Null> refreshNotices() async {
     await NoticeboardSync.retrieveNotices(context);
     loadNotices();
@@ -121,7 +122,7 @@ class _NoticeboardState extends State<Noticeboard> {
       ),
     );
 
-    return noticeTiles.length > 0
+    return noticeTiles.isNotEmpty
         ? noticeTiles.toList()
         : [
             Padding(

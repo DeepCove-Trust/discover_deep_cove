@@ -40,7 +40,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
     super.initState();
     _iconAnimationController = AnimationController(duration: const Duration(seconds: 2), vsync: this);
     _iconAnimation = CurvedAnimation(parent: _iconAnimationController, curve: Curves.elasticOut);
-    _iconAnimation.addListener(() => this.setState(() {}));
+    _iconAnimation.addListener(() => setState(() {}));
     _iconAnimationController.forward();
     isImageQuestion = widget.imageGuess != null ? true : false;
   }

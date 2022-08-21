@@ -105,7 +105,7 @@ class QuizBean extends Bean<Quiz> with _QuizBean {
   }
 
   Future<Quiz> findByCode(String code, {bool preload = false, bool cascade = false}) async {
-    final Find find = finder.where(this.unlockCode.eq(code));
+    final Find find = finder.where(unlockCode.eq(code));
     final Quiz model = await findOne(find);
     if (preload && model != null) {
       await this.preload(model, cascade: cascade);

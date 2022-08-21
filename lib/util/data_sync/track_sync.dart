@@ -192,7 +192,7 @@ class TrackSync {
   }
 
   Future<void> _createActivityImagesFor(int activityId, List<int> imageIds) async {
-    if (imageIds.length == 0) return;
+    if (imageIds.isEmpty) return;
 
     List<ActivityImage> activityImages =
         imageIds.map((i) => ActivityImage.make(imageId: i, activityId: activityId)).toList();

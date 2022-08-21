@@ -74,7 +74,7 @@ class SyncManager {
   /// Returns progress information to the widget that called the sync
   /// method.
   void _updateProgress(SyncState syncState, int percent, {int upTo, int outOf, int totalSize}) {
-    this._syncState = syncState;
+    _syncState = syncState;
     onProgressChange(syncState, percent, upTo, outOf, totalSize);
   }
 

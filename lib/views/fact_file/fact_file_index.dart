@@ -32,7 +32,7 @@ class _FactFileIndexState extends State<FactFileIndex> with TickerProviderStateM
     controller = TabController(
         vsync: this,
         length: categories?.length != null
-            ? categories.length == 0
+            ? categories.isEmpty
                 ? 1
                 : categories.length
             : 1);
@@ -52,7 +52,7 @@ class _FactFileIndexState extends State<FactFileIndex> with TickerProviderStateM
     if (mounted) {
       setState(() {
         categories = data;
-        controller = TabController(vsync: this, length: data.length == 0 ? 1 : data.length);
+        controller = TabController(vsync: this, length: data.isEmpty ? 1 : data.length);
       });
     }
 
@@ -68,7 +68,7 @@ class _FactFileIndexState extends State<FactFileIndex> with TickerProviderStateM
 
   ///Returns a list of [Text] widgets that are the tab labels
   List<SizedBox> getTabHeadings() {
-    return categories == null || categories?.length == 0
+    return categories == null || categories.isEmpty
         ? [
             SizedBox(
               width: Screen.width(context),
@@ -103,7 +103,7 @@ class _FactFileIndexState extends State<FactFileIndex> with TickerProviderStateM
             )
           : TabBarView(
               controller: controller,
-              children: categories.length == 0 ? [const Center(child: SubHeading('No content...'))] : getTabs()),
+              children: categories.isEmpty ? [const Center(child: SubHeading('No content...'))] : getTabs()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }

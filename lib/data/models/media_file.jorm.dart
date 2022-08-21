@@ -309,7 +309,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
   Future<int> update(MediaFile model,
       {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
     final Update update =
-        updater.where(this.id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+        updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
     if (cascade) {
       MediaFile newModel;
@@ -423,7 +423,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
       for (var i = 0; i < models.length; ++i) {
         var model = models[i];
         data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
-        where.add(this.id.eq(model.id));
+        where.add(id.eq(model.id));
       }
       final UpdateMany update = updaters.addAll(data, where);
       await adapter.updateMany(update);
@@ -466,7 +466,7 @@ abstract class _MediaFileBean implements Bean<MediaFile> {
     if (models == null || models.isEmpty) return 0;
     final Remove remove = remover;
     for (final model in models) {
-      remove.or(this.id.eq(model.id));
+      remove.or(id.eq(model.id));
     }
     return adapter.remove(remove);
   }

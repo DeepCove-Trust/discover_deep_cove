@@ -121,7 +121,7 @@ abstract class _FactFileNuggetBean implements Bean<FactFileNugget> {
   Future<int> update(FactFileNugget model,
       {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
     final Update update =
-        updater.where(this.id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+        updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.update(update);
   }
 
@@ -131,7 +131,7 @@ abstract class _FactFileNuggetBean implements Bean<FactFileNugget> {
     for (var i = 0; i < models.length; ++i) {
       var model = models[i];
       data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
-      where.add(this.id.eq(model.id));
+      where.add(id.eq(model.id));
     }
     final UpdateMany update = updaters.addAll(data, where);
     await adapter.updateMany(update);
@@ -153,7 +153,7 @@ abstract class _FactFileNuggetBean implements Bean<FactFileNugget> {
     if (models == null || models.isEmpty) return 0;
     final Remove remove = remover;
     for (final model in models) {
-      remove.or(this.id.eq(model.id));
+      remove.or(id.eq(model.id));
     }
     return adapter.remove(remove);
   }
@@ -170,7 +170,7 @@ abstract class _FactFileNuggetBean implements Bean<FactFileNugget> {
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (FactFileEntry model in models) {
-      find.or(this.factFileEntryId.eq(model.id));
+      find.or(factFileEntryId.eq(model.id));
     }
     return findMany(find);
   }
@@ -195,7 +195,7 @@ abstract class _FactFileNuggetBean implements Bean<FactFileNugget> {
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (MediaFile model in models) {
-      find.or(this.imageId.eq(model.id));
+      find.or(imageId.eq(model.id));
     }
     return findMany(find);
   }

@@ -107,7 +107,7 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (FactFileEntry model in models) {
-      find.or(this.factFileEntryId.eq(model.id));
+      find.or(factFileEntryId.eq(model.id));
     }
     return findMany(find);
   }
@@ -157,7 +157,7 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (MediaFile model in models) {
-      find.or(this.mediaFileId.eq(model.id));
+      find.or(mediaFileId.eq(model.id));
     }
     return findMany(find);
   }

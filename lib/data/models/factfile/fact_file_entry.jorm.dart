@@ -203,7 +203,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
   Future<int> update(FactFileEntry model,
       {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
     final Update update =
-        updater.where(this.id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+        updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
     if (cascade) {
       FactFileEntry newModel;
@@ -240,7 +240,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
       for (var i = 0; i < models.length; ++i) {
         var model = models[i];
         data.add(toSetColumns(model, only: only, onlyNonNull: onlyNonNull).toList());
-        where.add(this.id.eq(model.id));
+        where.add(id.eq(model.id));
       }
       final UpdateMany update = updaters.addAll(data, where);
       await adapter.updateMany(update);
@@ -274,7 +274,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     if (models == null || models.isEmpty) return 0;
     final Remove remove = remover;
     for (final model in models) {
-      remove.or(this.id.eq(model.id));
+      remove.or(id.eq(model.id));
     }
     return adapter.remove(remove);
   }
@@ -284,7 +284,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     final Find find = finder.where(this.categoryId.eq(categoryId));
     final List<FactFileEntry> models = await findMany(find);
     if (preload) {
-      await this.preloadAll(models, cascade: cascade);
+      await preloadAll(models, cascade: cascade);
     }
     return models;
   }
@@ -295,11 +295,11 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (FactFileCategory model in models) {
-      find.or(this.categoryId.eq(model.id));
+      find.or(categoryId.eq(model.id));
     }
     final List<FactFileEntry> retModels = await findMany(find);
     if (preload) {
-      await this.preloadAll(retModels, cascade: cascade);
+      await preloadAll(retModels, cascade: cascade);
     }
     return retModels;
   }
@@ -321,7 +321,7 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
         .where(this.listenAudioId.eq(listenAudioId));
     final List<FactFileEntry> models = await findMany(find);
     if (preload) {
-      await this.preloadAll(models, cascade: cascade);
+      await preloadAll(models, cascade: cascade);
     }
     return models;
   }
@@ -332,11 +332,11 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (MediaFile model in models) {
-      find.or(this.mainImageId.eq(model.id) & this.pronounceAudioId.eq(model.id) & this.listenAudioId.eq(model.id));
+      find.or(mainImageId.eq(model.id) & pronounceAudioId.eq(model.id) & listenAudioId.eq(model.id));
     }
     final List<FactFileEntry> retModels = await findMany(find);
     if (preload) {
-      await this.preloadAll(retModels, cascade: cascade);
+      await preloadAll(retModels, cascade: cascade);
     }
     return retModels;
   }

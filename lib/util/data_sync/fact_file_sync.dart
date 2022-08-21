@@ -66,7 +66,7 @@ class FactFileSync {
     await _createEntryImagesFor(id, imageIds);
 
     // Insert all nuggets
-    if (nuggets.length > 0) {
+    if (nuggets.isNotEmpty) {
       await factFileNuggetBean.insertMany(nuggets);
     }
 
@@ -114,7 +114,7 @@ class FactFileSync {
   }
 
   Future<void> _createEntryImagesFor(int factFileId, List<int> mediaIds) async {
-    if (mediaIds.length == 0) return;
+    if (mediaIds.isEmpty) return;
 
     // Create list of entry image objects
     List<FactFileEntryImage> entryImages = mediaIds.map((m) => FactFileEntryImage.make(factFileId, m)).toList();

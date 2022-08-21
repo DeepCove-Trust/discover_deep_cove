@@ -4,7 +4,7 @@ abstract class VerboseState<T extends StatefulWidget> extends State<T> {
   String name;
 
   VerboseState() {
-    name = this.runtimeType.toString();
+    name = runtimeType.toString();
   }
 
   @override

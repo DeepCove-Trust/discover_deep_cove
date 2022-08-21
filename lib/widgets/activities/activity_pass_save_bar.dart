@@ -25,7 +25,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                 8.0,
               ),
               child: OutlineButton(
-                onPressed: this.onTapPass ?? () => Navigator.of(context).pop(),
+                onPressed: onTapPass ?? () => Navigator.of(context).pop(),
                 textColor: Colors.white,
                 disabledTextColor: Theme.of(context).primaryColorDark,
                 disabledBorderColor: Theme.of(context).primaryColorDark,

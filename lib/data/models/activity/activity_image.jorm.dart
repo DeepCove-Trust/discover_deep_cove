@@ -105,7 +105,7 @@ abstract class _ActivityImageBean implements Bean<ActivityImage> {
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (Activity model in models) {
-      find.or(this.activityId.eq(model.id));
+      find.or(activityId.eq(model.id));
     }
     return findMany(find);
   }
@@ -154,7 +154,7 @@ abstract class _ActivityImageBean implements Bean<ActivityImage> {
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
     for (MediaFile model in models) {
-      find.or(this.imageId.eq(model.id));
+      find.or(imageId.eq(model.id));
     }
     return findMany(find);
   }
