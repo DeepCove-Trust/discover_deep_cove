@@ -196,10 +196,7 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
         padding: const EdgeInsets.only(top: 8.0),
         child: Icon(icon),
       ),
-      title: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Text(title),
-      ),
+      label: title,
     );
   }
 
