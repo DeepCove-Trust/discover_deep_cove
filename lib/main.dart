@@ -10,7 +10,7 @@ import 'util/route_generator.dart';
 
 void main() async {
   // Initialize the env singleton
-  await DotEnv().load('.env');
+  await DotEnv().load();
 
   // Preload directories for env
   await Env.load();
