@@ -135,7 +135,7 @@ class _TextQuestionState extends State<TextQuestion> with WidgetsBindingObserver
   questionComponentPortrait() {
     return Column(
       children: <Widget>[
-        Container(
+        SizedBox(
           height: Screen.height(context, percentage: 50),
           child: Stack(
             children: [
@@ -193,53 +193,51 @@ class _TextQuestionState extends State<TextQuestion> with WidgetsBindingObserver
     return Column(
       children: <Widget>[
         Expanded(
-          child: Container(
-            child: Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: FileImage(
-                        File(
-                          Env.getResourcePath(widget.question.image.path),
-                        ),
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: FileImage(
+                      File(
+                        Env.getResourcePath(widget.question.image.path),
                       ),
-                      fit: BoxFit.cover,
                     ),
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      color: const Color.fromARGB(190, 0, 0, 0),
-                      width: Screen.width(context),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: SubHeading(
-                              widget.question.text,
-                            ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    color: const Color.fromARGB(190, 0, 0, 0),
+                    width: Screen.width(context),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: SubHeading(
+                            widget.question.text,
                           ),
-                          if (hasAudio) buildAudioButton(),
-                        ],
-                      ),
+                        ),
+                        if (hasAudio) buildAudioButton(),
+                      ],
                     ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: widget.question.image.source != null
-                      ? ImageSource(
-                          isCopyright: widget.question.image.showCopyright,
-                          source: widget.question.image.source,
-                        )
-                      : Container(),
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: widget.question.image.source != null
+                    ? ImageSource(
+                        isCopyright: widget.question.image.showCopyright,
+                        source: widget.question.image.source,
+                      )
+                    : Container(),
+              ),
+            ],
           ),
         ),
       ],

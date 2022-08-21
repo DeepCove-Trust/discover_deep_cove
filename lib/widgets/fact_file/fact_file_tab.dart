@@ -35,16 +35,14 @@ class _FactFileTabState extends State<FactFileTab> {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        Container(
-          child: GridView.count(
-            mainAxisSpacing: Screen.width(context, percentage: 2.5),
-            crossAxisSpacing: Screen.width(context, percentage: 2.5),
-            crossAxisCount: (Screen.isTablet(context) && Screen.isLandscape(context)) ? 3 : 2,
-            padding: EdgeInsets.all(
-              Screen.width(context, percentage: 2.5),
-            ),
-            children: _buildGridCards(widget.entries.length, context),
+        GridView.count(
+          mainAxisSpacing: Screen.width(context, percentage: 2.5),
+          crossAxisSpacing: Screen.width(context, percentage: 2.5),
+          crossAxisCount: (Screen.isTablet(context) && Screen.isLandscape(context)) ? 3 : 2,
+          padding: EdgeInsets.all(
+            Screen.width(context, percentage: 2.5),
           ),
+          children: _buildGridCards(widget.entries.length, context),
         ),
       ],
     );

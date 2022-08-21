@@ -275,15 +275,14 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
 
   _buildMarker(BuildContext context, Activity activity) {
     bool isCurrentTrack = activity.trackId == currentTrack.id;
-    return Container(
-        child: GestureDetector(
+    return GestureDetector(
       onTap: () => widget.onMarkerTap(activity),
       child: Icon(
         activity.isCompleted() ? FontAwesomeIcons.lockOpen : FontAwesomeIcons.lock,
         size: isCurrentTrack ? 20 : 15,
         color: isCurrentTrack ? Theme.of(context).accentColor : Colors.grey,
       ),
-    ));
+    );
   }
 
   ///Changes the trackTitle which is displayed on the AppBar

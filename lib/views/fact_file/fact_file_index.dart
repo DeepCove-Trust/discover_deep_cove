@@ -66,16 +66,16 @@ class _FactFileIndexState extends State<FactFileIndex> with TickerProviderStateM
   }
 
   ///Returns a list of [Text] widgets that are the tab labels
-  List<Container> getTabHeadings() {
+  List<SizedBox> getTabHeadings() {
     return categories == null || categories?.length == 0
         ? [
-            Container(
+            SizedBox(
               width: Screen.width(context),
               child: BodyText(categories == null ? 'Loading Fact Files...' : ''),
             )
           ]
         : categories.map((c) {
-            return Container(
+            return SizedBox(
               width: Screen.width(context) / (categories.length > 2 ? 3 : categories.length),
               // Todo: better way?
               child: BodyText(c.name),

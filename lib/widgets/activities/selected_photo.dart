@@ -10,32 +10,28 @@ class SelectedPhoto extends StatelessWidget {
   const SelectedPhoto({this.numberOfDots, this.photoIndex, this.context});
 
   Widget _inactivePhoto() {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Container(
-          height: Screen.height(context, percentage: 1.5),
-          width: Screen.height(context, percentage: 1.5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100.0),
-            border: Border.all(color: Colors.grey, width: 1.0, style: BorderStyle.solid),
-          ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 3.0, right: 3.0),
+      child: Container(
+        height: Screen.height(context, percentage: 1.5),
+        width: Screen.height(context, percentage: 1.5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100.0),
+          border: Border.all(color: Colors.grey, width: 1.0, style: BorderStyle.solid),
         ),
       ),
     );
   }
 
   Widget _activePhoto() {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Container(
-          height: Screen.height(context, percentage: 2),
-          width: Screen.height(context, percentage: 2),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(100.0),
-          ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 3.0, right: 3.0),
+      child: Container(
+        height: Screen.height(context, percentage: 2),
+        width: Screen.height(context, percentage: 2),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(100.0),
         ),
       ),
     );

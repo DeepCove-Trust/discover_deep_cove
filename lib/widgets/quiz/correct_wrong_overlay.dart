@@ -220,11 +220,9 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
         SizedBox(
           height: Screen.height(context, percentage: 5.0),
         ),
-        Container(
-          child: const Padding(
-            padding: EdgeInsets.all(15.0),
-            child: BodyText('Tap to proceed'),
-          ),
+        const Padding(
+          padding: EdgeInsets.all(15.0),
+          child: BodyText('Tap to proceed'),
         ),
       ],
     );

@@ -230,12 +230,10 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              child: SelectedPhoto(
-                                numberOfDots: widget.activity.imageOptions.length,
-                                photoIndex: photoIndex,
-                                context: context,
-                              ),
+                            child: SelectedPhoto(
+                              numberOfDots: widget.activity.imageOptions.length,
+                              photoIndex: photoIndex,
+                              context: context,
                             ),
                           ),
                         ],

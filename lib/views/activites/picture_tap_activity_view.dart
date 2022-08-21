@@ -133,33 +133,29 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Container(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: widget.isReview ? BodyText('Your Answer', size: Screen.isTablet(context) ? 25 : 16) : null,
-          ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: widget.isReview ? BodyText('Your Answer', size: Screen.isTablet(context) ? 25 : 16) : null,
         ),
         widget.isReview
             ? Stack(
                 fit: StackFit.loose,
                 children: <Widget>[
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       height: Screen.width(context, percentage: Screen.isLandscape(context) ? 45 : 85),
                       width: Screen.width(context, percentage: Screen.isLandscape(context) ? 45 : 85),
                       child: Container(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: FileImage(
-                                File(
-                                  Env.getResourcePath(
-                                    widget.activity.image.path,
-                                  ),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: FileImage(
+                              File(
+                                Env.getResourcePath(
+                                  widget.activity.image.path,
                                 ),
                               ),
-                              fit: BoxFit.cover,
                             ),
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
@@ -189,7 +185,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                     top: _getYPos(widget.activity.userCoordY),
                     left: _getXPos(widget.activity.userCoordX),
                     child: Center(
-                      child: Container(
+                      child: SizedBox(
                         width: Screen.height(context, percentage: 10),
                         height: Screen.height(context, percentage: 10),
                         child: Container(
@@ -213,7 +209,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                 fit: StackFit.loose,
                 children: <Widget>[
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       height: _getImageDimension(),
                       width: _getImageDimension(),
                       child: GestureDetector(
@@ -264,7 +260,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                           left: _getXPos(posX),
                           child: GestureDetector(
                             onTapDown: _handleTap,
-                            child: Container(
+                            child: SizedBox(
                               width: Screen.height(context, percentage: 10),
                               height: Screen.height(context, percentage: 10),
                               child: Container(

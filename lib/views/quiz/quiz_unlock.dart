@@ -102,22 +102,20 @@ class _QuizUnlockState extends State<QuizUnlock> {
 
   buildContent() {
     return Screen.isLandscape(context)
-        ? Container(
-            child: Row(
-              children: <Widget>[
-                Container(
-                    height: Screen.height(context, percentage: 100),
-                    width: Screen.width(context, percentage: 50),
-                    child: getBottomHalf()),
-                Container(
-                  width: Screen.width(context, percentage: 50),
+        ? Row(
+            children: <Widget>[
+              SizedBox(
                   height: Screen.height(context, percentage: 100),
-                  child: Column(
-                    children: <Widget>[Expanded(child: getTopHalf())],
-                  ),
+                  width: Screen.width(context, percentage: 50),
+                  child: getBottomHalf()),
+              SizedBox(
+                width: Screen.width(context, percentage: 50),
+                height: Screen.height(context, percentage: 100),
+                child: Column(
+                  children: <Widget>[Expanded(child: getTopHalf())],
                 ),
-              ],
-            ),
+              ),
+            ],
           )
         : SingleChildScrollView(
             child: Column(
@@ -169,7 +167,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
       color: Theme.of(context).primaryColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[Container(width: Screen.width(context), child: buildUnlockForm())],
+        children: <Widget>[SizedBox(width: Screen.width(context), child: buildUnlockForm())],
       ),
     );
   }

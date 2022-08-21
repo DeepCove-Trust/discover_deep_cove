@@ -170,7 +170,7 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
             ),
           );
         } else {
-          return Container(
+          return SizedBox(
             width: Screen.width(context),
             height: Screen.width(context),
             child: const Center(child: CircularProgressIndicator()),

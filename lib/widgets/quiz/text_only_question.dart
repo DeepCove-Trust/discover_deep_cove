@@ -137,7 +137,7 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion> with WidgetsBinding
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(30),
-              child: Container(
+              child: SizedBox(
                 width: Screen.width(context),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

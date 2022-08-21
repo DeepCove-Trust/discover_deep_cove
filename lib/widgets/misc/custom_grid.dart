@@ -35,7 +35,7 @@ class CustomGrid extends StatelessWidget {
   }
 
   Widget buildColumn(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: Screen.width(context),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
