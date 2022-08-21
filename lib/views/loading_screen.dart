@@ -28,7 +28,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    syncState = SyncState.None;
+    syncState = SyncState.none;
     manualUpdate();
   }
 
@@ -42,30 +42,30 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   String _getMessage() {
     switch (syncState) {
-      case SyncState.None:
+      case SyncState.none:
         return '';
-      case SyncState.DataDownload:
+      case SyncState.dataDownload:
         return 'Checking for new data...';
-      case SyncState.Error_ServerUnreachable:
+      case SyncState.errorServerUnreachable:
         return 'Server could not be reached';
-      case SyncState.ServerDiscovered:
+      case SyncState.serverDiscovered:
         return '';
-      case SyncState.MediaDiscovery:
+      case SyncState.mediaDiscovery:
         return 'Checking for new files...';
-      case SyncState.MediaDownload:
+      case SyncState.mediaDownload:
         return 'Downloading new files...';
-      case SyncState.Cleanup:
+      case SyncState.cleanup:
         return 'Cleaning up...';
-      case SyncState.Done:
+      case SyncState.done:
         return 'Application up to date!';
-      case SyncState.Error_Other:
+      case SyncState.rrorOther:
         return 'An error occurred. Please try again later.';
-      case SyncState.Error_Permission:
+      case SyncState.errorPermission:
         return 'You need to grant storage permission to the app.';
-      case SyncState.Error_Storage:
+      case SyncState.errorStorage:
         return 'You device has insufficient storage space. '
             'Please free some space and try again.';
-      case SyncState.Initialization:
+      case SyncState.initialization:
         return widget.isFirstLoad ? 'Downloading initial content' : 'Preparing to update...';
       default:
         return '';
@@ -74,20 +74,20 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   Icon _getIcon() {
     switch (syncState) {
-      case SyncState.Error_Permission:
-      case SyncState.Error_Storage:
-      case SyncState.Error_Other:
-      case SyncState.Error_ServerUnreachable:
+      case SyncState.errorPermission:
+      case SyncState.errorStorage:
+      case SyncState.rrorOther:
+      case SyncState.errorServerUnreachable:
         return const Icon(Icons.error_outline, color: Colors.red, size: 50);
-      case SyncState.Done:
+      case SyncState.done:
         return const Icon(Icons.check_circle_outline, color: Colors.lightGreen, size: 50);
-      case SyncState.Cleanup:
-      case SyncState.Initialization:
-      case SyncState.MediaDiscovery:
-      case SyncState.MediaDownload:
-      case SyncState.ServerDiscovered:
-      case SyncState.DataDownload:
-      case SyncState.None:
+      case SyncState.cleanup:
+      case SyncState.initialization:
+      case SyncState.mediaDiscovery:
+      case SyncState.mediaDownload:
+      case SyncState.serverDiscovered:
+      case SyncState.dataDownload:
+      case SyncState.none:
         return null;
       default:
         return null;
@@ -103,10 +103,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
       downloadSize = totalSize;
     });
 
-    if (syncState == SyncState.Error_ServerUnreachable ||
-        syncState == SyncState.Error_Other ||
-        syncState == SyncState.Error_Storage ||
-        syncState == SyncState.Error_Permission && widget.isFirstLoad) {
+    if (syncState == SyncState.errorServerUnreachable ||
+        syncState == SyncState.rrorOther ||
+        syncState == SyncState.errorStorage ||
+        syncState == SyncState.errorPermission && widget.isFirstLoad) {
       _onUpdateFail();
     }
   }

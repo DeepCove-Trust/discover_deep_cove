@@ -29,39 +29,39 @@ import 'track_sync.dart';
 
 enum SyncState {
   /// The sync process has not yet begun
-  None,
+  none,
 
   /// In the process of checking connectivity, creating and connecting to
   /// databases.
-  Initialization,
+  initialization,
 
   /// A CMS server has been successfully contacted.
-  ServerDiscovered,
+  serverDiscovered,
 
   /// Discovering required media files
-  MediaDiscovery,
+  mediaDiscovery,
 
   /// Downloading media files
-  MediaDownload,
+  mediaDownload,
 
   /// Downloading other data/content
-  DataDownload,
+  dataDownload,
 
   /// Overwriting original db with new one, deleting unneeded media files
-  Cleanup,
+  cleanup,
 
   /// The sync process has completed successfully.
-  Done,
+  done,
 
   /// The sync process has terminated due to an error
-  Error_Permission,
-  Error_Storage,
-  Error_ServerUnreachable,
-  Error_Other
+  errorPermission,
+  errorStorage,
+  errorServerUnreachable,
+  rrorOther
 }
 
 class SyncManager {
-  SyncState _syncState = SyncState.None;
+  SyncState _syncState = SyncState.none;
   CmsServerLocation _serverLocation;
   SqfliteAdapter _tempAdapter, _adapter;
   BuildContext context;
@@ -69,7 +69,7 @@ class SyncManager {
   // State, percentage complete, up to file, out of files, total size bytes
   void Function(SyncState, int, int, int, int) onProgressChange;
 
-  SyncManager({this.onProgressChange, @required this.context}) : _syncState = SyncState.None;
+  SyncManager({this.onProgressChange, @required this.context}) : _syncState = SyncState.none;
 
   /// Returns progress information to the widget that called the sync
   /// method.
@@ -82,13 +82,13 @@ class SyncManager {
     SyncState errorState;
 
     if (exception is ServerUnreachableException)
-      errorState = SyncState.Error_ServerUnreachable;
+      errorState = SyncState.errorServerUnreachable;
     else if (exception is InsufficientStorageException)
-      errorState = SyncState.Error_Storage;
+      errorState = SyncState.errorStorage;
     else if (exception is InsufficientPermissionException)
-      errorState = SyncState.Error_Permission;
+      errorState = SyncState.errorPermission;
     else
-      errorState = SyncState.Error_Other;
+      errorState = SyncState.rrorOther;
 
     // Delete temp database - ignore exception if it wasn't yet created
     await File(Env.tempDbPath).delete().catchError((_) {});
@@ -99,14 +99,14 @@ class SyncManager {
   /// Initiates the sync process for the application
   Future<void> sync({bool firstLoad}) async {
     try {
-      _updateProgress(SyncState.Initialization, 0);
+      _updateProgress(SyncState.initialization, 0);
 
       // -----------------------------------------------
       // ** Determine which server to use for update **
 
       // First, check whether the intranet is available
       _serverLocation = await _getServerLocation();
-      _updateProgress(SyncState.ServerDiscovered, 5);
+      _updateProgress(SyncState.serverDiscovered, 5);
 
       // -----------------------------------------------
       // ** Establish database connections **
@@ -126,7 +126,7 @@ class SyncManager {
       // ================================================================
       // ** BEGIN MEDIA FILES SYNC **
 
-      _updateProgress(SyncState.MediaDiscovery, 10);
+      _updateProgress(SyncState.mediaDiscovery, 10);
 
       MediaSync mediaSync = MediaSync(
           adapter: _adapter,
@@ -137,17 +137,17 @@ class SyncManager {
 
       // Build the download, update and deletion queues for media files -
       await mediaSync.buildQueues();
-      _updateProgress(SyncState.MediaDiscovery, 15);
+      _updateProgress(SyncState.mediaDiscovery, 15);
       // ----------------------------------------------------------------
 
       // Process the update queue for media files -----------------------
       await mediaSync.processUpdateQueue();
-      _updateProgress(SyncState.MediaDiscovery, 20);
+      _updateProgress(SyncState.mediaDiscovery, 20);
       // ----------------------------------------------------------------
 
       // Process the download queue for media files ---------------------
       await mediaSync.processDownloadQueue();
-      _updateProgress(SyncState.DataDownload, 80);
+      _updateProgress(SyncState.dataDownload, 80);
       // ----------------------------------------------------------------
 
       // ** END MEDIA FILES SYNC ** -------------------------------------
@@ -160,17 +160,17 @@ class SyncManager {
 
       // Sync the config table ------------------------------------------
       await ConfigSync(_tempAdapter, server: _serverLocation).sync();
-      _updateProgress(SyncState.DataDownload, 84);
+      _updateProgress(SyncState.dataDownload, 84);
       //-----------------------------------------------------------------
 
       // Sync the quiz related tables -----------------------------------
       await QuizSync(_tempAdapter, server: _serverLocation).sync();
-      _updateProgress(SyncState.DataDownload, 88);
+      _updateProgress(SyncState.dataDownload, 88);
       // ----------------------------------------------------------------
 
       // Sync the fact files --------------------------------------------
       await FactFileSync(_tempAdapter, server: _serverLocation).sync();
-      _updateProgress(SyncState.DataDownload, 92);
+      _updateProgress(SyncState.dataDownload, 92);
       // ----------------------------------------------------------------
 
       // Sync tracks and activities -------------------------------------
@@ -183,12 +183,12 @@ class SyncManager {
       // ================================================================
       // ** CLEANUP PHASE ** --------------------------------------------
 
-      _updateProgress(SyncState.Cleanup, 95);
+      _updateProgress(SyncState.cleanup, 95);
 
       // Overwrite original database
       await File(Env.tempDbPath).copy(Env.dbPath);
 
-      _updateProgress(SyncState.Cleanup, 98);
+      _updateProgress(SyncState.cleanup, 98);
 
       // Delete files in the deletion queues
       await mediaSync.processDeletionQueue(); // Delete unused media files
@@ -205,7 +205,7 @@ class SyncManager {
       NoticeboardSync.retrieveNotices(context);
 
       // DATA SYNC COMPLETE!
-      _updateProgress(SyncState.Done, 100);
+      _updateProgress(SyncState.done, 100);
     } on Exception catch (ex, stacktrace) {
       print(ex);
       print(stacktrace);
@@ -218,10 +218,10 @@ class SyncManager {
   Future<CmsServerLocation> _getServerLocation() async {
     if (await NetworkUtil.canAccessCMSLocal()) {
       if (Env.debugMessages) print('Connectivity established with intranet server.');
-      return CmsServerLocation.Intranet;
+      return CmsServerLocation.intranet;
     } else if (await NetworkUtil.canAccessCMSRemote()) {
       if (Env.debugMessages) print('Connectivity established with internet server.');
-      return CmsServerLocation.Internet;
+      return CmsServerLocation.internet;
     }
     throw ServerUnreachableException();
   }

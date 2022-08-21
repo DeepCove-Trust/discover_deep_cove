@@ -1,30 +1,49 @@
-enum weekdays { Monday, Tuesday, Wednesday, Thursday, Friday }
+enum Weekdays {
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+}
 
-enum month { January, Feburary, March, April, May, June, July, August, September, October, November, December }
+enum Month {
+  january,
+  feburary,
+  march,
+  april,
+  may,
+  june,
+  july,
+  august,
+  september,
+  october,
+  november,
+  december,
+}
 
 class DateUtil {
-  static const String TH = '\u1d57\u02b0';
-  static const String ND = '\u207f\u1d48';
-  static const String RD = '\u02b3\u1d48';
-  static const String ST = '\u02e2\u1d57';
+  static const String th = '\u1d57\u02b0';
+  static const String nd = '\u207f\u1d48';
+  static const String rd = '\u02b3\u1d48';
+  static const String st = '\u02e2\u1d57';
 
   static String formatDate(DateTime date) {
-    return "${date.day}${getOrdinalIndicator(date.day)} ${month.values[date.month - 1].toString().split('.').last} ${date.year} ";
+    return "${date.day}${getOrdinalIndicator(date.day)} ${Month.values[date.month - 1].toString().split('.').last} ${date.year} ";
   }
 
   static String getOrdinalIndicator(int day) {
     if (day >= 11 && day <= 13) {
-      return TH;
+      return th;
     }
     switch (day % 10) {
       case 1:
-        return ST;
+        return st;
       case 2:
-        return ND;
+        return nd;
       case 3:
-        return RD;
+        return rd;
       default:
-        return TH;
+        return th;
     }
   }
 }

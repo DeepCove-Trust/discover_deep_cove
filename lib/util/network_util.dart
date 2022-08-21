@@ -12,13 +12,13 @@ class NetworkUtil {
   /// Returns true if the application receives an HTTP response from the
   /// remote CMS server after making a GET request.
   static Future<bool> canAccessCMSRemote() async {
-    return await _returnsResponse(Env.configUrl(CmsServerLocation.Internet));
+    return await _returnsResponse(Env.configUrl(CmsServerLocation.internet));
   }
 
   /// Returns true if the application receives an HTTP response from the
   /// intranet server address, after making a GET request.
   static Future<bool> canAccessCMSLocal() async {
-    return await _returnsResponse(Env.configUrl(CmsServerLocation.Intranet));
+    return await _returnsResponse(Env.configUrl(CmsServerLocation.intranet));
   }
 
   /// Returns true if the device receives an OK HTTP response after making

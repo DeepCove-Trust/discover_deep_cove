@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'util/screen.dart';
 
-enum CmsServerLocation { Intranet, Internet }
+enum CmsServerLocation { intranet, internet }
 
 /// This class provides easy access to the applications environment variables,
 /// and other variables derived from these.
@@ -127,7 +127,7 @@ class Env {
   // These methods configure URLs to use when making requests to the CMS API
 
   static String _getCmsUrl(CmsServerLocation server) {
-    return server == CmsServerLocation.Internet ? remoteCmsUrl : intranetCmsUrl;
+    return server == CmsServerLocation.internet ? remoteCmsUrl : intranetCmsUrl;
   }
 
   /// API endpoint to return the latest config from the server.
@@ -196,6 +196,6 @@ class Env {
 
   /// API endpoint to retrieve list of active notices
   static String getNoticesUrl() {
-    return _getCmsUrl(CmsServerLocation.Internet) + _noticesUrl;
+    return _getCmsUrl(CmsServerLocation.internet) + _noticesUrl;
   }
 }

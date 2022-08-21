@@ -19,7 +19,7 @@ import 'fact_file/fact_file_index.dart';
 import 'quiz/quiz_index.dart';
 import 'settings/settings.dart';
 
-enum Page { FactFile, Scan, Map, Quiz, Settings }
+enum Page { factFile, scan, map, quiz, settings }
 
 class Home extends StatefulWidget {
   @override
@@ -57,7 +57,7 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
     pages.add(Settings(
       onCodeEntry: (code) => handleScanResult(code),
     ));
-    currentPage = pages[Page.Map.index];
+    currentPage = pages[Page.map.index];
   }
 
   @override
@@ -123,7 +123,7 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
     if (activity.activityType == ActivityType.informational && !activity.isCompleted())
       activity.informationActivityUnlocked = true;
 
-    if (pageIs(Page.Map)) {
+    if (pageIs(Page.map)) {
       mapAnimateController.sink.add(activity.id);
     }
 
@@ -178,7 +178,7 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
           ],
         ),
       ),
-      floatingActionButton: pageIs(Page.Map)
+      floatingActionButton: pageIs(Page.map)
           ? CustomFab(
               icon: FontAwesomeIcons.qrcode,
               text: 'Scan',

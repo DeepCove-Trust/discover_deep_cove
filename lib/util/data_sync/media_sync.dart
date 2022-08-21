@@ -90,7 +90,7 @@ class MediaSync {
     }
 
     // Update progress for user
-    onProgress(SyncState.MediaDownload, getPercentage(), upTo: upTo, outOf: outOf, totalSize: totalSize);
+    onProgress(SyncState.mediaDownload, getPercentage(), upTo: upTo, outOf: outOf, totalSize: totalSize);
 
     await Permissions.ensurePermission(PermissionGroup.storage);
 
@@ -151,7 +151,7 @@ class MediaSync {
 
     // Increment the 'upTo' counter and report progress.
     upTo++;
-    onProgress(SyncState.MediaDownload, getPercentage(), upTo: upTo, outOf: outOf, totalSize: totalSize);
+    onProgress(SyncState.mediaDownload, getPercentage(), upTo: upTo, outOf: outOf, totalSize: totalSize);
 
     if (Env.debugMessages) print('Downloaded media file ${mediaFile.id} (${mediaFile.name})');
   }
