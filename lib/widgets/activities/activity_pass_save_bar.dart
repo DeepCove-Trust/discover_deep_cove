@@ -24,16 +24,20 @@ class ActivityPassSaveBar extends StatelessWidget {
                 0,
                 8.0,
               ),
-              child: OutlineButton(
+              child: OutlinedButton(
                 onPressed: onTapPass ?? () => Navigator.of(context).pop(),
-                textColor: Colors.white,
-                disabledTextColor: Theme.of(context).primaryColorDark,
-                disabledBorderColor: Theme.of(context).primaryColorDark,
-                borderSide: BorderSide(
-                  color: Theme.of(context).primaryColorLight,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
+                // TODO: disabled color not working with outlined button find out if needed and how to implement
+                // disabledTextColor: Theme.of(context).primaryColorDark,
+                // disabledBorderColor: Theme.of(context).primaryColorDark,
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  textStyle: MaterialStateProperty.all(
+                    const TextStyle(color: Colors.white),
+                  ),
                 ),
                 child: const Text(
                   'Pass',
@@ -48,16 +52,25 @@ class ActivityPassSaveBar extends StatelessWidget {
                 Screen.width(context, percentage: 3),
                 8.0,
               ),
-              child: OutlineButton(
+              child: OutlinedButton(
                 onPressed: onTapSave,
-                textColor: Colors.white,
-                disabledTextColor: Theme.of(context).primaryColorDark,
-                disabledBorderColor: Theme.of(context).primaryColorDark,
-                borderSide: BorderSide(
-                  color: Theme.of(context).primaryColorLight,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
+                // TODO: disabled color not working with outlined button find out if needed and how to implement
+                // disabledTextColor: Theme.of(context).primaryColorDark,
+                // disabledBorderColor: Theme.of(context).primaryColorDark,
+                style: ButtonStyle(
+                  side: MaterialStateProperty.all(
+                    BorderSide(
+                      color: Theme.of(context).primaryColorLight,
+                    ),
+                  ),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  textStyle: MaterialStateProperty.all(
+                    const TextStyle(color: Colors.white),
+                  ),
                 ),
                 child: const Text(
                   'Save',
