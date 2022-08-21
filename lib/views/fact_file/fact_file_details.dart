@@ -254,8 +254,16 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
                 ? 16
                 : 40,
       ),
-      child: OutlineButton(
-        padding: const EdgeInsets.all(10),
+      child: OutlinedButton(
+        onPressed: _isButtonDisabled ? null : playListen,
+        style: ButtonStyle(
+          padding: MaterialStateProperty.all(
+            const EdgeInsets.all(10),
+          ),
+          side: MaterialStateProperty.all(
+            BorderSide(color: listenColor, width: 1.5),
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -275,11 +283,6 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
             ),
           ],
         ),
-        onPressed: _isButtonDisabled ? null : playListen,
-        borderSide: BorderSide(
-          color: listenColor,
-          width: 1.5,
-        ),
       ),
     );
   }
@@ -294,8 +297,16 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
                 ? 16
                 : 40,
       ),
-      child: OutlineButton(
-        padding: const EdgeInsets.all(10),
+      child: OutlinedButton(
+        onPressed: _isButtonDisabled ? null : playPronounce,
+        style: ButtonStyle(
+          padding: MaterialStateProperty.all(
+            const EdgeInsets.all(10),
+          ),
+          side: MaterialStateProperty.all(
+            BorderSide(color: pronounceColor, width: 1.5),
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -314,11 +325,6 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
               ),
             ),
           ],
-        ),
-        onPressed: _isButtonDisabled ? null : playPronounce,
-        borderSide: BorderSide(
-          color: pronounceColor,
-          width: 1.5,
         ),
       ),
     );

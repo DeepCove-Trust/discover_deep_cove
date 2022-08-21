@@ -117,7 +117,15 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
             padding: EdgeInsets.symmetric(
               vertical: Screen.width(context, percentage: 5),
             ),
-            child: OutlineButton(
+            child: OutlinedButton(
+              onPressed: () => verifyCode(context),
+              style: ButtonStyle(
+                side: MaterialStateProperty.all(
+                  const BorderSide(
+                    color: Color(0xFFFFFFFF),
+                  ),
+                ),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Heading(
@@ -128,10 +136,6 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
                           ? 16
                           : 20,
                 ),
-              ),
-              onPressed: () => verifyCode(context),
-              borderSide: const BorderSide(
-                color: Color(0xFFFFFFFF),
               ),
             ),
           ),

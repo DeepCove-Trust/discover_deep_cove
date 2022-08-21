@@ -84,7 +84,7 @@ class _TextQuestionState extends State<TextQuestion> with WidgetsBindingObserver
   }
 
   Widget buildAudioButton() {
-    return OutlineButton.icon(
+    return OutlinedButton.icon(
       onPressed: () => playAudio(),
       label: Text(
         'Listen',
@@ -94,7 +94,11 @@ class _TextQuestionState extends State<TextQuestion> with WidgetsBindingObserver
           fontSize: (Screen.isSmall(context) ? 16 : 20),
         ),
       ),
-      borderSide: BorderSide(color: playingColor, width: 1.5),
+      style: ButtonStyle(
+        side: MaterialStateProperty.all(
+          BorderSide(color: playingColor, width: 1.5),
+        ),
+      ),
       icon: Icon(FontAwesomeIcons.music, color: playingColor),
     );
   }
