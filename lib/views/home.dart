@@ -72,7 +72,7 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
       navigateToActivity(activity, true);
     } else {
       Toast.show(
-        "Activity is locked, please scan qr-code",
+        'Activity is locked, please scan qr-code',
         context,
         duration: Toast.LENGTH_SHORT,
         gravity: Toast.BOTTOM,
@@ -88,7 +88,7 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
   ///Uses the camera to scan a qr code
   Future<void> scan() async {
     String qrString = await MajaScan.startScan(
-      title: "Scan QR Code",
+      title: 'Scan QR Code',
       qRCornerColor: Theme.of(context).accentColor,
       qRScannerColor: Theme.of(context).accentColor,
     );
@@ -181,7 +181,7 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
       floatingActionButton: pageIs(Page.Map)
           ? CustomFab(
               icon: FontAwesomeIcons.qrcode,
-              text: "Scan",
+              text: 'Scan',
               onPressed: () => scan(),
             )
           : null,

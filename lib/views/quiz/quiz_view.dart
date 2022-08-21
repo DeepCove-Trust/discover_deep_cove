@@ -61,8 +61,8 @@ class QuizViewState extends State<QuizView> {
   void handleAnswer(int answerId) {
     if (currentQuestion.trueFalseAnswer != null) {
       isCorrect = answerId == (currentQuestion.trueFalseAnswer ? 1 : 0);
-      guess = answerId == 0 ? "False" : "True";
-      answer = currentQuestion.trueFalseAnswer ? "True" : "False";
+      guess = answerId == 0 ? 'False' : 'True';
+      answer = currentQuestion.trueFalseAnswer ? 'True' : 'False';
     } else if (currentQuestion.answers.any((a) => a.image != null)) {
       isCorrect = answerId == currentQuestion.correctAnswerId;
       imageGuess = currentQuestion.answers.firstWhere((a) => a.id == answerId);

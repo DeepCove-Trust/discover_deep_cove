@@ -136,7 +136,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
         Container(
           child: Padding(
             padding: const EdgeInsets.only(bottom: 12),
-            child: widget.isReview ? BodyText("Your Answer", size: Screen.isTablet(context) ? 25 : 16) : null,
+            child: widget.isReview ? BodyText('Your Answer', size: Screen.isTablet(context) ? 25 : 16) : null,
           ),
         ),
         widget.isReview

@@ -36,7 +36,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 child: const Text(
-                  "Pass",
+                  'Pass',
                   style: TextStyle(fontSize: 20),
                 ),
               ),
@@ -60,7 +60,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 child: const Text(
-                  "Save",
+                  'Save',
                   style: TextStyle(fontSize: 20),
                 ),
               ),

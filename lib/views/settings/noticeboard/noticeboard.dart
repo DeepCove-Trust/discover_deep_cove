@@ -78,9 +78,9 @@ class _NoticeboardState extends State<Noticeboard> {
       onRefresh: refreshNotices,
       child: ListView(
         children: <Widget>[
-          const Separator("Important Notices"),
+          const Separator('Important Notices'),
           ...getUrgent(),
-          const Separator("General Notices"),
+          const Separator('General Notices'),
           ...getOther(),
         ],
       ),

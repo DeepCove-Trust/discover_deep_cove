@@ -41,7 +41,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
 
       setState(() => _image = _pickedImage);
     } catch (ex, stacktrace) {
-      print("Exception thrown: " + ex.toString());
+      print('Exception thrown: ' + ex.toString());
       print(stacktrace.toString());
     }
   }
@@ -279,7 +279,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       Directory directory = Directory(Env.getResourcePath('user_photos'));
       String filename = Util.getAntiCollisionName(
         widget.activity.title,
-        ".jpg",
+        '.jpg',
       );
 
       if (await Util.savePhotosToGallery(context)) await GallerySaver.saveImage(_image.path);
@@ -301,7 +301,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       // Return to the map
       Navigator.of(context).pop();
     } catch (ex, stacktrace) {
-      print("Error saving photo: " + ex.toString());
+      print('Error saving photo: ' + ex.toString());
       print(stacktrace.toString());
     }
   }

@@ -120,7 +120,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                   ? const Padding(
                       padding: EdgeInsets.only(bottom: 20),
                       child: SubHeading(
-                        "Your answer:",
+                        'Your answer:',
                       ),
                     )
                   : Container()),

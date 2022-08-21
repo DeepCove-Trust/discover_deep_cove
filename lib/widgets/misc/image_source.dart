@@ -5,7 +5,7 @@ class ImageSource extends StatelessWidget {
   final bool isCopyright;
   final double size;
 
-  const ImageSource({this.source = "", this.isCopyright = false, this.size = 16});
+  const ImageSource({this.source = '', this.isCopyright = false, this.size = 16});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class ImageSource extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Text(
-                isCopyright ? "© " + source : source,
+                isCopyright ? '© ' + source : source,
                 style: TextStyle(
                   color: Theme.of(context).primaryColorLight,
                   fontStyle: FontStyle.italic,

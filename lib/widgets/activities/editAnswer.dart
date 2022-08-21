@@ -6,7 +6,7 @@ class EditAnswer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "To edit your answer, re-scan the QR code.",
+      'To edit your answer, re-scan the QR code.',
       style: TextStyle(
         fontSize: Screen.isTablet(context)
             ? 25.0

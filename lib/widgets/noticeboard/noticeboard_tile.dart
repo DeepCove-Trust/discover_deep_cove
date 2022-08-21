@@ -82,7 +82,7 @@ class NoticeTile extends StatelessWidget {
                             ? Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: BodyText(
-                                  "MORE",
+                                  'MORE',
                                   size: Screen.isTablet(context)
                                       ? 20
                                       : Screen.isSmall(context)

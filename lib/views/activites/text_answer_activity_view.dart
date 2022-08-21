@@ -131,7 +131,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                 padding: const EdgeInsets.all(8.0),
                 child: widget.isReview
                     ? const SubHeading(
-                        "Your answer was",
+                        'Your answer was',
                       )
                     : const SizedBox(
                         height: 15,

@@ -55,7 +55,7 @@ class _QuizIndexState extends State<QuizIndex> {
                 Padding(
                   padding: EdgeInsets.only(top: 4.0),
                   child: Text(
-                    "Unlock",
+                    'Unlock',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),

@@ -138,7 +138,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                 children: <Widget>[
                   widget.isReview
                       ? const SubHeading(
-                          "You Answered:",
+                          'You Answered:',
                         )
                       : Container(),
                 ],

@@ -81,7 +81,7 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
               bottom: Screen.width(context, percentage: 5),
             ),
             child: Heading(
-              "Enter QR unlock code:",
+              'Enter QR unlock code:',
               size: Screen.width(context) >= 600
                   ? 30
                   : Screen.width(context) <= 350
@@ -121,7 +121,7 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Heading(
-                  "Unlock",
+                  'Unlock',
                   size: Screen.width(context) >= 600
                       ? 30
                       : Screen.width(context) <= 350

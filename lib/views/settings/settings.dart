@@ -57,10 +57,10 @@ class _SettingsState extends State<Settings> {
               Tooltip(
                 height: Screen.height(context, percentage: 5),
                 message:
-                    "Turning this feature on will make the photos you save visible in your photo gallery. (Off by Default)",
+                    'Turning this feature on will make the photos you save visible in your photo gallery. (Off by Default)',
                 child: SettingsButton(
                   iconData: FontAwesomeIcons.image,
-                  text: savePhotosToGallery == null ? "..." : "Save photos to gallery",
+                  text: savePhotosToGallery == null ? '...' : 'Save photos to gallery',
                   hasOnOff: savePhotosToGallery == null ? false : true,
                   initalValue: savePhotosToGallery,
                   onOffCallback: (newVal) => setState(() {
@@ -72,25 +72,25 @@ class _SettingsState extends State<Settings> {
               Divider(color: Theme.of(context).primaryColorLight, height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.undo,
-                text: "Reset Progress",
+                text: 'Reset Progress',
                 onTap: _confirmResetDialog,
               ),
               Divider(color: Theme.of(context).primaryColorLight, height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.sync,
-                text: "Check for updates",
+                text: 'Check for updates',
                 onTap: syncResources,
               ),
               Divider(color: Theme.of(context).primaryColorLight, height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.newspaper,
-                text: "View Notices",
+                text: 'View Notices',
                 onTap: () => Navigator.of(context).pushNamed('/noticeboard'),
               ),
               Divider(color: Theme.of(context).primaryColorLight, height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.infoCircle,
-                text: "About this app",
+                text: 'About this app',
                 onTap: () {
                   Navigator.of(context).pushNamed('/about');
                 },
@@ -98,7 +98,7 @@ class _SettingsState extends State<Settings> {
               Divider(color: Theme.of(context).primaryColorLight, height: 1),
               SettingsButton(
                 iconData: FontAwesomeIcons.qrcode,
-                text: "Manually Enter Code",
+                text: 'Manually Enter Code',
                 onTap: () {
                   Navigator.pushNamed(
                     context,

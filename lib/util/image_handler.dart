@@ -23,7 +23,7 @@ class ImageHandler {
         maxHeight: maxHeight,
       );
     } catch (ex, stacktrace) {
-      print("Error capturing image: ${ex.toString()}");
+      print('Error capturing image: ${ex.toString()}');
       print(stacktrace.toString());
       Util.showToast(context, 'Something went wrong. Please try again later.');
       return null;

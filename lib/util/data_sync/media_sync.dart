@@ -146,7 +146,7 @@ class MediaSync {
       print(ex);
       print(stacktrace);
       await removeMediaRecord(mediaFile);
-      throw FailedDownloadException(message: "Download failed for file ID {${mediaFile.id}");
+      throw FailedDownloadException(message: 'Download failed for file ID {${mediaFile.id}');
     }
 
     // Increment the 'upTo' counter and report progress.

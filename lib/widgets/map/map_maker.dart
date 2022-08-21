@@ -200,7 +200,7 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
 
   TileLayerOptions _buildTileLayerOptions() {
     return TileLayerOptions(
-      tileProvider: MBTilesImageProvider.fromAsset("assets/map.mbtiles"),
+      tileProvider: MBTilesImageProvider.fromAsset('assets/map.mbtiles'),
       maxZoom: Env.mapMaxZoom,
       backgroundColor: const Color(0xFF262626),
       tms: true,

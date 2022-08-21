@@ -213,8 +213,8 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Heading(
             widget.isCorrect
-                ? "Correct! ${widget.answer} is the right answer"
-                : "Wrong! You selected ${widget.guess} - the correct answer is ${widget.answer}",
+                ? 'Correct! ${widget.answer} is the right answer'
+                : 'Wrong! You selected ${widget.guess} - the correct answer is ${widget.answer}',
           ),
         ),
         SizedBox(
@@ -223,7 +223,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
         Container(
           child: const Padding(
             padding: EdgeInsets.all(15.0),
-            child: BodyText("Tap to proceed"),
+            child: BodyText('Tap to proceed'),
           ),
         ),
       ],

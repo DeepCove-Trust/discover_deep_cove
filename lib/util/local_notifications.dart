@@ -19,11 +19,11 @@ class LocalNotifications {
 
   static Future _onSelectNotification(String payload) async {
     switch (payload) {
-      case "Notice":
+      case 'Notice':
         await Navigator.of(_context).pushNamed('/noticeboard');
         break;
 
-      case "Content":
+      case 'Content':
       //TODO: decide which route to pass
     }
   }
@@ -68,7 +68,7 @@ class LocalNotifications {
     _context = context;
 
     return _displayNotification(
-        title: title, body: body, id: id, type: payload == "Notice" ? _notice : _download, payload: payload);
+        title: title, body: body, id: id, type: payload == 'Notice' ? _notice : _download, payload: payload);
   }
 
   static Future _displayNotification({

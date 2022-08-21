@@ -184,7 +184,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
             bottom: Screen.width(context, percentage: 5),
           ),
           child: Heading(
-            "Enter unlock code:",
+            'Enter unlock code:',
             size: Screen.width(context) >= 600
                 ? 30
                 : Screen.width(context) <= 350
@@ -221,7 +221,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Heading(
-                "Unlock",
+                'Unlock',
                 size: Screen.width(context) >= 600
                     ? 30
                     : Screen.width(context) <= 350
