@@ -35,7 +35,7 @@ class _QuizIndexState extends State<QuizIndex> {
     return Scaffold(
       appBar: AppBar(
         leading: Container(),
-        title: SubHeading(
+        title: const SubHeading(
           'Deep Cove Trivia',
         ),
         centerTitle: true,
@@ -45,15 +45,15 @@ class _QuizIndexState extends State<QuizIndex> {
               Navigator.pushNamed(context, '/quizUnlock', arguments: refreshData);
             },
             color: Colors.transparent,
-            padding: EdgeInsets.only(top: 7.0),
+            padding: const EdgeInsets.only(top: 7.0),
             child: Column(
-              children: <Widget>[
+              children: const <Widget>[
                 Icon(
                   FontAwesomeIcons.lockOpen,
                   color: Colors.white,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
+                  padding: EdgeInsets.only(top: 4.0),
                   child: Text(
                     "Unlock",
                     style: TextStyle(color: Colors.white),
@@ -68,7 +68,7 @@ class _QuizIndexState extends State<QuizIndex> {
       ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: quizzes == null
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : RefreshIndicator(
@@ -87,7 +87,7 @@ class _QuizIndexState extends State<QuizIndex> {
                       ),
                       children: buildCards(context, quizzes),
                     )
-                  : Center(child: CircularProgressIndicator()),
+                  : const Center(child: CircularProgressIndicator()),
             ),
     );
   }

@@ -14,12 +14,12 @@ class FactNugget extends StatelessWidget {
 
   bool hasImage() => path != null;
 
-  FactNugget({this.path, this.text, this.name});
+  const FactNugget({this.path, this.text, this.name});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
@@ -30,7 +30,7 @@ class FactNugget extends StatelessWidget {
       ),
       width: Screen.width(context, percentage: 90),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
@@ -57,14 +57,14 @@ class FactNugget extends StatelessWidget {
                     ),
                   )
                 : Container(),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
             Expanded(
               flex: 2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       bottom: 10,
                     ),
                     child: SubHeading(

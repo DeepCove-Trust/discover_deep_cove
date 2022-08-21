@@ -25,7 +25,7 @@ class QuizTextButton extends StatelessWidget {
         decoration: new BoxDecoration(
             color: Theme.of(context).primaryColorDark,
             borderRadius: BorderRadius.circular(15),
-            boxShadow: [BoxShadow(offset: Offset(1, 1), blurRadius: 3)]),
+            boxShadow: const [BoxShadow(offset: Offset(1, 1), blurRadius: 3)]),
       ),
     );
   }

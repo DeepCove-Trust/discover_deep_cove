@@ -10,7 +10,7 @@ class BodyText extends StatelessWidget {
 
   ///Returns a custom [Text] widget for accessing body1 theme
   ///and has an optional alignment property.
-  BodyText(this.text, {this.align = TextAlign.center, this.size, this.height = 1.5});
+  const BodyText(this.text, {this.align = TextAlign.center, this.size, this.height = 1.5});
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,7 @@ import 'fact_file_tile.dart';
 class FactFileTab extends StatefulWidget {
   final List<FactFileEntry> entries;
 
-  FactFileTab(this.entries);
+  const FactFileTab(this.entries);
 
   @override
   _FactFileTabState createState() => _FactFileTabState();

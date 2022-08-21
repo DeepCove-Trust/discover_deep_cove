@@ -25,7 +25,7 @@ class QuizImageButton extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               boxShadow: <BoxShadow>[
                 BoxShadow(
                   color: Colors.black,
@@ -51,7 +51,7 @@ class QuizImageButton extends StatelessWidget {
                   children: [
                     text != null
                         ? Container(
-                            color: Color.fromARGB(190, 0, 0, 0),
+                            color: const Color.fromARGB(190, 0, 0, 0),
                             height: Screen.height(context,
                                 percentage: Screen.isPortrait(context) && text == null ? 2.5 : 5),
                             width: Screen.width(context),

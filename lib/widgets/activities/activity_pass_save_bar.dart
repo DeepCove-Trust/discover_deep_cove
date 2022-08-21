@@ -6,7 +6,7 @@ class ActivityPassSaveBar extends StatelessWidget {
   final VoidCallback onTapSave;
   final VoidCallback onTapPass;
 
-  ActivityPassSaveBar({@required this.onTapSave, this.onTapPass});
+  const ActivityPassSaveBar({@required this.onTapSave, this.onTapPass});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
-                child: Text(
+                child: const Text(
                   "Pass",
                   style: TextStyle(fontSize: 20),
                 ),
@@ -59,7 +59,7 @@ class ActivityPassSaveBar extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
-                child: Text(
+                child: const Text(
                   "Save",
                   style: TextStyle(fontSize: 20),
                 ),

@@ -5,7 +5,7 @@ class ImageSource extends StatelessWidget {
   final bool isCopyright;
   final double size;
 
-  ImageSource({this.source = "", this.isCopyright = false, this.size = 16});
+  const ImageSource({this.source = "", this.isCopyright = false, this.size = 16});
 
   @override
   Widget build(BuildContext context) {

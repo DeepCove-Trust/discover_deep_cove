@@ -16,7 +16,7 @@ class ImageQuestion extends StatefulWidget {
   final List<QuizImageButton> answers;
   final AudioPlayer player;
 
-  ImageQuestion({this.question, this.answers, this.player});
+  const ImageQuestion({this.question, this.answers, this.player});
 
   @override
   _ImageQuestionState createState() => _ImageQuestionState();
@@ -81,8 +81,8 @@ class _ImageQuestionState extends State<ImageQuestion> with WidgetsBindingObserv
 
   Widget buildAudioButton() {
     return Container(
-      margin: EdgeInsets.all(20),
-      padding: EdgeInsets.all(7.5),
+      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(7.5),
       decoration:
           BoxDecoration(border: Border.all(color: Colors.white, width: 1.5), borderRadius: BorderRadius.circular(15)),
       child: IconButton(
@@ -126,8 +126,8 @@ class _ImageQuestionState extends State<ImageQuestion> with WidgetsBindingObserv
 
   questionComponentPortrait() {
     return Container(
-      color: Color.fromARGB(190, 0, 0, 0),
-      padding: EdgeInsets.all(24),
+      color: const Color.fromARGB(190, 0, 0, 0),
+      padding: const EdgeInsets.all(24),
       child: Center(
         child: Scrollbar(
           child: SingleChildScrollView(
@@ -143,8 +143,8 @@ class _ImageQuestionState extends State<ImageQuestion> with WidgetsBindingObserv
 
   questionComponentLandscape() {
     return Container(
-      color: Color.fromARGB(190, 0, 0, 0),
-      padding: EdgeInsets.all(24),
+      color: const Color.fromARGB(190, 0, 0, 0),
+      padding: const EdgeInsets.all(24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[SubHeading(widget.question.text), hasAudio ? buildAudioButton() : Container()],
@@ -157,7 +157,7 @@ class _ImageQuestionState extends State<ImageQuestion> with WidgetsBindingObserv
       flex: Screen.isPortrait(context) ? 2 : 1,
       child: Container(
         color: Theme.of(context).backgroundColor,
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

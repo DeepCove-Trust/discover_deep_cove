@@ -18,7 +18,7 @@ import '../misc/text/sub_heading.dart';
 import 'custom_marker.dart';
 
 class MapMaker extends StatefulWidget {
-  MapMaker({
+  const MapMaker({
     @required this.mapController,
     @required this.context,
     @required this.onMarkerTap,
@@ -85,7 +85,7 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
       // Determine if initial sync has been completed
       List<Config> config = await ConfigBean.of(context).getAll();
       if (config.length == 0) {
-        await Future.delayed(Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 5));
         Navigator.pushReplacementNamed(context, '/update', arguments: true);
       }
 
@@ -95,7 +95,7 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
       await prefs.setBool('reloadMap', false);
       setState(() => tracks);
     } on DatabaseException {
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
       // Table doesn't exist yet, load content
       Navigator.pushReplacementNamed(context, '/update', arguments: true);
     }
@@ -133,7 +133,7 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
         brightness: Brightness.dark,
         leading: tracksLoaded && hasTracks
             ? IconButton(
-                icon: Icon(FontAwesomeIcons.arrowLeft),
+                icon: const Icon(FontAwesomeIcons.arrowLeft),
                 onPressed: () => changeTrack(increase: false),
                 color: Colors.white,
               )
@@ -141,7 +141,7 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
         actions: tracksLoaded && hasTracks
             ? [
                 IconButton(
-                  icon: Icon(FontAwesomeIcons.arrowRight),
+                  icon: const Icon(FontAwesomeIcons.arrowRight),
                   onPressed: () => changeTrack(increase: true),
                   color: Colors.white,
                 ),
@@ -202,7 +202,7 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
     return TileLayerOptions(
       tileProvider: MBTilesImageProvider.fromAsset("assets/map.mbtiles"),
       maxZoom: Env.mapMaxZoom,
-      backgroundColor: Color(0xFF262626),
+      backgroundColor: const Color(0xFF262626),
       tms: true,
     );
   }
@@ -213,7 +213,7 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
       height: 30,
       width: 30,
       anchorPos: AnchorPos.align(AnchorAlign.center),
-      fitBoundsOptions: FitBoundsOptions(
+      fitBoundsOptions: const FitBoundsOptions(
         maxZoom: 18,
       ),
       markers: _getMarkers(),
@@ -290,7 +290,7 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
   ///and pans the map to the first marker within that set
   void changeTrack({bool increase}) async {
     await Future.delayed(
-      Duration(milliseconds: 100),
+      const Duration(milliseconds: 100),
     );
 
     currentTrackNum =

@@ -15,7 +15,7 @@ import '../../widgets/quiz/text_question.dart';
 import 'quiz_result.dart';
 
 class QuizView extends StatefulWidget {
-  QuizView({this.quiz, this.onComplete});
+  const QuizView({this.quiz, this.onComplete});
 
   final Quiz quiz;
   final VoidCallback onComplete;
@@ -97,7 +97,7 @@ class QuizViewState extends State<QuizView> {
               actions: [
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: SubHeading(
                       '${questionIndex + 1}/${widget.quiz.questions.length}',
                       size: Screen.isTablet(context)
@@ -120,7 +120,7 @@ class QuizViewState extends State<QuizView> {
                 if (showOverlay) buildOverlay(),
               ],
             )
-          : Center(child: CircularProgressIndicator()),
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 

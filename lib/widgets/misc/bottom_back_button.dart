@@ -31,7 +31,7 @@ class BottomBackButton extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                   vertical: Screen.height(context, percentage: 1.5),
                 ),
-                child: BodyText('Back'),
+                child: const BodyText('Back'),
               ),
             ),
           ),

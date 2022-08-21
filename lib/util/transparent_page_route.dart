@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class TransparentPageRoute extends PageRoute<void> {
-
   final WidgetBuilder builder;
 
   TransparentPageRoute({@required this.builder, RouteSettings settings})
@@ -21,11 +20,10 @@ class TransparentPageRoute extends PageRoute<void> {
   bool get maintainState => true;
 
   @override
-  Duration get transitionDuration => Duration(milliseconds: 350);
+  Duration get transitionDuration => const Duration(milliseconds: 350);
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
+  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     final result = builder(context);
     return FadeTransition(
         opacity: Tween<double>(begin: 0, end: 1).animate(animation),
@@ -33,7 +31,6 @@ class TransparentPageRoute extends PageRoute<void> {
           scopesRoute: true,
           explicitChildNodes: true,
           child: result,
-        )
-    );
+        ));
   }
 }

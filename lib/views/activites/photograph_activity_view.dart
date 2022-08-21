@@ -26,7 +26,7 @@ class PhotographActivityView extends StatefulWidget {
   ///Takes in a [PhotographActivity] and a [bool] and displays the view based
   ///on the value of the [bool], you can complete the activity if the [bool] is false
   ///and review it if the [bool] is true.
-  PhotographActivityView({this.activity, this.isReview});
+  const PhotographActivityView({this.activity, this.isReview});
 
   @override
   _PhotographActivityViewState createState() => _PhotographActivityViewState();
@@ -71,7 +71,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
 
   Widget _getNoPhotoWidget() {
     return Container(
-      margin: EdgeInsets.only(bottom: 24),
+      margin: const EdgeInsets.only(bottom: 24),
       decoration: BoxDecoration(border: Border.all(color: Colors.white30)),
       width: Screen.width(context, percentage: Screen.isPortrait(context) ? 90 : 45),
       height: Screen.width(context, percentage: Screen.isPortrait(context) ? 90 : 45),
@@ -79,7 +79,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.camera_alt, size: Screen.isSmall(context) ? 100 : 150, color: Colors.white30),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           BodyText(
@@ -100,8 +100,8 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                CircularProgressIndicator(),
-                SizedBox(height: 12),
+                const CircularProgressIndicator(),
+                const SizedBox(height: 12),
                 BodyText(
                   'Loading image...',
                   size: Screen.isTablet(context) ? 30 : null,
@@ -125,7 +125,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
       ),
       body: buildContent(),
       bottomNavigationBar: widget.isReview
-          ? BottomBackButton()
+          ? const BottomBackButton()
           : ActivityPassSaveBar(
               onTapSave: _image != null ? () => saveAnswer() : null,
               onTapPass: () => cancelAnswer(),
@@ -136,7 +136,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
           : Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   bottom: 6,
                 ),
                 child: FloatingActionButton(
@@ -199,7 +199,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
           children: [
             buildGraphic(),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: BodyText(
                 widget.activity.description,
                 align: TextAlign.left,
@@ -207,7 +207,7 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: SubHeading(
                 widget.activity.task,
                 align: TextAlign.left,
@@ -226,12 +226,12 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
         Expanded(
           child: Center(
             child: Container(
-              margin: EdgeInsets.fromLTRB(8, 24, 8, 8),
+              margin: const EdgeInsets.fromLTRB(8, 24, 8, 8),
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                       child: _buildImageSection(),
                     ),
                     widget.isReview ? EditAnswer() : Container()
@@ -248,12 +248,12 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
   getBottomHalfPortrait() {
     return Center(
       child: Container(
-        margin: EdgeInsets.fromLTRB(8, 24, 8, 8),
+        margin: const EdgeInsets.fromLTRB(8, 24, 8, 8),
         child: Column(
           children: <Widget>[
-            BodyText('Your answer:'),
+            const BodyText('Your answer:'),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 12),
+              padding: const EdgeInsets.symmetric(vertical: 12),
               child: _buildImageSection(),
             ),
             widget.isReview ? EditAnswer() : Container()

@@ -25,7 +25,7 @@ class ActivityAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: <Widget>[
         onTap != null
             ? IconButton(
-                icon: Icon(
+                icon: const Icon(
                   FontAwesomeIcons.book,
                   color: Colors.white,
                 ),
@@ -40,5 +40,5 @@ class ActivityAppBar extends StatelessWidget with PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

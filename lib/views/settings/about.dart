@@ -20,14 +20,14 @@ class About extends StatelessWidget {
                   padding: EdgeInsets.only(
                     top: setYPadding(context),
                   ),
-                  child: Heading("About the trust"),
+                  child: const Heading("About the trust"),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: setXPadding(context),
                     vertical: setYPadding(context),
                   ),
-                  child: BodyText(
+                  child: const BodyText(
                     "The Deep Cove Outdoor Education Trust is a non-profit "
                     "organisation that was established in 1971. The Deep Cove Hostel "
                     "is a 50 bed building, and was established for the purpose of "
@@ -36,36 +36,36 @@ class About extends StatelessWidget {
                     align: TextAlign.left,
                   ),
                 ),
-                Divider(color: Colors.white30),
+                const Divider(color: Colors.white30),
                 Padding(
                   padding: EdgeInsets.only(
                     top: setYPadding(context),
                   ),
-                  child: Heading("Special thanks"),
+                  child: const Heading("Special thanks"),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: setXPadding(context),
                     vertical: setYPadding(context),
                   ),
-                  child: BodyText(
+                  child: const BodyText(
                     "The trust and developers would like to give a special thank you to "
                     "the Department of Conservation (https://www.doc.govt.nz) for information and recordings used within this app.",
                     align: TextAlign.left,
                   ),
                 ),
-                Divider(color: Colors.white30),
+                const Divider(color: Colors.white30),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     vertical: setYPadding(context),
                   ),
-                  child: Heading("Developers"),
+                  child: const Heading("Developers"),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: setXPadding(context),
                   ),
-                  child: BodyText(
+                  child: const BodyText(
                     "This app was developed by Mitchell Quarrie,"
                     " Samuel Jackson and Samuel Grant",
                   ),
@@ -75,7 +75,7 @@ class About extends StatelessWidget {
                     horizontal: setXPadding(context),
                     vertical: setYPadding(context),
                   ),
-                  child: BodyText(
+                  child: const BodyText(
                     'App icon designed by Dylan Ross',
                   ),
                 ),
@@ -84,7 +84,7 @@ class About extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar: const BottomAppBar(
         child: BottomBackButton(),
       ),
     );

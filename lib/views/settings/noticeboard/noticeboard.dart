@@ -61,11 +61,15 @@ class _NoticeboardState extends State<Noticeboard> {
           ? Center(
               child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[CircularProgressIndicator(), SizedBox(height: 15), BodyText('Loading notices...')],
+              children: const <Widget>[
+                CircularProgressIndicator(),
+                SizedBox(height: 15),
+                BodyText('Loading notices...')
+              ],
             ))
           : buildContent(),
       backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: BottomBackButton(),
+      bottomNavigationBar: const BottomBackButton(),
     );
   }
 
@@ -74,9 +78,9 @@ class _NoticeboardState extends State<Noticeboard> {
       onRefresh: refreshNotices,
       child: ListView(
         children: <Widget>[
-          Separator("Important Notices"),
+          const Separator("Important Notices"),
           ...getUrgent(),
-          Separator("General Notices"),
+          const Separator("General Notices"),
           ...getOther(),
         ],
       ),

@@ -11,7 +11,7 @@ import '../../widgets/settings/settings_button.dart';
 class Settings extends StatefulWidget {
   final void Function(String code) onCodeEntry;
 
-  Settings({
+  const Settings({
     @required this.onCodeEntry,
   });
 
@@ -127,13 +127,13 @@ class _SettingsState extends State<Settings> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text(
+            title: const Text(
               'Confirm Progress Reset?',
               style: TextStyle(
                 color: Colors.white,
               ),
             ),
-            content: Text(
+            content: const Text(
               'This will reset all quiz and activity progress, and '
               'cannot be undone. Are you sure?',
               style: TextStyle(
@@ -142,11 +142,11 @@ class _SettingsState extends State<Settings> {
             ),
             actions: [
               FlatButton(
-                child: Text('Cancel'),
+                child: const Text('Cancel'),
                 onPressed: () => Navigator.of(context).pop(),
               ),
               FlatButton(
-                child: Text('Reset'),
+                child: const Text('Reset'),
                 onPressed: resetInProgress ? null : () => _resetProgress(),
               ),
             ],

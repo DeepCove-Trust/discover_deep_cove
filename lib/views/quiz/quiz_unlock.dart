@@ -14,7 +14,7 @@ enum UnlockStatus { success, alreadyUnlocked, failure }
 class QuizUnlock extends StatefulWidget {
   final VoidCallback refreshCallback;
 
-  QuizUnlock({@required this.refreshCallback});
+  const QuizUnlock({@required this.refreshCallback});
 
   @override
   _QuizUnlockState createState() => _QuizUnlockState();
@@ -38,7 +38,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
           ],
         ),
         backgroundColor: Theme.of(context).backgroundColor,
-        bottomNavigationBar: BottomBackButton(),
+        bottomNavigationBar: const BottomBackButton(),
       ),
     );
   }
@@ -137,9 +137,9 @@ class _QuizUnlockState extends State<QuizUnlock> {
             'Your teacher will give you codes to unlock quizzes.',
             size: Screen.isTablet(context) ? 40 : 20,
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
           Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(border: Border.all(color: Colors.white)),
             child: Column(
               children: <Widget>[
@@ -151,8 +151,8 @@ class _QuizUnlockState extends State<QuizUnlock> {
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(height: 12),
-                BodyText(
+                const SizedBox(height: 12),
+                const BodyText(
                   'Use the code in the main hostel building to unlock all quizzes.',
                 ),
               ],
@@ -205,7 +205,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
               controller: textController,
               keyboardType: TextInputType.number,
               style: TextStyle(color: Colors.black, fontSize: Screen.isTablet(context) ? 35 : 25),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Enter code...',
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.all(8.0),
@@ -230,7 +230,7 @@ class _QuizUnlockState extends State<QuizUnlock> {
               ),
             ),
             onPressed: () => verifyCode(context),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Color(0xFFFFFFFF),
             ),
           ),

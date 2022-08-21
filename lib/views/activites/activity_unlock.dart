@@ -8,7 +8,7 @@ import '../../widgets/misc/text/sub_heading.dart';
 class ActivityUnlock extends StatefulWidget {
   final void Function(String code) onCodeEntry;
 
-  ActivityUnlock({@required this.onCodeEntry});
+  const ActivityUnlock({@required this.onCodeEntry});
 
   @override
   _ActivityUnlockState createState() => _ActivityUnlockState();
@@ -30,13 +30,13 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
           ],
         ),
         backgroundColor: Theme.of(context).backgroundColor,
-        bottomNavigationBar: BottomBackButton(),
+        bottomNavigationBar: const BottomBackButton(),
       ),
     );
   }
 
   void verifyCode(BuildContext context) async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     Navigator.of(context).pop();
     widget.onCodeEntry(textController.text);
   }
@@ -60,7 +60,7 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 buildInputs(),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 ...buildQRExample(),
               ],
             ),
@@ -103,8 +103,8 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
                   focusNode: _textFieldFocus,
                   controller: textController,
                   keyboardType: TextInputType.phone,
-                  style: TextStyle(color: Colors.black, fontSize: 20),
-                  decoration: InputDecoration(
+                  style: const TextStyle(color: Colors.black, fontSize: 20),
+                  decoration: const InputDecoration(
                     hintText: 'Enter code...',
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(8.0),
@@ -130,7 +130,7 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
                 ),
               ),
               onPressed: () => verifyCode(context),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: Color(0xFFFFFFFF),
               ),
             ),
@@ -148,14 +148,14 @@ class _ActivityUnlockState extends State<ActivityUnlock> {
             : Screen.width(context, percentage: 60),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          image: DecorationImage(
+          image: const DecorationImage(
             image: AssetImage('assets/invalidQRcode.png'),
             fit: BoxFit.contain,
           ),
         ),
       ),
-      SizedBox(height: 25),
-      SubHeading('Example QR Code')
+      const SizedBox(height: 25),
+      const SubHeading('Example QR Code')
     ];
   }
 }

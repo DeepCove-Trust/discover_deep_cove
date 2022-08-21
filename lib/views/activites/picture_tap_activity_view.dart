@@ -20,7 +20,7 @@ class PictureTapActivityView extends StatefulWidget {
   ///Takes in a [PictureTapActivity] and a [bool] and displays the view based
   ///on the value of the [bool], you can complete the activity if the [bool] is false
   ///and review it if the [bool] is true.
-  PictureTapActivityView({this.activity, this.isReview});
+  const PictureTapActivityView({this.activity, this.isReview});
 
   @override
   _PictureTapActivityViewState createState() => _PictureTapActivityViewState();
@@ -64,7 +64,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
           ? Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: const <Widget>[
                   CircularProgressIndicator(),
                   BodyText('Loading'),
                 ],
@@ -72,7 +72,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
             )
           : buildContent(),
       bottomNavigationBar: widget.isReview
-          ? BottomBackButton()
+          ? const BottomBackButton()
           : ActivityPassSaveBar(
               onTapSave: () => saveAnswer(),
             ),
@@ -106,7 +106,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
           children: <Widget>[
             Screen.isPortrait(context) ? SizedBox(height: Screen.height(context, percentage: 4)) : Container(),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
               child: BodyText(
                 widget.activity.description,
                 align: TextAlign.left,
@@ -115,7 +115,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
             ),
             SizedBox(height: Screen.height(context, percentage: 1)),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
               child: BodyText(
                 widget.activity.task,
                 align: TextAlign.left,
@@ -195,7 +195,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                         child: Container(
                           key: _keyImage,
                           decoration: BoxDecoration(
-                            color: Color(0x80FF5026),
+                            color: const Color(0x80FF5026),
                             border: Border.all(
                               color: setTransparentColor(),
                               width: 3.0,
@@ -269,7 +269,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
                               height: Screen.height(context, percentage: 10),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Color(0x80FF5026),
+                                  color: const Color(0x80FF5026),
                                   border: Border.all(
                                     color: setTransparentColor(),
                                     width: 3.0,
@@ -348,7 +348,7 @@ class _PictureTapActivityViewState extends State<PictureTapActivityView> {
 
   ///Updates the transparency value of the accent color
   setTransparentColor() {
-    return transparentAccent = Color(0x80FF5026);
+    return transparentAccent = const Color(0x80FF5026);
   }
 
   void saveAnswer() async {

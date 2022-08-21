@@ -12,7 +12,7 @@ class LoadingScreen extends StatefulWidget {
   final bool isFirstLoad;
   final VoidCallback onComplete;
 
-  LoadingScreen({this.isFirstLoad = false, this.onComplete});
+  const LoadingScreen({this.isFirstLoad = false, this.onComplete});
 
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
@@ -35,7 +35,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Future<void> manualUpdate() async {
     if (Env.debugMessages) print('Checking for new content');
     await SyncManager(onProgressChange: _onProgressUpdate, context: context).sync();
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
     widget.isFirstLoad ? Navigator.of(context).pushReplacementNamed('/') : Navigator.of(context).pop();
   }
@@ -78,9 +78,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
       case SyncState.Error_Storage:
       case SyncState.Error_Other:
       case SyncState.Error_ServerUnreachable:
-        return Icon(Icons.error_outline, color: Colors.red, size: 50);
+        return const Icon(Icons.error_outline, color: Colors.red, size: 50);
       case SyncState.Done:
-        return Icon(Icons.check_circle_outline, color: Colors.lightGreen, size: 50);
+        return const Icon(Icons.check_circle_outline, color: Colors.lightGreen, size: 50);
       case SyncState.Cleanup:
       case SyncState.Initialization:
       case SyncState.MediaDiscovery:
@@ -112,7 +112,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void _onUpdateFail() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
     if (widget.isFirstLoad) {
       SystemNavigator.pop(); // quit app if app doesn't yet have content
@@ -139,9 +139,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
                     _getMessage(),
                     size: Screen.isTablet(context) ? 30 : null,
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   ProgressBar(percent: percentComplete / 100),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   BodyText(
                     filesToDownload != null
                         ? '$filesDownloaded out of $filesToDownload downloaded \n '

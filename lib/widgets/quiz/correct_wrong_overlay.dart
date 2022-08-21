@@ -17,7 +17,7 @@ class CorrectWrongOverlay extends StatefulWidget {
   final QuizAnswer imageAnswer;
   final VoidCallback onTap;
 
-  CorrectWrongOverlay({
+  const CorrectWrongOverlay({
     this.isCorrect,
     this.answer,
     this.guess,
@@ -38,7 +38,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
   @override
   void initState() {
     super.initState();
-    _iconAnimationController = AnimationController(duration: Duration(seconds: 2), vsync: this);
+    _iconAnimationController = AnimationController(duration: const Duration(seconds: 2), vsync: this);
     _iconAnimation = CurvedAnimation(parent: _iconAnimationController, curve: Curves.elasticOut);
     _iconAnimation.addListener(() => this.setState(() {}));
     _iconAnimationController.forward();
@@ -54,7 +54,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Color.fromARGB(190, 0, 0, 0),
+      color: const Color.fromARGB(190, 0, 0, 0),
       child: InkWell(
           onTap: () => widget.onTap(),
           child: isImageQuestion
@@ -73,7 +73,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
         Container(
           height: Screen.width(context, percentage: 20),
           width: Screen.width(context, percentage: 20),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             shape: BoxShape.circle,
           ),
@@ -90,7 +90,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: getResultImagesPortrait(),
         ),
-        BodyText('Tap to proceed')
+        const BodyText('Tap to proceed')
       ],
     );
   }
@@ -105,7 +105,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
           image: widget.imageGuess.image,
           text: widget.imageGuess.text,
         ),
-        SubHeading('Your answer')
+        const SubHeading('Your answer')
       ]),
     );
 
@@ -117,7 +117,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
             image: widget.imageAnswer.image,
             text: widget.imageAnswer.text,
           ),
-          SubHeading('Correct answer')
+          const SubHeading('Correct answer')
         ],
       ));
     }
@@ -135,7 +135,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
           image: widget.imageGuess.image,
           text: widget.imageGuess.text,
         ),
-        SubHeading('Your answer')
+        const SubHeading('Your answer')
       ]),
     );
 
@@ -143,7 +143,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
       Container(
         height: Screen.width(context, percentage: 20),
         width: Screen.width(context, percentage: 20),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           shape: BoxShape.circle,
         ),
@@ -166,7 +166,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
             image: widget.imageAnswer.image,
             text: widget.imageAnswer.text,
           ),
-          SubHeading('Correct answer')
+          const SubHeading('Correct answer')
         ],
       ));
     }
@@ -183,7 +183,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: getResultImagesLandscape(),
         ),
-        BodyText('Tap to proceed')
+        const BodyText('Tap to proceed')
       ],
     );
   }
@@ -195,7 +195,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
         Container(
           height: Screen.isTablet(context) ? 160 : 100,
           width: Screen.isTablet(context) ? 160 : 100,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             shape: BoxShape.circle,
           ),
@@ -208,7 +208,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
             ),
           ),
         ),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Heading(
@@ -221,8 +221,8 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
           height: Screen.height(context, percentage: 5.0),
         ),
         Container(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
+          child: const Padding(
+            padding: EdgeInsets.all(15.0),
             child: BodyText("Tap to proceed"),
           ),
         ),

@@ -14,7 +14,7 @@ class NoticeTile extends StatelessWidget {
   final bool hasDivider;
   final VoidCallback onTap;
 
-  NoticeTile({
+  const NoticeTile({
     this.title,
     this.date,
     this.desc,
@@ -43,7 +43,7 @@ class NoticeTile extends StatelessWidget {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    Divider(color: Colors.transparent, height: 1),
+                    const Divider(color: Colors.transparent, height: 1),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -62,7 +62,7 @@ class NoticeTile extends StatelessWidget {
                                 align: TextAlign.left,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Text(
@@ -95,7 +95,7 @@ class NoticeTile extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Align(
@@ -113,7 +113,7 @@ class NoticeTile extends StatelessWidget {
                     textAlign: TextAlign.left,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 hasDivider ? Divider(color: Theme.of(context).primaryColorLight, height: 1) : Container(),

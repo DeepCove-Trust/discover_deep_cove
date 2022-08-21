@@ -15,7 +15,7 @@ class Tile extends StatelessWidget {
   final MediaFile image;
   final VoidCallback onTap;
 
-  Tile({@required this.title, this.subheading, this.image, this.onTap});
+  const Tile({@required this.title, this.subheading, this.image, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class Tile extends StatelessWidget {
                   fit: BoxFit.cover,
                 )
               : null,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(color: Colors.black, offset: Offset(5, 5), blurRadius: 5),
           ],
         ),
@@ -52,17 +52,17 @@ class Tile extends StatelessWidget {
             SizedBox(
               width: double.infinity, // expands the child to limits
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                color: Color.fromRGBO(0, 0, 0, 0.75),
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                color: const Color.fromRGBO(0, 0, 0, 0.75),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SubHeading(
                       title,
                     ),
-                    if (subheading != null) SizedBox(height: 10),
+                    if (subheading != null) const SizedBox(height: 10),
                     if (subheading != null) BodyText(subheading),
-                    if (image.source != null) SizedBox(height: 15),
+                    if (image.source != null) const SizedBox(height: 15),
                   ],
                 ),
               ),

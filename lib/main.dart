@@ -44,17 +44,17 @@ void main() async {
 ThemeData appTheme() {
   return ThemeData(
     //Green
-    primaryColor: Color(0xFF8BC34A),
+    primaryColor: const Color(0xFF8BC34A),
     //Charcoal
-    primaryColorDark: Color(0xFF262626),
+    primaryColorDark: const Color(0xFF262626),
     //Orange
-    accentColor: Color(0xFFFF5026),
+    accentColor: const Color(0xFFFF5026),
     //Dark Gray
-    backgroundColor: Color(0xFF363636),
+    backgroundColor: const Color(0xFF363636),
     //Urgent notice color
     indicatorColor: Colors.red,
     //Grey text color
-    primaryColorLight: Color(0xFF999999),
+    primaryColorLight: const Color(0xFF999999),
 
     fontFamily: 'Roboto',
   );

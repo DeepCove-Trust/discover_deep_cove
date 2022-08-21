@@ -6,7 +6,7 @@ class CustomGrid extends StatelessWidget {
   final List<Widget> children;
   final bool showAsColumn;
 
-  CustomGrid({this.children, this.showAsColumn = false});
+  const CustomGrid({this.children, this.showAsColumn = false});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class CustomGrid extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [children[0], if (children.length > 1) children[1]],
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         if (children.length > 2)

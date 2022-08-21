@@ -51,7 +51,7 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
       context: context,
       animationStream: mapAnimateController.stream.asBroadcastStream(),
       onMarkerTap: handleMarkerTap,
-      key: PageStorageKey('Map Maker'),
+      key: const PageStorageKey('Map Maker'),
     )); // placeholder
     pages.add(QuizIndex());
     pages.add(Settings(
@@ -128,7 +128,7 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
     }
 
     // allow time to animate
-    await Future.delayed(Duration(milliseconds: 1100));
+    await Future.delayed(const Duration(milliseconds: 1100));
 
     await Navigator.pushNamed(context, '/activity', arguments: ActivityScreenArgs(activity: activity));
 
@@ -152,11 +152,11 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           // sets the background color of the `BottomNavigationBar`
-          canvasColor: Color(0xFF262626),
+          canvasColor: const Color(0xFF262626),
           // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-          primaryColor: Color(0xFFFF5026),
+          primaryColor: const Color(0xFFFF5026),
           textTheme: Theme.of(context).textTheme.copyWith(
-                caption: TextStyle(color: Colors.white),
+                caption: const TextStyle(color: Colors.white),
               ),
         ), // sets the inactive color of the `BottomNavigationBar`
         child: BottomNavigationBar(

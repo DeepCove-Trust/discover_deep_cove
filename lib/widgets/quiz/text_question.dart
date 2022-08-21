@@ -18,7 +18,7 @@ class TextQuestion extends StatefulWidget {
   final List<QuizTextButton> answers;
   final AudioPlayer player;
 
-  TextQuestion({this.question, this.answers, this.player});
+  const TextQuestion({this.question, this.answers, this.player});
 
   @override
   _TextQuestionState createState() => _TextQuestionState();
@@ -155,7 +155,7 @@ class _TextQuestionState extends State<TextQuestion> with WidgetsBindingObserver
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    color: Color.fromARGB(190, 0, 0, 0),
+                    color: const Color.fromARGB(190, 0, 0, 0),
                     width: Screen.width(context),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -212,7 +212,7 @@ class _TextQuestionState extends State<TextQuestion> with WidgetsBindingObserver
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      color: Color.fromARGB(190, 0, 0, 0),
+                      color: const Color.fromARGB(190, 0, 0, 0),
                       width: Screen.width(context),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -250,7 +250,7 @@ class _TextQuestionState extends State<TextQuestion> with WidgetsBindingObserver
     return Expanded(
       child: Container(
         color: Theme.of(context).backgroundColor,
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           CustomGrid(
             children: widget.answers,

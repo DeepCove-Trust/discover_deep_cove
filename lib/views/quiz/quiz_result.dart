@@ -13,7 +13,7 @@ class QuizResult extends StatelessWidget {
 
   ///takes in a [string], two [ints] and a bool and
   ///returns the view displaying the correct information.
-  QuizResult({this.name, this.score, this.outOf, this.isHighscore});
+  const QuizResult({this.name, this.score, this.outOf, this.isHighscore});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class QuizResult extends StatelessWidget {
         ],
       ),
       backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: BottomBackButton(),
+      bottomNavigationBar: const BottomBackButton(),
     );
   }
 
@@ -69,7 +69,7 @@ class QuizResult extends StatelessWidget {
         Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
             child: Heading(name, size: Screen.isTablet(context) ? 55 : 35)),
-        SubHeading(
+        const SubHeading(
           "Quiz Completed!",
 //          size: Screen.isTablet(context) ? 40 : null,
         ),
@@ -88,8 +88,8 @@ class QuizResult extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10.0),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 10.0),
               child: SubHeading(
                 "Your score:",
               ),
@@ -99,7 +99,7 @@ class QuizResult extends StatelessWidget {
               size: Screen.isTablet(context) ? 100 : 75,
             ),
             isHighscore
-                ? SubHeading(
+                ? const SubHeading(
                     "New High Score!",
                   )
                 : Container(),

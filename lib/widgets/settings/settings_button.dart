@@ -12,7 +12,7 @@ class SettingsButton extends StatelessWidget {
   final bool initalValue;
   final void Function(bool) onOffCallback;
 
-  SettingsButton({
+  const SettingsButton({
     this.text,
     this.iconData,
     this.onTap,

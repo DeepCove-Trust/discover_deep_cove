@@ -21,7 +21,7 @@ import '../../widgets/misc/text/sub_heading.dart';
 class FactFileDetails extends StatefulWidget {
   final int entryId;
 
-  FactFileDetails({@required this.entryId}) : assert(entryId != null);
+  const FactFileDetails({@required this.entryId}) : assert(entryId != null);
 
   @override
   State<StatefulWidget> createState() => _FactFileDetailsState();
@@ -97,10 +97,10 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
             return Scaffold(
               backgroundColor: Theme.of(context).backgroundColor,
               body: buildContent(),
-              bottomNavigationBar: BottomBackButton(),
+              bottomNavigationBar: const BottomBackButton(),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         });
   }
@@ -145,10 +145,10 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
                     boxFit: BoxFit.fill,
                     autoplay: true,
                     images: snapshot.data,
-                    autoplayDuration: Duration(seconds: 5),
-                    dotBgColor: Color.fromRGBO(0, 0, 0, 0.5),
+                    autoplayDuration: const Duration(seconds: 5),
+                    dotBgColor: const Color.fromRGBO(0, 0, 0, 0.5),
                     animationCurve: Curves.fastOutSlowIn,
-                    animationDuration: Duration(milliseconds: 1000),
+                    animationDuration: const Duration(milliseconds: 1000),
                     onImageChange: (prev, next) {
                       imageIdStreamController.sink.add(next);
                     },
@@ -173,7 +173,7 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
           return Container(
             width: Screen.width(context),
             height: Screen.width(context),
-            child: Center(child: CircularProgressIndicator()),
+            child: const Center(child: CircularProgressIndicator()),
           );
         }
       },
@@ -216,17 +216,17 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
 
   getContent() {
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Column(
         children: [
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Heading(entry.primaryName),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           entry.altName != null ? SubHeading(entry.altName) : Container(),
-          entry.hasAudioClips() ? SizedBox(height: 20) : Container(),
+          entry.hasAudioClips() ? const SizedBox(height: 20) : Container(),
           buildAudioClipRow(),
-          SizedBox(height: 15),
-          Divider(color: Colors.white, height: 5),
+          const SizedBox(height: 15),
+          const Divider(color: Colors.white, height: 5),
           Column(children: getNuggets()),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: Screen.width(context, percentage: 1.25), vertical: 15.0),
@@ -255,7 +255,7 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
                 : 40,
       ),
       child: OutlineButton(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -264,7 +264,7 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
               color: listenColor,
               size: Screen.isSmall(context) ? 16 : 24,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               'Listen',
               textAlign: TextAlign.center,
@@ -295,7 +295,7 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
                 : 40,
       ),
       child: OutlineButton(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -304,7 +304,7 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
               color: pronounceColor,
               size: Screen.isSmall(context) ? 16 : 24,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               'Pronounce',
               textAlign: TextAlign.center,

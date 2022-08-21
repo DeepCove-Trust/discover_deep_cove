@@ -20,7 +20,7 @@ class TextAnswerActivityView extends StatefulWidget {
   ///Takes in a [TextAnswerActivity] and a [bool] and displays the view based
   ///on the value of the [bool], you can complete the activity if the [bool] is false
   ///and review it if the [bool] is true.
-  TextAnswerActivityView({this.activity, this.isReview});
+  const TextAnswerActivityView({this.activity, this.isReview});
 
   @override
   _TextAnswerActivityViewState createState() => _TextAnswerActivityViewState();
@@ -51,7 +51,8 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
             buildContent(),
           ],
         ),
-        bottomNavigationBar: widget.isReview ? BottomBackButton() : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
+        bottomNavigationBar:
+            widget.isReview ? const BottomBackButton() : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
         backgroundColor: Theme.of(context).backgroundColor,
       ),
     );
@@ -95,7 +96,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
             ),
             Screen.isPortrait(context)
                 ? Padding(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 20,
                     ),
                     child: Divider(
@@ -111,14 +112,14 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
 
   getBottomHalf() {
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Scrollbar(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   vertical: 5,
                 ),
                 child: SubHeading(
@@ -129,10 +130,10 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: widget.isReview
-                    ? SubHeading(
+                    ? const SubHeading(
                         "Your answer was",
                       )
-                    : SizedBox(
+                    : const SizedBox(
                         height: 15,
                       ),
               ),
@@ -140,14 +141,14 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                 children: <Widget>[
                   widget.isReview
                       ? Container(
-                          margin: EdgeInsets.symmetric(vertical: 15),
+                          margin: const EdgeInsets.symmetric(vertical: 15),
                           width: 1000,
                           decoration: BoxDecoration(
                             color: Colors.white30,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Container(
-                            padding: EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(20),
                             child: BodyText(
                               widget.activity.userText,
                               align: TextAlign.left,
@@ -158,7 +159,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                       : ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: Container(
-                            margin: EdgeInsets.only(bottom: 15),
+                            margin: const EdgeInsets.only(bottom: 15),
                             width: Screen.width(context, percentage: 87.5),
                             height: Screen.height(context,
                                 percentage: Screen.isTablet(context)
@@ -174,7 +175,7 @@ class _TextAnswerActivityViewState extends State<TextAnswerActivityView> {
                               maxLines: 10,
                               style: TextStyle(color: Colors.black, fontSize: Screen.isTablet(context) ? 30 : 20),
                               controller: controller,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.all(8.0),
                               ),

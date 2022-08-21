@@ -23,7 +23,7 @@ class PictureSelectActivityView extends StatefulWidget {
   ///Takes in a [PictureSelectActivity] and a [bool] and displays the view based
   ///on the value of the [bool], you can complete the activity if the [bool] is false
   ///and review it if the [bool] is true.
-  PictureSelectActivityView({this.activity, this.isReview});
+  const PictureSelectActivityView({this.activity, this.isReview});
 
   @override
   _PictureSelectActivityViewState createState() => _PictureSelectActivityViewState();
@@ -49,7 +49,8 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
         onTap: widget.activity.factFileId != null ? () => displayFactFile(widget.activity.factFileId) : null,
       ),
       body: buildContent(),
-      bottomNavigationBar: widget.isReview ? BottomBackButton() : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
+      bottomNavigationBar:
+          widget.isReview ? const BottomBackButton() : ActivityPassSaveBar(onTapSave: () => saveAnswer()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }
@@ -83,7 +84,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
           children: <Widget>[
             buildGraphic(),
             Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 25,
                 vertical: 15,
               ),
@@ -95,7 +96,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 25,
                 vertical: 15,
               ),
@@ -111,7 +112,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                       horizontal: Screen.width(context, percentage: 5),
                       vertical: Screen.height(context, percentage: 1.25),
                     ),
-                    child: Divider(
+                    child: const Divider(
                       color: Color(0xFFFFFFFF),
                     ),
                   )
@@ -136,7 +137,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
               child: Column(
                 children: <Widget>[
                   widget.isReview
-                      ? SubHeading(
+                      ? const SubHeading(
                           "You Answered:",
                         )
                       : Container(),
@@ -201,7 +202,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                                       ),
                                       widget.activity.imageOptions[photoIndex].source != null
                                           ? Container(
-                                              color: Color.fromRGBO(0, 0, 0, 0.75),
+                                              color: const Color.fromRGBO(0, 0, 0, 0.75),
                                               width: Screen.width(
                                                 context,
                                                 percentage: Screen.isTablet(context) && Screen.isLandscape(context)
@@ -256,7 +257,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           Container(
                             height: Screen.width(context, percentage: Screen.isLandscape(context) ? 30 : 75),
                             width: Screen.width(context, percentage: Screen.isLandscape(context) ? 30 : 75),
@@ -280,7 +281,7 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
                       ),
                       widget.activity.imageOptions[photoIndex].source != null
                           ? Container(
-                              color: Color.fromRGBO(0, 0, 0, 0.75),
+                              color: const Color.fromRGBO(0, 0, 0, 0.75),
                               width: Screen.width(
                                 context,
                                 percentage: Screen.isTablet(context) && Screen.isLandscape(context)

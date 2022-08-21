@@ -28,7 +28,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Home());
 
       case '/splash':
-        return MaterialPageRoute(builder: (_) => LoadingScreen());
+        return MaterialPageRoute(builder: (_) => const LoadingScreen());
 
       case '/about':
         return MaterialPageRoute(builder: (_) => About());
@@ -153,10 +153,11 @@ class RouteGenerator {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Error'),
+          title: const Text('Error'),
         ),
-        body: Center(
-          child: Text(
+        body: const Center(
+          // ignore: unnecessary_const
+          child: const Text(
             'ERROR',
             style: TextStyle(color: Colors.black),
           ),

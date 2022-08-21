@@ -7,12 +7,12 @@ class SelectedPhoto extends StatelessWidget {
   final int photoIndex;
   final BuildContext context;
 
-  SelectedPhoto({this.numberOfDots, this.photoIndex, this.context});
+  const SelectedPhoto({this.numberOfDots, this.photoIndex, this.context});
 
   Widget _inactivePhoto() {
     return Container(
       child: Padding(
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
+        padding: const EdgeInsets.only(left: 3.0, right: 3.0),
         child: Container(
           height: Screen.height(context, percentage: 1.5),
           width: Screen.height(context, percentage: 1.5),
@@ -28,7 +28,7 @@ class SelectedPhoto extends StatelessWidget {
   Widget _activePhoto() {
     return Container(
       child: Padding(
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
+        padding: const EdgeInsets.only(left: 3.0, right: 3.0),
         child: Container(
           height: Screen.height(context, percentage: 2),
           width: Screen.height(context, percentage: 2),

@@ -5,7 +5,7 @@ import '../../util/screen.dart';
 
 class ProgressBar extends StatelessWidget {
   final double percent;
-  ProgressBar({this.percent});
+  const ProgressBar({this.percent});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class ProgressBar extends StatelessWidget {
       percent: percent,
       linearStrokeCap: LinearStrokeCap.roundAll,
       progressColor: Theme.of(context).accentColor,
-      backgroundColor: Color(0xFF3B160D),
+      backgroundColor: const Color(0xFF3B160D),
     );
   }
 }

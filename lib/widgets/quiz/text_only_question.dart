@@ -15,7 +15,7 @@ class TextOnlyQuestion extends StatefulWidget {
   final List<Widget> answers;
   final AudioPlayer player;
 
-  TextOnlyQuestion({this.question, this.answers, this.player});
+  const TextOnlyQuestion({this.question, this.answers, this.player});
 
   @override
   _TextOnlyQuestionState createState() => _TextOnlyQuestionState();
@@ -83,8 +83,8 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion> with WidgetsBinding
 
   Widget buildAudioButton() {
     return Container(
-      margin: EdgeInsets.all(20),
-      padding: EdgeInsets.all(7.5),
+      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(7.5),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white, width: 1.5),
         borderRadius: BorderRadius.circular(15),
@@ -117,7 +117,7 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion> with WidgetsBinding
     return Expanded(
       child: Container(
         color: Theme.of(context).backgroundColor,
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           CustomGrid(
             children: widget.answers,
@@ -131,12 +131,12 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion> with WidgetsBinding
   questionComponent() {
     return Expanded(
       child: Container(
-        color: Color.fromARGB(190, 0, 0, 0),
+        color: const Color.fromARGB(190, 0, 0, 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(30),
+              padding: const EdgeInsets.all(30),
               child: Container(
                 width: Screen.width(context),
                 child: Column(

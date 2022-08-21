@@ -12,14 +12,14 @@ import '../../../widgets/misc/text/heading.dart';
 class NoticeView extends StatelessWidget {
   final Notice notice;
 
-  NoticeView({this.notice});
+  const NoticeView({this.notice});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: buildContent(context),
       backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: BottomBackButton(),
+      bottomNavigationBar: const BottomBackButton(),
     );
   }
 
@@ -60,14 +60,14 @@ class NoticeView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Heading(
             notice.title,
             size: Screen.isTablet(context) ? 30 : null,
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Text(
@@ -81,7 +81,7 @@ class NoticeView extends StatelessWidget {
                       : 17,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Screen.isPortrait(context) ? Divider(color: Theme.of(context).primaryColorLight, height: 0) : Container(),
         ],
       ),
@@ -103,7 +103,7 @@ class NoticeView extends StatelessWidget {
         Screen.isLandscape(context) ? getTop(context) : Container(),
         notice.image?.path == null || Screen.isLandscape(context)
             ? Container()
-            : Padding(padding: EdgeInsets.only(bottom: 10), child: buildImage(context)),
+            : Padding(padding: const EdgeInsets.only(bottom: 10), child: buildImage(context)),
         notice.image?.path == null || Screen.isLandscape(context)
             ? Container()
             : Divider(color: Theme.of(context).primaryColorLight, height: 10),

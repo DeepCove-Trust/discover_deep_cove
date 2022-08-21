@@ -6,7 +6,7 @@ import '../misc/text/sub_heading.dart';
 class Separator extends StatelessWidget {
   final String title;
 
-  Separator(this.title);
+  const Separator(this.title);
 
   @override
   Widget build(BuildContext context) {

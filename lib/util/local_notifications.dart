@@ -8,13 +8,11 @@ class LocalNotifications {
   static initializeNotifications() {
     _notifications = FlutterLocalNotificationsPlugin();
 
-    var initializationSettingsAndroid = AndroidInitializationSettings('icon');
+    var initializationSettingsAndroid = const AndroidInitializationSettings('icon');
 
-    var initializationSettings =
-    InitializationSettings(initializationSettingsAndroid, null);
+    var initializationSettings = InitializationSettings(initializationSettingsAndroid, null);
 
-    _notifications.initialize(initializationSettings,
-        onSelectNotification: _onSelectNotification);
+    _notifications.initialize(initializationSettings, onSelectNotification: _onSelectNotification);
   }
 
   //  onPressed: () => LocalNotifications.showOngoingNotification(title: 'Test',body: "Test", cntxt: context, payload: 'Notice'),
@@ -39,7 +37,7 @@ class LocalNotifications {
       priority: Priority.High,
       ongoing: false,
       autoCancel: true,
-      color: Color(0xFF8BC34A),
+      color: const Color(0xFF8BC34A),
     );
 
     return NotificationDetails(androidChannelSpecifics, null);
@@ -54,7 +52,7 @@ class LocalNotifications {
       priority: Priority.High,
       ongoing: false,
       autoCancel: true,
-      color: Color(0xFF8BC34A),
+      color: const Color(0xFF8BC34A),
     );
 
     return NotificationDetails(androidChannelSpecifics, null);
@@ -70,11 +68,7 @@ class LocalNotifications {
     _context = context;
 
     return _displayNotification(
-        title: title,
-        body: body,
-        id: id,
-        type: payload == "Notice" ? _notice : _download,
-        payload: payload);
+        title: title, body: body, id: id, type: payload == "Notice" ? _notice : _download, payload: payload);
   }
 
   static Future _displayNotification({

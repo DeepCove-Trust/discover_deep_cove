@@ -97,19 +97,19 @@ class _FactFileIndexState extends State<FactFileIndex> with TickerProviderStateM
     return Scaffold(
       appBar: getTabBar(),
       body: categories == null
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : TabBarView(
               controller: controller,
-              children: categories.length == 0 ? [Center(child: SubHeading('No content...'))] : getTabs()),
+              children: categories.length == 0 ? [const Center(child: SubHeading('No content...'))] : getTabs()),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }
 
   Widget getTabBar() {
     return PreferredSize(
-      preferredSize: Size.fromHeight(50.0),
+      preferredSize: const Size.fromHeight(50.0),
       child: Container(
         color: Theme.of(context).primaryColorDark,
         child: SafeArea(
@@ -117,7 +117,7 @@ class _FactFileIndexState extends State<FactFileIndex> with TickerProviderStateM
             children: <Widget>[
               Expanded(child: Container()),
               TabBar(
-                labelPadding: EdgeInsets.fromLTRB(0, 0, 0, 8),
+                labelPadding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                 controller: controller,
                 tabs: getTabHeadings(),
                 indicatorColor: Theme.of(context).primaryColor,

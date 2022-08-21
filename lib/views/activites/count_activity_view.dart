@@ -21,7 +21,7 @@ class CountActivityView extends StatefulWidget {
   ///Takes in a [CountActivityView] and a [bool] and displays the view based
   ///on the value of the [bool], you can complete the activity if the [bool] is false
   ///and review it if the [bool] is true.
-  CountActivityView({this.activity, this.isReview});
+  const CountActivityView({this.activity, this.isReview});
 
   @override
   _CountActivityViewState createState() => _CountActivityViewState();
@@ -39,7 +39,7 @@ class _CountActivityViewState extends State<CountActivityView> {
         ),
         body: buildContent(),
         bottomNavigationBar: widget.isReview
-            ? BottomBackButton()
+            ? const BottomBackButton()
             : ActivityPassSaveBar(
                 onTapSave: () => saveAnswer(),
               ),
@@ -71,7 +71,7 @@ class _CountActivityViewState extends State<CountActivityView> {
           children: <Widget>[
             buildGraphic(),
             Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 20,
                 vertical: 15,
               ),
@@ -83,7 +83,7 @@ class _CountActivityViewState extends State<CountActivityView> {
             ),
             Screen.isPortrait(context)
                 ? Padding(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 15,
                     ),
                     child: Divider(
@@ -100,12 +100,12 @@ class _CountActivityViewState extends State<CountActivityView> {
 
   getBottomHalf() {
     return Padding(
-      padding: EdgeInsets.only(bottom: 25),
+      padding: const EdgeInsets.only(bottom: 25),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: 20,
               right: 20,
               bottom: 20,
@@ -115,9 +115,9 @@ class _CountActivityViewState extends State<CountActivityView> {
             ),
           ),
           Padding(
-              padding: EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(12.0),
               child: widget.isReview
-                  ? Padding(
+                  ? const Padding(
                       padding: EdgeInsets.only(bottom: 20),
                       child: SubHeading(
                         "Your answer:",
@@ -154,7 +154,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                       Transform.scale(
                         scale: Screen.isTablet(context) ? 2 : 1.5,
                         child: IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             FontAwesomeIcons.chevronLeft,
                             color: Colors.white,
                           ),
@@ -175,7 +175,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                       Transform.scale(
                         scale: Screen.isTablet(context) ? 2 : 1.5,
                         child: IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             FontAwesomeIcons.chevronRight,
                             color: Colors.white,
                           ),
@@ -191,7 +191,7 @@ class _CountActivityViewState extends State<CountActivityView> {
                     ],
                   ),
                 ),
-          SizedBox(height: 25),
+          const SizedBox(height: 25),
           widget.isReview ? EditAnswer() : Container()
         ],
       ),
