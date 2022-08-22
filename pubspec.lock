@@ -303,9 +303,11 @@ packages:
   flutter_map_mbtiles_provider:
     dependency: "direct main"
     description:
-      path: flutter_map_mbtiles_provider
-      relative: true
-    source: path
+      path: "."
+      ref: master
+      resolved-ref: "4c46d80feae98c276177253ef050d4a030a76932"
+      url: "git://github.com/deepcove-trust/flutter_map_mbtiles_provider.git"
+    source: git
     version: "0.1.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
@@ -341,10 +343,12 @@ packages:
   gallery_saver:
     dependency: "direct main"
     description:
-      name: gallery_saver
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.3"
+      path: "."
+      ref: master
+      resolved-ref: "804d2568f14caa89d3427ed6b80685c3e3764699"
+      url: "git://github.com/deepcove-trust/gallery_saver"
+    source: git
+    version: "2.3.2"
   glob:
     dependency: transitive
     description:

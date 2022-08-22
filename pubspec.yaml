@@ -19,7 +19,10 @@ dependencies:
   flutter_launcher_icons: ^0.8.1          # MIT
   flutter_local_notifications: ^4.0.1+2   # BSD
   font_awesome_flutter: ^10.1.0           # MIT
-  gallery_saver: ^2.0.3                   # Apache 2.0
+  gallery_saver:
+    git:
+      url: git://github.com/deepcove-trust/gallery_saver
+      ref: master
   http: ^0.12.0+2                         # BSD
   image_picker: ^0.6.0+15                 # Apache 2.0
   majascan: ^0.5.0                        # MIT
@@ -41,7 +44,9 @@ dependencies:
   flutter_map: ^0.12.0                    # BSD
   flutter_map_marker_cluster: ^0.3.5      # BSD
   flutter_map_mbtiles_provider:
-    path: ./flutter_map_mbtiles_provider
+    git:
+      url: git://github.com/deepcove-trust/flutter_map_mbtiles_provider.git
+      ref: master
 
 dependency_overrides:
   platform: ^3.1.0                        # BSD
