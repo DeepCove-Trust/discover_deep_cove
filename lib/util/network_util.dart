@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
 import '../env.dart';
-import 'exeptions.dart';
+import 'exceptions.dart';
 import 'permissions.dart';
 
 class NetworkUtil {

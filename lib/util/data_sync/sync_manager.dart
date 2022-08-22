@@ -18,7 +18,7 @@ import '../../data/models/quiz/quiz_answer.dart';
 import '../../data/models/quiz/quiz_question.dart';
 import '../../data/models/user_photo.dart';
 import '../../env.dart';
-import '../exeptions.dart';
+import '../exceptions.dart';
 import '../network_util.dart';
 import '../noticeboard_sync.dart';
 import 'config_sync.dart';

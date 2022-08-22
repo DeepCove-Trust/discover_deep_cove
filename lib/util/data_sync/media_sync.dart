@@ -9,7 +9,7 @@ import 'package:path/path.dart';
 import '../../data/db.dart';
 import '../../data/models/media_file.dart';
 import '../../env.dart';
-import '../exeptions.dart';
+import '../exceptions.dart';
 import '../network_util.dart';
 import '../permissions.dart';
 import '../util.dart';
