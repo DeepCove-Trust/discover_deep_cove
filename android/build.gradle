@@ -19,7 +19,7 @@ buildscript {
                 }
                 if (details.requested.group == 'androidx.core'
                         && !details.requested.name.contains('androidx') ) {
-                    details.useVersion "1.0.1"
+                    details.useVersion "1.3.2"
                 }
             }
         }
