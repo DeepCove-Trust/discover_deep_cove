@@ -16,7 +16,6 @@ dependencies:
     sdk: flutter
   flutter_dotenv: ^5.0.2                  # MIT
   flutter_icons: ^1.1.0                   # Apache 2.0
-  flutter_launcher_icons: ^0.8.1          # MIT
   flutter_local_notifications: ^4.0.1+2   # BSD
   font_awesome_flutter: ^10.1.0           # MIT
   gallery_saver:
@@ -53,6 +52,7 @@ dependency_overrides:
 
 dev_dependencies:
   build_runner: ^1.1.0                    # BSD    -   1.4.0 available but not supported by Jaguar at this time
+  flutter_launcher_icons: ^0.8.1          # MIT
   flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter  
