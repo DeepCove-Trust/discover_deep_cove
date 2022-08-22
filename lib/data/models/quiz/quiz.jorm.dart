@@ -182,8 +182,13 @@ abstract class _QuizBean implements Bean<Quiz> {
     }
   }
 
-  Future<int> update(Quiz model,
-      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+  Future<int> update(
+    Quiz model, {
+    bool cascade = false,
+    bool associate = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) async {
     final Update update =
         updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
@@ -294,12 +299,13 @@ abstract class _QuizBean implements Bean<Quiz> {
   Future<List<Quiz>> preloadAll(List<Quiz> models, {bool cascade = false}) async {
     models.forEach((Quiz model) => model.questions ??= []);
     await OneToXHelper.preloadAll<Quiz, QuizQuestion>(
-        models,
-        (Quiz model) => [model.id],
-        quizQuestionBean.findByQuizList,
-        (QuizQuestion model) => [model.quizId],
-        (Quiz model, QuizQuestion child) => model.questions = List.from(model.questions)..add(child),
-        cascade: cascade);
+      models,
+      (Quiz model) => [model.id],
+      quizQuestionBean.findByQuizList,
+      (QuizQuestion model) => [model.quizId],
+      (Quiz model, QuizQuestion child) => model.questions = List.from(model.questions)..add(child),
+      cascade: cascade,
+    );
     return models;
   }
 

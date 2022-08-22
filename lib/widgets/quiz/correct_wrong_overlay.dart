@@ -56,12 +56,11 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
     return Material(
       color: const Color.fromARGB(190, 0, 0, 0),
       child: InkWell(
-          onTap: () => widget.onTap(),
-          child: isImageQuestion
-              ? (Screen.isLandscape(context)
-                  ? buildImageQuestionOverlayLandscape()
-                  : buildImageQuestionOverlayPortrait())
-              : buildTextQuestionOverlay()),
+        onTap: () => widget.onTap(),
+        child: isImageQuestion
+            ? (Screen.isLandscape(context) ? buildImageQuestionOverlayLandscape() : buildImageQuestionOverlayPortrait())
+            : buildTextQuestionOverlay(),
+      ),
     );
   }
 
@@ -99,27 +98,31 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
     List<Widget> widgets = <Widget>[];
 
     widgets.add(
-      Column(children: <Widget>[
-        QuizImageButton(
-          onTap: null,
-          image: widget.imageGuess.image,
-          text: widget.imageGuess.text,
-        ),
-        const SubHeading('Your answer')
-      ]),
-    );
-
-    if (!widget.isCorrect) {
-      widgets.add(Column(
+      Column(
         children: <Widget>[
           QuizImageButton(
             onTap: null,
-            image: widget.imageAnswer.image,
-            text: widget.imageAnswer.text,
+            image: widget.imageGuess.image,
+            text: widget.imageGuess.text,
           ),
-          const SubHeading('Correct answer')
+          const SubHeading('Your answer')
         ],
-      ));
+      ),
+    );
+
+    if (!widget.isCorrect) {
+      widgets.add(
+        Column(
+          children: <Widget>[
+            QuizImageButton(
+              onTap: null,
+              image: widget.imageAnswer.image,
+              text: widget.imageAnswer.text,
+            ),
+            const SubHeading('Correct answer')
+          ],
+        ),
+      );
     }
 
     return widgets;
@@ -129,14 +132,16 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
     List<Widget> widgets = <Widget>[];
 
     widgets.add(
-      Column(children: <Widget>[
-        QuizImageButton(
-          onTap: null,
-          image: widget.imageGuess.image,
-          text: widget.imageGuess.text,
-        ),
-        const SubHeading('Your answer')
-      ]),
+      Column(
+        children: <Widget>[
+          QuizImageButton(
+            onTap: null,
+            image: widget.imageGuess.image,
+            text: widget.imageGuess.text,
+          ),
+          const SubHeading('Your answer')
+        ],
+      ),
     );
 
     widgets.add(
@@ -159,16 +164,18 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
     );
 
     if (!widget.isCorrect) {
-      widgets.add(Column(
-        children: <Widget>[
-          QuizImageButton(
-            onTap: null,
-            image: widget.imageAnswer.image,
-            text: widget.imageAnswer.text,
-          ),
-          const SubHeading('Correct answer')
-        ],
-      ));
+      widgets.add(
+        Column(
+          children: <Widget>[
+            QuizImageButton(
+              onTap: null,
+              image: widget.imageAnswer.image,
+              text: widget.imageAnswer.text,
+            ),
+            const SubHeading('Correct answer')
+          ],
+        ),
+      );
     }
 
     return widgets;

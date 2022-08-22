@@ -33,8 +33,12 @@ class SettingsButton extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(Screen.width(context, percentage: Screen.isLandscape(context) ? 25 : 10), 0,
-                  Screen.width(context, percentage: 10), 0),
+              padding: EdgeInsets.fromLTRB(
+                Screen.width(context, percentage: Screen.isLandscape(context) ? 25 : 10),
+                0,
+                Screen.width(context, percentage: 10),
+                0,
+              ),
               child: Icon(
                 iconData,
                 color: Colors.white,

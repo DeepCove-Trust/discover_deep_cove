@@ -37,8 +37,10 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
   }
 
   nextImage() {
-    setState(() =>
-        photoIndex = photoIndex = photoIndex < widget.activity.imageOptions.length - 1 ? photoIndex + 1 : photoIndex);
+    setState(
+      () =>
+          photoIndex = photoIndex = photoIndex < widget.activity.imageOptions.length - 1 ? photoIndex + 1 : photoIndex,
+    );
   }
 
   @override
@@ -316,11 +318,13 @@ class _PictureSelectActivityViewState extends State<PictureSelectActivityView> {
               width: Screen.width(context, percentage: Screen.isLandscape(context) ? 30 : 85),
               height: Screen.width(context, percentage: Screen.isLandscape(context) ? 30 : 85),
               decoration: BoxDecoration(
-                  image: DecorationImage(
-                fit: BoxFit.cover,
-                image: FileImage(File(Env.getResourcePath(widget.activity.image.path))),
-              )),
-              child: Container()),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: FileImage(File(Env.getResourcePath(widget.activity.image.path))),
+                ),
+              ),
+              child: Container(),
+            ),
     );
   }
 

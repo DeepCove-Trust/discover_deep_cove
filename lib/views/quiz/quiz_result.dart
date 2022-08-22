@@ -47,13 +47,14 @@ class QuizResult extends StatelessWidget {
             children: <Widget>[
               Expanded(child: getTopHalf(context)),
               Expanded(
-                  child: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: getBottomHalf(context),
-                  )
-                ],
-              ))
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: getBottomHalf(context),
+                    )
+                  ],
+                ),
+              )
             ],
           )
         : Column(
@@ -67,8 +68,9 @@ class QuizResult extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-            child: Heading(name, size: Screen.isTablet(context) ? 55 : 35)),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+          child: Heading(name, size: Screen.isTablet(context) ? 55 : 35),
+        ),
         const SubHeading(
           'Quiz Completed!',
 //          size: Screen.isTablet(context) ? 40 : null,

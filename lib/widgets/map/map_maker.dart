@@ -107,12 +107,13 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
 
   void _onAfterBuild(BuildContext context, LatLng center, double zoom) {
     PageStorage.of(context).writeState(
-        context,
-        MapState(
-          center: center,
-          zoom: zoom,
-        ),
-        identifier: 'MapState');
+      context,
+      MapState(
+        center: center,
+        zoom: zoom,
+      ),
+      identifier: 'MapState',
+    );
   }
 
   void checkIfReloadRequired() async {
@@ -242,11 +243,13 @@ class _MapMakerState extends VerboseState<MapMaker> with TickerProviderStateMixi
     if (tracksLoaded) {
       for (Track track in tracks) {
         for (Activity activity in track.activities) {
-          markers.add(CustomMarker(
-            track: track,
-            point: activity.latLng,
-            builder: (context) => _buildMarker(context, activity),
-          ));
+          markers.add(
+            CustomMarker(
+              track: track,
+              point: activity.latLng,
+              builder: (context) => _buildMarker(context, activity),
+            ),
+          );
         }
       }
     }

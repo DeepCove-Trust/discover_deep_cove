@@ -97,8 +97,13 @@ abstract class _ConfigBean implements Bean<Config> {
     return;
   }
 
-  Future<int> update(Config model,
-      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+  Future<int> update(
+    Config model, {
+    bool cascade = false,
+    bool associate = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) async {
     final Update update =
         updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.update(update);

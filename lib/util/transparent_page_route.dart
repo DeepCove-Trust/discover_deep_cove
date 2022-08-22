@@ -26,11 +26,12 @@ class TransparentPageRoute extends PageRoute<void> {
   Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     final result = builder(context);
     return FadeTransition(
-        opacity: Tween<double>(begin: 0, end: 1).animate(animation),
-        child: Semantics(
-          scopesRoute: true,
-          explicitChildNodes: true,
-          child: result,
-        ));
+      opacity: Tween<double>(begin: 0, end: 1).animate(animation),
+      child: Semantics(
+        scopesRoute: true,
+        explicitChildNodes: true,
+        child: result,
+      ),
+    );
   }
 }

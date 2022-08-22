@@ -30,12 +30,13 @@ class _FactFileIndexState extends State<FactFileIndex> with TickerProviderStateM
     if (categories == null) refreshData();
 
     controller = TabController(
-        vsync: this,
-        length: categories?.length != null
-            ? categories.isEmpty
-                ? 1
-                : categories.length
-            : 1);
+      vsync: this,
+      length: categories?.length != null
+          ? categories.isEmpty
+              ? 1
+              : categories.length
+          : 1,
+    );
   }
 
   @override
@@ -103,7 +104,8 @@ class _FactFileIndexState extends State<FactFileIndex> with TickerProviderStateM
             )
           : TabBarView(
               controller: controller,
-              children: categories.isEmpty ? [const Center(child: SubHeading('No content...'))] : getTabs()),
+              children: categories.isEmpty ? [const Center(child: SubHeading('No content...'))] : getTabs(),
+            ),
       backgroundColor: Theme.of(context).backgroundColor,
     );
   }

@@ -86,9 +86,11 @@ class SyncManager {
       errorState = SyncState.errorServerUnreachable;
     } else if (exception is InsufficientStorageException) {
       errorState = SyncState.errorStorage;
-    } else if (exception is InsufficientPermissionException) {
-      errorState = SyncState.errorPermission;
-    } else {
+    }
+    // else if (exception is InsufficientPermissionException) {
+    //   errorState = SyncState.errorPermission;
+    // }
+    else {
       errorState = SyncState.rrorOther;
     }
 
@@ -131,11 +133,12 @@ class SyncManager {
       _updateProgress(SyncState.mediaDiscovery, 10);
 
       MediaSync mediaSync = MediaSync(
-          adapter: _adapter,
-          tempAdapter: _tempAdapter,
-          server: _serverLocation,
-          context: context,
-          onProgress: _updateProgress);
+        adapter: _adapter,
+        tempAdapter: _tempAdapter,
+        server: _serverLocation,
+        context: context,
+        onProgress: _updateProgress,
+      );
 
       // Build the download, update and deletion queues for media files -
       await mediaSync.buildQueues();

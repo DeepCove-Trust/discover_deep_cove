@@ -35,13 +35,13 @@ class MediaSync {
   final BuildContext context;
   void Function(SyncState, int, {int upTo, int outOf, int totalSize}) onProgress;
 
-  MediaSync(
-      {@required this.adapter,
-      @required this.tempAdapter,
-      @required this.server,
-      @required this.context,
-      @required this.onProgress})
-      : mediaFileBeanMain = MediaFileBean(adapter),
+  MediaSync({
+    @required this.adapter,
+    @required this.tempAdapter,
+    @required this.server,
+    @required this.context,
+    @required this.onProgress,
+  })  : mediaFileBeanMain = MediaFileBean(adapter),
         mediaFileBeanTemp = MediaFileBean(tempAdapter);
 
   MediaFileBean mediaFileBeanMain, mediaFileBeanTemp;
@@ -69,7 +69,8 @@ class MediaSync {
     // Any local media that exist remotely, and the remote timestamp is after
     // the local timestamp
     _updateQueue = Queue.from(
-        localMediaFiles.where((e) => remoteMedia.any((f) => f.id == e.id && f.updatedAt.isAfter(e.updatedAt))));
+      localMediaFiles.where((e) => remoteMedia.any((f) => f.id == e.id && f.updatedAt.isAfter(e.updatedAt))),
+    );
 
     // CALCULATE DELETION QUEUE
     // Any local media that don't exist in the remote media list
@@ -91,7 +92,7 @@ class MediaSync {
     // Update progress for user
     onProgress(SyncState.mediaDownload, getPercentage(), upTo: upTo, outOf: outOf, totalSize: totalSize);
 
-    await Permissions.ensurePermission(PermissionGroup.storage);
+    // await Permissions.ensurePermission(PermissionGroup.storage);
 
     // This list will contain all of our download jobs if downloading
     // asynchronously.
@@ -101,11 +102,13 @@ class MediaSync {
       MediaData mediaData = _downloadQueue.removeFirst();
 
       if (Env.asyncDownload) {
-        futures.add(downloadMediaFile(mediaData).catchError((ex, stacktrace) {
-          debugPrint(ex);
-          debugPrint(stacktrace);
-          throw FailedDownloadException(message: 'One or more file downloads failed.');
-        }));
+        futures.add(
+          downloadMediaFile(mediaData).catchError((ex, stacktrace) {
+            debugPrint(ex);
+            debugPrint(stacktrace);
+            throw FailedDownloadException(message: 'One or more file downloads failed.');
+          }),
+        );
       } else {
         await downloadMediaFile(mediaData);
       }

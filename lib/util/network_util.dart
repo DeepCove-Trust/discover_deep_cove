@@ -75,20 +75,26 @@ class NetworkUtil {
   /// Stores the body of the [http.Response] as a file, using the specified
   /// [absPath] and [filename]. Will create directories that do not exist.
   /// Use within try-catch.
-  static Future<File> httpResponseToFile(
-      {@required http.Response response, @required String absPath, @required String filename}) async {
+  static Future<File> httpResponseToFile({
+    @required http.Response response,
+    @required String absPath,
+    @required String filename,
+  }) async {
     return await bytesToFile(bytes: response.bodyBytes, absPath: absPath, filename: filename);
   }
 
   /// Stores the supplied [List<int>] as a file, using the specified [absPath]
   /// and [filename].
   /// Creates directories if required.
-  static Future<File> bytesToFile(
-      {@required List<int> bytes, @required String absPath, @required String filename}) async {
+  static Future<File> bytesToFile({
+    @required List<int> bytes,
+    @required String absPath,
+    @required String filename,
+  }) async {
     // Check for storage permissions before saving file
-    if (!(await Permissions.ensurePermission(PermissionGroup.storage))) {
-      throw Exception('Application does not have permission to save file.');
-    }
+    // if (!(await Permissions.ensurePermission(PermissionGroup.storage))) {
+    //   throw Exception('Application does not have permission to save file.');
+    // }
 
     // Write the supplied bytes to the file
     File file = File(join(absPath, filename));

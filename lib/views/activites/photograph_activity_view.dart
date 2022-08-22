@@ -93,27 +93,27 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
 
   Widget _buildImageSection() {
     return FutureBuilder(
-        future: widget.isReview ? _getSavedPhoto() : _getPreview(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active ||
-              snapshot.connectionState == ConnectionState.waiting) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const CircularProgressIndicator(),
-                const SizedBox(height: 12),
-                BodyText(
-                  'Loading image...',
-                  size: Screen.isTablet(context) ? 30 : null,
-                ),
-              ],
-            );
-          } else if (snapshot.hasData) {
-            return snapshot.data;
-          } else {
-            return Container();
-          }
-        });
+      future: widget.isReview ? _getSavedPhoto() : _getPreview(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active || snapshot.connectionState == ConnectionState.waiting) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const CircularProgressIndicator(),
+              const SizedBox(height: 12),
+              BodyText(
+                'Loading image...',
+                size: Screen.isTablet(context) ? 30 : null,
+              ),
+            ],
+          );
+        } else if (snapshot.hasData) {
+          return snapshot.data;
+        } else {
+          return Container();
+        }
+      },
+    );
   }
 
   @override
@@ -169,7 +169,8 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
                   ),
                 ),
               ),
-              child: Container()),
+              child: Container(),
+            ),
     );
   }
 
@@ -282,7 +283,9 @@ class _PhotographActivityViewState extends State<PhotographActivityView> {
         '.jpg',
       );
 
-      if (await Util.savePhotosToGallery(context)) await GallerySaver.saveImage(_image.path);
+      if (await Util.savePhotosToGallery(context)) {
+        await GallerySaver.saveImage(_image.path);
+      }
 
       // Save the image to the users photos directory, and delete temp image
       ImageHandler.saveImage(tempImage: _image, directory: directory, name: filename);

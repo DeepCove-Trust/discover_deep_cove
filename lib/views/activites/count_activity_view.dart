@@ -33,17 +33,18 @@ class _CountActivityViewState extends State<CountActivityView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: ActivityAppBar(
-          text: widget.activity.title,
-          onTap: widget.activity.factFileId != null ? () => displayFactFile(widget.activity.factFileId) : null,
-        ),
-        body: buildContent(),
-        bottomNavigationBar: widget.isReview
-            ? const BottomBackButton()
-            : ActivityPassSaveBar(
-                onTapSave: () => saveAnswer(),
-              ),
-        backgroundColor: Theme.of(context).backgroundColor);
+      appBar: ActivityAppBar(
+        text: widget.activity.title,
+        onTap: widget.activity.factFileId != null ? () => displayFactFile(widget.activity.factFileId) : null,
+      ),
+      body: buildContent(),
+      bottomNavigationBar: widget.isReview
+          ? const BottomBackButton()
+          : ActivityPassSaveBar(
+              onTapSave: () => saveAnswer(),
+            ),
+      backgroundColor: Theme.of(context).backgroundColor,
+    );
   }
 
   buildContent() {
@@ -115,15 +116,16 @@ class _CountActivityViewState extends State<CountActivityView> {
             ),
           ),
           Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: widget.isReview
-                  ? const Padding(
-                      padding: EdgeInsets.only(bottom: 20),
-                      child: SubHeading(
-                        'Your answer:',
-                      ),
-                    )
-                  : Container()),
+            padding: const EdgeInsets.all(12.0),
+            child: widget.isReview
+                ? const Padding(
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: SubHeading(
+                      'Your answer:',
+                    ),
+                  )
+                : Container(),
+          ),
           widget.isReview
               ? Container(
                   width: Screen.width(context, percentage: Screen.isLandscape(context) ? 30 : 65),
@@ -207,11 +209,13 @@ class _CountActivityViewState extends State<CountActivityView> {
               width: Screen.width(context, percentage: Screen.isLandscape(context) ? 30 : 85),
               height: Screen.width(context, percentage: Screen.isLandscape(context) ? 30 : 85),
               decoration: BoxDecoration(
-                  image: DecorationImage(
-                fit: BoxFit.cover,
-                image: FileImage(File(Env.getResourcePath(widget.activity.image.path))),
-              )),
-              child: Container()),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: FileImage(File(Env.getResourcePath(widget.activity.image.path))),
+                ),
+              ),
+              child: Container(),
+            ),
     );
   }
 

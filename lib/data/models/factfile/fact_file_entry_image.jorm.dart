@@ -22,8 +22,12 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     return model;
   }
 
-  List<SetColumn> toSetColumns(FactFileEntryImage model,
-      {bool update = false, Set<String> only, bool onlyNonNull = false}) {
+  List<SetColumn> toSetColumns(
+    FactFileEntryImage model, {
+    bool update = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) {
     List<SetColumn> ret = [];
 
     if (only == null && !onlyNonNull) {
@@ -51,8 +55,12 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     return adapter.createTable(st);
   }
 
-  Future<dynamic> insert(FactFileEntryImage model,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<dynamic> insert(
+    FactFileEntryImage model, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     final Insert insert = inserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.insert(insert);
   }
@@ -65,8 +73,12 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     return;
   }
 
-  Future<dynamic> upsert(FactFileEntryImage model,
-      {bool cascade = false, Set<String> only, bool onlyNonNull = false}) async {
+  Future<dynamic> upsert(
+    FactFileEntryImage model, {
+    bool cascade = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) async {
     final Upsert upsert = upserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.upsert(upsert);
   }
@@ -95,14 +107,20 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     return;
   }
 
-  Future<List<FactFileEntryImage>> findByFactFileEntry(int factFileEntryId,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<FactFileEntryImage>> findByFactFileEntry(
+    int factFileEntryId, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
     final Find find = finder.where(this.factFileEntryId.eq(factFileEntryId));
     return findMany(find);
   }
 
-  Future<List<FactFileEntryImage>> findByFactFileEntryList(List<FactFileEntry> models,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<FactFileEntryImage>> findByFactFileEntryList(
+    List<FactFileEntry> models, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
@@ -145,14 +163,20 @@ abstract class _FactFileEntryImageBean implements Bean<FactFileEntryImage> {
     return await mediaFileBean.findWhere(exp);
   }
 
-  Future<List<FactFileEntryImage>> findByMediaFile(int mediaFileId,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<FactFileEntryImage>> findByMediaFile(
+    int mediaFileId, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
     final Find find = finder.where(this.mediaFileId.eq(mediaFileId));
     return findMany(find);
   }
 
-  Future<List<FactFileEntryImage>> findByMediaFileList(List<MediaFile> models,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<FactFileEntryImage>> findByMediaFileList(
+    List<MediaFile> models, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;

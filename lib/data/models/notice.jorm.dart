@@ -124,8 +124,13 @@ abstract class _NoticeBean implements Bean<Notice> {
     return;
   }
 
-  Future<int> update(Notice model,
-      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+  Future<int> update(
+    Notice model, {
+    bool cascade = false,
+    bool associate = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) async {
     final Update update =
         updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.update(update);

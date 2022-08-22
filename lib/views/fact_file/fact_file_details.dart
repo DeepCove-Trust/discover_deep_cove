@@ -91,18 +91,19 @@ class _FactFileDetailsState extends State<FactFileDetails> with WidgetsBindingOb
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: loadData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done || entry != null) {
-            return Scaffold(
-              backgroundColor: Theme.of(context).backgroundColor,
-              body: buildContent(),
-              bottomNavigationBar: const BottomBackButton(),
-            );
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        });
+      future: loadData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done || entry != null) {
+          return Scaffold(
+            backgroundColor: Theme.of(context).backgroundColor,
+            body: buildContent(),
+            bottomNavigationBar: const BottomBackButton(),
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 
   buildContent() {

@@ -105,9 +105,10 @@ class _QuizUnlockState extends State<QuizUnlock> {
         ? Row(
             children: <Widget>[
               SizedBox(
-                  height: Screen.height(context, percentage: 100),
-                  width: Screen.width(context, percentage: 50),
-                  child: getBottomHalf()),
+                height: Screen.height(context, percentage: 100),
+                width: Screen.width(context, percentage: 50),
+                child: getBottomHalf(),
+              ),
               SizedBox(
                 width: Screen.width(context, percentage: 50),
                 height: Screen.height(context, percentage: 100),

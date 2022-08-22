@@ -113,8 +113,12 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     return adapter.createTable(st);
   }
 
-  Future<dynamic> insert(FactFileEntry model,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<dynamic> insert(
+    FactFileEntry model, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     final Insert insert = inserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     var retId = await adapter.insert(insert);
     if (cascade) {
@@ -137,8 +141,12 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     return retId;
   }
 
-  Future<void> insertMany(List<FactFileEntry> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> insertMany(
+    List<FactFileEntry> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -155,8 +163,12 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     }
   }
 
-  Future<dynamic> upsert(FactFileEntry model,
-      {bool cascade = false, Set<String> only, bool onlyNonNull = false}) async {
+  Future<dynamic> upsert(
+    FactFileEntry model, {
+    bool cascade = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) async {
     final Upsert upsert = upserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     var retId = await adapter.upsert(upsert);
     if (cascade) {
@@ -179,8 +191,12 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     return retId;
   }
 
-  Future<void> upsertMany(List<FactFileEntry> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> upsertMany(
+    List<FactFileEntry> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -200,8 +216,13 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     }
   }
 
-  Future<int> update(FactFileEntry model,
-      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+  Future<int> update(
+    FactFileEntry model, {
+    bool cascade = false,
+    bool associate = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) async {
     final Update update =
         updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
@@ -225,8 +246,12 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     return ret;
   }
 
-  Future<void> updateMany(List<FactFileEntry> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> updateMany(
+    List<FactFileEntry> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -279,8 +304,11 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     return adapter.remove(remove);
   }
 
-  Future<List<FactFileEntry>> findByFactFileCategory(int categoryId,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<FactFileEntry>> findByFactFileCategory(
+    int categoryId, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
     final Find find = finder.where(this.categoryId.eq(categoryId));
     final List<FactFileEntry> models = await findMany(find);
     if (preload) {
@@ -289,8 +317,11 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     return models;
   }
 
-  Future<List<FactFileEntry>> findByFactFileCategoryList(List<FactFileCategory> models,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<FactFileEntry>> findByFactFileCategoryList(
+    List<FactFileCategory> models, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
@@ -313,8 +344,13 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     child.categoryId = parent.id;
   }
 
-  Future<List<FactFileEntry>> findByMediaFile(int mainImageId, int pronounceAudioId, int listenAudioId,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<FactFileEntry>> findByMediaFile(
+    int mainImageId,
+    int pronounceAudioId,
+    int listenAudioId, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
     final Find find = finder
         .where(this.mainImageId.eq(mainImageId))
         .where(this.pronounceAudioId.eq(pronounceAudioId))
@@ -326,8 +362,11 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     return models;
   }
 
-  Future<List<FactFileEntry>> findByMediaFileList(List<MediaFile> models,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<FactFileEntry>> findByMediaFileList(
+    List<MediaFile> models, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
@@ -373,12 +412,13 @@ abstract class _FactFileEntryBean implements Bean<FactFileEntry> {
     }
     models.forEach((FactFileEntry model) => model.nuggets ??= []);
     await OneToXHelper.preloadAll<FactFileEntry, FactFileNugget>(
-        models,
-        (FactFileEntry model) => [model.id],
-        factFileNuggetBean.findByFactFileEntryList,
-        (FactFileNugget model) => [model.factFileEntryId],
-        (FactFileEntry model, FactFileNugget child) => model.nuggets = List.from(model.nuggets)..add(child),
-        cascade: cascade);
+      models,
+      (FactFileEntry model) => [model.id],
+      factFileNuggetBean.findByFactFileEntryList,
+      (FactFileNugget model) => [model.factFileEntryId],
+      (FactFileEntry model, FactFileNugget child) => model.nuggets = List.from(model.nuggets)..add(child),
+      cascade: cascade,
+    );
     return models;
   }
 

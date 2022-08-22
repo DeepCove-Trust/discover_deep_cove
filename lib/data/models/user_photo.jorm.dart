@@ -70,8 +70,12 @@ abstract class _UserPhotoBean implements Bean<UserPhoto> {
     return retId;
   }
 
-  Future<void> insertMany(List<UserPhoto> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> insertMany(
+    List<UserPhoto> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -104,8 +108,12 @@ abstract class _UserPhotoBean implements Bean<UserPhoto> {
     return retId;
   }
 
-  Future<void> upsertMany(List<UserPhoto> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> upsertMany(
+    List<UserPhoto> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -125,8 +133,13 @@ abstract class _UserPhotoBean implements Bean<UserPhoto> {
     }
   }
 
-  Future<int> update(UserPhoto model,
-      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+  Future<int> update(
+    UserPhoto model, {
+    bool cascade = false,
+    bool associate = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) async {
     final Update update =
         updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
@@ -145,8 +158,12 @@ abstract class _UserPhotoBean implements Bean<UserPhoto> {
     return ret;
   }
 
-  Future<void> updateMany(List<UserPhoto> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> updateMany(
+    List<UserPhoto> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -206,12 +223,13 @@ abstract class _UserPhotoBean implements Bean<UserPhoto> {
   Future<List<UserPhoto>> preloadAll(List<UserPhoto> models, {bool cascade = false}) async {
     models.forEach((UserPhoto model) => model.activities ??= []);
     await OneToXHelper.preloadAll<UserPhoto, Activity>(
-        models,
-        (UserPhoto model) => [model.id],
-        activityBean.findByUserPhotoList,
-        (Activity model) => [model.userPhotoId],
-        (UserPhoto model, Activity child) => model.activities = List.from(model.activities)..add(child),
-        cascade: cascade);
+      models,
+      (UserPhoto model) => [model.id],
+      activityBean.findByUserPhotoList,
+      (Activity model) => [model.userPhotoId],
+      (UserPhoto model, Activity child) => model.activities = List.from(model.activities)..add(child),
+      cascade: cascade,
+    );
     return models;
   }
 

@@ -87,22 +87,25 @@ class MBTileImage extends ImageProvider<MBTileImage> {
   @override
   ImageStreamCompleter load(MBTileImage key, decode) {
     return MultiFrameImageStreamCompleter(
-        codec: _loadAsync(key),
-        scale: 1,
-        informationCollector: () sync* {
-          yield DiagnosticsProperty<ImageProvider>('Image provider', this);
-          yield DiagnosticsProperty<ImageProvider>('Image key', key);
-        });
+      codec: _loadAsync(key),
+      scale: 1,
+      informationCollector: () sync* {
+        yield DiagnosticsProperty<ImageProvider>('Image provider', this);
+        yield DiagnosticsProperty<ImageProvider>('Image key', key);
+      },
+    );
   }
 
   Future<Codec> _loadAsync(MBTileImage key) async {
     assert(key == this);
 
     final db = await key.database;
-    List<Map> result = await db.rawQuery('select tile_data from tiles '
-        'where zoom_level = ${coords.z} AND '
-        'tile_column = ${coords.x} AND '
-        'tile_row = ${coords.y} limit 1');
+    List<Map> result = await db.rawQuery(
+      'select tile_data from tiles '
+      'where zoom_level = ${coords.z} AND '
+      'tile_column = ${coords.x} AND '
+      'tile_row = ${coords.y} limit 1',
+    );
     final Uint8List bytes = result.isNotEmpty ? result.first['tile_data'] : null;
 
     if (bytes == null) {

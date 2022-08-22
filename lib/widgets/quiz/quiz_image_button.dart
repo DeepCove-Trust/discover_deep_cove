@@ -52,8 +52,10 @@ class QuizImageButton extends StatelessWidget {
                     text != null
                         ? Container(
                             color: const Color.fromARGB(190, 0, 0, 0),
-                            height: Screen.height(context,
-                                percentage: Screen.isPortrait(context) && text == null ? 2.5 : 5),
+                            height: Screen.height(
+                              context,
+                              percentage: Screen.isPortrait(context) && text == null ? 2.5 : 5,
+                            ),
                             width: Screen.width(context),
                             child: Center(
                               child: Padding(

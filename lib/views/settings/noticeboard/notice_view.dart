@@ -28,9 +28,10 @@ class NoticeView extends StatelessWidget {
         ? Row(
             children: <Widget>[
               Expanded(
-                  child: ListView(
-                children: <Widget>[getBottom(context)],
-              )),
+                child: ListView(
+                  children: <Widget>[getBottom(context)],
+                ),
+              ),
               notice.image?.path == null ? Container() : Expanded(child: Center(child: buildImage(context))),
             ],
           )
@@ -38,9 +39,11 @@ class NoticeView extends StatelessWidget {
             children: <Widget>[
               getTop(context),
               Flexible(
-                child: ListView(children: [
-                  getBottom(context),
-                ]),
+                child: ListView(
+                  children: [
+                    getBottom(context),
+                  ],
+                ),
               ),
             ],
           );
@@ -48,10 +51,11 @@ class NoticeView extends StatelessWidget {
 
   Widget buildImage(BuildContext context) {
     return Image(
-        image: FileImage(File(Env.getResourcePath(notice.image.path))),
-        fit: BoxFit.cover,
-        width: getImageDimension(context),
-        height: getImageDimension(context));
+      image: FileImage(File(Env.getResourcePath(notice.image.path))),
+      fit: BoxFit.cover,
+      width: getImageDimension(context),
+      height: getImageDimension(context),
+    );
   }
 
   getTop(BuildContext context) {
@@ -89,12 +93,14 @@ class NoticeView extends StatelessWidget {
   }
 
   getImageDimension(BuildContext context) {
-    return Screen.width(context,
-        percentage: Screen.isLandscape(context)
-            ? 40
-            : Screen.isTablet(context)
-                ? 75
-                : 85);
+    return Screen.width(
+      context,
+      percentage: Screen.isLandscape(context)
+          ? 40
+          : Screen.isTablet(context)
+              ? 75
+              : 85,
+    );
   }
 
   getBottom(BuildContext context) {

@@ -56,10 +56,10 @@ class DB {
     if (Env.debugStorageMode) {
       // Throw exception if the user doesn't grant storage permission
       // TODO: Improve this exception and catch on the calling function
-      if (!await Permissions.ensurePermission(PermissionGroup.storage)) {
-        if (Env.debugMessages) debugPrint('Storage permissions not granted. Aborting...');
-        throw Exception('Permission not granted: ${PermissionGroup.storage}');
-      }
+      // if (!await Permissions.ensurePermission(PermissionGroup.storage)) {
+      //   if (Env.debugMessages) debugPrint('Storage permissions not granted. Aborting...');
+      //   throw Exception('Permission not granted: ${PermissionGroup.storage}');
+      // }
     }
 
     // Establish the path to the database file

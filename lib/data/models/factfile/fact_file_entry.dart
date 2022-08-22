@@ -16,12 +16,13 @@ class FactFileEntry {
   /// Used by bean only. Use FactFileEntry.make() instead.
   FactFileEntry();
 
-  FactFileEntry.make(
-      {@required this.id,
-      @required this.categoryId,
-      @required this.updatedAt,
-      @required this.primaryName,
-      @required this.bodyText});
+  FactFileEntry.make({
+    @required this.id,
+    @required this.categoryId,
+    @required this.updatedAt,
+    @required this.primaryName,
+    @required this.bodyText,
+  });
 
   @PrimaryKey()
   int id;

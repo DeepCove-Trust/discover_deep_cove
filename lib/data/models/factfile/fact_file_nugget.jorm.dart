@@ -34,8 +34,12 @@ abstract class _FactFileNuggetBean implements Bean<FactFileNugget> {
     return model;
   }
 
-  List<SetColumn> toSetColumns(FactFileNugget model,
-      {bool update = false, Set<String> only, bool onlyNonNull = false}) {
+  List<SetColumn> toSetColumns(
+    FactFileNugget model, {
+    bool update = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) {
     List<SetColumn> ret = [];
 
     if (only == null && !onlyNonNull) {
@@ -87,8 +91,12 @@ abstract class _FactFileNuggetBean implements Bean<FactFileNugget> {
     return adapter.createTable(st);
   }
 
-  Future<dynamic> insert(FactFileNugget model,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<dynamic> insert(
+    FactFileNugget model, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     final Insert insert = inserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.insert(insert);
   }
@@ -101,8 +109,12 @@ abstract class _FactFileNuggetBean implements Bean<FactFileNugget> {
     return;
   }
 
-  Future<dynamic> upsert(FactFileNugget model,
-      {bool cascade = false, Set<String> only, bool onlyNonNull = false}) async {
+  Future<dynamic> upsert(
+    FactFileNugget model, {
+    bool cascade = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) async {
     final Upsert upsert = upserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.upsert(upsert);
   }
@@ -118,8 +130,13 @@ abstract class _FactFileNuggetBean implements Bean<FactFileNugget> {
     return;
   }
 
-  Future<int> update(FactFileNugget model,
-      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+  Future<int> update(
+    FactFileNugget model, {
+    bool cascade = false,
+    bool associate = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) async {
     final Update update =
         updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.update(update);
@@ -158,14 +175,20 @@ abstract class _FactFileNuggetBean implements Bean<FactFileNugget> {
     return adapter.remove(remove);
   }
 
-  Future<List<FactFileNugget>> findByFactFileEntry(int factFileEntryId,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<FactFileNugget>> findByFactFileEntry(
+    int factFileEntryId, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
     final Find find = finder.where(this.factFileEntryId.eq(factFileEntryId));
     return findMany(find);
   }
 
-  Future<List<FactFileNugget>> findByFactFileEntryList(List<FactFileEntry> models,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<FactFileNugget>> findByFactFileEntryList(
+    List<FactFileEntry> models, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
@@ -189,8 +212,11 @@ abstract class _FactFileNuggetBean implements Bean<FactFileNugget> {
     return findMany(find);
   }
 
-  Future<List<FactFileNugget>> findByMediaFileList(List<MediaFile> models,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<FactFileNugget>> findByMediaFileList(
+    List<MediaFile> models, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;

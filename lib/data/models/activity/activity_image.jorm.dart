@@ -50,8 +50,12 @@ abstract class _ActivityImageBean implements Bean<ActivityImage> {
     return adapter.createTable(st);
   }
 
-  Future<dynamic> insert(ActivityImage model,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<dynamic> insert(
+    ActivityImage model, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     final Insert insert = inserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.insert(insert);
   }
@@ -64,8 +68,12 @@ abstract class _ActivityImageBean implements Bean<ActivityImage> {
     return;
   }
 
-  Future<dynamic> upsert(ActivityImage model,
-      {bool cascade = false, Set<String> only, bool onlyNonNull = false}) async {
+  Future<dynamic> upsert(
+    ActivityImage model, {
+    bool cascade = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) async {
     final Upsert upsert = upserter.setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.upsert(upsert);
   }
@@ -99,8 +107,11 @@ abstract class _ActivityImageBean implements Bean<ActivityImage> {
     return findMany(find);
   }
 
-  Future<List<ActivityImage>> findByActivityList(List<Activity> models,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<ActivityImage>> findByActivityList(
+    List<Activity> models, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
@@ -148,8 +159,11 @@ abstract class _ActivityImageBean implements Bean<ActivityImage> {
     return findMany(find);
   }
 
-  Future<List<ActivityImage>> findByMediaFileList(List<MediaFile> models,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<ActivityImage>> findByMediaFileList(
+    List<MediaFile> models, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;

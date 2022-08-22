@@ -124,39 +124,40 @@ class _SettingsState extends State<Settings> {
 
   _confirmResetDialog() async {
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text(
-              'Confirm Progress Reset?',
-              style: TextStyle(
-                color: Colors.white,
-              ),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            'Confirm Progress Reset?',
+            style: TextStyle(
+              color: Colors.white,
             ),
-            content: const Text(
-              'This will reset all quiz and activity progress, and '
-              'cannot be undone. Are you sure?',
-              style: TextStyle(
-                color: Colors.white,
-              ),
+          ),
+          content: const Text(
+            'This will reset all quiz and activity progress, and '
+            'cannot be undone. Are you sure?',
+            style: TextStyle(
+              color: Colors.white,
             ),
-            actions: [
-              TextButton(
-                child: const Text('Cancel'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              TextButton(
-                onPressed: resetInProgress ? null : () => _resetProgress(),
-                child: const Text('Reset'),
-              ),
-            ],
-            backgroundColor: Theme.of(context).primaryColorDark,
-            shape: Border.all(
-              color: Theme.of(context).primaryColor,
-              width: 0.5,
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(),
             ),
-          );
-        });
+            TextButton(
+              onPressed: resetInProgress ? null : () => _resetProgress(),
+              child: const Text('Reset'),
+            ),
+          ],
+          backgroundColor: Theme.of(context).primaryColorDark,
+          shape: Border.all(
+            color: Theme.of(context).primaryColor,
+            width: 0.5,
+          ),
+        );
+      },
+    );
   }
 
   _resetProgress() async {

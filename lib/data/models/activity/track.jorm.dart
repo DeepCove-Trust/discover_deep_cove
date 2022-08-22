@@ -66,8 +66,12 @@ abstract class _TrackBean implements Bean<Track> {
     return retId;
   }
 
-  Future<void> insertMany(List<Track> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> insertMany(
+    List<Track> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -100,8 +104,12 @@ abstract class _TrackBean implements Bean<Track> {
     return retId;
   }
 
-  Future<void> upsertMany(List<Track> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> upsertMany(
+    List<Track> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -121,8 +129,13 @@ abstract class _TrackBean implements Bean<Track> {
     }
   }
 
-  Future<int> update(Track model,
-      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+  Future<int> update(
+    Track model, {
+    bool cascade = false,
+    bool associate = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) async {
     final Update update =
         updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
@@ -141,8 +154,12 @@ abstract class _TrackBean implements Bean<Track> {
     return ret;
   }
 
-  Future<void> updateMany(List<Track> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> updateMany(
+    List<Track> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -202,12 +219,13 @@ abstract class _TrackBean implements Bean<Track> {
   Future<List<Track>> preloadAll(List<Track> models, {bool cascade = false}) async {
     models.forEach((Track model) => model.activities ??= []);
     await OneToXHelper.preloadAll<Track, Activity>(
-        models,
-        (Track model) => [model.id],
-        activityBean.findByTrackList,
-        (Activity model) => [model.trackId],
-        (Track model, Activity child) => model.activities = List.from(model.activities)..add(child),
-        cascade: cascade);
+      models,
+      (Track model) => [model.id],
+      activityBean.findByTrackList,
+      (Activity model) => [model.trackId],
+      (Track model, Activity child) => model.activities = List.from(model.activities)..add(child),
+      cascade: cascade,
+    );
     return models;
   }
 

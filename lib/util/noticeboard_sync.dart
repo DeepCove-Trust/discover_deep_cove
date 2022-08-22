@@ -57,7 +57,11 @@ class NoticeboardSync {
   }
 
   static Future<void> _refreshNotices(
-      NoticeBean bean, List<Notice> remoteNotices, BuildContext context, bool showNotification) async {
+    NoticeBean bean,
+    List<Notice> remoteNotices,
+    BuildContext context,
+    bool showNotification,
+  ) async {
     try {
       // Remove all local notices and replace with remote
       await bean.removeAll();
@@ -65,10 +69,11 @@ class NoticeboardSync {
 
       if (showNotification) {
         LocalNotifications.showNotification(
-            title: 'New notices available',
-            body: 'Visit the noticeboard in Discover Deep Cove!',
-            payload: 'Notice',
-            context: context);
+          title: 'New notices available',
+          body: 'Visit the noticeboard in Discover Deep Cove!',
+          payload: 'Notice',
+          context: context,
+        );
       }
     } catch (ex, trace) {
       debugPrint('Error refreshing notices: $ex');

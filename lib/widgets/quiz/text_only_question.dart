@@ -118,12 +118,15 @@ class _TextOnlyQuestionState extends State<TextOnlyQuestion> with WidgetsBinding
       child: Container(
         color: Theme.of(context).backgroundColor,
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          CustomGrid(
-            showAsColumn: Screen.isLandscape(context),
-            children: widget.answers,
-          ),
-        ]),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomGrid(
+              showAsColumn: Screen.isLandscape(context),
+              children: widget.answers,
+            ),
+          ],
+        ),
       ),
     );
   }

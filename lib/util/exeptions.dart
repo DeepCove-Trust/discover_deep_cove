@@ -5,11 +5,11 @@ class InsufficientStorageException implements Exception {
   InsufficientStorageException({this.message});
 }
 
-class InsufficientPermissionException implements Exception {
-  final String message;
-  final PermissionGroup permission;
-  InsufficientPermissionException({this.message, this.permission});
-}
+// class InsufficientPermissionException implements Exception {
+//   final String message;
+//   final PermissionGroup permission;
+//   InsufficientPermissionException({this.message, this.permission});
+// }
 
 class FailedDownloadException implements Exception {
   final String message;

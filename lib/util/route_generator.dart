@@ -97,12 +97,14 @@ class RouteGenerator {
         ActivityScreenArgs aArgs = args as ActivityScreenArgs;
         if (aArgs != null) {
           if (aArgs.activity.activityType == ActivityType.informational) {
-            return MaterialPageRoute(builder: (_) {
-              // Set info activity to unlocked
-              aArgs.activity.informationActivityUnlocked = true;
-              ActivityBean.of(_).update(aArgs.activity);
-              return FactFileDetails(entryId: aArgs.activity.factFileId);
-            });
+            return MaterialPageRoute(
+              builder: (_) {
+                // Set info activity to unlocked
+                aArgs.activity.informationActivityUnlocked = true;
+                ActivityBean.of(_).update(aArgs.activity);
+                return FactFileDetails(entryId: aArgs.activity.factFileId);
+              },
+            );
           }
           if (aArgs.activity.activityType == ActivityType.countActivity) {
             return MaterialPageRoute(
@@ -150,19 +152,21 @@ class RouteGenerator {
   }
 
   static Route<dynamic> _errorRoute() {
-    return MaterialPageRoute(builder: (_) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Error'),
-        ),
-        body: const Center(
-          // ignore: unnecessary_const
-          child: const Text(
-            'ERROR',
-            style: TextStyle(color: Colors.black),
+    return MaterialPageRoute(
+      builder: (_) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Error'),
           ),
-        ),
-      );
-    });
+          body: const Center(
+            // ignore: unnecessary_const
+            child: const Text(
+              'ERROR',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

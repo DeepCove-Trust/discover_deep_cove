@@ -20,22 +20,24 @@ part 'media_file.jorm.dart';
 class MediaFile {
   MediaFile();
 
-  MediaFile.create(
-      {@required this.path,
-      @required this.category,
-      @required this.name,
-      @required this.source,
-      @required this.showCopyright,
-      @required this.updatedAt});
+  MediaFile.create({
+    @required this.path,
+    @required this.category,
+    @required this.name,
+    @required this.source,
+    @required this.showCopyright,
+    @required this.updatedAt,
+  });
 
-  MediaFile.make(
-      {@required this.id,
-      @required this.path,
-      @required this.category,
-      @required this.name,
-      @required this.source,
-      @required this.showCopyright,
-      @required this.updatedAt});
+  MediaFile.make({
+    @required this.id,
+    @required this.path,
+    @required this.category,
+    @required this.name,
+    @required this.source,
+    @required this.showCopyright,
+    @required this.updatedAt,
+  });
 
   @PrimaryKey()
   int id;

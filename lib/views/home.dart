@@ -46,17 +46,21 @@ class _HomeState extends VerboseState<Home> with TickerProviderStateMixin {
     // Initialize the list of page widgets.
     pages.add(FactFileIndex());
     pages.add(Container()); // placeholder
-    pages.add(MapMaker(
-      mapController: mapController,
-      context: context,
-      animationStream: mapAnimateController.stream.asBroadcastStream(),
-      onMarkerTap: handleMarkerTap,
-      key: const PageStorageKey('Map Maker'),
-    )); // placeholder
+    pages.add(
+      MapMaker(
+        mapController: mapController,
+        context: context,
+        animationStream: mapAnimateController.stream.asBroadcastStream(),
+        onMarkerTap: handleMarkerTap,
+        key: const PageStorageKey('Map Maker'),
+      ),
+    ); // placeholder
     pages.add(QuizIndex());
-    pages.add(Settings(
-      onCodeEntry: (code) => handleScanResult(code),
-    ));
+    pages.add(
+      Settings(
+        onCodeEntry: (code) => handleScanResult(code),
+      ),
+    );
     currentPage = pages[Page.map.index];
   }
 

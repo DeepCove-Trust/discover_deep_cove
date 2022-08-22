@@ -82,8 +82,12 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     return retId;
   }
 
-  Future<void> insertMany(List<QuizAnswer> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> insertMany(
+    List<QuizAnswer> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -114,8 +118,12 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     return retId;
   }
 
-  Future<void> upsertMany(List<QuizAnswer> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> upsertMany(
+    List<QuizAnswer> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -135,8 +143,13 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     }
   }
 
-  Future<int> update(QuizAnswer model,
-      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+  Future<int> update(
+    QuizAnswer model, {
+    bool cascade = false,
+    bool associate = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) async {
     final Update update =
         updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
@@ -153,8 +166,12 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     return ret;
   }
 
-  Future<void> updateMany(List<QuizAnswer> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> updateMany(
+    List<QuizAnswer> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -215,8 +232,11 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     return models;
   }
 
-  Future<List<QuizAnswer>> findByQuizQuestionList(List<QuizQuestion> models,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<QuizAnswer>> findByQuizQuestionList(
+    List<QuizQuestion> models, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
@@ -248,8 +268,11 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
     return models;
   }
 
-  Future<List<QuizAnswer>> findByMediaFileList(List<MediaFile> models,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<QuizAnswer>> findByMediaFileList(
+    List<MediaFile> models, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
@@ -279,12 +302,13 @@ abstract class _QuizAnswerBean implements Bean<QuizAnswer> {
 
   Future<List<QuizAnswer>> preloadAll(List<QuizAnswer> models, {bool cascade = false}) async {
     await OneToXHelper.preloadAll<QuizAnswer, QuizQuestion>(
-        models,
-        (QuizAnswer model) => [model.id],
-        quizQuestionBean.findByQuizAnswerList,
-        (QuizQuestion model) => [model.correctAnswerId],
-        (QuizAnswer model, QuizQuestion child) => model.correctForQuestion = child,
-        cascade: cascade);
+      models,
+      (QuizAnswer model) => [model.id],
+      quizQuestionBean.findByQuizAnswerList,
+      (QuizQuestion model) => [model.correctAnswerId],
+      (QuizAnswer model, QuizQuestion child) => model.correctForQuestion = child,
+      cascade: cascade,
+    );
     return models;
   }
 

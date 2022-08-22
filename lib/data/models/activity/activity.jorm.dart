@@ -221,8 +221,12 @@ abstract class _ActivityBean implements Bean<Activity> {
     return retId;
   }
 
-  Future<void> insertMany(List<Activity> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> insertMany(
+    List<Activity> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -255,8 +259,12 @@ abstract class _ActivityBean implements Bean<Activity> {
     return retId;
   }
 
-  Future<void> upsertMany(List<Activity> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> upsertMany(
+    List<Activity> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -276,8 +284,13 @@ abstract class _ActivityBean implements Bean<Activity> {
     }
   }
 
-  Future<int> update(Activity model,
-      {bool cascade = false, bool associate = false, Set<String> only, bool onlyNonNull = false}) async {
+  Future<int> update(
+    Activity model, {
+    bool cascade = false,
+    bool associate = false,
+    Set<String> only,
+    bool onlyNonNull = false,
+  }) async {
     final Update update =
         updater.where(id.eq(model.id)).setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     final ret = adapter.update(update);
@@ -293,8 +306,12 @@ abstract class _ActivityBean implements Bean<Activity> {
     return ret;
   }
 
-  Future<void> updateMany(List<Activity> models,
-      {bool cascade = false, bool onlyNonNull = false, Set<String> only}) async {
+  Future<void> updateMany(
+    List<Activity> models, {
+    bool cascade = false,
+    bool onlyNonNull = false,
+    Set<String> only,
+  }) async {
     if (cascade) {
       final List<Future> futures = [];
       for (var model in models) {
@@ -378,8 +395,12 @@ abstract class _ActivityBean implements Bean<Activity> {
     child.trackId = parent.id;
   }
 
-  Future<List<Activity>> findByMediaFile(int imageId, int selectedPictureId,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<Activity>> findByMediaFile(
+    int imageId,
+    int selectedPictureId, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
     final Find find = finder.where(this.imageId.eq(imageId)).where(this.selectedPictureId.eq(selectedPictureId));
     final List<Activity> models = await findMany(find);
     if (preload) {
@@ -388,8 +409,11 @@ abstract class _ActivityBean implements Bean<Activity> {
     return models;
   }
 
-  Future<List<Activity>> findByMediaFileList(List<MediaFile> models,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<Activity>> findByMediaFileList(
+    List<MediaFile> models, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;
@@ -422,8 +446,11 @@ abstract class _ActivityBean implements Bean<Activity> {
     return models;
   }
 
-  Future<List<Activity>> findByUserPhotoList(List<UserPhoto> models,
-      {bool preload = false, bool cascade = false}) async {
+  Future<List<Activity>> findByUserPhotoList(
+    List<UserPhoto> models, {
+    bool preload = false,
+    bool cascade = false,
+  }) async {
 // Return if models is empty. If this is not done, all the records will be returned!
     if (models == null || models.isEmpty) return [];
     final Find find = finder;

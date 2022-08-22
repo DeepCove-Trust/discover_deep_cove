@@ -61,13 +61,14 @@ class _NoticeboardState extends State<Noticeboard> {
       body: notices == null
           ? Center(
               child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
-                CircularProgressIndicator(),
-                SizedBox(height: 15),
-                BodyText('Loading notices...')
-              ],
-            ))
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const <Widget>[
+                  CircularProgressIndicator(),
+                  SizedBox(height: 15),
+                  BodyText('Loading notices...')
+                ],
+              ),
+            )
           : buildContent(),
       backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: const BottomBackButton(),

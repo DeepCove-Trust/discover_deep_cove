@@ -10,23 +10,18 @@ class Screen {
 
   static setOrientations(BuildContext context, {bool forcePortrait = false}) =>
       (Screen.isTablet(context) && !forcePortrait)
-          ? SystemChrome.setPreferredOrientations([
-              DeviceOrientation.portraitUp,
-              DeviceOrientation.landscapeLeft,
-              DeviceOrientation.landscapeRight
-            ])
+          ? SystemChrome.setPreferredOrientations(
+              [DeviceOrientation.portraitUp, DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight],
+            )
           : SystemChrome.setPreferredOrientations(
-              [DeviceOrientation.portraitUp]);
+              [DeviceOrientation.portraitUp],
+            );
 
-  static bool isPortrait(BuildContext context) =>
-      MediaQuery.of(context).orientation == Orientation.portrait;
+  static bool isPortrait(BuildContext context) => MediaQuery.of(context).orientation == Orientation.portrait;
 
-  static bool isLandscape(BuildContext context) =>
-      MediaQuery.of(context).orientation == Orientation.landscape;
+  static bool isLandscape(BuildContext context) => MediaQuery.of(context).orientation == Orientation.landscape;
 
-  static bool isTablet(BuildContext context) =>
-      MediaQuery.of(context).size.width >= 600;
+  static bool isTablet(BuildContext context) => MediaQuery.of(context).size.width >= 600;
 
-  static bool isSmall(BuildContext context) =>
-      MediaQuery.of(context).size.width <= 360;
+  static bool isSmall(BuildContext context) => MediaQuery.of(context).size.width <= 360;
 }
