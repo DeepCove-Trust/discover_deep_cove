@@ -1,6 +1,7 @@
 import 'package:discover_deep_cove/data/models/quiz/quiz.dart';
 import 'package:discover_deep_cove/util/screen.dart';
 import 'package:discover_deep_cove/views/quiz/quiz_view_args.dart';
+import 'package:discover_deep_cove/widgets/misc/text/body_text.dart';
 import 'package:discover_deep_cove/widgets/misc/text/sub_heading.dart';
 import 'package:discover_deep_cove/widgets/quiz/quiz_tile.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class QuizIndex extends StatefulWidget {
 
 class _QuizIndexState extends State<QuizIndex> {
   List<Quiz> quizzes;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -23,12 +25,13 @@ class _QuizIndexState extends State<QuizIndex> {
   }
 
   Future<void> refreshData() async {
+    setState(() => isLoading = true);
     List<Quiz> activeQuizzes = await QuizBean.of(context).getAllAndPreload();
     List<Quiz> unlockedQuizzes =
         activeQuizzes.where((q) => q.unlocked).toList();
     PageStorage.of(context)
         .writeState(context, unlockedQuizzes, identifier: 'Quizzes');
-    setState(() => quizzes = unlockedQuizzes);
+    setState(() { quizzes = unlockedQuizzes; isLoading = false; });
   }
 
   @override
@@ -75,19 +78,9 @@ class _QuizIndexState extends State<QuizIndex> {
             )
           : RefreshIndicator(
               onRefresh: () => refreshData(),
-              child: quizzes.length > 0
-                  ? GridView.count(
-                      mainAxisSpacing: Screen.width(context, percentage: 2.5),
-                      crossAxisSpacing: Screen.width(context, percentage: 2.5),
-                      crossAxisCount: (Screen.isTablet(context)
-                          ? Screen.isPortrait(context) ? 2 : 3
-                          : 1),
-                      padding: EdgeInsets.all(
-                        Screen.width(context, percentage: 2.5),
-                      ),
-                      children: buildCards(context, quizzes),
-                    )
-                  : Center(child: CircularProgressIndicator()),
+              child: isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : buildQuizView()
             ),
     );
   }
@@ -95,6 +88,21 @@ class _QuizIndexState extends State<QuizIndex> {
   Future<void> addAttempt(Quiz quiz) async {
     quiz.setAttempts(quiz.attempts + 1);
     await QuizBean.of(context).update(quiz);
+  }
+
+  Widget buildQuizView(){
+    return quizzes.length > 0 ?
+    GridView.count(
+      mainAxisSpacing: Screen.width(context, percentage: 2.5),
+      crossAxisSpacing: Screen.width(context, percentage: 2.5),
+      crossAxisCount: (Screen.isTablet(context)
+          ? Screen.isPortrait(context) ? 2 : 3
+          : 1),
+      padding: EdgeInsets.all(
+        Screen.width(context, percentage: 2.5),
+      ),
+      children: buildCards(context, quizzes),
+    ) : Center(child: BodyText("Unlock a quiz to begin!"));
   }
 
   List<Tile> buildCards(BuildContext context, List<Quiz> quizzes) {
