@@ -17,15 +17,14 @@ class NetworkUtil {
 
   /// Returns true if the application receives an HTTP response from the
   /// intranet server address, after making a GET request.
-  static Future<bool> canAccessCMSLocal() async {
-    return await _returnsResponse(Env.configUrl(CmsServerLocation.Intranet));
-  }
+  static Future<bool> canAccessCMSLocal() async => false;
 
   /// Returns true if the device receives an OK HTTP response after making
   /// a GET request to the supplied address.
   static Future<bool> _returnsResponse(String address) async {
     try {
-      if (Env.debugMessages) print('Attempting to contact content server at $address');
+      if (Env.debugMessages)
+        print('Attempting to contact content server at $address');
       Http.Response response = await Http.get(address);
       if (Env.debugMessages) print('Response:');
       if (Env.debugMessages) print(response.statusCode);
